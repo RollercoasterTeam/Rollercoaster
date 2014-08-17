@@ -9,6 +9,7 @@ import robomuss.rc.events.BlockClickedEvent;
 import robomuss.rc.events.CraftingEvent;
 import robomuss.rc.gui.GuiHandler;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.network.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
 import robomuss.rc.tracks.TrackHandler;
@@ -40,6 +41,8 @@ public class RCMod {
 	public static CommonProxy proxy;
 	
 	public static CreativeTabs decor, track, tools, other;
+
+    public static final PacketPipeline packetPipeline = new PacketPipeline();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -92,11 +95,12 @@ public class RCMod {
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
+        packetPipeline.initalise();
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+        packetPipeline.postInitialise();
 	}
 	
 	public static FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("rc");
