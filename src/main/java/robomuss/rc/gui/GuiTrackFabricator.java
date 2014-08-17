@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.TrackEntry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -77,18 +78,14 @@ public class GuiTrackFabricator extends GuiContainer {
         this.fontRendererObj.drawString("WIP (Coming v1.3)", 85, 6, 4210752);
     }
 
-    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)
-    {
+    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(trackFabricatorGuiTextures);
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
-        GL11.glPushMatrix();
         GuiUtils.renderBlockIntoGui(Blocks.furnace, k + 30, l + 30, 2F, this.fontRendererObj, this.mc);
-        GL11.glPopMatrix();
-
     }
     
     @Override
@@ -143,7 +140,7 @@ public class GuiTrackFabricator extends GuiContainer {
 			textField.setText("" + amount);
 		}
 		if(id == 4) {
-			
+			NetworkHandler.updateTrackFabricatorTE(current_track, amount);
 		}
 	}
 }
