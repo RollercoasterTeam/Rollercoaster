@@ -1,17 +1,20 @@
 package robomuss.rc.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import robomuss.rc.block.te.TileEntityTrackDesigner;
 
-public class BlockTrackDesigner extends Block {
+public class BlockTrackDesigner extends BlockContainer {
 
 	public BlockTrackDesigner() {
 		super(Material.rock);
@@ -52,4 +55,9 @@ public class BlockTrackDesigner extends Block {
 			return side;
 		}
 	}
+
+    @Override
+    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+        return new TileEntityTrackDesigner();
+    }
 }
