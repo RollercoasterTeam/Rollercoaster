@@ -41,7 +41,7 @@ public class RCBlocks {
 		ride_fence_square = new BlockRideFence().setBlockName("ride_fence_square").setBlockTextureName("rc:ride_fence_square").setCreativeTab(RCMod.decor);
 		
         GameRegistry.registerBlock(support, "support");
-        //GameRegistry.registerBlock(track_designer, "track_designer");
+        GameRegistry.registerBlock(track_designer, "track_designer");
         GameRegistry.registerBlock(track_fabricator, "track_fabricator");
         GameRegistry.registerBlock(track_storage, "track_storage");
         

@@ -17,7 +17,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
-import robomuss.rc.network.packets.PacketTrackFabricatorCraft;
+import robomuss.rc.network.packets.PacketTrackDesignerUpdate;
+import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
 
 import java.util.*;
 
@@ -113,13 +114,13 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 
     // Method to call from FMLInitializationEvent
     public void initalise() {
-        this.channels = NetworkRegistry.INSTANCE.newChannel("Network", this);
+        this.channels = NetworkRegistry.INSTANCE.newChannel("rc", this);
         registerPackets();
     }
 
     private void registerPackets() {
-        registerPacket(PacketTrackFabricatorCraft.class);
-
+        registerPacket(PacketTrackFabricatorUpdate.class);
+        registerPacket(PacketTrackDesignerUpdate.class);
     }
 
     // Method to call from FMLPostInitializationEvent

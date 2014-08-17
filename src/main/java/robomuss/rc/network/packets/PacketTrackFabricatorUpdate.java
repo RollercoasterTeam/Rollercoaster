@@ -13,15 +13,15 @@ import robomuss.rc.gui.GuiTrackFabricator;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.tracks.TrackHandler;
 
-public class PacketTrackFabricatorCraft extends AbstractPacket {
+public class PacketTrackFabricatorUpdate extends AbstractPacket {
 
-    public PacketTrackFabricatorCraft() {
+    public PacketTrackFabricatorUpdate() {
     }
 
     private int x, y, z;
     private int amount, current_track;
 
-    public PacketTrackFabricatorCraft(int x, int y, int z, int amount, int current_track) {
+    public PacketTrackFabricatorUpdate(int x, int y, int z, int amount, int current_track) {
         this.x = x;
         this.y = y;
         this.z = z;
