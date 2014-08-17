@@ -68,10 +68,12 @@ public class GuiTrackFabricator extends GuiContainer {
 
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.DARK_GRAY);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 120, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
         
         int num = RCBlocks.tracks.get(current_track).crafting_cost * amount;
-        this.fontRendererObj.drawString(num + " Iron Ingot" + (num == 1 ? "" : "s"), 80, 6, ChatColours.DARK_GRAY);
+        this.fontRendererObj.drawString(num + " Iron Ingot" + (num == 1 ? "" : "s"), 85, 6, ChatColours.DARK_GRAY);
+        
+        this.fontRendererObj.drawString(RCBlocks.tracks.get(current_track).block.getLocalizedName(), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
     }
 
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
