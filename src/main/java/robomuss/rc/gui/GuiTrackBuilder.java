@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
+import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.network.NetworkHandler;
 
 public class GuiTrackBuilder extends GuiScreen {
@@ -15,7 +16,7 @@ public class GuiTrackBuilder extends GuiScreen {
 	private int direction;
 	private TileEntityTrackDesigner te;
 
-    public EntityBat entity3rdPerson;
+    public Entity3rdPerson entity3rdPerson;
     EntityLivingBase player3rd;
     int thirdPersonView = 0;
 
@@ -27,7 +28,7 @@ public class GuiTrackBuilder extends GuiScreen {
 		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
 
 
-        entity3rdPerson = new EntityBat(Minecraft.getMinecraft().theWorld);
+        entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
         if (entity3rdPerson != null) {
             Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
             player3rd = Minecraft.getMinecraft().renderViewEntity;
