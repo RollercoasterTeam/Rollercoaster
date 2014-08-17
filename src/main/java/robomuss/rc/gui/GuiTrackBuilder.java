@@ -41,9 +41,9 @@ public class GuiTrackBuilder extends GuiScreen {
             thirdPersonView = Minecraft.getMinecraft().gameSettings.thirdPersonView;
             Minecraft.getMinecraft().gameSettings.thirdPersonView = 8;
 
-            posX = entity3rdPerson.posX;
+            posX = entity3rdPerson.posX - 5;
             posY = entity3rdPerson.posY + 10;
-            posZ = entity3rdPerson.posZ;
+            posZ = entity3rdPerson.posZ - 5;
 
             yaw = 0;
 
