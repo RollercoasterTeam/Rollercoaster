@@ -1,0 +1,16 @@
+[
+{
+  "modid": "rc",
+  "name": "Rollercoaster Mod",
+  "description": "Adding the ability to create roller coaster tracks into minecraft!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["roboyobo", "modmuss50"],
+  "credits": "Anyone who attented our live streams!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
