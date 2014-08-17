@@ -16,10 +16,11 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
-import robomuss.rc.util.ColourUtil;
+import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.util.TrackEntry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,15 +34,6 @@ public class GuiTrackFabricator extends GuiContainer {
 	private int current_track;
 	private int amount = 1;
 	private GuiTextField textField;
-	
-	private TrackEntry[] tracks = { 
-		//new TrackEntry(RCBlocks.flat_track, 3),
-		//new TrackEntry(RCBlocks.transition_track, 3),
-		//new TrackEntry(RCBlocks.transition_track_2, 3),
-		//new TrackEntry(RCBlocks.sloped_track, 3),
-		//new TrackEntry(RCBlocks.curved_track, 3),
-		//new TrackEntry(RCBlocks.loop, 12)
-	};
 
     private static final ResourceLocation trackFabricatorGuiTextures = new ResourceLocation("rc", "textures/gui/track_fabricator.png");
     
@@ -75,8 +67,8 @@ public class GuiTrackFabricator extends GuiContainer {
 
 
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
-        this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.GRAY);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.GRAY);
+        this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.DARK_GRAY);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
     }
 
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
@@ -130,7 +122,7 @@ public class GuiTrackFabricator extends GuiContainer {
 			current_track += current_track == 0 ? 0 : -1;
 		}
 		if(id == 1) {
-			current_track += current_track < tracks.length - 1 ? 1 : 0;
+			current_track += current_track < RCBlocks.tracks.size() - 1 ? 1 : 0;
 		}
 		if(id == 2) {
 			amount += amount == 1 ? 0 : -1;

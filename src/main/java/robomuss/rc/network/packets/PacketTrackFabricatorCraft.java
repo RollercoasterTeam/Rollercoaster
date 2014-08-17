@@ -3,9 +3,15 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.gui.GuiTrackFabricator;
 import robomuss.rc.network.AbstractPacket;
+import robomuss.rc.tracks.TrackHandler;
 
 public class PacketTrackFabricatorCraft extends AbstractPacket {
 
@@ -44,16 +50,36 @@ public class PacketTrackFabricatorCraft extends AbstractPacket {
 
     @Override
     public void handleClientSide(EntityPlayer player) {
-        World worldObj = player.worldObj;
 
     }
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-        int dimensionID = player.dimension;
-        World worldObj = player.worldObj;
-        System.out.println(x + ":" + y + ":" + z + ":" + current_track + ":" + amount);
-        worldObj.setBlock(x, y + 1, z, RCBlocks.ride_fence);
+        World world = player.worldObj;
+        TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+        int cost = RCBlocks.tracks.get(current_track).crafting_cost * amount;
+        if(te.contents[0] != null) {
+        	if(te.contents[0].getItem() == Items.iron_ingot) {
+		        if(te.contents[0].stackSize >= cost) {
+		        	if(te.contents[1] == null) {
+		        		te.contents[0].stackSize -= cost;
+		        		if(te.contents[0].stackSize <= 0) {
+		        			te.contents[0] = null;
+		        		}
+		        		
+		        		te.contents[1] = new ItemStack(RCBlocks.tracks.get(current_track).block, amount);
+		        	}
+		        	else if(te.contents[1].getItem() == Item.getItemFromBlock(RCBlocks.tracks.get(current_track).block) && te.contents[1].stackSize + amount <= 64) {
+		        		te.contents[0].stackSize -= cost;
+		        		if(te.contents[0].stackSize <= 0) {
+		        			te.contents[0] = null;
+		        		}
+		        		
+		        		te.contents[1].stackSize += amount;
+		        	}
+		        }
+        	}
+        }
     }
 
 }
