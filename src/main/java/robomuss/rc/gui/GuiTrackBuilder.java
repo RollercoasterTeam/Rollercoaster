@@ -80,6 +80,7 @@ public class GuiTrackBuilder extends GuiScreen {
 		super.drawScreen(par1, par2, par3);
 		
 		drawString(fontRendererObj, "Direction: " + direction, 10, 70, 0xFFFFFF);
+        drawString(fontRendererObj, ("Current cross hair location: " +entity3rdPerson.rayTraceMouse().blockX + ":" + entity3rdPerson.rayTraceMouse().blockY + ":" + entity3rdPerson.rayTraceMouse().blockZ) + direction, 10, 80, 0xFFFFFF);
 	}
 	
 	@Override
