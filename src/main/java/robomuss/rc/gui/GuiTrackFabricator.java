@@ -10,18 +10,17 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Rectangle;
 
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.util.TrackEntry;
+import scala.actors.threadpool.Arrays;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -68,12 +67,7 @@ public class GuiTrackFabricator extends GuiContainer {
 
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.DARK_GRAY);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 120, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
-        
-        int num = RCBlocks.tracks.get(current_track).crafting_cost * amount;
-        this.fontRendererObj.drawString(num + " Iron Ingot" + (num == 1 ? "" : "s"), 85, 6, ChatColours.DARK_GRAY);
-        
-        this.fontRendererObj.drawString(RCBlocks.tracks.get(current_track).block.getLocalizedName(), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
     }
 
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
@@ -114,9 +108,29 @@ public class GuiTrackFabricator extends GuiContainer {
 	}
 	
 	@Override
-	public void drawScreen(int i, int j, float f) {
-		super.drawScreen(i, j, f);
+	public void drawScreen(int x, int y, float f) {
+		super.drawScreen(x, y, f);
 		textField.drawTextBox();
+		
+		int k = (this.width - this.xSize) / 2;
+	    int l = (this.height - this.ySize) / 2;
+		Rectangle box = new Rectangle(k + 26, l + 18, 52, 52);
+		Rectangle mouse = new Rectangle(x, y, 1, 1);
+		if(mouse.intersects(box)) {
+			String name = RCBlocks.tracks.get(current_track).block.getLocalizedName();
+			int num = RCBlocks.tracks.get(current_track).crafting_cost * amount;
+			if(isShiftKeyDown()) {
+				drawHoveringText(Arrays.asList(new Object[]{
+						name, 
+						num + " Iron Ingots (" + RCBlocks.tracks.get(current_track).crafting_cost + " per track)", 
+						"========================",
+						"Try SHIFT-clicking the + & -"
+						}), x, y, fontRendererObj);
+			}
+			else {
+				drawHoveringText(Arrays.asList(new Object[]{name, num + " Iron Ingots (" + RCBlocks.tracks.get(current_track).crafting_cost + " per track)", "Hold SHIFT for more info"}), x, y, fontRendererObj);
+			}
+		}
 	}
 	
 	@Override
@@ -124,17 +138,27 @@ public class GuiTrackFabricator extends GuiContainer {
 		int id = button.id;
 		
 		if(id == 0) {
-			current_track += current_track == 0 ? 0 : -1;
+			current_track = current_track == 0 ? RCBlocks.tracks.size() - 1 : current_track - 1;
 		}
 		if(id == 1) {
-			current_track += current_track < RCBlocks.tracks.size() - 1 ? 1 : 0;
+			current_track = current_track < RCBlocks.tracks.size() - 1 ? current_track + 1 : 0;
 		}
 		if(id == 2) {
-			amount += amount == 1 ? 0 : -1;
+			if(isShiftKeyDown()) {
+				amount = 1;
+			}
+			else {
+				amount += amount == 1 ? 0 : -1;
+			}
 			textField.setText("" + amount);
 		}
 		if(id == 3) {
-			amount += amount < 64 ? 1 : 0;
+			if(isShiftKeyDown()) {
+				amount = 64;
+			}
+			else {
+				amount += amount < 64 ? 1 : 0;
+			}
 			textField.setText("" + amount);
 		}
 		if(id == 4) {

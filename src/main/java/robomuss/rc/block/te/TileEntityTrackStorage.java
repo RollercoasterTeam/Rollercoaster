@@ -1,21 +1,16 @@
 package robomuss.rc.block.te;
 
-import robomuss.rc.block.BlockTrack;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityTrackStorage extends TileEntity implements IInventory {
 
-	public ItemStack[] contents = new ItemStack[9];
+	public ItemStack[] contents = new ItemStack[27];
 
 	@Override
 	public int getSizeInventory() {

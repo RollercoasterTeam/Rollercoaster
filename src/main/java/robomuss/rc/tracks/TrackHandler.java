@@ -23,8 +23,6 @@ public class TrackHandler {
 		RCBlocks.tracks.add(new TrackTypeLoop("loop", 6, 2));
 		RCBlocks.tracks.add(new TrackTypeHeartlineRoll("heartline_roll", 6, 19));
 		
-		//RCBlocks.tracks.add(new TrackTypeInvertedHorizontal("inverted_horizontal", 3));
-		
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), TrackHandler.findTrackType("horizontal")));

@@ -27,13 +27,9 @@ public class ContainerTrackStorage extends Container {
 					8 + l * 18, 142));
 		}
 
-		this.addSlotToContainer(new SlotTrackStorage(te, 0, 8 + 0 * 18, 18));
-		this.addSlotToContainer(new SlotTrackStorage(te, 1, 8 + 1 * 18, 18));
-		this.addSlotToContainer(new SlotTrackStorage(te, 2, 8 + 2 * 18, 18));
-		this.addSlotToContainer(new SlotTrackStorage(te, 3, 8 + 3 * 18, 18));
-		this.addSlotToContainer(new SlotTrackStorage(te, 4, 8 + 4 * 18, 18));
-		this.addSlotToContainer(new SlotTrackStorage(te, 5, 8 + 5 * 18, 18));
-		this.addSlotToContainer(new SlotTrackStorage(te, 8, 8 + 8 * 18, 18));
+		for(int i = 0; i < 27; i++) {
+			this.addSlotToContainer(new SlotTrackStorage(te, i, 8 + (i % 9) * 18, 18 + 18 + (18 * ((i / 9) - 1))));
+		}
 	}
 
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
