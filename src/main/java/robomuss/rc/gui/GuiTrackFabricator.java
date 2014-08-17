@@ -2,6 +2,7 @@ package robomuss.rc.gui;
 
 import java.awt.event.KeyEvent;
 
+import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -18,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
+import robomuss.rc.util.ColourUtil;
 import robomuss.rc.util.TrackEntry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -73,9 +75,8 @@ public class GuiTrackFabricator extends GuiContainer {
 
 
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
-        this.fontRendererObj.drawString("Fabricating", 8, 6, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, 4210752);
-        this.fontRendererObj.drawString("WIP (Coming v1.3)", 85, 6, 4210752);
+        this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.GRAY);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.GRAY);
     }
 
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
@@ -140,7 +141,7 @@ public class GuiTrackFabricator extends GuiContainer {
 			textField.setText("" + amount);
 		}
 		if(id == 4) {
-			NetworkHandler.updateTrackFabricatorTE(current_track, amount);
+			NetworkHandler.updateTrackFabricatorTE(te, current_track, amount);
 		}
 	}
 }
