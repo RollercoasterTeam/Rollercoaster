@@ -84,8 +84,11 @@ public class GuiTrackFabricator extends GuiContainer {
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-        
-        GuiUtils.renderBlockIntoGui(Blocks.furnace, k, l, 2F, this.fontRendererObj, this.mc);
+
+        GL11.glPushMatrix();
+        GuiUtils.renderBlockIntoGui(Blocks.furnace, k + 30, l + 30, 2F, this.fontRendererObj, this.mc);
+        GL11.glPopMatrix();
+
     }
     
     @Override

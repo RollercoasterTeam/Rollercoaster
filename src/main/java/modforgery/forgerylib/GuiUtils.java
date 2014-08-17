@@ -58,6 +58,7 @@ public class GuiUtils {
 		RenderItem itemRenderer = new RenderItem();
 		GL11.glPushMatrix();
 		GL11.glScalef(scale, scale, scale);
+        GL11.glTranslated(-x /2, -y /2, 0);
 		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.getTextureManager(), new ItemStack(block), x, y);
 		GL11.glPopMatrix();
 	}
