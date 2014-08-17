@@ -69,6 +69,9 @@ public class GuiTrackFabricator extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.DARK_GRAY);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
+        
+        int num = RCBlocks.tracks.get(current_track).crafting_cost * amount;
+        this.fontRendererObj.drawString(num + " Iron Ingot" + (num == 1 ? "" : "s"), 80, 6, ChatColours.DARK_GRAY);
     }
 
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
@@ -78,7 +81,7 @@ public class GuiTrackFabricator extends GuiContainer {
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
-        GuiUtils.renderBlockIntoGui(Blocks.furnace, k + 30, l + 30, 2F, this.fontRendererObj, this.mc);
+        GuiUtils.renderBlockIntoGui(RCBlocks.tracks.get(current_track).block, k + 35, l + 28, 2F, this.fontRendererObj, this.mc);
     }
     
     @Override
