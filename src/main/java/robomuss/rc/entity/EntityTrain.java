@@ -860,7 +860,7 @@ public abstract class EntityTrain extends Entity
                 par3 += 0.5D;
             }
 
-            return this.worldObj.getWorldVec3Pool().getVecFromPool(par1, par3, par5);
+            return Vec3.createVectorHelper(par1, par3, par5);
         }
         else
         {
@@ -961,8 +961,8 @@ public abstract class EntityTrain extends Entity
                     {
                         double d4 = par1Entity.posX - this.posX;
                         double d5 = par1Entity.posZ - this.posZ;
-                        Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(d4, 0.0D, d5).normalize();
-                        Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool((double)MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F), 0.0D, (double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F)).normalize();
+                        Vec3 vec3 = Vec3.createVectorHelper(d4, 0.0D, d5).normalize();
+                        Vec3 vec31 = Vec3.createVectorHelper((double)MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F), 0.0D, (double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F)).normalize();
                         double d6 = Math.abs(vec3.dotProduct(vec31));
 
                         if (d6 < 0.800000011920929D)
