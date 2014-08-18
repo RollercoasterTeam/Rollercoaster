@@ -60,12 +60,11 @@ public class Entity3rdPerson extends EntityLivingBase {
                 motionX = side.xCoord * -0.5;
                 motionZ = side.zCoord * -0.5;
             }
-        } else {
-            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindLeft.getKeyCode())) {
-                setAngles (-10, 0);
-            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode())) {
-                setAngles (10, 0);
-            }
+        } 
+        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+            setAngles (-10, 0);
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+            setAngles (10, 0);
         }
 
         if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {

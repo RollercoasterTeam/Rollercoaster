@@ -20,8 +20,8 @@ public class TrackHandler {
 		RCBlocks.tracks.add(new TrackTypeSlope("slope", 3));
 		RCBlocks.tracks.add(new TrackTypeSlopeDown("slope_down", 3, 2));
 		RCBlocks.tracks.add(new TrackTypeCurve("curve", 3, 3));
-		RCBlocks.tracks.add(new TrackTypeLoop("loop", 6, 2));
-		RCBlocks.tracks.add(new TrackTypeHeartlineRoll("heartline_roll", 6, 19));
+		RCBlocks.tracks.add(new TrackTypeLoop("loop", 10, 2));
+		RCBlocks.tracks.add(new TrackTypeHeartlineRoll("heartline_roll", 12, 19));
 		
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));

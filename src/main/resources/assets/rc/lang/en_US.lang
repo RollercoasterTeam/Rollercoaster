@@ -25,8 +25,12 @@ tile.path_9.name=Quartz Path
 tile.railings.name=Iron Railings
 tile.picket.name=Picket Fence
 tile.ride_fence.name=Queue Fencing
+tile.ride_fence_corner.name=Queue Fencing Corner
+tile.ride_fence_triangle.name=Queue Fencing Triangle
+tile.ride_fence_square.name=Queue Fencing Square
 tile.track_fabricator.name=Track Fabricator
 tile.track_storage.name=Track Storage
+tile.track_designer.name=Track Designer (WIP)
 
 item.hammer.name=Track Maintenance Tool
 

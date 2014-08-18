@@ -14,7 +14,6 @@ import robomuss.rc.network.NetworkHandler;
 
 public class GuiTrackBuilder extends GuiScreen {
 
-	private int direction;
 	private TileEntityTrackDesigner te;
 
     public Entity3rdPerson entity3rdPerson;
@@ -54,53 +53,64 @@ public class GuiTrackBuilder extends GuiScreen {
 	public void initGui() {
 		buttonList.clear();
 		
-		buttonList.add(new GuiButton(0, 10, 10, 20, 20, "|"));
-		buttonList.add(new GuiButton(1, 40, 10, 20, 20, "_/"));
-		buttonList.add(new GuiButton(2, 70, 10, 20, 20, "/"));
-		buttonList.add(new GuiButton(3, 100, 10, 20, 20, "/-"));
-		buttonList.add(new GuiButton(4, 130, 10, 20, 20, new String("\\").substring(0, 1) + "_"));
-		buttonList.add(new GuiButton(5, 160, 10, 20, 20, new String("\\").substring(0, 1)));
-		buttonList.add(new GuiButton(6, 190, 10, 20, 20, new String("-\\").substring(0, 2)));
-		buttonList.add(new GuiButton(7, 220, 10, 20, 20, "�"));
-		buttonList.add(new GuiButton(8, 250, 10, 20, 20, "o"));
-		
-		buttonList.add(new GuiButton(9, 10, 40, 20, 20, "< >"));
-		buttonList.add(new GuiButton(10, 40, 40, 50, 20, "Build"));
+		/*buttonList.add(new GuiButton(1, 10, 10, 100, 20, "Start"));
+		buttonList.add(new GuiButton(1, 120, 10, 100, 20, "Left"));
+		buttonList.add(new GuiButton(2, 230, 10, 100, 20, "Forward"));
+		buttonList.add(new GuiButton(3, 340, 10, 100, 20, "Right"));*/
 	}
 	
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
 		
-		drawString(fontRendererObj, "Direction: " + direction, 10, 70, 0xFFFFFF);
+		String string = "Coming in v1.4!";
+		drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
+		
+		String string2 = "===============";
+		drawString(fontRendererObj, string2, this.width / 2 - (fontRendererObj.getStringWidth(string2) / 2), this.height / 2 - 50, 0xFFFFFF);
+		
+		String string3 = "Track Designer";
+		drawString(fontRendererObj, string3, this.width / 2 - (fontRendererObj.getStringWidth(string3) / 2), this.height / 2 - 30, 0xFFFFFF);
+		
+		String string4 = "===============";
+		drawString(fontRendererObj, string4, this.width / 2 - (fontRendererObj.getStringWidth(string4) / 2), this.height / 2 - 10, 0xFFFFFF);
+		
+		String controls1 = "Use W A S D to move around";
+		drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
+		
+		String controls2 = "Use PAGE-UP and PAGE-DOWN to move up and down";
+		drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
+		
+		String controls3 = "Use Q and E to rotate left and right";
+		drawString(fontRendererObj, controls3, this.width / 2 - (fontRendererObj.getStringWidth(controls3) / 2), this.height / 2 + 60, 0xFFFFFF);
+		
+		String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
+		drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
+		
 
         MovingObjectPosition movingObjectPosition = entity3rdPerson.rayTraceMouse();
         if(movingObjectPosition != null){
-            drawString(fontRendererObj, ("Current cross hair location: " + movingObjectPosition.blockX + ":" + movingObjectPosition.blockY + ":" + movingObjectPosition.blockZ) + direction, 10, 80, 0xFFFFFF);
+            //drawString(fontRendererObj, ("Current cross hair location: " + movingObjectPosition.blockX + ":" + movingObjectPosition.blockY + ":" + movingObjectPosition.blockZ), 10, 80, 0xFFFFFF);
         }
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		NetworkHandler.updateTrackBuilderTE(te, button.id);
-
-
-
+		MovingObjectPosition movingObjectPosition = entity3rdPerson.rayTraceMouse();
+		NetworkHandler.updateTrackBuilderTE(te, movingObjectPosition, button.id);
 	}
 
-    public boolean doesGuiPauseGame()
-    {
+    public boolean doesGuiPauseGame() {
         return false;
     }
 
     @Override
     public void onGuiClosed() {
-    super.onGuiClosed();
+    	super.onGuiClosed();
         Minecraft.getMinecraft().renderViewEntity = Minecraft.getMinecraft().thePlayer;
         Minecraft.getMinecraft().gameSettings.thirdPersonView = thirdPersonView;
         Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
         entity3rdPerson = null;
-
     }
 
 }

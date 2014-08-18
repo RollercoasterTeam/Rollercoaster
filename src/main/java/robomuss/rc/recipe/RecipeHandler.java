@@ -49,6 +49,10 @@ public class RecipeHandler {
 			"XXX", "XYX", "XXX", 'X', Items.iron_ingot, 'Y', TrackHandler.findTrackType("horizontal").block
 		);
 		
+		GameRegistry.addRecipe(new ItemStack(RCBlocks.track_fabricator),
+				"XYX", "XZX", "XAX", 'X', Items.iron_ingot, 'Y', Items.redstone, 'Z', Blocks.furnace, 'A', Items.lava_bucket
+		);
+		
 		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 0),
 				new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
 		);

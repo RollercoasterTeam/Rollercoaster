@@ -15,12 +15,6 @@ public class SlotTrackStorage extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
-		/*TrackType track = TrackHandler.findTrackType(itemstack.getItem());
-		if(track != null) {
-			if(slotNumber - 36 == track.id) {
-				return true;
-			}
-		}*/
 		for(TrackType track : RCBlocks.tracks) {
 			if(itemstack.getItem() == Item.getItemFromBlock(track.block)) {
 				return true;

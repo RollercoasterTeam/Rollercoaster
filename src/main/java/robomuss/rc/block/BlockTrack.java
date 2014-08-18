@@ -86,6 +86,11 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	}
 	
 	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
+	@Override
 	public int getPaintMeta(World world, int x, int y, int z) {
 		return ((TileEntityTrack) world.getTileEntity(x, y, z)).colour;
 	}

@@ -2,6 +2,7 @@ package robomuss.rc.block.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -40,45 +41,51 @@ public class ContainerTrackStorage extends Container {
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+	/*public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-
-			if (par2 == 0) {
-				if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
+			if(itemstack.getItem() == Items.iron_ingot) {
+				if (par2 == 0) {
+					if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
+						return null;
+					}
+	
+					slot.onSlotChange(itemstack1, itemstack);
+				} else if (par2 >= 10 && par2 < 37) {
+					if (!this.mergeItemStack(itemstack1, 37, 46, false)) {
+						return null;
+					}
+				} else if (par2 >= 37 && par2 < 46) {
+					if (!this.mergeItemStack(itemstack1, 10, 37, false)) {
+						return null;
+					}
+				} else if (!this.mergeItemStack(itemstack1, 10, 46, false)) {
 					return null;
 				}
-
-				slot.onSlotChange(itemstack1, itemstack);
-			} else if (par2 >= 10 && par2 < 37) {
-				if (!this.mergeItemStack(itemstack1, 37, 46, false)) {
+	
+				if (itemstack1.stackSize == 0) {
+					slot.putStack((ItemStack) null);
+				} else {
+					slot.onSlotChanged();
+				}
+	
+				if (itemstack1.stackSize == itemstack.stackSize) {
 					return null;
 				}
-			} else if (par2 >= 37 && par2 < 46) {
-				if (!this.mergeItemStack(itemstack1, 10, 37, false)) {
-					return null;
-				}
-			} else if (!this.mergeItemStack(itemstack1, 10, 46, false)) {
-				return null;
+	
+				slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
 			}
-
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (itemstack1.stackSize == itemstack.stackSize) {
-				return null;
-			}
-
-			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
 		}
 
 		return itemstack;
+	}*/
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
+		return null;
 	}
 }

@@ -65,4 +65,9 @@ public class BlockPath extends Block {
 	public int damageDropped(int dmg) {
 		return dmg;
 	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 }

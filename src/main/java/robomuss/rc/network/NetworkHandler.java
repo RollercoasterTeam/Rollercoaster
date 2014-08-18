@@ -1,5 +1,6 @@
 package robomuss.rc.network;
 
+import net.minecraft.util.MovingObjectPosition;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
@@ -13,8 +14,8 @@ public class NetworkHandler {
         RCMod.packetPipeline.sendToServer(new PacketTrackFabricatorUpdate(te.xCoord, te.yCoord, te.zCoord, amount, current_track));
     }
 
-	public static void updateTrackBuilderTE(TileEntityTrackDesigner te, int id) {
-        RCMod.packetPipeline.sendToServer(new PacketTrackDesignerUpdate(te.xCoord, te.yCoord, te.zCoord, id));
+	public static void updateTrackBuilderTE(TileEntityTrackDesigner te, MovingObjectPosition movingObjectPosition, int id) {
+        RCMod.packetPipeline.sendToServer(new PacketTrackDesignerUpdate(te.xCoord, te.yCoord, te.zCoord, movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ, id));
 	}
 
 }

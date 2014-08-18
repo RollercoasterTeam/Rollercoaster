@@ -73,6 +73,11 @@ public class BlockRideFence extends BlockContainer implements IPaintable {
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
 	@Override
 	public int getPaintMeta(World world, int x, int y, int z) {
