@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.entity.Entity3rdPerson;
@@ -33,25 +34,17 @@ public class GuiTrackBuilder extends GuiScreen {
             Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
             player3rd = Minecraft.getMinecraft().renderViewEntity;
 
-            entity3rdPerson.copyLocationAndAnglesFrom(player3rd);
-
-            entity3rdPerson.rotationYaw = 0;
-            entity3rdPerson.rotationPitch = 0;
+            entity3rdPerson.setLocationAndAngles(x, y, z, 0 , 50);
 
             Minecraft.getMinecraft().renderViewEntity = entity3rdPerson;
             thirdPersonView = Minecraft.getMinecraft().gameSettings.thirdPersonView;
             Minecraft.getMinecraft().gameSettings.thirdPersonView = 8;
 
-            posX = entity3rdPerson.posX - 5;
-            posY = entity3rdPerson.posY + 10;
+            posX = entity3rdPerson.posX + 0.5;
+            posY = entity3rdPerson.posY + 5;
             posZ = entity3rdPerson.posZ - 5;
 
-            yaw = 0;
-
-            entity3rdPerson.setPositionAndRotation(posX, posY, posZ, yaw, 50);
             entity3rdPerson.setPositionAndUpdate(posX, posY, posZ);
-            entity3rdPerson.setInvisible(true);
-
         }
 
 	}
@@ -80,7 +73,11 @@ public class GuiTrackBuilder extends GuiScreen {
 		super.drawScreen(par1, par2, par3);
 		
 		drawString(fontRendererObj, "Direction: " + direction, 10, 70, 0xFFFFFF);
-        drawString(fontRendererObj, ("Current cross hair location: " +entity3rdPerson.rayTraceMouse().blockX + ":" + entity3rdPerson.rayTraceMouse().blockY + ":" + entity3rdPerson.rayTraceMouse().blockZ) + direction, 10, 80, 0xFFFFFF);
+
+        MovingObjectPosition movingObjectPosition = entity3rdPerson.rayTraceMouse();
+        if(movingObjectPosition != null){
+            drawString(fontRendererObj, ("Current cross hair location: " + movingObjectPosition.blockX + ":" + movingObjectPosition.blockY + ":" + movingObjectPosition.blockZ) + direction, 10, 80, 0xFFFFFF);
+        }
 	}
 	
 	@Override

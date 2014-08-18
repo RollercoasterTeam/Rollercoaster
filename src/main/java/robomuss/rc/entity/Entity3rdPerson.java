@@ -32,7 +32,6 @@ public class Entity3rdPerson extends EntityLivingBase {
     public EntityLivingBase player;
     public TileEntityTrackDesigner tile;
 
-    private boolean debugPointer = false;
 
     public Entity3rdPerson(World par1World) {
         super(par1World);
@@ -123,20 +122,6 @@ public class Entity3rdPerson extends EntityLivingBase {
         Vec3 vec32 = localPos.addVector(look.xCoord * distance, look.yCoord * distance, look.zCoord * distance);
 
         MovingObjectPosition result = this.worldObj.rayTraceBlocks(localPos, vec32);
-
-        if (debugPointer) {
-            localPos = this.getPosition(1.0F);
-            localPos.xCoord += renderWorldLast.diffX;
-            localPos.yCoord += renderWorldLast.diffY + 0.1F;
-            localPos.zCoord += renderWorldLast.diffZ;
-
-            look = this.getLook(1.0F).normalize();
-
-            Vec3 aimed = Vec3.createVectorHelper(
-                    localPos.xCoord + look.xCoord * 200,
-                    localPos.yCoord + look.yCoord * 200,
-                    localPos.zCoord + look.zCoord * 200);
-        }
 
         return result;
     }
