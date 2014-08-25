@@ -1,6 +1,7 @@
 package robomuss.rc.gui;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
@@ -20,7 +21,6 @@ import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
-import scala.actors.threadpool.Arrays;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

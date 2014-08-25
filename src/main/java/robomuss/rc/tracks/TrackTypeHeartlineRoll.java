@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
 
 public class TrackTypeHeartlineRoll extends TrackType {
@@ -45,5 +46,10 @@ public class TrackTypeHeartlineRoll extends TrackType {
 		else {
 			return (float) (z + 0.5f);
 		}
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox(World world, int xCoord, int yCoord, int zCoord) {
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 10, yCoord + 3, zCoord + 10);
 	}
 }

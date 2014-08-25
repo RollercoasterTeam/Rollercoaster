@@ -38,7 +38,7 @@ public class RecipeHandler {
 
 	private void registerBlockRecipes() {
 		GameRegistry.addRecipe(new ItemStack(RCBlocks.ride_fence, 4), new Object[] {
-			"XXX", "X X", 'X', Items.iron_ingot
+			"XXX", "X X", 'X', Blocks.iron_bars
 		});
 		
 		GameRegistry.addRecipe(new ItemStack(RCBlocks.support, 4), new Object[] {
@@ -62,7 +62,7 @@ public class RecipeHandler {
 		);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 2),
-			Blocks.sand, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+			Items.paper, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
 		);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 3),
