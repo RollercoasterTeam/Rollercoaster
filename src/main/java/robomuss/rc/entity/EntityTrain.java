@@ -2,7 +2,9 @@ package robomuss.rc.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -10,19 +12,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import robomuss.rc.item.RCItems;
 
-public class EntityTrain extends Entity
+public class EntityTrain  extends EntityLiving
 {
 
     public EntityTrain(World par1World)
     {
         super(par1World);
         this.setSize(0.9F, 0.9F);
+
         this.boundingBox.setBounds(0.9D, 0.9D, 0.9D, 0D, 0D, 0D);
-
-    }
-
-    @Override
-    protected void entityInit() {
 
     }
 
@@ -30,16 +28,6 @@ public class EntityTrain extends Entity
     public boolean canBePushed()
     {
         return false;
-    }
-
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-
-    }
-
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-
     }
 
     public void onCollideWithPlayer(EntityPlayer par1EntityPlayer) {}
@@ -56,12 +44,21 @@ public class EntityTrain extends Entity
         this.prevPosZ = par6;
     }
 
+
     /**
-     * Returns true if the newer Entity AI code should be run
+     * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public boolean isAIEnabled()
+    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        return false;
+        super.writeEntityToNBT(par1NBTTagCompound);
+    }
+
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+        super.readEntityFromNBT(par1NBTTagCompound);
     }
 
     /**
@@ -76,6 +73,10 @@ public class EntityTrain extends Entity
                 this.dropItem(this.getDropItem(), 1);
         }
 
+        if (super.interact(par1EntityPlayer))
+        {
+            return true;
+        }
         else if (!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == par1EntityPlayer))
         {
             par1EntityPlayer.mountEntity(this);
@@ -85,7 +86,6 @@ public class EntityTrain extends Entity
         {
             return false;
         }
-        return false;
     }
 
     protected Item getDropItem()
@@ -93,9 +93,4 @@ public class EntityTrain extends Entity
         return RCItems.train;
     }
 
-    @Override
-    public void onUpdate()
-    {
-        super.onUpdate();
-    }
 }

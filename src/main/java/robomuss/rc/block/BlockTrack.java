@@ -1,5 +1,6 @@
 package robomuss.rc.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
+import robomuss.rc.tracks.TrackTypeHorizontal;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
@@ -105,6 +107,28 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     }
 
     public void onTrainCollidedWithBlock(World world, int x, int y, int z, EntityTrain train) {
-        TrackHandler.findTrackType(getUnlocalizedName()).onTrainCollidedWithTrack(world, x, y, z, train);
+        TrackType trackType = unLocalNameTotrack(this);
+        if(trackType != null){
+            trackType.onTrainCollidedWithTrack(world, x, y, z, train);
+        }
+
+    }
+
+    public TrackType unLocalNameTotrack(Block block){
+      String name = block.getUnlocalizedName();
+       if(name == "tile.horizontal_track.name"){
+           return TrackHandler.findTrackType("horizontal");
+       } else if(name == "tile.slope_up_track.name"){
+           return TrackHandler.findTrackType("slope_up");
+       } else if(name == "tile.slope_track.name"){
+           return TrackHandler.findTrackType("slope");
+       } else if(name == "tile.slope_down_track.name"){
+           return TrackHandler.findTrackType("slope_down");
+       } else if(name == "tile.loop_track.name"){
+           return TrackHandler.findTrackType("loop");
+       } else if(name == "tile.heartline_roll_track.name"){
+           return TrackHandler.findTrackType("heartline_roll");
+       }
+      return null;
     }
 }
