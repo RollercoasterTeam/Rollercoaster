@@ -2,9 +2,11 @@ package robomuss.rc.proxy;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.render.TileEntityRenderFooter;
 import robomuss.rc.block.render.TileEntityRenderRideFence;
 import robomuss.rc.block.render.TileEntityRenderSupport;
 import robomuss.rc.block.render.TileEntityRenderTrack;
+import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
@@ -21,9 +23,11 @@ public class ClientProxy extends CommonProxy {
 			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrack.class, new TileEntityRenderTrack());
 		}
         
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupport.class, new TileEntityRenderSupport());
-		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRideFence.class, new TileEntityRenderRideFence());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupport.class, new TileEntityRenderSupport());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFooter.class, new TileEntityRenderFooter());
+		
         RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
 	}
 }

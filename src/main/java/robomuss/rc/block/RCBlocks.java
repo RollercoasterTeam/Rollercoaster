@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import robomuss.rc.RCMod;
+import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
@@ -19,6 +20,7 @@ public class RCBlocks {
 	public static int last_track_id;
 	public static ArrayList<TrackType> tracks = new ArrayList<TrackType>();
 	public static Block support, path, railings, picket, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, track_designer, track_fabricator, track_storage;
+	public static Block footer;
 	
 	public static void init() {
 		for(TrackType track: tracks) {
@@ -40,6 +42,8 @@ public class RCBlocks {
 		ride_fence_triangle = new BlockRideFence().setBlockName("ride_fence_triangle").setBlockTextureName("rc:ride_fence_triangle").setCreativeTab(RCMod.decor);
 		ride_fence_square = new BlockRideFence().setBlockName("ride_fence_square").setBlockTextureName("rc:ride_fence_square").setCreativeTab(RCMod.decor);
 		
+		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.decor);
+		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(track_designer, "track_designer");
         GameRegistry.registerBlock(track_fabricator, "track_fabricator");
@@ -53,14 +57,16 @@ public class RCBlocks {
 		GameRegistry.registerBlock(ride_fence_triangle, "ride_fence_triangle");
 		GameRegistry.registerBlock(ride_fence_square, "ride_fence_square");
 		
-        GameRegistry.registerTileEntity(TileEntitySupport.class, "te_support");
+		GameRegistry.registerBlock(footer, "footer");
+        
         GameRegistry.registerTileEntity(TileEntityTrackDesigner.class, "te_track_designer");
         GameRegistry.registerTileEntity(TileEntityTrackFabricator.class, "te_track_fabricator");
         GameRegistry.registerTileEntity(TileEntityTrackStorage.class, "te_track_storage");
         
 		GameRegistry.registerTileEntity(TileEntityRideFence.class, "te_ride_fence");
 		
-		
+		GameRegistry.registerTileEntity(TileEntitySupport.class, "te_support");
+		GameRegistry.registerTileEntity(TileEntityFooter.class, "te_footer");
 	}
 
 }

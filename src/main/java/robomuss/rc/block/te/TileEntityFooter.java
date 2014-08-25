@@ -6,7 +6,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntitySupport extends TileEntity {
+public class TileEntityFooter extends TileEntity {
 	
 	public int colour;
 	
