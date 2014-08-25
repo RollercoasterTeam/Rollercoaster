@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import robomuss.rc.item.RCItems;
 
-public class EntityTrain extends EntityAnimal
+public class EntityTrain extends Entity
 {
 
     public EntityTrain(World par1World)
@@ -22,9 +22,24 @@ public class EntityTrain extends EntityAnimal
     }
 
     @Override
+    protected void entityInit() {
+
+    }
+
+    @Override
     public boolean canBePushed()
     {
         return false;
+    }
+
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+
+    }
+
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+
     }
 
     public void onCollideWithPlayer(EntityPlayer par1EntityPlayer) {}
@@ -41,46 +56,12 @@ public class EntityTrain extends EntityAnimal
         this.prevPosZ = par6;
     }
 
-    @Override
-    public EntityAgeable createChild(EntityAgeable var1) {
-        return null;
-    }
-
     /**
      * Returns true if the newer Entity AI code should be run
      */
     public boolean isAIEnabled()
     {
-        return true;
-    }
-
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0D);
-    }
-
-    protected void entityInit()
-    {
-        super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-    }
-
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        super.writeEntityToNBT(par1NBTTagCompound);
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        super.readEntityFromNBT(par1NBTTagCompound);
+        return false;
     }
 
     /**
@@ -95,10 +76,6 @@ public class EntityTrain extends EntityAnimal
                 this.dropItem(this.getDropItem(), 1);
         }
 
-        if (super.interact(par1EntityPlayer))
-        {
-            return true;
-        }
         else if (!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == par1EntityPlayer))
         {
             par1EntityPlayer.mountEntity(this);
@@ -108,6 +85,7 @@ public class EntityTrain extends EntityAnimal
         {
             return false;
         }
+        return false;
     }
 
     protected Item getDropItem()
@@ -119,7 +97,5 @@ public class EntityTrain extends EntityAnimal
     public void onUpdate()
     {
         super.onUpdate();
-        //add some thing to change the look drection, might do it in the track block
-        this.getLookHelper().setLookPosition(this.posX, this.posY, this.posZ, 0F, 0F);
     }
 }
