@@ -2,11 +2,13 @@ package robomuss.rc.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackHandler;
@@ -94,4 +96,15 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	public int getPaintMeta(World world, int x, int y, int z) {
 		return ((TileEntityTrack) world.getTileEntity(x, y, z)).colour;
 	}
+
+    @Override
+    public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
+        if(par5Entity instanceof EntityTrain && par5Entity != null){
+            onTrainCollidedWithBlock(par1World, par2, par3, par4, (EntityTrain) par5Entity);
+        }
+    }
+
+    public void onTrainCollidedWithBlock(World world, int x, int y, int z, EntityTrain train) {
+        TrackHandler.findTrackType(getUnlocalizedName()).onTrainCollidedWithTrack(world, x, y, z, train);
+    }
 }

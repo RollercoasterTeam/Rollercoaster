@@ -10,6 +10,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 
 public class TrackType {
 	
@@ -91,4 +92,8 @@ public class TrackType {
 	public AxisAlignedBB getBlockBounds() {
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
 	}
+
+    public void onTrainCollidedWithTrack(World world, int x, int y, int z, EntityTrain train) {
+
+    }
 }
