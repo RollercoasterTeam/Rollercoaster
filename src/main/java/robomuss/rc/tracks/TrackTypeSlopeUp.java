@@ -54,7 +54,7 @@ public class TrackTypeSlopeUp extends TrackType {
             }
             train.motionX += ax[a] * m_speed;
             train.motionZ += az[a] * m_speed;
-            train.motionY += 1.1;
+            train.motionY += 0.1;
         }
     }
 }
