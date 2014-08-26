@@ -31,7 +31,13 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         int colour = ((TileEntityFooter) te).colour;
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glRotatef(180, 1, 0, 0);
-        ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
+        
+        ResourceLocation textures = (new ResourceLocation("rc:textures/models/footer.png"));
+        Minecraft.getMinecraft().renderEngine.bindTexture(textures);
+        
+        this.model.footer.render(0.0625F);
+        
+        textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
         
         Block below = te.getWorldObj().getBlock(te.xCoord, te.yCoord - 1, te.zCoord);
@@ -41,8 +47,6 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	this.model.middle.render(0.0625F);
             this.model.middle2.render(0.0625F);
         }
-
-        this.model.footer.render(0.0625F);
 
         GL11.glPopMatrix();
     	

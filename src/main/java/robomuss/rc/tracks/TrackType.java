@@ -24,6 +24,8 @@ public class TrackType {
 
 	public int special_render_stages;
 	
+	public boolean inverted = false;
+	
 	public TrackType(String unlocalized_name, int crafting_cost) {
 		this.id = RCBlocks.last_track_id++;
 		this.unlocalized_name = unlocalized_name;
@@ -97,4 +99,9 @@ public class TrackType {
     public void onTrainCollidedWithTrack(World world, int x, int y, int z, EntityTrain train) {
 
     }
+    
+    public TrackType invertTrack() {
+    	inverted = true;
+		return this;
+	}
 }
