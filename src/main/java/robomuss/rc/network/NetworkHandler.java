@@ -5,6 +5,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.network.packets.PacketChangePaintColour;
 import robomuss.rc.network.packets.PacketTrackDesignerUpdate;
 import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
 
@@ -16,6 +17,10 @@ public class NetworkHandler {
 
 	public static void updateTrackBuilderTE(TileEntityTrackDesigner te, MovingObjectPosition movingObjectPosition, int id) {
         RCMod.packetPipeline.sendToServer(new PacketTrackDesignerUpdate(te.xCoord, te.yCoord, te.zCoord, movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ, id));
+	}
+
+	public static void changePaintColour(int meta) {
+		RCMod.packetPipeline.sendToServer(new PacketChangePaintColour(meta));
 	}
 
 }

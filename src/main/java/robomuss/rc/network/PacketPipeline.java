@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
+import robomuss.rc.network.packets.PacketChangePaintColour;
 import robomuss.rc.network.packets.PacketTrackDesignerUpdate;
 import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
 
@@ -121,6 +122,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     private void registerPackets() {
         registerPacket(PacketTrackFabricatorUpdate.class);
         registerPacket(PacketTrackDesignerUpdate.class);
+        registerPacket(PacketChangePaintColour.class);
     }
 
     // Method to call from FMLPostInitializationEvent

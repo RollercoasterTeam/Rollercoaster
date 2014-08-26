@@ -29,7 +29,8 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float var8) {
         GL11.glPushMatrix();
         int colour = ((TileEntityFooter) te).colour;
-        GL11.glTranslatef((float) x + 0.5F, (float) y - 0.5F, (float) z + 0.5F);
+        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+        GL11.glRotatef(180, 1, 0, 0);
         ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
         
@@ -38,6 +39,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         
         if(above instanceof BlockSupport) {
         	this.model.middle.render(0.0625F);
+            this.model.middle2.render(0.0625F);
         }
 
         this.model.footer.render(0.0625F);

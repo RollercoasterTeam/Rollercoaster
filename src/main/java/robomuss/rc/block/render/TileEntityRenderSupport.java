@@ -32,14 +32,15 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         Block below = te.getWorldObj().getBlock(te.xCoord, te.yCoord - 1, te.zCoord);
         Block above = te.getWorldObj().getBlock(te.xCoord, te.yCoord + 1, te.zCoord);
         
-        if(!(below instanceof BlockSupport || below instanceof BlockFooter)) {
+        /*if(!(below instanceof BlockSupport || below instanceof BlockFooter)) {
         	this.model.bottom.render(0.0625F);
         }
         if(!(above instanceof BlockSupport)) {
         	this.model.top.render(0.0625F);
-        }
+        }*/
 
         this.model.middle.render(0.0625F);
+        this.model.middle2.render(0.0625F);
 
         GL11.glPopMatrix();
     }
