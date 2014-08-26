@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrain;
@@ -19,12 +20,19 @@ import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
 
+	private TrackType track;
+	
 	public BlockTrack(TrackType track) {
 		super(Material.iron);
 		setHardness(1F);
 		setResistance(3F);
 		
-		AxisAlignedBB bounds = track.getBlockBounds();
+		this.track = track;
+	}
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
+		AxisAlignedBB bounds = track.getBlockBounds(iba, x, y, z);
 		setBlockBounds((float) bounds.minX, (float) bounds.minY, (float) bounds.minZ, (float) bounds.maxX, (float) bounds.maxY, (float) bounds.maxZ);
 	}
 

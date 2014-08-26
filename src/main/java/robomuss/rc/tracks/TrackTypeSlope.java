@@ -2,13 +2,16 @@ package robomuss.rc.tracks;
 
 import java.util.Arrays;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import org.lwjgl.opengl.GL11;
+
+import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 
@@ -36,5 +39,17 @@ public class TrackTypeSlope extends TrackType {
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(World world, int xCoord, int yCoord, int zCoord) {
 		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
+	}
+	
+	@Override
+	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
+		TileEntityTrack te = (TileEntityTrack) iba.getTileEntity(x, y, z);
+		if(te.direction == 0) {
+			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 2);
+		}
+		else if(te.direction == 1) {
+			return AxisAlignedBB.getBoundingBox(1, 0, 0, -1, 1, 1);
+		}
+		return super.getBlockBounds(iba, x, y, z);
 	}
 }

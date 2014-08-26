@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
@@ -89,7 +90,7 @@ public class TrackType {
 		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 	}
 
-	public AxisAlignedBB getBlockBounds() {
+	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
 	}
 
