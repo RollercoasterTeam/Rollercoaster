@@ -34,7 +34,6 @@ public class TrackTypeSlopeUp extends TrackType {
 		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
 	}
 
-
     @Override
     public void onTrainCollidedWithTrack(World world, int x, int y, int z, EntityTrain train) {
         super.onTrainCollidedWithTrack(world, x, y, z, train);
@@ -57,4 +56,5 @@ public class TrackTypeSlopeUp extends TrackType {
             train.motionY += 0.1;
         }
     }
+
 }

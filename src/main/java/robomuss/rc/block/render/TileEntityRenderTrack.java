@@ -55,6 +55,9 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glPushMatrix();
 				GL11.glTranslatef(track_type.getX(x, (TileEntityTrack) te), track_type.getY(y, (TileEntityTrack) te), track_type.getZ(z, (TileEntityTrack) te));
 				GL11.glPushMatrix();
+				if(track_type.inverted) {
+					GL11.glRotatef(180, 1, 0, 0);
+				}
 				track_type.render(model, (TileEntityTrack) te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -64,6 +67,9 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glPushMatrix();
 				GL11.glTranslatef(track_type.getSpecialX(i, x, (TileEntityTrack) te), track_type.getSpecialY(i, y, (TileEntityTrack) te), track_type.getSpecialZ(i, z, (TileEntityTrack) te));
 				GL11.glPushMatrix();
+				if(track_type.inverted) {
+					GL11.glRotatef(180, 1, 0, 0);
+				}
 				track_type.renderSpecial(i, model, (TileEntityTrack) te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
