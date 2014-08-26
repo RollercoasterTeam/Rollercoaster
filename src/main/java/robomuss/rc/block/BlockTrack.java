@@ -124,18 +124,20 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 
     public TrackType unLocalNameTotrack(Block block){
       String name = block.getUnlocalizedName();
-       if(name == "tile.horizontal_track.name"){
+       if(name.equals("tile.horizontal_track")){
            return TrackHandler.findTrackType("horizontal");
-       } else if(name == "tile.slope_up_track.name"){
+       } else if(name.equals("tile.slope_up_track")){
            return TrackHandler.findTrackType("slope_up");
-       } else if(name == "tile.slope_track.name"){
+       } else if(name.equals("tile.slope_track")){
            return TrackHandler.findTrackType("slope");
-       } else if(name == "tile.slope_down_track.name"){
+       } else if(name.equals("tile.slope_down_track")){
            return TrackHandler.findTrackType("slope_down");
-       } else if(name == "tile.loop_track.name"){
+       } else if(name.equals("tile.loop_track")){
            return TrackHandler.findTrackType("loop");
-       } else if(name == "tile.heartline_roll_track.name"){
+       } else if(name.equals("tile.heartline_roll_track")){
            return TrackHandler.findTrackType("heartline_roll");
+       }else if(name.equals("tile.curve_track")){
+           return TrackHandler.findTrackType("curve");
        }
       return null;
     }
