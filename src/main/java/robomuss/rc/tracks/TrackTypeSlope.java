@@ -50,6 +50,12 @@ public class TrackTypeSlope extends TrackType {
 		else if(te.direction == 1) {
 			return AxisAlignedBB.getBoundingBox(1, 0, 0, -1, 1, 1);
 		}
+		else if(te.direction == 2) {
+			return AxisAlignedBB.getBoundingBox(0, 0, -1, 1, 1, 1);
+		}
+		else if(te.direction == 3) {
+			return AxisAlignedBB.getBoundingBox(0, 0, 0, 2, 1, 1);
+		}
 		return super.getBlockBounds(iba, x, y, z);
 	}
 }
