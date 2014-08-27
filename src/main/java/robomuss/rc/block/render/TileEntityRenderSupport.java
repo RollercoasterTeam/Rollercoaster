@@ -35,16 +35,6 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         TileEntity south = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord - 1);
         TileEntity west = te.getWorldObj().getTileEntity(te.xCoord - 1, te.yCoord + 1, te.zCoord);
     	
-    	if(south instanceof TileEntityTrack) {
-        	TileEntityTrack track = (TileEntityTrack) south;
-        	BlockTrack block = (BlockTrack) track.getBlockType();
-        	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == 0) {
-        			connectSouth = true;
-        		}
-        	}
-        }
-        
         if(north instanceof TileEntityTrack) {
         	TileEntityTrack track = (TileEntityTrack) north;
         	BlockTrack block = (BlockTrack) track.getBlockType();
@@ -54,6 +44,37 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         		}
         	}
         }
+        
+        if(east instanceof TileEntityTrack) {
+        	TileEntityTrack track = (TileEntityTrack) east;
+        	BlockTrack block = (BlockTrack) track.getBlockType();
+        	if(block != null && isConnectable(block.track_type)) {
+        		if(track.direction == 1) {
+        			connectEast = true;
+        		}
+        	}
+        }
+        
+    	if(south instanceof TileEntityTrack) {
+        	TileEntityTrack track = (TileEntityTrack) south;
+        	BlockTrack block = (BlockTrack) track.getBlockType();
+        	if(block != null && isConnectable(block.track_type)) {
+        		if(track.direction == 0) {
+        			connectSouth = true;
+        		}
+        	}
+        }
+    	
+    	if(west instanceof TileEntityTrack) {
+        	TileEntityTrack track = (TileEntityTrack) west;
+        	BlockTrack block = (BlockTrack) track.getBlockType();
+        	if(block != null && isConnectable(block.track_type)) {
+        		if(track.direction == 3) {
+        			connectWest = true;
+        		}
+        	}
+        }
+
     	
         GL11.glPushMatrix();
         int colour = ((TileEntitySupport) te).colour;
@@ -69,6 +90,12 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         
         GL11.glPushMatrix();
         if(connectNorth) {
+        	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
+        }
+        else if(connectEast) {
+        	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
+        }
+        else if(connectWest) {
         	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
         }
         else {
@@ -93,6 +120,12 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 
         if(connectNorth) {
         	GL11.glRotatef(180f, -180f, 0f, 0f);
+        }
+        else if(connectEast) {
+        	GL11.glRotatef(180f, 180f, 0f, 180f);
+        }
+        else if(connectWest) {
+        	GL11.glRotatef(180f, -180f, 0f, 180f);
         }
         
         if(connectNorth || connectEast || connectSouth || connectWest) {
