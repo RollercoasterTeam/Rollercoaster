@@ -20,19 +20,19 @@ import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
 
-	private TrackType track;
+	public TrackType track_type;
 	
 	public BlockTrack(TrackType track) {
 		super(Material.iron);
 		setHardness(1F);
 		setResistance(3F);
 		
-		this.track = track;
+		this.track_type = track;
 	}
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
-		AxisAlignedBB bounds = track.getBlockBounds(iba, x, y, z);
+		AxisAlignedBB bounds = track_type.getBlockBounds(iba, x, y, z);
 		setBlockBounds((float) bounds.minX, (float) bounds.minY, (float) bounds.minZ, (float) bounds.maxX, (float) bounds.maxY, (float) bounds.maxZ);
 	}
 

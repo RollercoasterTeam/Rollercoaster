@@ -20,7 +20,7 @@ public class TileEntityTrack extends TileEntity {
 	public int colour;
 	public int model;
 	public TrackExtra extra;
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
