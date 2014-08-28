@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -48,8 +49,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				track_type = track;
 				break;
 			}
-			
-		}
+
+        }
 		if(track_type != null) {
 			if(track_type.special_render_stages == 0) {
 				GL11.glPushMatrix();

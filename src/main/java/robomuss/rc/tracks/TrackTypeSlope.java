@@ -80,7 +80,7 @@ public class TrackTypeSlope extends TrackType {
             }
             train.motionX += ax[a] * m_speed;
             train.motionZ += az[a] * m_speed;
-            train.motionY += 0.1;
+            train.posY = x +  0.1;
         }
     }
 }

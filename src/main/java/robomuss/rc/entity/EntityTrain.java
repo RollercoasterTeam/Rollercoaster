@@ -1,5 +1,6 @@
 package robomuss.rc.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -14,6 +15,11 @@ import robomuss.rc.item.RCItems;
 
 public class EntityTrain  extends EntityLiving
 {
+
+    public boolean isGoingDown = false;
+    public Block lastBlock = null;
+    public int verlocity = 0;
+    public boolean isReverse;
 
     public EntityTrain(World par1World)
     {
@@ -30,6 +36,7 @@ public class EntityTrain  extends EntityLiving
         return false;
     }
 
+    @Override
     public void onCollideWithPlayer(EntityPlayer par1EntityPlayer) {}
 
     public EntityTrain(World par1World, double par2, double par4, double par6)
@@ -42,6 +49,12 @@ public class EntityTrain  extends EntityLiving
         this.prevPosX = par2;
         this.prevPosY = par4;
         this.prevPosZ = par6;
+    }
+
+    @Override
+    public void onEntityUpdate(){
+       super.onEntityUpdate();
+
     }
 
 
