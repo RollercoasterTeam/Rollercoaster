@@ -3,12 +3,13 @@ package robomuss.rc.tracks.extra;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackType;

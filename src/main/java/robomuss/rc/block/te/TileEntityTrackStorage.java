@@ -1,7 +1,5 @@
 package robomuss.rc.block.te;
 
-import robomuss.rc.block.RCBlocks;
-import robomuss.rc.tracks.TrackType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -10,6 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import robomuss.rc.block.RCBlocks;
+import robomuss.rc.tracks.TrackType;
 
 public class TileEntityTrackStorage extends TileEntity implements IInventory {
 

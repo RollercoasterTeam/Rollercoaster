@@ -3,13 +3,8 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
 
 public class PacketTrackDesignerUpdate extends AbstractPacket {
 

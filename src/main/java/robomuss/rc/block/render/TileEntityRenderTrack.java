@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;

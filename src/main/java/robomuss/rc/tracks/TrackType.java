@@ -1,14 +1,13 @@
 package robomuss.rc.tracks;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;

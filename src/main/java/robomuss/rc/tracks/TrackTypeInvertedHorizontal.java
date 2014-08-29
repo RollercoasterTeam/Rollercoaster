@@ -1,9 +1,10 @@
 package robomuss.rc.tracks;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+
+import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.te.TileEntityTrack;
 
 public class TrackTypeInvertedHorizontal extends TrackType {

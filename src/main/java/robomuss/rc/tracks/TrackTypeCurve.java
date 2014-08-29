@@ -2,11 +2,9 @@ package robomuss.rc.tracks;
 
 import java.util.Arrays;
 
-import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;

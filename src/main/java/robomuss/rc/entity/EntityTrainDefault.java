@@ -47,4 +47,9 @@ public class EntityTrainDefault extends EntityTrain
     {
         return 0;
     }
+    
+    @Override
+    public void onUpdate() {
+    	this.posX += 0.05;
+    }
 }

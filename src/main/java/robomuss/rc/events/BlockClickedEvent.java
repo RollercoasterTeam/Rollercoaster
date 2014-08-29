@@ -1,11 +1,9 @@
 package robomuss.rc.events;
 
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import org.lwjgl.input.Keyboard;
 
-import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.IPaintable;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

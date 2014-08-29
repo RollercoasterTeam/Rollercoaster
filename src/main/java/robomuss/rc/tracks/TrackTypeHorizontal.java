@@ -2,7 +2,6 @@ package robomuss.rc.tracks;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;

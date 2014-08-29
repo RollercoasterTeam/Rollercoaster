@@ -1,11 +1,12 @@
 package robomuss.rc.tracks;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.te.TileEntityTrack;
 
 public class TrackTypeHeartlineRoll extends TrackType {

@@ -4,10 +4,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import robomuss.rc.RCMod;
-
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.extra.TrackExtra;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCItems {
@@ -31,7 +29,7 @@ public class RCItems {
 		pass = new Item().setUnlocalizedName("pass").setTextureName("rc:pass").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		key = new Item().setUnlocalizedName("key").setTextureName("rc:key").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		hat_1 = (ItemArmor) new ItemArmor(ArmorMaterial.CHAIN, 0, 0).setUnlocalizedName("hat_1").setTextureName("rc:hat_1").setCreativeTab(RCMod.other).setMaxStackSize(1);
-		train = new ItemTrain(0).setUnlocalizedName("train").setTextureName("rc:train").setCreativeTab(RCMod.other);
+		train = new ItemTrain().setUnlocalizedName("train").setTextureName("rc:train").setCreativeTab(RCMod.other);
 		
 		GameRegistry.registerItem(hammer, "hammer");
 		GameRegistry.registerItem(paint, "paint");

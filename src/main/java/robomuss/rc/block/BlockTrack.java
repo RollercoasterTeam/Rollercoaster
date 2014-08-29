@@ -15,7 +15,6 @@ import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
-import robomuss.rc.tracks.TrackTypeHorizontal;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {

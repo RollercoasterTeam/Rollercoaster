@@ -2,24 +2,11 @@ package robomuss.rc.entity;
 
 import java.util.List;
 
-import robomuss.rc.block.BlockTrack;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.item.RCItems;
-import robomuss.rc.tracks.TrackHandler;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EntityMinecartCommandBlock;
-import net.minecraft.entity.ai.EntityMinecartMobSpawner;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityMinecartChest;
-import net.minecraft.entity.item.EntityMinecartEmpty;
-import net.minecraft.entity.item.EntityMinecartFurnace;
-import net.minecraft.entity.item.EntityMinecartHopper;
-import net.minecraft.entity.item.EntityMinecartTNT;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -35,9 +22,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IMinecartCollisionHandler;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.minecart.MinecartCollisionEvent;
-import net.minecraftforge.event.entity.minecart.MinecartUpdateEvent;
+import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.item.RCItems;
+import robomuss.rc.tracks.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -92,7 +80,7 @@ public abstract class EntityTrain extends Entity
      */
     public static EntityTrain createMinecart(World world, double x, double y, double z, int type)
     {
-        return new EntityTrainDefault(world);
+        return new EntityTrainDefault(world, x, y, z);
     }
 
     /**

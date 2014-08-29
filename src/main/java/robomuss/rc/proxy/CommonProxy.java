@@ -1,6 +1,5 @@
 package robomuss.rc.proxy;
 
-import robomuss.rc.RCMod;
 
 public class CommonProxy {
 	

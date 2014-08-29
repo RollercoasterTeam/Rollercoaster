@@ -3,16 +3,9 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.gui.GuiTrackFabricator;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.AbstractPacket;
-import robomuss.rc.tracks.TrackHandler;
 
 public class PacketChangePaintColour extends AbstractPacket {
 
