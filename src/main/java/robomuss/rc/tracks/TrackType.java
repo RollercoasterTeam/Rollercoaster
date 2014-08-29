@@ -97,7 +97,6 @@ public class TrackType {
 	}
 
     public void onTrainCollidedWithTrack(World world, int x, int y, int z, EntityTrain train) {
-        train.lastBlock = world.getBlock(x, y, z);
 
     }
     

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -16,6 +15,7 @@ import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended2;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 
 
@@ -41,16 +41,10 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
 		
-		TrackType track_type = null;
+		
 		
 		Block block = te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord);
-		for(TrackType track : RCBlocks.tracks) {
-			if(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length() - 6).equalsIgnoreCase(track.unlocalized_name)) {
-				track_type = track;
-				break;
-			}
-
-        }
+		TrackType track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 		if(track_type != null) {
 			if(track_type.special_render_stages == 0) {
 				GL11.glPushMatrix();

@@ -18,8 +18,6 @@ import robomuss.rc.tracks.TrackType;
 import robomuss.rc.tracks.TrackTypeHorizontal;
 import robomuss.rc.util.IPaintable;
 
-import java.util.List;
-
 public class BlockTrack extends BlockContainer implements IPaintable {
 
 	public TrackType track_type;
@@ -37,18 +35,6 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 		AxisAlignedBB bounds = track_type.getBlockBounds(iba, x, y, z);
 		setBlockBounds((float) bounds.minX, (float) bounds.minY, (float) bounds.minZ, (float) bounds.maxX, (float) bounds.maxY, (float) bounds.maxZ);
 	}
-
-    @Override
-    /**
-     * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
-     * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
-     */
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity entity){
-        if(entity instanceof EntityTrain){
-            return;
-        }
-        super.addCollisionBoxesToList(world, x, y, z, p_149743_5_, p_149743_6_, entity);
-    }
 
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {

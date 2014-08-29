@@ -53,4 +53,13 @@ public class TrackHandler {
 		}
 		return null;
 	}
+
+	public static TrackType findTrackTypeFull(String name) {
+		for(TrackType track : RCBlocks.tracks) {
+			if(name.equalsIgnoreCase("tile." + track.unlocalized_name + "_track")) {
+				return track;
+			}
+		}
+		return null;
+	}
 }
