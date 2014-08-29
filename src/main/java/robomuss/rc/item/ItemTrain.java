@@ -1,7 +1,5 @@
 package robomuss.rc.item;
 
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,11 +15,13 @@ public class ItemTrain extends Item
      */
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int face, float hitX, float hitY, float hitZ){
         if(!world.isRemote) {
-	        EntityTrain creeper = new EntityTrainDefault(world);
-	
-	        creeper.setLocationAndAngles(x, y, z, 0, 0);
-	
-	        world.spawnEntityInWorld(creeper);
+        	EntityTrain entity = new EntityTrainDefault(world, (double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F));
+
+            /*if (par1ItemStack.hasDisplayName()) {
+                entityminecart.setMinecartName(par1ItemStack.getDisplayName());
+            }*/
+
+            world.spawnEntityInWorld(entity);
 	        --stack.stackSize;
 	        return true;
         }

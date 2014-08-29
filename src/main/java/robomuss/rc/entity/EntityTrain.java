@@ -92,7 +92,7 @@ public abstract class EntityTrain extends Entity
      */
     public static EntityTrain createMinecart(World world, double x, double y, double z, int type)
     {
-        return new EntityTrainDefault(world);
+        return new EntityTrainDefault(world, x, y, z);
     }
 
     /**
