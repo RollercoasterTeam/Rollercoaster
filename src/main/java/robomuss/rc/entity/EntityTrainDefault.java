@@ -1,7 +1,13 @@
 package robomuss.rc.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.tracks.TrackHandler;
+import robomuss.rc.tracks.TrackType;
 
 public class EntityTrainDefault extends EntityTrain
 {
@@ -20,27 +26,20 @@ public class EntityTrainDefault extends EntityTrain
     /**
      * First layer of player interaction
      */
-    public boolean interactFirst(EntityPlayer p_130002_1_)
+    public boolean interactFirst(EntityPlayer player)
     {
     	//TODO
         //if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, p_130002_1_))) return true;
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != p_130002_1_)
-        {
-            return true;
+        if (!this.worldObj.isRemote) {
+        	if(player.isSneaking()) {
+        		System.out.println("Sneaking!");
+        		this.setDead();
+        	}
+        	else {
+        		player.mountEntity(this);
+        	}
         }
-        else if (this.riddenByEntity != null && this.riddenByEntity != p_130002_1_)
-        {
-            return false;
-        }
-        else
-        {
-            if (!this.worldObj.isRemote)
-            {
-                p_130002_1_.mountEntity(this);
-            }
-
-            return true;
-        }
+        return true;
     }
 
     public int getMinecartType()
@@ -50,6 +49,30 @@ public class EntityTrainDefault extends EntityTrain
     
     @Override
     public void onUpdate() {
-    	this.posX += 0.05;
+    	TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
+    	if(tileentity != null & tileentity instanceof TileEntityTrack) {
+    		TileEntityTrack te = (TileEntityTrack) tileentity;
+	    	TrackType track_type = ((BlockTrack) te.blockType).track_type;
+	    	System.out.println(track_type.unlocalized_name);
+	    	if(track_type == TrackHandler.findTrackType("horizontal")) {
+	    		if(te.direction == 0) {
+	    			this.rotationYaw = 90f;
+	    		}
+	    		else if(te.direction == 1) {
+	    			this.rotationYaw = 0f;
+	    		}
+	    		else if(te.direction == 2) {
+	    			this.rotationYaw = 180f;
+	    		}
+	    		else if(te.direction == 3) {
+	    			this.rotationYaw = 270f;
+	    		}
+	    	}
+    	}
+    }
+    
+    @Override
+    public AxisAlignedBB getBoundingBox() {
+    	return AxisAlignedBB.getBoundingBox(-1, -1, -1, 3, 3, 3);
     }
 }

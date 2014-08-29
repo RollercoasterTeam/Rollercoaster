@@ -63,15 +63,8 @@ public class TileEntityTrack extends TileEntity {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
-		TrackType track_type = null;
 		Block block = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord);
-		for(TrackType track : RCBlocks.tracks) {
-			if(block.getUnlocalizedName().substring(5, block.getUnlocalizedName().length() - 6).equalsIgnoreCase(track.unlocalized_name)) {
-				track_type = track;
-				break;
-			}
-			
-		}
+		TrackType track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 		return track_type.getRenderBoundingBox(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 	}
 	
