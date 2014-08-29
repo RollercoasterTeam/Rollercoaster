@@ -86,10 +86,14 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 
         this.model.middle.render(0.0625F);
         this.model.middle2.render(0.0625F);  
+
+        GL11.glPopMatrix();
         
+        boolean isTop = false;
+        int supportHeight = 0;
         Block above = te.getWorldObj().getBlock(te.xCoord, te.yCoord + 1, te.zCoord);
         if(above == null || above.getClass() != BlockSupport.class) {
-        	int supportHeight = 0;
+        	isTop = true;
         	for(int i = te.yCoord; i > 0; i--) {
         		Block support = te.getWorldObj().getBlock(te.xCoord, i, te.zCoord);
         		if(support != null && support instanceof BlockSupport) {
@@ -99,16 +103,21 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         			break;
         		}
         	}
-        	
-        	System.out.println("Height: " + supportHeight);
-        	
-        	for(int i = 0; i < supportHeight; i += 3) {
-        		Block support = te.getWorldObj().getBlock(te.xCoord, (te.yCoord - supportHeight) + i, te.zCoord);
-        		this.model.connector.render(0.0625F);
-        	}
         }
-
-        GL11.glPopMatrix();
+        
+        if(isTop) {
+	    	for(int i = 0; i < supportHeight / 2; i++) {
+	    		GL11.glPushMatrix();
+	            GL11.glTranslatef((float) x + 0.5F, (float) y + 1.3F - supportHeight + (i * 2.5f), (float) z + 0.5F);
+	            GL11.glRotatef(180, 1, 0, 0);
+	            Minecraft.getMinecraft().renderEngine.bindTexture(textures);
+	
+	            this.model.flange1.render(0.0625F);
+	            this.model.flange2.render(0.0625F);  
+	
+	            GL11.glPopMatrix();
+	    	}
+        }
         
         GL11.glPushMatrix();
         if(connectNorth) {
