@@ -125,4 +125,9 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 			}
 		}
 	}
+	
+	@Override
+	public boolean canUpdate() {
+		return false;
+	}
 }

@@ -39,4 +39,9 @@ public class TileEntityRideFence extends TileEntity {
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
 	}
+	
+	@Override
+	public boolean canUpdate() {
+		return false;
+	}
 }

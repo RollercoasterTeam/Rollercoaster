@@ -74,4 +74,9 @@ public class TileEntityTrack extends TileEntity {
 		}
 		return track_type.getRenderBoundingBox(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 	}
+	
+	@Override
+	public boolean canUpdate() {
+		return false;
+	}
 }
