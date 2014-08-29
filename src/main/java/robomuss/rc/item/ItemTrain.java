@@ -1,5 +1,6 @@
 package robomuss.rc.item;
 
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,9 +16,15 @@ public class ItemTrain extends Item
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
      */
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int face, float hitX, float hitY, float hitZ){
-        System.out.println("Test");
-    	world.spawnEntityInWorld(new EntityPig(world));
-        --stack.stackSize;
-        return true;
+        if(!world.isRemote) {
+	        EntityTrain creeper = new EntityTrainDefault(world);
+	
+	        creeper.setLocationAndAngles(x, y, z, 0, 0);
+	
+	        world.spawnEntityInWorld(creeper);
+	        --stack.stackSize;
+	        return true;
+        }
+        return false;
     }
 }
