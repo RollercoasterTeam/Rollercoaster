@@ -1,5 +1,6 @@
 package robomuss.rc.block.render;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -7,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.model.ModelTrackSupport;
 import robomuss.rc.block.te.TileEntitySupport;
@@ -85,6 +87,27 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         this.model.middle.render(0.0625F);
         this.model.middle2.render(0.0625F);  
         
+        Block above = te.getWorldObj().getBlock(te.xCoord, te.yCoord + 1, te.zCoord);
+        if(above == null || above.getClass() != BlockSupport.class) {
+        	int supportHeight = 0;
+        	for(int i = te.yCoord; i > 0; i--) {
+        		Block support = te.getWorldObj().getBlock(te.xCoord, i, te.zCoord);
+        		if(support != null && support instanceof BlockSupport) {
+        			supportHeight++;
+        		}
+        		else {
+        			break;
+        		}
+        	}
+        	
+        	System.out.println("Height: " + supportHeight);
+        	
+        	for(int i = 0; i < supportHeight; i += 3) {
+        		Block support = te.getWorldObj().getBlock(te.xCoord, (te.yCoord - supportHeight) + i, te.zCoord);
+        		this.model.connector.render(0.0625F);
+        	}
+        }
+
         GL11.glPopMatrix();
         
         GL11.glPushMatrix();
