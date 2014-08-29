@@ -10,7 +10,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackHandler;
@@ -109,12 +109,12 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 
     @Override
     public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
-        if(par5Entity instanceof EntityTrain && par5Entity != null){
-            onTrainCollidedWithBlock(par1World, par2, par3, par4, (EntityTrain) par5Entity);
+        if(par5Entity instanceof OldEntityTrain && par5Entity != null){
+            onTrainCollidedWithBlock(par1World, par2, par3, par4, (OldEntityTrain) par5Entity);
         }
     }
 
-    public void onTrainCollidedWithBlock(World world, int x, int y, int z, EntityTrain train) {
+    public void onTrainCollidedWithBlock(World world, int x, int y, int z, OldEntityTrain train) {
         TrackType trackType = unLocalNameTotrack(this);
         if(trackType != null){
             trackType.onTrainCollidedWithTrack(world, x, y, z, train);

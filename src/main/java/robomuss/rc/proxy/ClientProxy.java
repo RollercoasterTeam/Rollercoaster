@@ -1,5 +1,6 @@
 package robomuss.rc.proxy;
 
+import net.minecraft.client.renderer.entity.RenderMinecart;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.render.TileEntityRenderFooter;
@@ -11,6 +12,7 @@ import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.tracks.TrackType;
 import cpw.mods.fml.client.registry.ClientRegistry;

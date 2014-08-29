@@ -9,7 +9,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.OldEntityTrain;
 
 
 public class TrackTypeCurve extends TrackType {
@@ -69,7 +69,7 @@ public class TrackTypeCurve extends TrackType {
 
 
     @Override
-    public void onTrainCollidedWithTrack(World world, int x, int y, int z, EntityTrain train) {
+    public void onTrainCollidedWithTrack(World world, int x, int y, int z, OldEntityTrain train) {
         super.onTrainCollidedWithTrack(world, x, y, z, train);
         if(world.isBlockIndirectlyGettingPowered(x, y -1 , z))
             return;
