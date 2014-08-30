@@ -1,10 +1,15 @@
 package robomuss.rc.block.te;
 
+import robomuss.rc.block.BlockSupport;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntitySupport extends TileEntity {
 	
@@ -37,5 +42,34 @@ public class TileEntitySupport extends TileEntity {
 	@Override
 	public boolean canUpdate() {
 		return false;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox() {
+		boolean isTop = false;
+        int supportHeight = 0;
+        Block above = worldObj.getBlock(this.xCoord, this.yCoord + 1, this.zCoord);
+        if(above == null || above.getClass() != BlockSupport.class) {
+        	isTop = true;
+        	for(int i = this.yCoord; i > 0; i--) {
+        		Block support = worldObj.getBlock(this.xCoord, i, this.zCoord);
+        		if(support != null && support instanceof BlockSupport) {
+        			supportHeight++;
+        		}
+        		else {
+        			break;
+        		}
+        	}
+        }
+        
+        if(supportHeight > 0) {
+        	//TODO not working for some reason
+        	//return AxisAlignedBB.getBoundingBox(0, -supportHeight, 0, 1, 0, 1);
+        	return super.getRenderBoundingBox();
+        }
+        else {
+        	return super.getRenderBoundingBox();
+        }
 	}
 }
