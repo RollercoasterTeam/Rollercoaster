@@ -15,6 +15,7 @@ import net.minecraftforge.common.util.Constants;
 public class TileEntityTrackFabricator extends TileEntity implements IInventory {
 
 	public ItemStack[] contents = new ItemStack[2];
+	public int direction;
 
 	@Override
 	public int getSizeInventory() {
@@ -105,6 +106,8 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 			}
 		}
 		compound.setTag("Items", nbttaglist);
+		
+		compound.setInteger("direction", direction);
 	}
 
 	@Override
@@ -120,6 +123,8 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 				contents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
+		
+		direction = compound.getInteger("direction");
 	}
 
 	@Override

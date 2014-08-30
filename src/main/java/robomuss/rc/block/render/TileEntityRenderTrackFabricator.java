@@ -32,7 +32,20 @@ public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
 		GL11.glPushMatrix();
-		GL11.glRotatef(180f, -180f, 0f, 180f);
+		switch(((TileEntityTrackFabricator) te).direction){
+        case 1:
+        		GL11.glRotatef(180f, -180f, 0f, 0f);
+                break;
+        case 2:
+                GL11.glRotatef(180f, 180f, 0f, 180f);
+                break;
+        case 3:
+                GL11.glRotatef(180f, 0f, 0f, 180f);
+                break;
+        default:
+        		GL11.glRotatef(180f, -180f, 0f, 180f);
+        		break;
+		}
 		model = new ModelTrackFabricator();
 		
 		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);

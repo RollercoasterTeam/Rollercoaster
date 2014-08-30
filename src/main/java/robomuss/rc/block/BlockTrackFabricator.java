@@ -3,9 +3,12 @@ package robomuss.rc.block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
@@ -72,4 +75,33 @@ public class BlockTrackFabricator extends BlockContainer {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
+	
+	
+	@Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
+        int l = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+        int i1 = world.getBlockMetadata(x, y, z) >> 2;
+        ++l;
+        l %= 4;
+
+        if (l == 0) {
+            TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+            te.direction = 2;
+        }
+
+        if (l == 1) {
+        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+            te.direction = 3;
+        }
+
+        if (l == 2) {
+        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+            te.direction = 0;
+        }
+
+        if (l == 3) {
+        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+            te.direction = 1;
+        }
+    }
 }
