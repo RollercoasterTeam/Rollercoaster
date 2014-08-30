@@ -1,6 +1,7 @@
 package robomuss.rc.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -47,27 +48,32 @@ public class EntityTrainDefault extends EntityTrain
         return 0;
     }
     
+    boolean firstTick = false;;
+    
     @Override
     public void onUpdate() {
-    	TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
-    	if(tileentity != null & tileentity instanceof TileEntityTrack) {
-    		TileEntityTrack te = (TileEntityTrack) tileentity;
-	    	TrackType track_type = ((BlockTrack) te.blockType).track_type;
-	    	System.out.println(track_type.unlocalized_name);
-	    	if(track_type == TrackHandler.findTrackType("horizontal")) {
-	    		if(te.direction == 0) {
-	    			this.rotationYaw = 90f;
-	    		}
-	    		else if(te.direction == 1) {
-	    			this.rotationYaw = 0f;
-	    		}
-	    		else if(te.direction == 2) {
-	    			this.rotationYaw = 180f;
-	    		}
-	    		else if(te.direction == 3) {
-	    			this.rotationYaw = 270f;
-	    		}
+    	if(!firstTick) {
+	    	TileEntity tileentity = worldObj.getTileEntity((int) Math.round(posX) - 1, (int) posY, (int) Math.round(posZ) - 1);
+	    	if(tileentity != null & tileentity instanceof TileEntityTrack) {
+	    		TileEntityTrack te = (TileEntityTrack) tileentity;
+		    	BlockTrack block = (BlockTrack) te.getBlockType();
+	    		TrackType track_type = block.track_type;
+		    	if(track_type == TrackHandler.findTrackType("horizontal")) {
+		    		if(te.direction == 0) {
+		    			this.rotationYaw = 90f;
+		    		}
+		    		else if(te.direction == 1) {
+		    			this.rotationYaw = 0f;
+		    		}
+		    		else if(te.direction == 2) {
+		    			this.rotationYaw = 270f;
+		    		}
+		    		else if(te.direction == 3) {
+		    			this.rotationYaw = 180f;
+		    		}
+		    	}
 	    	}
+	    	firstTick = true;
     	}
     }
     
