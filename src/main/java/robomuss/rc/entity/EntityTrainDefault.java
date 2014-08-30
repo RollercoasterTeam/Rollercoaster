@@ -48,36 +48,69 @@ public class EntityTrainDefault extends EntityTrain
         return 0;
     }
     
-    boolean firstTick = false;;
+    boolean firstTick = false;
+    boolean selfPowered = true;
     
     @Override
     public void onUpdate() {
+    	TileEntity tileentity = worldObj.getTileEntity((int) Math.round(posX) - 1, (int) posY, (int) Math.round(posZ) - 1);
     	if(!firstTick) {
-	    	TileEntity tileentity = worldObj.getTileEntity((int) Math.round(posX) - 1, (int) posY, (int) Math.round(posZ) - 1);
-	    	if(tileentity != null & tileentity instanceof TileEntityTrack) {
-	    		TileEntityTrack te = (TileEntityTrack) tileentity;
-		    	BlockTrack block = (BlockTrack) te.getBlockType();
-	    		TrackType track_type = block.track_type;
-		    	if(track_type == TrackHandler.findTrackType("horizontal")) {
-		    		if(te.direction == 0) {
-		    			this.rotationYaw = 90f;
-		    		}
-		    		else if(te.direction == 1) {
-		    			this.rotationYaw = 0f;
-		    		}
-		    		else if(te.direction == 2) {
-		    			this.rotationYaw = 270f;
-		    		}
-		    		else if(te.direction == 3) {
-		    			this.rotationYaw = 180f;
-		    		}
-		    	}
-	    	}
+    		rotateOnPlace(tileentity);
 	    	firstTick = true;
+    	}
+    	if(firstTick) {
+	    	if(selfPowered) {
+	    		if(tileentity != null & tileentity instanceof TileEntityTrack) {
+			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
+			    		TileEntityTrack te = (TileEntityTrack) tileentity;
+			    		System.out.println(te.direction);
+			    		if(te.direction == 0) {
+			    			System.out.println("Moving");
+			    			this.posZ += 0.05f;
+			    			this.serverPosZ += 0.05f;
+			    		}
+			    		else if(te.direction == 1) {
+			    			//this.rotationYaw = 0f;
+			    		}
+			    		else if(te.direction == 2) {
+			    			//this.rotationYaw = 270f;
+			    		}
+			    		else if(te.direction == 3) {
+			    			//this.rotationYaw = 180f;
+			    		}
+			    	}
+	    		}
+	    	}
     	}
     }
     
-    @Override
+    private TrackType getTrackTypeFromTE(TileEntity tileentity) {
+    	TileEntityTrack te = (TileEntityTrack) tileentity;
+    	BlockTrack block = (BlockTrack) te.getBlockType();
+		return block.track_type;
+	}
+    
+    private void rotateOnPlace(TileEntity tileentity) {
+    	if(tileentity != null & tileentity instanceof TileEntityTrack) {
+    		TileEntityTrack te = (TileEntityTrack) tileentity;
+	    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
+	    		if(te.direction == 0) {
+	    			this.rotationYaw = 90f;
+	    		}
+	    		else if(te.direction == 1) {
+	    			this.rotationYaw = 0f;
+	    		}
+	    		else if(te.direction == 2) {
+	    			this.rotationYaw = 270f;
+	    		}
+	    		else if(te.direction == 3) {
+	    			this.rotationYaw = 180f;
+	    		}
+	    	}
+    	}
+	}
+
+	@Override
     public AxisAlignedBB getBoundingBox() {
     	return AxisAlignedBB.getBoundingBox(-1, -1, -1, 3, 3, 3);
     }

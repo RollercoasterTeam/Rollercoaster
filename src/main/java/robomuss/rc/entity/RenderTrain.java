@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTrain extends Render
 {
-    private static final ResourceLocation minecartTextures = new ResourceLocation("textures/entity/minecart.png");
+    private static final ResourceLocation minecartTextures = new ResourceLocation("rc:textures/entities/train_classic.png");
     /** instance of ModelMinecart for rendering */
     protected ModelBase modelMinecart = new ModelMinecart();
     protected final RenderBlocks field_94145_f;

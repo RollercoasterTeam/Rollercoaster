@@ -65,7 +65,12 @@ public class TileEntityTrack extends TileEntity {
 	public AxisAlignedBB getRenderBoundingBox() {
 		Block block = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord);
 		TrackType track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
-		return track_type.getRenderBoundingBox(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
+		if(track_type != null) {
+			return track_type.getRenderBoundingBox(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
+		}
+		else {
+			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+		}
 	}
 	
 	@Override

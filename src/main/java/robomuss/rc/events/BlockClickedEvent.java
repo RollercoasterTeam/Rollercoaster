@@ -21,6 +21,10 @@ public class BlockClickedEvent {
 							NetworkHandler.changePaintColour(meta);
 						}
 					}
+					if(Keyboard.isKeyDown(Keyboard.KEY_K)) {
+						System.out.println("Test");
+						NetworkHandler.killAll();
+					}
 				}
 			}
 		}

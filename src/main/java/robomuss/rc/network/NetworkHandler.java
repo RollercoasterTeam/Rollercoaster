@@ -5,6 +5,7 @@ import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.packets.PacketChangePaintColour;
+import robomuss.rc.network.packets.PacketKillAll;
 import robomuss.rc.network.packets.PacketTrackDesignerUpdate;
 import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
 
@@ -20,6 +21,10 @@ public class NetworkHandler {
 
 	public static void changePaintColour(int meta) {
 		RCMod.packetPipeline.sendToServer(new PacketChangePaintColour(meta));
+	}
+
+	public static void killAll() {
+		RCMod.packetPipeline.sendToServer(new PacketKillAll());
 	}
 
 }
