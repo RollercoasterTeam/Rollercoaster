@@ -38,7 +38,7 @@ public class RCItems {
 		GameRegistry.registerItem(ticket, "ticket");
 		GameRegistry.registerItem(pass, "pass");
 		GameRegistry.registerItem(key, "key");
-		GameRegistry.registerItem(train, "train");
+		//GameRegistry.registerItem(train, "train");
 		//GameRegistry.registerItem(hat_1, "hat_1");
 
 	}

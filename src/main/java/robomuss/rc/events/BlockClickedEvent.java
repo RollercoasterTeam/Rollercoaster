@@ -1,9 +1,12 @@
 package robomuss.rc.events;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import org.lwjgl.input.Keyboard;
 
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.IPaintable;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -24,6 +27,23 @@ public class BlockClickedEvent {
 					if(Keyboard.isKeyDown(Keyboard.KEY_K)) {
 						System.out.println("Test");
 						NetworkHandler.killAll();
+					}
+				}
+			}
+		}
+		if(!event.world.isRemote) {
+			if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+				if(event.entityPlayer.isSneaking()) {
+					System.out.println("Sneaking");
+					if(event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
+						System.out.println("Hammer");
+						TileEntity tileentity = event.world.getTileEntity(event.x, event.y, event.z);
+						if(tileentity instanceof TileEntityTrack) {
+							System.out.println("te");
+							TileEntityTrack te = (TileEntityTrack) tileentity;
+							te.model += 4;
+							event.world.markBlockRangeForRenderUpdate(event.x, event.y, event.z, event.x, event.y, event.z);
+						}
 					}
 				}
 			}

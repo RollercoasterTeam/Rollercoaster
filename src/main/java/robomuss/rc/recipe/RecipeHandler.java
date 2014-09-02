@@ -45,6 +45,10 @@ public class RecipeHandler {
 			" X ", " X ", " X ", 'X', Items.iron_ingot
 		});
 		
+		GameRegistry.addRecipe(new ItemStack(RCBlocks.footer, 6), new Object[] {
+			"XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
+		});
+		
 		GameRegistry.addRecipe(new ItemStack(RCBlocks.track_storage),
 			"XXX", "XYX", "XXX", 'X', Items.iron_ingot, 'Y', TrackHandler.findTrackType("horizontal").block
 		);

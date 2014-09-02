@@ -31,6 +31,7 @@ tile.ride_fence_square.name=Queue Fencing Square
 tile.track_fabricator.name=Track Fabricator
 tile.track_storage.name=Track Storage
 tile.track_designer.name=Track Designer (WIP)
+tile.footer.name=Concrete Footer
 
 item.hammer.name=Track Maintenance Tool
 

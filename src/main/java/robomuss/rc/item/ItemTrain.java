@@ -19,11 +19,11 @@ public class ItemTrain extends Item {
 
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			EntityTrain entityminecart = EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
+			EntityTrain train1 = EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
 			if(stack.hasDisplayName()) {
-				entityminecart.setMinecartName(stack.getDisplayName());
+				train1.setMinecartName(stack.getDisplayName());
 			}
-			world.spawnEntityInWorld(entityminecart);
+			world.spawnEntityInWorld(train1);
 		}
 
 		--stack.stackSize;

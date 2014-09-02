@@ -38,29 +38,6 @@ public class BlockTrackFabricator extends BlockContainer {
 		return new TileEntityTrackFabricator();
 	}
 	
-	@SideOnly(Side.CLIENT)
-	private IIcon side;
-	@SideOnly(Side.CLIENT)
-	private IIcon top;
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register) {
-		side = register.registerIcon("rc:track_fabricator_side");
-		top = register.registerIcon("rc:track_fabricator_top");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int face, int meta) {
-		if(face == 0 || face == 1) {
-			return top;
-		}
-		else {
-			return side;
-		}
-	}
-	
 	@Override
 	public boolean isOpaqueCube() {
 		return false;

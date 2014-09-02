@@ -31,7 +31,7 @@ public class RCBlocks {
         
 		support = new BlockSupport().setBlockName("support").setBlockTextureName("rc:support").setCreativeTab(RCMod.track);
 		track_designer = new BlockTrackDesigner().setBlockName("track_designer").setBlockTextureName("rc:track_designer").setCreativeTab(RCMod.track);
-        track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setCreativeTab(RCMod.track);
+        track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setBlockTextureName("rc:track_fabricator").setCreativeTab(RCMod.track);
         track_storage = new BlockTrackStorage().setBlockName("track_storage").setCreativeTab(RCMod.track);
 		
         path = new BlockPath().setBlockName("path").setCreativeTab(RCMod.decor);
@@ -42,7 +42,7 @@ public class RCBlocks {
 		ride_fence_triangle = new BlockRideFence().setBlockName("ride_fence_triangle").setBlockTextureName("rc:ride_fence_triangle").setCreativeTab(RCMod.decor);
 		ride_fence_square = new BlockRideFence().setBlockName("ride_fence_square").setBlockTextureName("rc:ride_fence_square").setCreativeTab(RCMod.decor);
 		
-		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.decor);
+		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(track_designer, "track_designer");

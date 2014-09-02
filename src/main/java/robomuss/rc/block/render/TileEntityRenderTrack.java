@@ -13,6 +13,8 @@ import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended2;
+import robomuss.rc.block.model.ModelFlumeFullTrack;
+import robomuss.rc.block.model.ModelFlumeTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
@@ -20,7 +22,20 @@ import robomuss.rc.tracks.TrackType;
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
-	public static ModelBase[] models = {new ModelCorkscrewCoaster(), new ModelCorkscrewCoasterExtended(), new ModelCorkscrewCoasterExtended2(), new ModelCorkscrewCoasterCorner()};
+	public static ModelBase[] models = {
+		new ModelCorkscrewCoaster(), 
+		new ModelCorkscrewCoasterExtended(), 
+		new ModelCorkscrewCoasterExtended2(), 
+		new ModelCorkscrewCoasterCorner(),
+		new ModelFlumeTrack(),
+		new ModelFlumeTrack(),
+		new ModelFlumeTrack(),
+		new ModelFlumeTrack(),
+		new ModelFlumeFullTrack(),
+		new ModelFlumeFullTrack(),
+		new ModelFlumeFullTrack(),
+		new ModelFlumeFullTrack(),
+		};
 	private ModelBase model;
 
 	public TileEntityRenderTrack() {
@@ -31,6 +46,11 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
+		TileEntityTrack tileentity = (TileEntityTrack) te;
+		if(tileentity.model >= models.length) {
+			tileentity.model = models.length - 1;
+		}
+		
 		this.model = models[((TileEntityTrack) te).model];
 		
 		int colour = ((TileEntityTrack) te).colour;
@@ -38,9 +58,6 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-
-		
-		
 		
 		Block block = te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord);
 		TrackType track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
