@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Created by Mark on 17/08/2014.
  */
-public class RenderStuff {
+public class RenderWorldLast {
 
     public static FloatBuffer modelviewF;
     public static FloatBuffer projectionF;
