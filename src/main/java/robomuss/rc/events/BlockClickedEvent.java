@@ -41,13 +41,13 @@ public class BlockClickedEvent {
 							TileEntityTrack te = (TileEntityTrack) tileentity;
 							int id = 100;
 							for(int i = 0; i < TrackHandler.types.size(); i++) {
-								//System.out.println("Looping: " + TrackHandler.types.get(i).getId());
 								if(te.type != null && TrackHandler.types.get(i).getId() == te.type.getId()) {
-									//System.out.println("Match of: " + te.type.getId() + " and " + TrackHandler.types.get(i).getId());
 									id = i;
 								}
 							}
-							te.type = TrackHandler.types.get(id + 1);
+							if(id < TrackHandler.types.size() - 1) {
+								te.type = TrackHandler.types.get(id + 1);
+							}
 							event.world.markBlockRangeForRenderUpdate(event.x, event.y, event.z, event.x, event.y, event.z);
 						}
 					}
