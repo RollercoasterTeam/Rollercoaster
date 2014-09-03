@@ -35,7 +35,6 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
-			//System.out.println("We have a null");
 			type = TrackHandler.types.get(0);
 		}
 		int colour = ((TileEntityTrack) te).colour;

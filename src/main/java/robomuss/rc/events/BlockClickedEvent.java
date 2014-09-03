@@ -39,7 +39,7 @@ public class BlockClickedEvent {
 						TileEntity tileentity = event.world.getTileEntity(event.x, event.y, event.z);
 						if(tileentity instanceof TileEntityTrack) {
 							TileEntityTrack te = (TileEntityTrack) tileentity;
-							int id = 100;
+							int id = 0;
 							for(int i = 0; i < TrackHandler.types.size(); i++) {
 								if(te.type != null && TrackHandler.types.get(i).getId() == te.type.getId()) {
 									id = i;

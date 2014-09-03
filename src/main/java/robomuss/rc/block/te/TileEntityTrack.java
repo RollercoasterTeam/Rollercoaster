@@ -21,6 +21,8 @@ public class TileEntityTrack extends TileEntity {
 	public int colour;
 	public TrackExtra extra;
 	public RollercoasterType type;
+	
+	private boolean converted = false;
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
@@ -28,6 +30,7 @@ public class TileEntityTrack extends TileEntity {
 		
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
+		converted = compound.getBoolean("converted");
 		for(int i = 0; i < TrackHandler.types.size(); i++) {
 			if(TrackHandler.types.get(i).getId().contains(compound.getString("typeName"))) {
 				type = TrackHandler.types.get(i);
@@ -42,15 +45,23 @@ public class TileEntityTrack extends TileEntity {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		
+		if(!converted) {
+			type = TrackHandler.types.get(0);
+			converted = true;
+		}
+		
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
 		compound.setString("typeName", type.getId());
+		compound.setBoolean("converted", converted);
 		if(extra != null) {
 			compound.setInteger("extraID", extra.id);
 		}
 		else {
 			compound.setInteger("extraID", -1);
 		}
+		
+		
 	}
 	
 	@Override
