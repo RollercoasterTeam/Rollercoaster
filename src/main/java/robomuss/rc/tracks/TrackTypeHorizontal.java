@@ -3,8 +3,10 @@ package robomuss.rc.tracks;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;
+import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackTypeHorizontal extends TrackType {
 
@@ -13,8 +15,9 @@ public class TrackTypeHorizontal extends TrackType {
 	}
 
 	@Override
-	public void render(ModelBase model, TileEntityTrack te) {
+	public void render(RollercoasterType type, TileEntityTrack te) {
 		rotate(te);
+		ModelBase model = type.getStandardModel();
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 	}
 

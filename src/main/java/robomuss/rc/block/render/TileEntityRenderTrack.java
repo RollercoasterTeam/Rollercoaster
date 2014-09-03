@@ -16,27 +16,14 @@ import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelFlumeFullTrack;
 import robomuss.rc.block.model.ModelFlumeTrack;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
-
-	public static ModelBase[] models = {
-		new ModelCorkscrewCoaster(), 
-		new ModelCorkscrewCoasterLarge(), 
-		new ModelCorkscrewCoasterExtended(), 
-		new ModelCorkscrewCoasterCorner(),
-		new ModelFlumeTrack(),
-		new ModelFlumeTrack(),
-		new ModelFlumeTrack(),
-		new ModelFlumeTrack(),
-		new ModelFlumeFullTrack(),
-		new ModelFlumeFullTrack(),
-		new ModelFlumeFullTrack(),
-		new ModelFlumeFullTrack(),
-		};
-	private ModelBase model;
+	
+	private RollercoasterType type;
 
 	public TileEntityRenderTrack() {
 		
@@ -46,13 +33,10 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
-		TileEntityTrack tileentity = (TileEntityTrack) te;
-		if(tileentity.model >= models.length) {
-			tileentity.model = models.length - 1;
+		type = ((TileEntityTrack) te).type;
+		if(type == null) {
+			type = TrackHandler.types.get(0);
 		}
-		
-		this.model = models[((TileEntityTrack) te).model];
-		
 		int colour = ((TileEntityTrack) te).colour;
 
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
@@ -69,7 +53,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.render(model, (TileEntityTrack) te);
+				track_type.render(type, (TileEntityTrack) te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -81,7 +65,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, model, (TileEntityTrack) te);
+				track_type.renderSpecial(i, type, (TileEntityTrack) te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}

@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;
+import robomuss.rc.rollercoaster.RollercoasterType;
 
 
 public class TrackTypeCurve extends TrackType {
@@ -17,10 +18,10 @@ public class TrackTypeCurve extends TrackType {
 	}
 	
 	@Override
-	public void renderSpecial(int renderStage, ModelBase model, TileEntityTrack te) {
+	public void renderSpecial(int renderStage, RollercoasterType type, TileEntityTrack te) {
 		rotate(te);
 		
-		model = Arrays.asList(TileEntityRenderTrack.models).get(((TileEntityTrack) te).model + 3);
+		ModelBase model = type.getCornerModel();
 		
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		

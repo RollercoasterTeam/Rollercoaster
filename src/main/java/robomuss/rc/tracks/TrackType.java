@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;
+import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackType {
 	
@@ -38,7 +39,7 @@ public class TrackType {
 		this.special_render_stages = special_render_stages;
 	}
 
-	public void render(ModelBase model, TileEntityTrack te) {
+	public void render(RollercoasterType type, TileEntityTrack te) {
 		
 	}
 	
@@ -71,7 +72,7 @@ public class TrackType {
 		return (float) (z + 0.5F);
 	}
 
-	public void renderSpecial(int renderStage, ModelBase model, TileEntityTrack te) {
+	public void renderSpecial(int renderStage, RollercoasterType type, TileEntityTrack te) {
 		
 	}
 

@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackTypeSlopeDown extends TrackType {
 
@@ -19,16 +20,16 @@ public class TrackTypeSlopeDown extends TrackType {
 	}
 	
 	@Override
-	public void renderSpecial(int renderStage, ModelBase model, TileEntityTrack te) {
+	public void renderSpecial(int renderStage, RollercoasterType type, TileEntityTrack te) {
 		rotate(te);
 		if(renderStage == 0) {
-			model = Arrays.asList(TileEntityRenderTrack.models).get(((TileEntityTrack) te).model + 2);
+			ModelBase model = type.getExtendedModel();
 			
 			GL11.glRotatef(45f, 0f, 0f, 1f);
 			model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
 		else if(renderStage == 1) {
-			model = Arrays.asList(TileEntityRenderTrack.models).get(((TileEntityTrack) te).model);
+			ModelBase model = type.getStandardModel();
 			
 			model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}

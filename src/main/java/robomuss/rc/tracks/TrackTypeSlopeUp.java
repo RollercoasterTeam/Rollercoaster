@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.OldEntityTrain;
+import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackTypeSlopeUp extends TrackType {
 
@@ -17,9 +18,10 @@ public class TrackTypeSlopeUp extends TrackType {
 	}
 
 	@Override
-	public void render(ModelBase model, TileEntityTrack te) {
+	public void render(RollercoasterType type, TileEntityTrack te) {
 		rotate(te);
 		
+		ModelBase model = type.getStandardModel();
 		GL11.glRotatef(45f, 0f, 0f, 1f);
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 	

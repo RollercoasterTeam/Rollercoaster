@@ -7,6 +7,9 @@ import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
 import robomuss.rc.block.model.ModelTires;
 import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.rollercoaster.RollercoasterTypeCorkscrew;
+import robomuss.rc.rollercoaster.RollercoasterTypeFlumeEnclosed;
+import robomuss.rc.rollercoaster.RollercoasterTypeFlumeOpen;
 import robomuss.rc.tracks.extra.TrackExtra;
 import robomuss.rc.tracks.extra.TrackExtraChain;
 
@@ -36,6 +39,10 @@ public class TrackHandler {
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), TrackHandler.findTrackType("horizontal")));
+		
+		types.add(new RollercoasterTypeCorkscrew(0));
+		types.add(new RollercoasterTypeFlumeOpen(1));
+		types.add(new RollercoasterTypeFlumeEnclosed(2));
 	}
 
 	public static TrackType findTrackType(Item item) {

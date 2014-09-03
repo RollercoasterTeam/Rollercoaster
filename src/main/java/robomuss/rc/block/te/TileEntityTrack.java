@@ -8,6 +8,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 import robomuss.rc.tracks.extra.TrackExtra;
@@ -18,8 +19,8 @@ public class TileEntityTrack extends TileEntity {
 
 	public int direction;
 	public int colour;
-	public int model;
 	public TrackExtra extra;
+	public RollercoasterType type;
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
@@ -27,7 +28,7 @@ public class TileEntityTrack extends TileEntity {
 		
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
-		model = compound.getInteger("model");
+		type = TrackHandler.types.get(compound.getInteger("typeID"));
 		
 		int extraID = compound.getInteger("extraID");
 		extra = extraID == -1 ? null : TrackHandler.extras.get(extraID);
@@ -39,7 +40,7 @@ public class TileEntityTrack extends TileEntity {
 		
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
-		compound.setInteger("model", model);
+		compound.setInteger("typeID", type.getId());
 		if(extra != null) {
 			compound.setInteger("extraID", extra.id);
 		}

@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
+import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.util.IPaintable;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -41,7 +42,7 @@ public class BlockClickedEvent {
 						if(tileentity instanceof TileEntityTrack) {
 							System.out.println("te");
 							TileEntityTrack te = (TileEntityTrack) tileentity;
-							te.model += 4;
+							te.type = TrackHandler.types.get(te.type.getId() + 1);
 							event.world.markBlockRangeForRenderUpdate(event.x, event.y, event.z, event.x, event.y, event.z);
 						}
 					}

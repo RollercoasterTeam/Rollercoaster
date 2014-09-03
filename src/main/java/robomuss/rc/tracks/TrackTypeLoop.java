@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackTypeLoop extends TrackType {
 
@@ -14,7 +15,7 @@ public class TrackTypeLoop extends TrackType {
 	}
 
 	@Override
-	public void renderSpecial(int renderStage, ModelBase model, TileEntityTrack te) {
+	public void renderSpecial(int renderStage, RollercoasterType type, TileEntityTrack te) {
 		rotate(te);
 		if(renderStage == 0) {
 			//GL11.glTranslatef((float) te.xCoord + 0.5F, (float) te.yCoord + 1.5F, (float) te.zCoord + 0.5F);
@@ -24,6 +25,7 @@ public class TrackTypeLoop extends TrackType {
 				if(i == 10) {
 					GL11.glRotatef(20f, 0f, 1f, 0f);
 				}
+				ModelBase model = type.getStandardModel();
 				model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glRotatef(0f, 0f, 0f, 0f);
 				GL11.glTranslatef(0f, 0f, 0f);
@@ -37,6 +39,7 @@ public class TrackTypeLoop extends TrackType {
 				if(i == 10) {
 					GL11.glRotatef(20f, 0f, 1f, 0f);
 				}
+				ModelBase model = type.getStandardModel();
 				model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 				GL11.glRotatef(0f, 0f, 0f, 0f);
 				GL11.glTranslatef(0f, 0f, 0f);
