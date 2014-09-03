@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
 import robomuss.rc.block.model.ModelTires;
+import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.extra.TrackExtra;
 import robomuss.rc.tracks.extra.TrackExtraChain;
 
@@ -13,6 +14,7 @@ public class TrackHandler {
 
 	public static ArrayList<TrackType> tracks = new ArrayList<TrackType>();
 	public static ArrayList<TrackExtra> extras = new ArrayList<TrackExtra>();
+	public static ArrayList<RollercoasterType> types = new ArrayList<RollercoasterType>();
 	
 	public static void registerTracks() {
 		TrackHandler.tracks.add(new TrackTypeHorizontal("horizontal", 3));
