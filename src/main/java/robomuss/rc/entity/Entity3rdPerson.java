@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 
 import robomuss.rc.block.te.TileEntityTrackDesigner;
-import robomuss.rc.events.RenderWorldLast;
+import robomuss.rc.events.RenderStuff;
 
 /**
  * Created by Mark on 17/08/2014.
@@ -116,9 +116,9 @@ public class Entity3rdPerson extends EntityLivingBase {
         Vec3 localPos = this.getPosition(1.0F);
         Vec3 look = this.getLook(1.0F).normalize();
 
-        localPos.xCoord += RenderWorldLast.diffX;
-        localPos.yCoord += RenderWorldLast.diffY;
-        localPos.zCoord += RenderWorldLast.diffZ;
+        localPos.xCoord += RenderStuff.diffX;
+        localPos.yCoord += RenderStuff.diffY;
+        localPos.zCoord += RenderStuff.diffZ;
 
         Vec3 vec32 = localPos.addVector(look.xCoord * distance, look.yCoord * distance, look.zCoord * distance);
 
