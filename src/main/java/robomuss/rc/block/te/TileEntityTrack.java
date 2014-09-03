@@ -29,7 +29,7 @@ public class TileEntityTrack extends TileEntity {
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
 		for(int i = 0; i < TrackHandler.types.size(); i++) {
-			if(TrackHandler.types.get(i).getId() == compound.getString("typeName")) {
+			if(TrackHandler.types.get(i).getId().contains(compound.getString("typeName"))) {
 				type = TrackHandler.types.get(i);
 			}
 		}
@@ -44,13 +44,7 @@ public class TileEntityTrack extends TileEntity {
 		
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
-		if(type == null) {
-			System.out.println("Type is null");
-		}
-		else {
-			System.out.println("Type isnt null");
-		}
-		//compound.setString("typeName", type.getId());
+		compound.setString("typeName", type.getId());
 		if(extra != null) {
 			compound.setInteger("extraID", extra.id);
 		}
