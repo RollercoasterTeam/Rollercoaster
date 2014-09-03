@@ -73,13 +73,8 @@ public class TileEntityTrack extends TileEntity {
 		}
 	}
 	
-	/*@Override
+	@Override
 	public boolean canUpdate() {
 		return false;
-	}*/
-	
-	@Override
-	public void updateEntity() {
-		System.out.println("Model No.: " + model);
 	}
 }

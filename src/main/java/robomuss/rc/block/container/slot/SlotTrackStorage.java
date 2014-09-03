@@ -4,7 +4,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import robomuss.rc.block.RCBlocks;
+import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 
 public class SlotTrackStorage extends Slot {
@@ -15,7 +15,7 @@ public class SlotTrackStorage extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
-		for(TrackType track : RCBlocks.tracks) {
+		for(TrackType track : TrackHandler.tracks) {
 			if(itemstack.getItem() == Item.getItemFromBlock(track.block)) {
 				return true;
 			}

@@ -3,7 +3,6 @@ package robomuss.rc.tracks;
 import java.util.ArrayList;
 
 import net.minecraft.item.Item;
-import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
 import robomuss.rc.block.model.ModelTires;
@@ -12,16 +11,17 @@ import robomuss.rc.tracks.extra.TrackExtraChain;
 
 public class TrackHandler {
 
+	public static ArrayList<TrackType> tracks = new ArrayList<TrackType>();
 	public static ArrayList<TrackExtra> extras = new ArrayList<TrackExtra>();
 	
 	public static void registerTracks() {
-		RCBlocks.tracks.add(new TrackTypeHorizontal("horizontal", 3));
-		RCBlocks.tracks.add(new TrackTypeSlopeUp("slope_up", 3));
-		RCBlocks.tracks.add(new TrackTypeSlope("slope", 3));
-		RCBlocks.tracks.add(new TrackTypeSlopeDown("slope_down", 3, 2));
-		RCBlocks.tracks.add(new TrackTypeCurve("curve", 3, 3));
-		RCBlocks.tracks.add(new TrackTypeLoop("loop", 10, 2));
-		RCBlocks.tracks.add(new TrackTypeHeartlineRoll("heartline_roll", 12, 19));
+		TrackHandler.tracks.add(new TrackTypeHorizontal("horizontal", 3));
+		TrackHandler.tracks.add(new TrackTypeSlopeUp("slope_up", 3));
+		TrackHandler.tracks.add(new TrackTypeSlope("slope", 3));
+		TrackHandler.tracks.add(new TrackTypeSlopeDown("slope_down", 3, 2));
+		TrackHandler.tracks.add(new TrackTypeCurve("curve", 3, 3));
+		TrackHandler.tracks.add(new TrackTypeLoop("loop", 10, 2));
+		TrackHandler.tracks.add(new TrackTypeHeartlineRoll("heartline_roll", 12, 19));
 		
 		/*RCBlocks.tracks.add(new TrackTypeHorizontal("inverted_horizontal", 3).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeSlopeUp("inverted_slope_up", 3).invertTrack());
@@ -37,7 +37,7 @@ public class TrackHandler {
 	}
 
 	public static TrackType findTrackType(Item item) {
-		for(TrackType track : RCBlocks.tracks) {
+		for(TrackType track : TrackHandler.tracks) {
 			if(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length() - 6).equalsIgnoreCase(track.unlocalized_name)) {
 				return track;
 			}
@@ -46,7 +46,7 @@ public class TrackHandler {
 	}
 	
 	public static TrackType findTrackType(String name) {
-		for(TrackType track : RCBlocks.tracks) {
+		for(TrackType track : TrackHandler.tracks) {
 			if(name.equalsIgnoreCase(track.unlocalized_name)) {
 				return track;
 			}
@@ -55,7 +55,7 @@ public class TrackHandler {
 	}
 
 	public static TrackType findTrackTypeFull(String name) {
-		for(TrackType track : RCBlocks.tracks) {
+		for(TrackType track : TrackHandler.tracks) {
 			if(name.equalsIgnoreCase("tile." + track.unlocalized_name + "_track")) {
 				return track;
 			}

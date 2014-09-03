@@ -108,7 +108,7 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         if(isTop) {
 	    	for(int i = 0; i < supportHeight / 2; i++) {
 	    		GL11.glPushMatrix();
-	            GL11.glTranslatef((float) x + 0.5F, (float) y + 1.3F - supportHeight + (i * 2.5f), (float) z + 0.5F);
+	            GL11.glTranslatef((float) x + 0.5F, (float) y + 1.3F - supportHeight + (i * 2), (float) z + 0.5F);
 	            GL11.glRotatef(180, 1, 0, 0);
 	            Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 	

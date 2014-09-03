@@ -1,6 +1,5 @@
 package robomuss.rc.block;
 
-import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import robomuss.rc.RCMod;
@@ -12,18 +11,18 @@ import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 import robomuss.rc.item.ItemBlockPath;
+import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCBlocks {
 
 	public static int last_track_id;
-	public static ArrayList<TrackType> tracks = new ArrayList<TrackType>();
 	public static Block support, path, railings, picket, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, track_designer, track_fabricator, track_storage;
 	public static Block footer;
 	
 	public static void init() {
-		for(TrackType track: tracks) {
+		for(TrackType track: TrackHandler.tracks) {
 			track.block = new BlockTrack(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
 			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
 		}
