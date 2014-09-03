@@ -35,7 +35,7 @@ public class BlockClickedEvent {
 			if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 				if(event.entityPlayer.isSneaking()) {
 					System.out.println("Sneaking");
-					if(event.entityPlayer.getHeldItem().getItem() != null && event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
+					if(event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
 						System.out.println("Hammer");
 						TileEntity tileentity = event.world.getTileEntity(event.x, event.y, event.z);
 						if(tileentity instanceof TileEntityTrack) {
