@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
+import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
-import robomuss.rc.block.model.ModelCorkscrewCoasterExtended2;
 import robomuss.rc.block.model.ModelFlumeFullTrack;
 import robomuss.rc.block.model.ModelFlumeTrack;
 import robomuss.rc.block.te.TileEntityTrack;
@@ -24,8 +24,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
 	public static ModelBase[] models = {
 		new ModelCorkscrewCoaster(), 
+		new ModelCorkscrewCoasterLarge(), 
 		new ModelCorkscrewCoasterExtended(), 
-		new ModelCorkscrewCoasterExtended2(), 
 		new ModelCorkscrewCoasterCorner(),
 		new ModelFlumeTrack(),
 		new ModelFlumeTrack(),
