@@ -16,8 +16,8 @@ public class RollercoasterTypeCorkscrew extends RollercoasterType {
 	private ModelBase extended = new ModelCorkscrewCoasterExtended();
 	private ModelBase corner = new ModelCorkscrewCoasterCorner();
 	
-	public RollercoasterTypeCorkscrew(int id) {
-		super(id);
+	public RollercoasterTypeCorkscrew(String name) {
+		super(name);
 	}
 
 	@Override

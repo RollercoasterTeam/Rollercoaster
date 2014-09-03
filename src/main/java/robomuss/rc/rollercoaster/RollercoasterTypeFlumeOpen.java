@@ -7,18 +7,18 @@ import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
-import robomuss.rc.block.model.ModelFlumeTrack;
+import robomuss.rc.block.model.ModelFlumeOpen;
 import robomuss.rc.tracks.TrackType;
 
 public class RollercoasterTypeFlumeOpen extends RollercoasterType {
 
-	private ModelBase standard = new ModelFlumeTrack();
-	private ModelBase large = new ModelFlumeTrack();
-	private ModelBase extended = new ModelFlumeTrack();
-	private ModelBase corner = new ModelFlumeTrack();
+	private ModelBase standard = new ModelFlumeOpen();
+	private ModelBase large = new ModelFlumeOpen();
+	private ModelBase extended = new ModelFlumeOpen();
+	private ModelBase corner = new ModelFlumeOpen();
 	
-	public RollercoasterTypeFlumeOpen(int id) {
-		super(id);
+	public RollercoasterTypeFlumeOpen(String name) {
+		super(name);
 	}
 
 	@Override

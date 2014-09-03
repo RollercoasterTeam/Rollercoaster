@@ -13,8 +13,8 @@ import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
-import robomuss.rc.block.model.ModelFlumeFullTrack;
-import robomuss.rc.block.model.ModelFlumeTrack;
+import robomuss.rc.block.model.ModelFlumeEnclosed;
+import robomuss.rc.block.model.ModelFlumeOpen;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;
@@ -35,6 +35,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
+			//System.out.println("We have a null");
 			type = TrackHandler.types.get(0);
 		}
 		int colour = ((TileEntityTrack) te).colour;

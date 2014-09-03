@@ -11,10 +11,10 @@ import net.minecraft.client.model.ModelBase;
 
 public abstract class RollercoasterType {
 	
-	private int id;
+	private String name;
 	
-	public RollercoasterType(int id) {
-		this.id = id;
+	public RollercoasterType(String name) {
+		this.name = name;
 	}
  	
 	public abstract ModelBase getStandardModel();
@@ -27,7 +27,7 @@ public abstract class RollercoasterType {
 	
 	public abstract ArrayList<TrackType> getBlacklistedTrackTypes();
 	
-	public int getId() {
-		return id;
+	public String getId() {
+		return name;
 	}
 }

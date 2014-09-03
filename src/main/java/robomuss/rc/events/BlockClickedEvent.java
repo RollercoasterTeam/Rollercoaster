@@ -36,13 +36,23 @@ public class BlockClickedEvent {
 			if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 				if(event.entityPlayer.isSneaking()) {
 					System.out.println("Sneaking");
-					if(event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
+					if(event.entityPlayer.getHeldItem().getItem() != null && event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
 						System.out.println("Hammer");
 						TileEntity tileentity = event.world.getTileEntity(event.x, event.y, event.z);
 						if(tileentity instanceof TileEntityTrack) {
 							System.out.println("te");
 							TileEntityTrack te = (TileEntityTrack) tileentity;
-							te.type = TrackHandler.types.get(te.type.getId() + 1);
+							int id = 100;
+							for(int i = 0; i < TrackHandler.types.size(); i++) {
+								System.out.println("Looping: " + TrackHandler.types.get(i).getId());
+								if(te.type != null && TrackHandler.types.get(i).getId() == te.type.getId()) {
+									System.out.println("Match of: " + te.type.getId() + " and " + TrackHandler.types.get(i).getId());
+									id = i;
+								}
+							}
+							System.out.println("Id: " + id);
+							te.type = TrackHandler.types.get(id + 1);
+							System.out.println("Id: " + te.type.getId());
 							event.world.markBlockRangeForRenderUpdate(event.x, event.y, event.z, event.x, event.y, event.z);
 						}
 					}

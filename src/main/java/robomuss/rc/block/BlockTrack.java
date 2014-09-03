@@ -144,6 +144,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
     	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
+    	System.out.println("Adding block");
     	te.type = TrackHandler.types.get(0);
     }
 }
