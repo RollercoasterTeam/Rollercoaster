@@ -105,41 +105,6 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	public int getPaintMeta(World world, int x, int y, int z) {
 		return ((TileEntityTrack) world.getTileEntity(x, y, z)).colour;
 	}
-
-    @Override
-    public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
-        if(par5Entity instanceof OldEntityTrain && par5Entity != null){
-            onTrainCollidedWithBlock(par1World, par2, par3, par4, (OldEntityTrain) par5Entity);
-        }
-    }
-
-    public void onTrainCollidedWithBlock(World world, int x, int y, int z, OldEntityTrain train) {
-        TrackType trackType = unLocalNameTotrack(this);
-        if(trackType != null){
-            trackType.onTrainCollidedWithTrack(world, x, y, z, train);
-        }
-
-    }
-
-    public TrackType unLocalNameTotrack(Block block){
-        String name = block.getUnlocalizedName();
-        if(name.equals("tile.horizontal_track")){
-            return TrackHandler.findTrackType("horizontal");
-        } else if(name.equals("tile.slope_up_track")){
-            return TrackHandler.findTrackType("slope_up");
-        } else if(name.equals("tile.slope_track")){
-            return TrackHandler.findTrackType("slope");
-        } else if(name.equals("tile.slope_down_track")){
-            return TrackHandler.findTrackType("slope_down");
-        } else if(name.equals("tile.loop_track")){
-            return TrackHandler.findTrackType("loop");
-        } else if(name.equals("tile.heartline_roll_track")){
-            return TrackHandler.findTrackType("heartline_roll");
-        }else if(name.equals("tile.curve_track")){
-            return TrackHandler.findTrackType("curve");
-        }
-        return null;
-    }
     
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {

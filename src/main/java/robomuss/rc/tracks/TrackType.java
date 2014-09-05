@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
@@ -96,7 +97,7 @@ public class TrackType {
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
 	}
 
-    public void onTrainCollidedWithTrack(World world, int x, int y, int z, OldEntityTrain train) {
+    public void moveTrain(TileEntityTrack te, EntityTrain entity) {
 
     }
     

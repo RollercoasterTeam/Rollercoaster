@@ -51,72 +51,58 @@ public class EntityTrainDefault extends EntityTrain
     
     boolean firstTick = false;
     boolean selfPowered = true;
-    boolean onSlope = false;
     int count = 0;
     
     @Override
     public void onUpdate() {
     	TileEntity tileentity = null;
-    	if(onSlope) {
-    		tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY + 1, (int) posZ + 1);
-    	}
-    	else {
-    		tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
-    	}
+    	tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
     	if(!firstTick) {
     		rotateOnPlace(tileentity);
 	    	firstTick = true;
     	}
     	if(firstTick) {
-    		//if(worldObj.isRemote) {
-		    	if(selfPowered) {
-		    		if((tileentity != null & tileentity instanceof TileEntityTrack) /*|| onSlope*/) {
-		    			TileEntityTrack te = (TileEntityTrack) tileentity;
-				    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
-				    		if(te.direction == 0) {
-				    			this.posZ += 0.1f;
-				    		}
-				    		if(te.direction == 2) {
-				    			this.posZ -= 0.1f;
-				    		}
-				    	}
-				    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope_up")) {
-				    		if(te.direction == 0) {
-				    			this.posZ += 1f;
-				    			
-				    		}
-				    		if(te.direction == 2) {
-				    			this.posZ -= 1f;
-				    		}
-				    		this.rotationPitch = 45f;
-				    		this.posY += 1f;
-				    		//onSlope = true;
-				    	}
-				    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope")) {
-				    		this.posY += 1f;
-				    		this.posZ += 1f;
+	    	if(selfPowered) {
+	    		if((tileentity != null & tileentity instanceof TileEntityTrack)) {
+	    			TileEntityTrack te = (TileEntityTrack) tileentity;
+	    			getTrackTypeFromTE(tileentity).moveTrain(te, this);
+			    	
+			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope_up")) {
+			    		if(te.direction == 0) {
+			    			this.posZ += 1f;
+			    			
+			    		}
+			    		if(te.direction == 2) {
+			    			this.posZ -= 1f;
+			    		}
+			    		this.rotationPitch = 45f;
+			    		this.posY += 1f;
+			    		//onSlope = true;
+			    	}
+			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope")) {
+			    		this.posY += 1f;
+			    		this.posZ += 1f;
 
-				    	}
-				    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope_down")) {
-				    		this.posY += 1f;
-				    		this.posZ += 3f;
-				    		this.rotationPitch = 0f;
-				    	}
-				    	/*if(onSlope) {
-				    		this.posY += 0.1f;
-				    		this.posZ += 0.1f;
-				    		count++;
-				    		if(count >= 10) {
-				    			count = 0;
-				    			onSlope = false;
-				    		}
-				    	}*/
-		    		}
-		    		else {
-		    			System.out.println("OOhhh?");
-		    		}
-		    	}
-	    	//}
+			    	}
+			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope_down")) {
+			    		this.posY += 1f;
+			    		this.posZ += 3f;
+			    		this.rotationPitch = 0f;
+			    	}
+			    	/*if(onSlope) {
+			    		this.posY += 0.1f;
+			    		this.posZ += 0.1f;
+			    		count++;
+			    		if(count >= 10) {
+			    			count = 0;
+			    			onSlope = false;
+			    		}
+			    	}*/
+	    		}
+	    		else {
+	    			System.out.println("OOhhh?");
+	    		}
+	    	}
     	}
     }
     

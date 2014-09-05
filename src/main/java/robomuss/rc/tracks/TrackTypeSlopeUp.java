@@ -36,27 +36,4 @@ public class TrackTypeSlopeUp extends TrackType {
 		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
 	}
 
-    @Override
-    public void onTrainCollidedWithTrack(World world, int x, int y, int z, OldEntityTrain train) {
-        super.onTrainCollidedWithTrack(world, x, y, z, train);
-        if(world.isBlockIndirectlyGettingPowered(x, y -1 , z))
-            return;
-        double m_speed = 0.2D;
-        TileEntityTrack tile = (TileEntityTrack) world.getTileEntity(x, y, z);
-        int a = tile.direction;
-        int[] ax = { 0, 1, 0, -1 };
-        int[] az = { -1, 0, 1, 0 };
-        if (train != null) {
-            if ((ax[a] == 0) && (Math.abs(x + 0.5D - train.posX) < 0.5D) && (Math.abs(x + 0.5D - train.posX) > 0.1D)) {
-                train.motionX += Math.signum(x + 0.5D - train.posX) * Math.min(m_speed, Math.abs(x + 0.5D - train.posX)) / 1.2D;
-            }
-            if ((az[a] == 0) && (Math.abs(z + 0.5D - train.posZ) < 0.5D) && (Math.abs(z + 0.5D - train.posZ) > 0.1D)) {
-                train.motionZ += Math.signum(z + 0.5D - train.posZ) * Math.min(m_speed, Math.abs(z + 0.5D - train.posZ)) / 1.2D;
-            }
-            train.motionX += ax[a] * m_speed;
-            train.motionZ += az[a] * m_speed;
-            train.motionY += 0.1;
-        }
-    }
-
 }
