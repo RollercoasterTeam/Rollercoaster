@@ -58,8 +58,7 @@ public class EntityTrainDefault extends EntityTrain
     
     @Override
     public void onUpdate() {
-    	TileEntity tileentity = null;
-    	tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
+    	TileEntity tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
     	if(!firstTick) {
     		rotateOnPlace(tileentity);
 	    	firstTick = true;

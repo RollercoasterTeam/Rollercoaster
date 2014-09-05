@@ -2,16 +2,20 @@ package robomuss.rc.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockRedstoneLight;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.item.ItemExtra;
+import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
@@ -111,4 +115,16 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
     	te.type = TrackHandler.types.get(0);
     }
+    
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        if(!world.isRemote) {
+            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                EntityTrain entity = ItemTrain.spawnCart(world, x, y, z);
+                
+                world.spawnEntityInWorld(entity);
+            }
+        }
+    }
+    
 }

@@ -19,14 +19,17 @@ public class ItemTrain extends Item {
 
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			EntityTrain entity = EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
+			EntityTrain entity = spawnCart(world, x, y, z);
 			if(stack.hasDisplayName()) {
 				entity.setMinecartName(stack.getDisplayName());
 			}
 			world.spawnEntityInWorld(entity);
 		}
-
 		--stack.stackSize;
 		return true;
+	}
+	
+	public static EntityTrain spawnCart(World world, int x, int y, int z) {
+		return EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
 	}
 }
