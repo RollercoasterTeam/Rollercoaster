@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.item.Item;
 import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
+import robomuss.rc.block.model.ModelStation;
 import robomuss.rc.block.model.ModelTires;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.rollercoaster.RollercoasterTypeCorkscrew;
@@ -39,6 +40,7 @@ public class TrackHandler {
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtra("station", new ModelStation(), TrackHandler.findTrackType("horizontal")));
 		
 		types.add(new RollercoasterTypeCorkscrew("corkscrew"));
 		types.add(new RollercoasterTypeFlumeOpen("flume_open"));
