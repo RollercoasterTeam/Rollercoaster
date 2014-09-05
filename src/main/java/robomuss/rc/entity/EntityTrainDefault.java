@@ -66,41 +66,6 @@ public class EntityTrainDefault extends EntityTrain
 	    		if((tileentity != null & tileentity instanceof TileEntityTrack)) {
 	    			TileEntityTrack te = (TileEntityTrack) tileentity;
 	    			getTrackTypeFromTE(tileentity).moveTrain(te, this);
-			    	
-			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope_up")) {
-			    		if(te.direction == 0) {
-			    			this.posZ += 1f;
-			    			
-			    		}
-			    		if(te.direction == 2) {
-			    			this.posZ -= 1f;
-			    		}
-			    		this.rotationPitch = 45f;
-			    		this.posY += 1f;
-			    		//onSlope = true;
-			    	}
-			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope")) {
-			    		this.posY += 1f;
-			    		this.posZ += 1f;
-
-			    	}
-			    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("slope_down")) {
-			    		this.posY += 1f;
-			    		this.posZ += 3f;
-			    		this.rotationPitch = 0f;
-			    	}
-			    	/*if(onSlope) {
-			    		this.posY += 0.1f;
-			    		this.posZ += 0.1f;
-			    		count++;
-			    		if(count >= 10) {
-			    			count = 0;
-			    			onSlope = false;
-			    		}
-			    	}*/
-	    		}
-	    		else {
-	    			System.out.println("OOhhh?");
 	    		}
 	    	}
     	}

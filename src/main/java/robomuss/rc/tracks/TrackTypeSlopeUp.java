@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
@@ -36,4 +37,16 @@ public class TrackTypeSlopeUp extends TrackType {
 		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
 	}
 
+	@Override
+	public void moveTrain(TileEntityTrack te, EntityTrain entity) {
+		if(te.direction == 0) {
+			entity.posZ += 1f;
+			
+		}
+		if(te.direction == 2) {
+			entity.posZ -= 1f;
+		}
+		entity.rotationPitch = 45f;
+		entity.posY += 1f;
+	}
 }

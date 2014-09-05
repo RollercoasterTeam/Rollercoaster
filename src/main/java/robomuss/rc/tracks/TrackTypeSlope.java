@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
@@ -57,5 +58,11 @@ public class TrackTypeSlope extends TrackType {
 			return AxisAlignedBB.getBoundingBox(0, 0, 0, 2, 1, 1);
 		}
 		return super.getBlockBounds(iba, x, y, z);
+	}
+	
+	@Override
+	public void moveTrain(TileEntityTrack te, EntityTrain entity) {
+		entity.posY += 1f;
+		entity.posZ += 1f;
 	}
 }
