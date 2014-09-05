@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackTypeSlopeDown extends TrackType {
@@ -83,7 +84,7 @@ public class TrackTypeSlopeDown extends TrackType {
 	}
 	
 	@Override
-	public void moveTrain(TileEntityTrack te, EntityTrain entity) {
+	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
 		entity.posY += 1f;
 		entity.posZ += 3f;
 		entity.rotationPitch = 0f;

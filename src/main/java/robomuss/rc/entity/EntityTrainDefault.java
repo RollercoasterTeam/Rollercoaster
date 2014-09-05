@@ -13,7 +13,11 @@ import robomuss.rc.tracks.TrackType;
 
 public class EntityTrainDefault extends EntityTrain
 {
-    private static final String __OBFID = "CL_00001677";
+	//North = 0
+	//East  = 1
+	//South = 2
+	//West  = 3
+    public int direction = 0;
 
     public EntityTrainDefault(World p_i1722_1_)
     {
@@ -34,7 +38,6 @@ public class EntityTrainDefault extends EntityTrain
         //if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, p_130002_1_))) return true;
         if (!this.worldObj.isRemote) {
         	if(player.isSneaking()) {
-        		System.out.println("Sneaking!");
         		this.setDead();
         	}
         	else {
@@ -56,7 +59,7 @@ public class EntityTrainDefault extends EntityTrain
     @Override
     public void onUpdate() {
     	TileEntity tileentity = null;
-    	tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
+    	tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
     	if(!firstTick) {
     		rotateOnPlace(tileentity);
 	    	firstTick = true;
@@ -64,8 +67,7 @@ public class EntityTrainDefault extends EntityTrain
     	if(firstTick) {
 	    	if(selfPowered) {
 	    		if((tileentity != null & tileentity instanceof TileEntityTrack)) {
-	    			TileEntityTrack te = (TileEntityTrack) tileentity;
-	    			getTrackTypeFromTE(tileentity).moveTrain(te, this);
+	    			getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
 	    		}
 	    	}
     	}
@@ -93,6 +95,7 @@ public class EntityTrainDefault extends EntityTrain
 	    		else if(te.direction == 3) {
 	    			this.rotationYaw = 180f;
 	    		}
+	    		this.direction = te.direction;
 	    	}
     	}
 	}
