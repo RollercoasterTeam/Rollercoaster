@@ -96,6 +96,14 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	 this.model.middle2.render(0.0625F);  
         }
         
+        if(above instanceof BlockTrack) {
+        	BlockTrack track = (BlockTrack) above;
+        	if(track.track_type == TrackHandler.findTrackType("horizontal")) {
+        		 this.model.middle.render(0.0625F);  
+            	 this.model.middle2.render(0.0625F);  
+        	}
+        }
+        
         GL11.glPopMatrix();
         
         GL11.glPushMatrix();
