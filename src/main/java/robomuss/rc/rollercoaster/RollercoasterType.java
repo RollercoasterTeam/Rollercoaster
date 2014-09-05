@@ -27,6 +27,8 @@ public abstract class RollercoasterType {
 	
 	public abstract ArrayList<TrackType> getBlacklistedTrackTypes();
 	
+	public abstract boolean isRiddenUsingCart();
+	
 	public String getId() {
 		return name;
 	}

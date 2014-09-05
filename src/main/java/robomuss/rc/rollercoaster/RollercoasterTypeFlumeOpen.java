@@ -46,4 +46,9 @@ public class RollercoasterTypeFlumeOpen extends RollercoasterType {
 		return null;
 	}
 
+	@Override
+	public boolean isRiddenUsingCart() {
+		return false;
+	}
+
 }

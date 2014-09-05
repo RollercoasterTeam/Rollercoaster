@@ -45,4 +45,9 @@ public class RollercoasterTypeCorkscrew extends RollercoasterType {
 		return null;
 	}
 
+	@Override
+	public boolean isRiddenUsingCart() {
+		return true;
+	}
+
 }
