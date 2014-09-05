@@ -119,11 +119,14 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if(!world.isRemote) {
-            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                EntityTrain entity = ItemTrain.spawnCart(world, x, y, z);
-                
-                world.spawnEntityInWorld(entity);
-            }
+        	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
+        	if(te.extra == TrackHandler.extras.get(3)) {
+	            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
+	                EntityTrain entity = ItemTrain.spawnCart(world, x, y, z);
+	                
+	                world.spawnEntityInWorld(entity);
+	            }
+        	}
         }
     }
     
