@@ -5,11 +5,9 @@ Rollercoaster mod for minecraft!
 
 TODO
 =============
--Footer Texture [robo]
--Track Connectors (Support to track) [robo]
 -Updates to Railings [robo]
--Trains movement [modmuss]
--Trains Interacting with track extras [unassigned]
+-Trains movement [robo] (Nearly finished)
+-Trains Interacting with track extras [robo] (Will do next)
 -Train Texture Customisations / Painting [robo]
 -Train Model Customisation [robo]
 -Inverted Track System [robo]
