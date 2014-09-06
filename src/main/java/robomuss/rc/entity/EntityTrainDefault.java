@@ -69,12 +69,11 @@ public class EntityTrainDefault extends EntityTrain
 	    			getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
 	    		}
 	    		else {
-	    			System.out.println("Checking alt!");
 	    			TileEntity altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
-	    			//worldObj.setBlock((int) posX - 1, (int) posY - 1, (int) posZ - 2, Blocks.bookshelf);
+	    			//worldObj.setBlock((int) posX - 1, (int) posY - 1, (int) posZ - 1, Blocks.bookshelf);
 	    			if((altTileEntity != null && altTileEntity instanceof TileEntityTrack)) {
-	    				System.out.println("Calling alt!");
-	    				getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) altTileEntity, this);
+	    				System.out.println(getTrackTypeFromTE(altTileEntity).unlocalized_name);
+	    				getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
 	    			}
 	    		}
 	    	}
@@ -84,13 +83,8 @@ public class EntityTrainDefault extends EntityTrain
     private TrackType getTrackTypeFromTE(TileEntity tileentity) {
     	TileEntityTrack te = (TileEntityTrack) tileentity;
     	BlockTrack block;
-    	if(te != null) {
-    		block = (BlockTrack) te.getBlockType();
-    		return block.track_type;
-    	}
-    	else {
-    		return TrackHandler.findTrackType("horizontal");
-    	}
+		block = (BlockTrack) te.getBlockType();
+		return block.track_type;
 	}
     
     private void rotateOnPlace(TileEntity tileentity) {

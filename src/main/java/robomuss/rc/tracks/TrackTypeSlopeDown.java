@@ -85,17 +85,19 @@ public class TrackTypeSlopeDown extends TrackType {
 	
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
+		
 		if(te.direction == 0) {
-			//if(entity.direction == 0) {
+			System.out.println("Direction: " + entity.direction);
+			if(entity.direction == 0) {
 				entity.posY += 1f;
 				entity.posZ += 3f;
 				entity.rotationPitch = 0f;
-			//}
-			/*if(entity.direction == 2) {
-				entity.posY += 1f;
+			}
+			if(entity.direction == 2) {
+				entity.posY -= 2f;
 				entity.posZ -= 3f;
-				entity.rotationPitch = 0f;
-			}*/
+				entity.rotationPitch = -45f;
+			}
 		}
 	}
 }

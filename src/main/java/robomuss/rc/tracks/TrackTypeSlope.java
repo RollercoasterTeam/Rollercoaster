@@ -63,7 +63,15 @@ public class TrackTypeSlope extends TrackType {
 	
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
-		entity.posY += 1f;
-		entity.posZ += 1f;
+		if(te.direction == 0) {
+			if(entity.direction == 0) {
+				entity.posY += 1f;
+				entity.posZ += 1f;
+			}
+			if(entity.direction == 2) {
+				entity.posY -= 1f;
+				entity.posZ -= 1f;
+			}
+		}
 	}
 }
