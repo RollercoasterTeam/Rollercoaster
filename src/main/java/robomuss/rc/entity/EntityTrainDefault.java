@@ -53,7 +53,7 @@ public class EntityTrainDefault extends EntityTrain
     }
     
     boolean firstTick = false;
-    boolean selfPowered = true;
+    public boolean selfPowered = false;
     int count = 0;
     
     @Override

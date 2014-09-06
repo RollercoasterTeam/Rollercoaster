@@ -78,7 +78,7 @@ public abstract class EntityTrain extends Entity
      * MinecartChest, 2 for MinecartFurnace, 3 for MinecartTNT, 4 for MinecartMobSpawner, 5 for MinecartHopper and 0 for
      * a standard empty minecart
      */
-    public static EntityTrain createMinecart(World world, double x, double y, double z, int type)
+    public static EntityTrainDefault createMinecart(World world, double x, double y, double z, int type)
     {
         return new EntityTrainDefault(world, x, y, z);
     }

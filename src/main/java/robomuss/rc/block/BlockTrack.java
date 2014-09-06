@@ -13,6 +13,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
@@ -122,8 +123,8 @@ public class BlockTrack extends BlockContainer implements IPaintable {
         	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
         	if(te.extra == TrackHandler.extras.get(3)) {
 	            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
-	                EntityTrain entity = ItemTrain.spawnCart(world, x, y, z);
-	                
+	                EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
+	                entity.selfPowered = true;
 	                world.spawnEntityInWorld(entity);
 	            }
         	}

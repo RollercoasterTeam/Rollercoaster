@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 
@@ -29,7 +30,7 @@ public class ItemTrain extends Item {
 		return true;
 	}
 	
-	public static EntityTrain spawnCart(World world, int x, int y, int z) {
+	public static EntityTrainDefault spawnCart(World world, int x, int y, int z) {
 		return EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
 	}
 }
