@@ -35,7 +35,7 @@ public class BlockClickedEvent {
 		if(!event.world.isRemote) {
 			if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 				if(event.entityPlayer.isSneaking()) {
-					if(event.entityPlayer.getHeldItem().getItem() != null && event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
+					if(event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
 						TileEntity tileentity = event.world.getTileEntity(event.x, event.y, event.z);
 						if(tileentity instanceof TileEntityTrack) {
 							TileEntityTrack te = (TileEntityTrack) tileentity;
