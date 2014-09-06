@@ -98,7 +98,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         
         if(above instanceof BlockTrack) {
         	BlockTrack track = (BlockTrack) above;
-        	if(track.track_type == TrackHandler.findTrackType("horizontal")) {
+        	if(track.track_type == TrackHandler.findTrackType("horizontal") || track.track_type == TrackHandler.findTrackType("curve")) {
         		 this.model.middle.render(0.0625F);  
             	 this.model.middle2.render(0.0625F);  
         	}

@@ -59,6 +59,6 @@ public class BlockFooter extends BlockContainer implements IPaintable {
     
     @Override
 	public int getPaintMeta(World world, int x, int y, int z) {
-		return ((TileEntitySupport) world.getTileEntity(x, y, z)).colour;
+		return ((TileEntityFooter) world.getTileEntity(x, y, z)).colour;
 	}
 }
