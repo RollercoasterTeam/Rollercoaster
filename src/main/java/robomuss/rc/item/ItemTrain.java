@@ -20,10 +20,11 @@ public class ItemTrain extends Item {
 
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			EntityTrain entity = spawnCart(world, x, y, z);
+			EntityTrainDefault entity = spawnCart(world, x, y, z);
 			if(stack.hasDisplayName()) {
 				entity.setMinecartName(stack.getDisplayName());
 			}
+			entity.selfPowered = true;
 			world.spawnEntityInWorld(entity);
 		}
 		--stack.stackSize;

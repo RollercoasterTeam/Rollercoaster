@@ -53,7 +53,7 @@ public class EntityTrainDefault extends EntityTrain
     }
     
     boolean firstTick = false;
-    public boolean selfPowered = false;
+    public boolean selfPowered = true;
     int count = 0;
     
     @Override
@@ -65,8 +65,17 @@ public class EntityTrainDefault extends EntityTrain
     	}
     	if(firstTick) {
 	    	if(selfPowered) {
-	    		if((tileentity != null & tileentity instanceof TileEntityTrack)) {
+	    		if((tileentity != null && tileentity instanceof TileEntityTrack)) {
 	    			getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
+	    		}
+	    		else {
+	    			System.out.println("Checking alt!");
+	    			TileEntity altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
+	    			//worldObj.setBlock((int) posX - 1, (int) posY - 1, (int) posZ - 2, Blocks.bookshelf);
+	    			if((altTileEntity != null && altTileEntity instanceof TileEntityTrack)) {
+	    				System.out.println("Calling alt!");
+	    				getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) altTileEntity, this);
+	    			}
 	    		}
 	    	}
     	}
@@ -74,8 +83,14 @@ public class EntityTrainDefault extends EntityTrain
     
     private TrackType getTrackTypeFromTE(TileEntity tileentity) {
     	TileEntityTrack te = (TileEntityTrack) tileentity;
-    	BlockTrack block = (BlockTrack) te.getBlockType();
-		return block.track_type;
+    	BlockTrack block;
+    	if(te != null) {
+    		block = (BlockTrack) te.getBlockType();
+    		return block.track_type;
+    	}
+    	else {
+    		return TrackHandler.findTrackType("horizontal");
+    	}
 	}
     
     private void rotateOnPlace(TileEntity tileentity) {

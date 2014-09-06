@@ -19,6 +19,11 @@ import robomuss.rc.block.te.TileEntityRideFence;
 
 public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 
+	private ModelRideFence normal = new ModelRideFence();
+	private ModelRideFenceCorner corner = new ModelRideFenceCorner();
+	private ModelRideFenceTriangle triangle = new ModelRideFenceTriangle();
+	private ModelRideFenceSquare square = new ModelRideFenceSquare();
+	
 	private ModelBase model;
 
 	public TileEntityRenderRideFence() {
@@ -51,16 +56,16 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
         		break;
 		}
 		if(te.getBlockType() == RCBlocks.ride_fence) {
-			model = new ModelRideFence();
+			model = normal;
 		}
 		else if(te.getBlockType() == RCBlocks.ride_fence_corner) {
-			model = new ModelRideFenceCorner();
+			model = corner;
 		}
 		else if(te.getBlockType() == RCBlocks.ride_fence_triangle) {
-			model = new ModelRideFenceTriangle();
+			model = triangle;
 		}
 		else if(te.getBlockType() == RCBlocks.ride_fence_square) {
-			model = new ModelRideFenceSquare();
+			model = square;
 		}
 		
 		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
