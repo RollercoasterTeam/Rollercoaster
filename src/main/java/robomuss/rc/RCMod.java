@@ -33,7 +33,7 @@ public class RCMod {
 	
 	public static final String MODID = "rc";
 	public static final String NAME = "Rollercoaster Mod";
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "v1.4_dev2";
 
 	@Instance
 	public static RCMod instance;

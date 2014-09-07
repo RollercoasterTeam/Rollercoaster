@@ -2,14 +2,14 @@
 {
   "modid": "rc",
   "name": "Rollercoaster Mod",
-  "description": "Adding the ability to create roller coaster tracks into minecraft!",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
+  "description": "Rollercoasters in minecraft. Build the rides of your dreams and then hop on and ride them!",
+  "version": "v1.4",
+  "mcversion": "1.7.10",
+  "url": "http://www.planetminecraft.com/mod/rollercoaster-mod-3041717/",
   "updateUrl": "",
   "authorList": ["roboyobo", "modmuss50"],
-  "credits": "Anyone who attented our live streams!",
-  "logoFile": "",
+  "credits": "All the supporters of our mod!",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }

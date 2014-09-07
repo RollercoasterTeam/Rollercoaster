@@ -74,7 +74,9 @@ item.ticket.name=Entry Ticket
 item.pass.name=Annual Pass
 item.key.name=Ride Operator's Key
 item.hat_1.name=Ride Operator's Hat
+item.train.name=Rollercoaster train
 
 item.brakes_extra.name=Friction Brakes
 item.chain_extra.name=Chain
 item.tires_extra.name=Friction Wheels
+item.station_extra.name=Station

@@ -28,7 +28,6 @@ public class TrackTypeHorizontal extends TrackType {
 		if(te.direction == 0 || te.direction == 2) {
 			if(entity.direction == 0) {
 				entity.posZ += 0.1f;
-				//entity.serverPosZ += 0.1f;
 			}
 			if(entity.direction == 2) {
 				entity.posZ -= 0.1f;
