@@ -121,5 +121,17 @@ public class TrackTypeSlopeDown extends TrackType {
 				entity.rotationPitch = 0f;
 			}
 		}
+		if(te.direction == 3) {
+			if(entity.direction == 1) {
+				entity.posY += 1f;
+				entity.posX += 3f;
+				entity.rotationPitch = 0f;
+			}
+			if(entity.direction == 3) {
+				entity.posY -= 2f;
+				entity.posX -= 3f;
+				entity.rotationPitch = -45f;
+			}
+		}
 	}
 }

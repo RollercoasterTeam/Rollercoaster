@@ -73,5 +73,17 @@ public class TrackTypeSlopeUp extends TrackType {
 				entity.rotationPitch = 0f;
 			}
 		}
+		if(te.direction == 3) {
+			System.out.println(entity.direction);
+			if(entity.direction == 1) {
+				entity.posX += 1f;
+				entity.rotationPitch = 45f;
+				entity.posY += 1f;
+			}
+			if(entity.direction == 3) {
+				entity.posX -= 1f;
+				entity.rotationPitch = 0f;
+			}
+		}
 	}
 }
