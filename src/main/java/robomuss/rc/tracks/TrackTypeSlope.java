@@ -73,5 +73,15 @@ public class TrackTypeSlope extends TrackType {
 				entity.posZ -= 1f;
 			}
 		}
+		if(te.direction == 2) {
+			if(entity.direction == 2) {
+				entity.posY += 1f;
+				entity.posZ -= 1f;
+			}
+			if(entity.direction == 0) {
+				entity.posY -= 1f;
+				entity.posZ += 1f;
+			}
+		}
 	}
 }

@@ -11,7 +11,7 @@ import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.network.NetworkHandler;
 
-public class GuiTrackBuilder extends GuiScreen {
+public class GuiTrackDesigner extends GuiScreen {
 
 	private TileEntityTrackDesigner te;
 
@@ -23,7 +23,7 @@ public class GuiTrackBuilder extends GuiScreen {
     float yaw;
 
 
-    public GuiTrackBuilder(EntityPlayer player, World world, int x, int y, int z) {
+    public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
 		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
 
 
@@ -62,7 +62,7 @@ public class GuiTrackBuilder extends GuiScreen {
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
 		
-		String string = "Coming in v1.4!";
+		String string = "Coming in v1.5!";
 		drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
 		
 		String string2 = "===============";
