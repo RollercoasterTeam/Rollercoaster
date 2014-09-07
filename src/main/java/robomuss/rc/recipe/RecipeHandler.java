@@ -7,6 +7,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackHandler;
+import robomuss.rc.tracks.extra.TrackExtra;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHandler {
@@ -33,6 +34,12 @@ public class RecipeHandler {
 			GameRegistry.addShapelessRecipe(new ItemStack(RCItems.brush, 1, i), new Object[] {
 				new ItemStack(RCItems.paint, 1, i), RCItems.empty_brush
 			});
+		}
+		
+		for(TrackExtra extra : TrackHandler.extras) {
+			if(extra.recipe != null) {
+				GameRegistry.addRecipe(new ItemStack(extra.source, extra.amount), extra.recipe);
+			}
 		}
 	}
 

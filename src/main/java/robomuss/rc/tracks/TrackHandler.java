@@ -2,7 +2,9 @@ package robomuss.rc.tracks;
 
 import java.util.ArrayList;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
 import robomuss.rc.block.model.ModelStation;
@@ -37,10 +39,12 @@ public class TrackHandler {
 		RCBlocks.tracks.add(new TrackTypeLoop("inverted_loop", 10, 2).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeHeartlineRoll("inverted_heartline_roll", 12, 19).invertTrack());*/
 		
-		extras.add(new TrackExtra("brakes", new ModelBrakes(), TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtraChain("chain", new ModelChain(), TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
-		extras.add(new TrackExtra("tires", new ModelTires(), TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtra("station", new ModelStation(), TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtra("brakes", new ModelBrakes(), null, 0, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtraChain("chain", new ModelChain(), null, 0, TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
+		extras.add(new TrackExtra("tires", new ModelTires(), null, 0, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtra("station", new ModelStation(), new Object[] {
+			"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
+		}, 6, TrackHandler.findTrackType("horizontal")));
 		
 		types.add(new RollercoasterTypeCorkscrew("corkscrew"));
 		types.add(new RollercoasterTypeFlumeOpen("flume_open"));

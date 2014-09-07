@@ -11,8 +11,8 @@ import robomuss.rc.tracks.TrackType;
 
 public class TrackExtraChain extends TrackExtra {
 
-	public TrackExtraChain(String name, ModelBase model, TrackType... allowedTrackTypes) {
-		super(name, model, 2, allowedTrackTypes);
+	public TrackExtraChain(String name, ModelBase model, Object[] recipe, int amount, TrackType... allowedTrackTypes) {
+		super(name, model, recipe, amount, 2, allowedTrackTypes);
 	}
 	@Override
 	public void render(TrackType track) {

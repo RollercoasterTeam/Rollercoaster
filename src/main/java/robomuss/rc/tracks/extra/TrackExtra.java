@@ -23,22 +23,28 @@ public class TrackExtra {
 	public ResourceLocation texture;
 	public ModelBase model;
 	public ArrayList<TrackType> allowedTrackTypes;
+	public int amount;
+	public Object[] recipe;
 
 	public int special_render_stages;
 	
-	public TrackExtra(String name, ModelBase model, TrackType... allowedTrackTypes) {
+	public TrackExtra(String name, ModelBase model, Object[] recipe, int amount, TrackType... allowedTrackTypes) {
 		this.id = RCItems.last_extra_id++;
 		this.name = name;
 		this.texture = new ResourceLocation("rc:textures/models/extras/" + name + ".png");
 		this.model = model;
+		this.recipe = recipe;
+		this.amount = amount;
 		this.allowedTrackTypes = new ArrayList<TrackType>(Arrays.asList(allowedTrackTypes));
 	}
 	
-	public TrackExtra(String name, ModelBase model, int special_render_stages, TrackType... allowedTrackTypes) {
+	public TrackExtra(String name, ModelBase model, Object[] recipe, int amount, int special_render_stages, TrackType... allowedTrackTypes) {
 		this.id = RCItems.last_extra_id++;
 		this.name = name;
 		this.texture = new ResourceLocation("rc:textures/models/extras/" + name + ".png");
 		this.model = model;
+		this.recipe = recipe;
+		this.amount = amount;
 		this.special_render_stages = special_render_stages;
 		this.allowedTrackTypes = new ArrayList<TrackType>(Arrays.asList(allowedTrackTypes));
 	}
