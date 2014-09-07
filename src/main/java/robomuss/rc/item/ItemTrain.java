@@ -19,15 +19,22 @@ public class ItemTrain extends Item {
 	}
 
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-		if (!world.isRemote) {
-			EntityTrainDefault entity = spawnCart(world, x, y, z);
-			if(stack.hasDisplayName()) {
-				entity.setMinecartName(stack.getDisplayName());
+		if(!world.isRemote) {
+			if(world.getBlock(x, y, z) instanceof BlockTrack) {
+				BlockTrack block = (BlockTrack) world.getBlock(x, y, z);
+				if(block.track_type == TrackHandler.findTrackType("horizontal")) {
+					if(((TileEntityTrack) world.getTileEntity(x, y, z)).extra == TrackHandler.extras.get(3)) {
+						EntityTrainDefault entity = spawnCart(world, x, y, z);
+						if(stack.hasDisplayName()) {
+							entity.setMinecartName(stack.getDisplayName());
+						}
+						entity.selfPowered = true;
+						world.spawnEntityInWorld(entity);
+						--stack.stackSize;
+					}
+				}
 			}
-			entity.selfPowered = true;
-			world.spawnEntityInWorld(entity);
 		}
-		--stack.stackSize;
 		return true;
 	}
 	
