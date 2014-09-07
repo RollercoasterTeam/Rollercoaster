@@ -90,7 +90,6 @@ public class EntityTrainDefault extends EntityTrain
 	    				}
 	    			}
 	    			
-	    			//worldObj.setBlock((int) posX - 3, (int) posY - 1, (int) posZ, Blocks.bookshelf);
 	    			TileEntity te_direction_3 = worldObj.getTileEntity((int) posX - 3, (int) posY - 1, (int) posZ);
 	    			if((te_direction_3 != null && te_direction_3 instanceof TileEntityTrack)) {
 	    				if(((BlockTrack) te_direction_3.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {

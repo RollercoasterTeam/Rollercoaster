@@ -26,8 +26,8 @@ public class BlockClickedEvent {
 						}
 					}
 					if(Keyboard.isKeyDown(Keyboard.KEY_K)) {
-						System.out.println("Test");
-						NetworkHandler.killAll();
+						System.out.println("Sorry, feature disabled as it would be a massive griefing tool!");
+						//NetworkHandler.killAll();
 					}
 				}
 			}
