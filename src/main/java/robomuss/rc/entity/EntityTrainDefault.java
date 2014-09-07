@@ -76,12 +76,23 @@ public class EntityTrainDefault extends EntityTrain
 	    				}
 	    			}
 	    			
-	    			TileEntity te_direction_1 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+	    			//worldObj.setBlock((int) posX + 1, (int) posY - 1, (int) posZ, Blocks.bookshelf);
+	    			TileEntity te_direction_1 = worldObj.getTileEntity((int) posX + 1, (int) posY - 1, (int) posZ);
+	    			
 	    			if((te_direction_1 != null && te_direction_1 instanceof TileEntityTrack)) {
 	    				if(((BlockTrack) te_direction_1.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
 	    					getTrackTypeFromTE(te_direction_1).moveTrain((TileEntityTrack) te_direction_1, this);
 	    				}
 	    			}
+	    			
+	    			TileEntity te_direction_2 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+	    			if((te_direction_2 != null && te_direction_2 instanceof TileEntityTrack)) {
+	    				if(((BlockTrack) te_direction_2.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
+	    					getTrackTypeFromTE(te_direction_2).moveTrain((TileEntityTrack) te_direction_2, this);
+	    				}
+	    			}
+	    			
+	    			
 	    		}
 	    	}
     	}
