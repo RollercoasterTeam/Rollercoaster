@@ -91,7 +91,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         
         Block above = te.getWorldObj().getBlock(te.xCoord, te.yCoord + 1, te.zCoord);
         
-        if(above instanceof BlockSupport || (connectNorth || connectEast || connectSouth || connectWest)) {
+        if(above instanceof BlockSupport || (connectNorth || connectEast || connectSouth || connectWest) || ((TileEntityFooter) te).forceConnection) {
         	 this.model.middle.render(0.0625F);  
         	 this.model.middle2.render(0.0625F);  
         }

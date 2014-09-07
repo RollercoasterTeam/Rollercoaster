@@ -9,17 +9,20 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityFooter extends TileEntity {
 	
 	public int colour;
+	public boolean forceConnection = false;
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		colour = compound.getInteger("colour");
+		forceConnection = compound.getBoolean("forceConnection");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("colour", colour);
+		compound.setBoolean("forceConnection", forceConnection);
 	}
 	
 	@Override

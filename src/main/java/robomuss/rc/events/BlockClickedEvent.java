@@ -5,6 +5,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import org.lwjgl.input.Keyboard;
 
+import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
@@ -48,7 +49,15 @@ public class BlockClickedEvent {
 							if(id < TrackHandler.types.size() - 1) {
 								te.type = TrackHandler.types.get(id + 1);
 							}
-							event.world.markBlockRangeForRenderUpdate(event.x, event.y, event.z, event.x, event.y, event.z);
+							else {
+								te.type = TrackHandler.types.get(0);
+							}
+							event.world.markBlockForUpdate(event.x, event.y, event.z);
+						}
+						if(tileentity instanceof TileEntityFooter) {
+							TileEntityFooter te = (TileEntityFooter) tileentity;
+							te.forceConnection = te.forceConnection ? false : true;
+							event.world.markBlockForUpdate(event.x, event.y, event.z);
 						}
 					}
 				}
