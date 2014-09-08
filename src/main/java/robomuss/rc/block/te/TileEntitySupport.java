@@ -14,18 +14,20 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntitySupport extends TileEntity {
 	
 	public int colour;
-	//public boolean flange;
+	public boolean flange = false;
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		colour = compound.getInteger("colour");
+		flange = compound.getBoolean("flange");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setInteger("colour", colour);
+		compound.setBoolean("flange", flange);
 	}
 	
 	@Override

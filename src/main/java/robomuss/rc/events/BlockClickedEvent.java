@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Keyboard;
 
 import robomuss.rc.block.te.TileEntityFooter;
+import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
@@ -57,6 +58,11 @@ public class BlockClickedEvent {
 						if(tileentity instanceof TileEntityFooter) {
 							TileEntityFooter te = (TileEntityFooter) tileentity;
 							te.forceConnection = te.forceConnection ? false : true;
+							event.world.markBlockForUpdate(event.x, event.y, event.z);
+						}
+						if(tileentity instanceof TileEntitySupport) {
+							TileEntitySupport te = (TileEntitySupport) tileentity;
+							te.flange = te.flange ? false : true;
 							event.world.markBlockForUpdate(event.x, event.y, event.z);
 						}
 					}

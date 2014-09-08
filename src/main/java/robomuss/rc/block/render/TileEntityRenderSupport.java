@@ -86,6 +86,11 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 
         this.model.middle.render(0.0625F);
         this.model.middle2.render(0.0625F);  
+        
+        if(((TileEntitySupport) te).flange) {
+        	this.model.flange1.render(0.0625F);
+            this.model.flange2.render(0.0625F);  
+        }
 
         GL11.glPopMatrix();
         
