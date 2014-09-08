@@ -31,11 +31,12 @@ public class ItemTrain extends Item {
 						entity.selfPowered = true;
 						world.spawnEntityInWorld(entity);
 						--stack.stackSize;
+						return true;
 					}
 				}
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	public static EntityTrainDefault spawnCart(World world, int x, int y, int z) {

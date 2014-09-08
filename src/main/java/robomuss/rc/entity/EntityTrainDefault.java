@@ -59,9 +59,13 @@ public class EntityTrainDefault extends EntityTrain
     @Override
     public void onUpdate() {
     	TileEntity tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
+    	worldObj.setBlock((int) posX - 1, (int) posY, (int) posZ, Blocks.bookshelf);
     	if(!firstTick) {
-    		rotateOnPlace(tileentity);
-	    	firstTick = true;
+    		if(worldObj.isRemote) {
+	    		rotateOnPlace(tileentity);
+		    	firstTick = true;
+		    	this.setPosition(this.posX, this.posY, this.posZ);
+    		}
     	}
     	if(firstTick) {
     		if(worldObj.isRemote) {
@@ -112,9 +116,12 @@ public class EntityTrainDefault extends EntityTrain
 	}
     
     private void rotateOnPlace(TileEntity tileentity) {
+    	System.out.println("Rotating");
     	if(tileentity != null & tileentity instanceof TileEntityTrack) {
+    		System.out.println("Rotating2");
     		TileEntityTrack te = (TileEntityTrack) tileentity;
 	    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
+	    		System.out.println("Rotating3");
 	    		if(te.direction == 0) {
 	    			this.rotationYaw = 90f;
 	    		}
