@@ -87,49 +87,49 @@ public class TrackTypeSlopeDown extends TrackType {
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
 		if(te.direction == 0) {
 			if(entity.direction == 0) {
-				entity.targetPosY += 1f;
-				entity.targetPosZ += 3f;
+				entity.posY += 1f;
+				entity.posZ += 3f;
 				entity.rotationPitch = 0f;
 			}
 			if(entity.direction == 2) {
-				entity.targetPosY -= 2f;
-				entity.targetPosZ -= 3f;
+				entity.posY -= 2f;
+				entity.posZ -= 3f;
 				entity.rotationPitch = -45f;
 			}
 		}
 		if(te.direction == 1) {
 			if(entity.direction == 1) {
-				entity.targetPosY -= 2f;
-				entity.targetPosX += 3f;
+				entity.posY -= 2f;
+				entity.posX += 3f;
 				entity.rotationPitch = -45f;
 			}
 			if(entity.direction == 3) {
-				entity.targetPosY += 1f;
-				entity.targetPosX -= 3f;
+				entity.posY += 1f;
+				entity.posX -= 3f;
 				entity.rotationPitch = 0f;
 			}
 		}
 		if(te.direction == 2) {
 			if(entity.direction == 0) {
-				entity.targetPosY -= 2f;
-				entity.targetPosZ += 3f;
+				entity.posY -= 2f;
+				entity.posZ += 3f;
 				entity.rotationPitch = -45f;
 			}
 			if(entity.direction == 2) {
-				entity.targetPosY += 1f;
-				entity.targetPosZ -= 3f;
+				entity.posY += 1f;
+				entity.posZ -= 3f;
 				entity.rotationPitch = 0f;
 			}
 		}
 		if(te.direction == 3) {
 			if(entity.direction == 1) {
-				entity.targetPosY += 1f;
-				entity.targetPosX += 3f;
+				entity.posY += 1f;
+				entity.posX += 3f;
 				entity.rotationPitch = 0f;
 			}
 			if(entity.direction == 3) {
-				entity.targetPosY -= 2f;
-				entity.targetPosX -= 3f;
+				entity.posY -= 2f;
+				entity.posX -= 3f;
 				entity.rotationPitch = -45f;
 			}
 		}
