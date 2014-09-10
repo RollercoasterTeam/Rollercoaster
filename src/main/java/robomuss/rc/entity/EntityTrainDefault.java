@@ -61,6 +61,7 @@ public class EntityTrainDefault extends EntityTrain
     	TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
     	if(!firstTick) {
     		if(worldObj.isRemote) {
+    			System.out.println("Rotate");
 	    		rotateOnPlace(tileentity);
 		    	firstTick = true;
 		    	this.setPosition(this.posX, this.posY, this.posZ);
