@@ -94,6 +94,9 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         if(above instanceof BlockSupport || (connectNorth || connectEast || connectSouth || connectWest) || ((TileEntityFooter) te).forceConnection) {
         	 this.model.middle.render(0.0625F);  
         	 this.model.middle2.render(0.0625F);  
+        	 
+        	 this.model.flange1.render(0.0625F);  
+        	 this.model.flange2.render(0.0625F);  
         }
         
         if(above instanceof BlockTrack) {
