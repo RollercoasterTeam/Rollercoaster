@@ -52,15 +52,19 @@ public class EntityTrainDefault extends EntityTrain
         return 0;
     }
     
-    boolean firstTick = false;
+    private boolean firstTick = false;
     public boolean selfPowered = true;
-    int count = 0;
+    public int targetPosX;
+	public int targetPosY;
+	public int targetPosZ;
     
     @Override
     public void onUpdate() {
+    	
     	TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
     	if(!firstTick) {
     		if(worldObj.isRemote) {
+    			System.out.println("Rotate");
 	    		rotateOnPlace(tileentity);
 		    	firstTick = true;
 		    	this.setPosition(this.posX, this.posY, this.posZ);
@@ -101,7 +105,7 @@ public class EntityTrainDefault extends EntityTrain
 		    				}
 		    			}
 		    		}
-		    		this.setPosition(this.posX, this.posY, this.posZ);
+		    		//this.setPosition(this.targetPosX, this.targetPosY, this.targetPosZ);
 		    	}
 	    	}
     	}
