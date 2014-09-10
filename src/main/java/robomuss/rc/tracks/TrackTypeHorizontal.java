@@ -27,18 +27,18 @@ public class TrackTypeHorizontal extends TrackType {
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
 		if(te.direction == 0 || te.direction == 2) {
 			if(entity.direction == 0) {
-				entity.posZ += 0.1f;
+				entity.targetPosZ += 0.1f;
 			}
 			if(entity.direction == 2) {
-				entity.posZ -= 0.1f;
+				entity.targetPosZ -= 0.1f;
 			}
 		}
 		if(te.direction == 1 || te.direction == 3) {
 			if(entity.direction == 1) {
-				entity.posX += 0.1f;
+				entity.targetPosX += 0.1f;
 			}
 			if(entity.direction == 3) {
-				entity.posX -= 0.1f;
+				entity.targetPosX -= 0.1f;
 			}
 		}
 	}
