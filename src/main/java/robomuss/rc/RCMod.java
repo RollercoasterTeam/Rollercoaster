@@ -104,11 +104,4 @@ public class RCMod {
 	public void postInit(FMLPostInitializationEvent event) {
         packetPipeline.postInitialise();
 	}
-	
-	public static FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("rc");
-	
-	@EventHandler
-	public void serverStarting(FMLServerStartingEvent event) {
-		
-	}
 }

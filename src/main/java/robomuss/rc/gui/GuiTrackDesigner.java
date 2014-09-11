@@ -92,11 +92,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		
 		String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
 		drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
-        
-        /*SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-        drawString(fontRendererObj, "Time: " + date.format(cal.getTime()), 100, 100, 0xFFFFF);*/
-        
+
        /*GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(trackDesignerGuiTextures);
         int k = (this.width - this.mc.displayWidth) / 2;
