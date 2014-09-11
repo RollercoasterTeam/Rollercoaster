@@ -3,20 +3,21 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.tracks.TrackHandler;
 
-public class PacketTrackDesignerUpdate extends AbstractPacket {
+public class PacketTrackDesignerStartPoint extends AbstractPacket {
 
-    public PacketTrackDesignerUpdate() {
+    public PacketTrackDesignerStartPoint() {
     	
     }
 
     private int x, y, z;
     private int crosshairX, crosshairY, crosshairZ;
-    private int id;
 
-    public PacketTrackDesignerUpdate(int x, int y, int z, int crosshairX, int crosshairY, int crosshairZ, int id) {
+    public PacketTrackDesignerStartPoint(int x, int y, int z, int crosshairX, int crosshairY, int crosshairZ) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -24,8 +25,6 @@ public class PacketTrackDesignerUpdate extends AbstractPacket {
         this.crosshairX = crosshairX;
         this.crosshairY = crosshairY;
         this.crosshairZ = crosshairZ;
-        
-        this.id = id;
     }
 
     @Override
@@ -37,8 +36,6 @@ public class PacketTrackDesignerUpdate extends AbstractPacket {
         buffer.writeInt(this.crosshairX);
         buffer.writeInt(this.crosshairY);
         buffer.writeInt(this.crosshairZ);
-        
-        buffer.writeInt(id);
     }
 
     @Override
@@ -50,8 +47,6 @@ public class PacketTrackDesignerUpdate extends AbstractPacket {
         this.crosshairX = buffer.readInt();
         this.crosshairY = buffer.readInt();
         this.crosshairZ = buffer.readInt();
-        
-        this.id = buffer.readInt();
     }
 
     @Override
@@ -61,26 +56,10 @@ public class PacketTrackDesignerUpdate extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-    	/*if(id == 0) {
-    		placeTrackPiece(player, "horizontal");
-    		TileEntityTrackDesigner te = (TileEntityTrackDesigner) player.worldObj.getTileEntity(x, y, z);
-    		te.currentPosX = crosshairX;
-    		te.currentPosY = crosshairY;
-    		te.currentPosZ = crosshairZ;
-    	}
-    	if(id == 1) {
-    		placeTrackPiece(player, "curve");
-    	}
-    	if(id == 2) {
-    		placeTrackPiece(player, "horizontal");
-    	}
-    	if(id == 3) {
-    		placeTrackPiece(player, "curve");
-    	}*/
+    	TileEntityTrackDesigner te = (TileEntityTrackDesigner) player.worldObj.getTileEntity(x, y, z);
+    	te.currentPosX = this.crosshairX;
+    	te.currentPosY = this.crosshairY + 1;
+    	te.currentPosZ = this.crosshairZ;
+    	player.worldObj.setBlock(crosshairX, crosshairY + 1, crosshairZ, RCBlocks.path);
     }
-
-    
-    private void placeTrackPiece(EntityPlayer player, String track) {
-    	player.worldObj.setBlock(crosshairX, crosshairY + 1, crosshairZ, TrackHandler.findTrackType(track).block);
-	}
 }

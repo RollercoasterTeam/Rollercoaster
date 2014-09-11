@@ -1,11 +1,21 @@
 package robomuss.rc.gui;
 
+import java.awt.Rectangle;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import org.lwjgl.opengl.GL11;
+
+import com.ibm.icu.text.DateFormat;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.entity.Entity3rdPerson;
@@ -16,17 +26,18 @@ public class GuiTrackDesigner extends GuiScreen {
 	private TileEntityTrackDesigner te;
 
     public Entity3rdPerson entity3rdPerson;
-    EntityLivingBase player3rd;
-    int thirdPersonView = 0;
+    private EntityLivingBase player3rd;
+    private int thirdPersonView = 0;
 
-    double posX, posY, posZ;
-    float yaw;
+    private double posX, posY, posZ;
+    private float yaw;
+    
+    private static final ResourceLocation trackDesignerGuiTextures = new ResourceLocation("rc", "textures/gui/track_designer.png");
 
 
     public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
 		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
-
-
+		
         entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
         if (entity3rdPerson != null) {
             Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
@@ -44,7 +55,6 @@ public class GuiTrackDesigner extends GuiScreen {
 
             entity3rdPerson.setPositionAndUpdate(posX, posY, posZ);
         }
-
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -52,10 +62,7 @@ public class GuiTrackDesigner extends GuiScreen {
 	public void initGui() {
 		buttonList.clear();
 		
-		/*buttonList.add(new GuiButton(1, 10, 10, 100, 20, "Start"));
-		buttonList.add(new GuiButton(1, 120, 10, 100, 20, "Left"));
-		buttonList.add(new GuiButton(2, 230, 10, 100, 20, "Forward"));
-		buttonList.add(new GuiButton(3, 340, 10, 100, 20, "Right"));*/
+		buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
 	}
 	
 	@Override
@@ -85,18 +92,32 @@ public class GuiTrackDesigner extends GuiScreen {
 		
 		String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
 		drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
-		
-
-        MovingObjectPosition movingObjectPosition = entity3rdPerson.rayTraceMouse();
-        if(movingObjectPosition != null){
-            //drawString(fontRendererObj, ("Current cross hair location: " + movingObjectPosition.blockX + ":" + movingObjectPosition.blockY + ":" + movingObjectPosition.blockZ), 10, 80, 0xFFFFFF);
-        }
+        
+        /*SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        drawString(fontRendererObj, "Time: " + date.format(cal.getTime()), 100, 100, 0xFFFFF);*/
+        
+       /*GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.mc.getTextureManager().bindTexture(trackDesignerGuiTextures);
+        int k = (this.width - this.mc.displayWidth) / 2;
+        int l = (this.height - this.mc.displayHeight) / 2;
+        this.drawTexturedModalRect(k, l, 0, 100, this.mc.displayWidth, this.mc.displayHeight);*/
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton button) {
-		MovingObjectPosition movingObjectPosition = entity3rdPerson.rayTraceMouse();
-		NetworkHandler.updateTrackBuilderTE(te, movingObjectPosition, button.id);
+	public void actionPerformed(GuiButton button) {
+		NetworkHandler.handleTrackDesignerButtonClick(te, button.id);
+	}
+	
+	@Override
+	public void mouseClicked(int x, int y, int button) {
+		super.mouseClicked(x, y, button);
+		Rectangle mouse = new Rectangle(x, y, 1, 1);
+		Rectangle bounds = new Rectangle(10, 10, 100, 20);
+		if(!mouse.intersects(bounds)) {
+			MovingObjectPosition pos = entity3rdPerson.rayTraceMouse();
+			NetworkHandler.placeTrackStartPoint(te, pos);
+		}
 	}
 
     public boolean doesGuiPauseGame() {
@@ -111,5 +132,4 @@ public class GuiTrackDesigner extends GuiScreen {
         Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
         entity3rdPerson = null;
     }
-
 }

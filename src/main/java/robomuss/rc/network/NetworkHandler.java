@@ -6,7 +6,8 @@ import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.packets.PacketChangePaintColour;
 import robomuss.rc.network.packets.PacketKillAll;
-import robomuss.rc.network.packets.PacketTrackDesignerUpdate;
+import robomuss.rc.network.packets.PacketTrackDesignerButtonClick;
+import robomuss.rc.network.packets.PacketTrackDesignerStartPoint;
 import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
 
 public class NetworkHandler {
@@ -15,8 +16,13 @@ public class NetworkHandler {
         RCMod.packetPipeline.sendToServer(new PacketTrackFabricatorUpdate(te.xCoord, te.yCoord, te.zCoord, amount, current_track));
     }
 
-	public static void updateTrackBuilderTE(TileEntityTrackDesigner te, MovingObjectPosition movingObjectPosition, int id) {
-        RCMod.packetPipeline.sendToServer(new PacketTrackDesignerUpdate(te.xCoord, te.yCoord, te.zCoord, movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ, id));
+	public static void placeTrackStartPoint(TileEntityTrackDesigner te, MovingObjectPosition movingObjectPosition) {
+        RCMod.packetPipeline.sendToServer(new PacketTrackDesignerStartPoint(te.xCoord, te.yCoord, te.zCoord, movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ));
+	}
+	
+	public static void handleTrackDesignerButtonClick(TileEntityTrackDesigner te, int id) {
+		System.out.println("Button");
+		RCMod.packetPipeline.sendToServer(new PacketTrackDesignerButtonClick(te.xCoord, te.yCoord, te.zCoord, id));
 	}
 
 	public static void changePaintColour(int meta) {
@@ -26,5 +32,4 @@ public class NetworkHandler {
 	public static void killAll() {
 		RCMod.packetPipeline.sendToServer(new PacketKillAll());
 	}
-
 }

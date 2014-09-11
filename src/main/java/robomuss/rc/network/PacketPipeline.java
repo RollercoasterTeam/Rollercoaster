@@ -19,7 +19,8 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import robomuss.rc.network.packets.PacketChangePaintColour;
 import robomuss.rc.network.packets.PacketKillAll;
-import robomuss.rc.network.packets.PacketTrackDesignerUpdate;
+import robomuss.rc.network.packets.PacketTrackDesignerButtonClick;
+import robomuss.rc.network.packets.PacketTrackDesignerStartPoint;
 import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
@@ -127,7 +128,8 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 
     private void registerPackets() {
         registerPacket(PacketTrackFabricatorUpdate.class);
-        registerPacket(PacketTrackDesignerUpdate.class);
+        registerPacket(PacketTrackDesignerStartPoint.class);
+        registerPacket(PacketTrackDesignerButtonClick.class);
         registerPacket(PacketChangePaintColour.class);
         registerPacket(PacketKillAll.class);
     }
