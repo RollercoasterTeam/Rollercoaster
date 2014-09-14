@@ -66,7 +66,7 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     public void onBlockAdded(World world, int x, int y, int z) {
     	TileEntity above = world.getTileEntity(x, y + 1, z);
     	if(!(above instanceof TileEntitySupport)) {
-    		int gap = 2;
+    		int gap = 1;
     		for(int currentY = y; currentY > 0; currentY--) {
     			if(world.getTileEntity(x, currentY, z) instanceof TileEntitySupport) {
     				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(x, currentY, z);
