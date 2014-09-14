@@ -7,7 +7,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 
@@ -52,25 +51,38 @@ public class EntityTrainDefault extends EntityTrain
         return 0;
     }
     
-    boolean firstTick = false;
-    public boolean selfPowered = true;
-    int count = 0;
+    private boolean firstTick = false;
+    public boolean selfPowered = false;
+    public int moves = 0;
+    private TileEntity altTileEntity;
     
     @Override
     public void onUpdate() {
     	TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
+    	altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
     	if(!firstTick) {
     		if(worldObj.isRemote) {
+    			moves = 10;
 	    		rotateOnPlace(tileentity);
+	    		//worldObj.setBlock((int) posX, (int) posY, (int) posZ, Blocks.brick_block);
 		    	firstTick = true;
 		    	this.setPosition(this.posX, this.posY, this.posZ);
     		}
     	}
     	if(firstTick) {
     		if(worldObj.isRemote) {
-		    	if(selfPowered) {
-		    		if((tileentity != null && tileentity instanceof TileEntityTrack)) {
+    			if(tileentity != null && tileentity instanceof TileEntityTrack) {
+    				TileEntityTrack te = (TileEntityTrack) tileentity;
+    				if(te.extra != null) {
+    					te.extra.applyEffectToTrain(this);
+    				}
+    			}
+		    	if(selfPowered || (!selfPowered && moves > 0)) {
+		    		if(tileentity != null && tileentity instanceof TileEntityTrack) {
 		    			getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
+		    		}
+		    		else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
+		    			getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
 		    		}
 		    		else {
 		    			TileEntity te_direction_0 = worldObj.getTileEntity((int) posX, (int) posY - 1, (int) posZ - 2);
@@ -101,6 +113,8 @@ public class EntityTrainDefault extends EntityTrain
 		    				}
 		    			}
 		    		}
+		    		System.out.println("Moves: " + moves);
+		    		moves -= 1;
 		    		this.setPosition(this.posX, this.posY, this.posZ);
 		    	}
 	    	}
@@ -117,8 +131,13 @@ public class EntityTrainDefault extends EntityTrain
 	}
     
     private void rotateOnPlace(TileEntity tileentity) {
+    	System.out.println("Test");
+    	if(!(tileentity instanceof TileEntityTrack)) {
+    		tileentity = altTileEntity;
+    	}
     	if(tileentity != null & tileentity instanceof TileEntityTrack) {
     		TileEntityTrack te = (TileEntityTrack) tileentity;
+    		System.out.println("Meta: " + te.direction);
 	    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
 	    		if(te.direction == 0) {
 	    			this.rotationYaw = 90f;

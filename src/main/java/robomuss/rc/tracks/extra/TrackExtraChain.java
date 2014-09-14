@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelChainExtended;
+import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 
@@ -32,5 +33,10 @@ public class TrackExtraChain extends TrackExtra {
 			GL11.glRotatef(45f, 0, 0, 1);
 			new ModelChainExtended().render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
+	}
+	
+	@Override
+	public void applyEffectToTrain(EntityTrainDefault entity) {
+		entity.moves += 1;
 	}
 }

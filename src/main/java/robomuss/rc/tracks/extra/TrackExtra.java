@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.tracks.TrackType;
 
@@ -84,5 +85,9 @@ public class TrackExtra {
         		GL11.glRotatef(180f, -180f, 0f, 180f);
         		break;
 		}
+	}
+
+	public void applyEffectToTrain(EntityTrainDefault entity) {
+		
 	}
 }

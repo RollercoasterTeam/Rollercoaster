@@ -124,7 +124,6 @@ public class BlockTrack extends BlockContainer implements IPaintable {
         	if(te.extra == TrackHandler.extras.get(3)) {
 	            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 	                EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
-	                entity.selfPowered = true;
 	                world.spawnEntityInWorld(entity);
 	            }
         	}
