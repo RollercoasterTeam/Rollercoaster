@@ -1,5 +1,6 @@
 package robomuss.rc.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,4 +61,26 @@ public class BlockSupport extends BlockContainer implements IPaintable {
 	public int getPaintMeta(World world, int x, int y, int z) {
 		return ((TileEntitySupport) world.getTileEntity(x, y, z)).colour;
 	}
+    
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z) {
+    	TileEntity above = world.getTileEntity(x, y + 1, z);
+    	if(!(above instanceof TileEntitySupport)) {
+    		int gap = 2;
+    		for(int currentY = y; currentY > 0; currentY--) {
+    			if(world.getTileEntity(x, currentY, z) instanceof TileEntitySupport) {
+    				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(x, currentY, z);
+    				if(gap == 2) {
+    					te.flange = true;
+    					gap = 0;
+    				}
+    				else {
+    					te.flange = false;
+    					gap++;
+    				}
+    				world.markBlockForUpdate(x, currentY, z);
+    			}
+    		}
+    	}
+    }
 }
