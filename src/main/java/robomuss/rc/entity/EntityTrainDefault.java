@@ -62,9 +62,8 @@ public class EntityTrainDefault extends EntityTrain
     	altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
     	if(!firstTick) {
     		if(worldObj.isRemote) {
-    			moves = 10;
+    			moves = 30;
 	    		rotateOnPlace(tileentity);
-	    		//worldObj.setBlock((int) posX, (int) posY, (int) posZ, Blocks.brick_block);
 		    	firstTick = true;
 		    	this.setPosition(this.posX, this.posY, this.posZ);
     		}
