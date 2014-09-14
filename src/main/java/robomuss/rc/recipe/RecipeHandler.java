@@ -18,7 +18,7 @@ public class RecipeHandler {
 	}
 
 	private void registerItemRecipes() {
-		GameRegistry.addRecipe(new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE), new Object[] {
+		GameRegistry.addRecipe(new ItemStack(RCItems.hammer, 1), new Object[] {
 			"X", "Y", 'X', Items.iron_ingot, 'Y', Items.stick
 		});
 		

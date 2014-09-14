@@ -83,4 +83,26 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     		}
     	}
     }
+    
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int side) {
+    	//TileEntity below = world.getTileEntity(x, y - 1, z);
+    	//if(!(below instanceof TileEntitySupport)) {
+    		int gap = 1;
+    		for(int currentY = y - 1; currentY > 0; currentY--) {
+    			if(world.getTileEntity(x, currentY, z) instanceof TileEntitySupport) {
+    				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(x, currentY, z);
+    				if(gap == 2) {
+    					te.flange = true;
+    					gap = 0;
+    				}
+    				else {
+    					te.flange = false;
+    					gap++;
+    				}
+    				world.markBlockForUpdate(x, currentY, z);
+    			}
+    		}
+    	//}
+    }
 }
