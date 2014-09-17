@@ -35,9 +35,4 @@ public class TrackExtraChain extends TrackExtra {
 			new ModelChainExtended().render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
 	}
-	
-	@Override
-	public void applyEffectToTrain(TileEntityTrack te, EntityTrainDefault entity) {
-		entity.moves += 1;
-	}
 }

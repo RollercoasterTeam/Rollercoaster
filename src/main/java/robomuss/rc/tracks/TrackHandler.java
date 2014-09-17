@@ -16,6 +16,7 @@ import robomuss.rc.rollercoaster.RollercoasterTypeFlumeOpen;
 import robomuss.rc.tracks.extra.TrackExtra;
 import robomuss.rc.tracks.extra.TrackExtraAirLauncher;
 import robomuss.rc.tracks.extra.TrackExtraChain;
+import robomuss.rc.tracks.extra.TrackExtraStation;
 
 public class TrackHandler {
 
@@ -43,7 +44,7 @@ public class TrackHandler {
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), null, 0, TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), null, 0, TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), null, 0, TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtra("station", new ModelStation(), new Object[] {
+		extras.add(new TrackExtraStation("station", new ModelStation(), new Object[] {
 			"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
 		}, 6, TrackHandler.findTrackType("horizontal")));
 		
