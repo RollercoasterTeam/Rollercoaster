@@ -40,8 +40,8 @@ public class ContainerTrackStorage extends Container {
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
 	 */
-	/*public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-		ItemStack itemstack = null;
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+		/*ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
@@ -78,13 +78,8 @@ public class ContainerTrackStorage extends Container {
 	
 				slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
 			}
-		}
+		}*/
 
-		return itemstack;
-	}*/
-	
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
 		return null;
 	}
 }

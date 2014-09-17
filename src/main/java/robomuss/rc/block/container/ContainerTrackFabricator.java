@@ -40,7 +40,7 @@ public class ContainerTrackFabricator extends Container {
 	 * you will crash when someone does that.
 	 */
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-		ItemStack itemstack = null;
+		/*ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
@@ -76,8 +76,8 @@ public class ContainerTrackFabricator extends Container {
 			}
 
 			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
-		}
+		}*/
 
-		return itemstack;
+		return null;
 	}
 }

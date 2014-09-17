@@ -87,7 +87,7 @@ public class TrackExtra {
 		}
 	}
 
-	public void applyEffectToTrain(EntityTrainDefault entity) {
+	public void applyEffectToTrain(TileEntityTrack te, EntityTrainDefault entity) {
 		
 	}
 }

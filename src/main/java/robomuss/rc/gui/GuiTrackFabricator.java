@@ -23,7 +23,7 @@ import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.tracks.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
+import cpw.mods.fml.common.Optional;
 
 @SideOnly(Side.CLIENT)
 public class GuiTrackFabricator extends GuiContainer {

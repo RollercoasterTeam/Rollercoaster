@@ -66,8 +66,6 @@ public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 		else {
 			compound.setInteger("extraID", -1);
 		}
-		
-		
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ import robomuss.rc.rollercoaster.RollercoasterTypeCorkscrew;
 import robomuss.rc.rollercoaster.RollercoasterTypeFlumeEnclosed;
 import robomuss.rc.rollercoaster.RollercoasterTypeFlumeOpen;
 import robomuss.rc.tracks.extra.TrackExtra;
+import robomuss.rc.tracks.extra.TrackExtraAirLauncher;
 import robomuss.rc.tracks.extra.TrackExtraChain;
 
 public class TrackHandler {
@@ -45,6 +46,8 @@ public class TrackHandler {
 		extras.add(new TrackExtra("station", new ModelStation(), new Object[] {
 			"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
 		}, 6, TrackHandler.findTrackType("horizontal")));
+		
+		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelBrakes(), null, 0, TrackHandler.findTrackType("horizontal")));
 		
 		types.add(new RollercoasterTypeCorkscrew("corkscrew"));
 		types.add(new RollercoasterTypeFlumeOpen("flume_open"));
