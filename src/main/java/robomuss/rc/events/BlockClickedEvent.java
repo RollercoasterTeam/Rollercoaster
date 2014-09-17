@@ -1,5 +1,6 @@
 package robomuss.rc.events;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
@@ -8,6 +9,7 @@ import org.lwjgl.input.Keyboard;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.item.ItemHammer;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.tracks.TrackHandler;
@@ -65,6 +67,15 @@ public class BlockClickedEvent {
 							te.flange = te.flange ? false : true;
 							event.world.markBlockForUpdate(event.x, event.y, event.z);
 						}
+					}
+				}
+			}
+			if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR)  {
+				if(event.entityPlayer.isSneaking()) {
+					EntityPlayer player = event.entityPlayer;
+					if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == RCItems.hammer) {
+						ItemHammer item = (ItemHammer) player.getCurrentEquippedItem().getItem();
+						player.getCurrentEquippedItem().stackTagCompound.setInteger("mode", player.getCurrentEquippedItem().stackTagCompound.getInteger("mode") + 1);
 					}
 				}
 			}
