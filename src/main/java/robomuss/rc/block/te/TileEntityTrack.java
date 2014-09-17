@@ -7,15 +7,21 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import robomuss.rc.block.RCBlocks;
+import net.minecraftforge.common.util.ForgeDirection;
+import pneumaticCraft.api.tileentity.IAirHandler;
+import pneumaticCraft.api.tileentity.IPneumaticMachine;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 import robomuss.rc.tracks.extra.TrackExtra;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.Optional;
 
-public class TileEntityTrack extends TileEntity {
+@Optional.InterfaceList(
+       @Optional.Interface(iface = "pneumaticCraft.api.tileentity.IPneumaticMachine", modid = "PneumaticCraft")
+)
+public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 
 	public int direction;
 	public int colour;
@@ -91,6 +97,18 @@ public class TileEntityTrack extends TileEntity {
 	
 	@Override
 	public boolean canUpdate() {
+		return false;
+	}
+
+	@Optional.Method(modid = "PneumaticCraft")
+	@Override
+	public IAirHandler getAirHandler() {
+		return null;
+	}
+
+	@Optional.Method(modid = "PneumaticCraft")
+	@Override
+	public boolean isConnectedTo(ForgeDirection side) {
 		return false;
 	}
 }

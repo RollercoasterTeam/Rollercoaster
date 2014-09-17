@@ -35,7 +35,7 @@ public class RecipeHandler {
 				new ItemStack(RCItems.paint, 1, i), RCItems.empty_brush
 			});
 		}
-		
+
 		for(TrackExtra extra : TrackHandler.extras) {
 			if(extra.recipe != null) {
 				GameRegistry.addRecipe(new ItemStack(extra.source, extra.amount), extra.recipe);
