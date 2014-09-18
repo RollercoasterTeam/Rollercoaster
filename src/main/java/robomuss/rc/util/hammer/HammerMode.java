@@ -1,4 +1,4 @@
-package robomuss.rc.util;
+package robomuss.rc.util.hammer;
 
 public class HammerMode {
 	
@@ -6,5 +6,9 @@ public class HammerMode {
 	
 	public HammerMode(String name) {
 		this.name = name;
+	}
+	
+	public void onRightClick() {
+		
 	}
 }

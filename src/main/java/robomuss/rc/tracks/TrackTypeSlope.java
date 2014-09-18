@@ -2,6 +2,7 @@ package robomuss.rc.tracks;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -58,10 +59,15 @@ public class TrackTypeSlope extends TrackType {
 	
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
+		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
+			player.swingProgressInt = 90;
+		}
 		if(te.direction == 0) {
 			if(entity.direction == 0) {
 				entity.posY += 1f;
 				entity.posZ += 1f;
+				
 			}
 			if(entity.direction == 2) {
 				entity.posY -= 1f;

@@ -77,7 +77,6 @@ public class BlockClickedEvent {
 					if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == RCItems.hammer) {
 						if(player.getCurrentEquippedItem().stackTagCompound == null) {
 							player.getCurrentEquippedItem().stackTagCompound = new NBTTagCompound();
-							
 							player.getCurrentEquippedItem().stackTagCompound.setInteger("mode", 0);
 						}
 						int mode = player.getCurrentEquippedItem().stackTagCompound.getInteger("mode");

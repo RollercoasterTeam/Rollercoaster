@@ -207,7 +207,7 @@ public abstract class EntityTrain extends Entity
     public void killMinecart(DamageSource p_94095_1_)
     {
         this.setDead();
-        ItemStack itemstack = new ItemStack(Items.minecart, 1);
+        ItemStack itemstack = new ItemStack(RCItems.train, 1);
 
         if (this.entityName != null)
         {

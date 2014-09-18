@@ -1,18 +1,15 @@
 package robomuss.rc.item;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import robomuss.rc.util.HammerMode;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.AdvancedModelLoader;
+import robomuss.rc.util.hammer.HammerMode;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemHammer extends Item {
 
@@ -55,7 +52,6 @@ public class ItemHammer extends Item {
 	@Override
 	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
 		stack.stackTagCompound = new NBTTagCompound();
-		
 		stack.stackTagCompound.setInteger("mode", 0);
 	}
 	
@@ -65,7 +61,6 @@ public class ItemHammer extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean val) {
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
-			
 			stack.stackTagCompound.setInteger("mode", 0);
 		}
 		list.add(modes[stack.stackTagCompound.getInteger("mode")].name + " Mode");

@@ -1,17 +1,14 @@
 package robomuss.rc.tracks;
 
-import java.util.Arrays;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
@@ -85,6 +82,10 @@ public class TrackTypeSlopeDown extends TrackType {
 	
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
+		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
+			player.swingProgressInt = 90;
+		}
 		if(te.direction == 0) {
 			if(entity.direction == 0) {
 				entity.posY += 1f;

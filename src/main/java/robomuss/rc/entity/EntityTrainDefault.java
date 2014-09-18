@@ -53,12 +53,15 @@ public class EntityTrainDefault extends EntityTrain
     }
     
     private boolean firstTick = false;
-    public boolean selfPowered = false;
+    public boolean selfPowered = true;
     public float speed = 0;
     private TileEntity altTileEntity;
     
     @Override
     public void onUpdate() {
+    	if(selfPowered) {
+    		speed = 0.1f;
+    	}
     	TileEntity tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
     	//altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
     	if(!firstTick) {
@@ -116,6 +119,11 @@ public class EntityTrainDefault extends EntityTrain
 		    		
 		    		speed -= 0.005f;
 		    		this.setPosition(this.posX, this.posY, this.posZ);
+		    		
+		    		/*if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer) {
+		    			EntityPlayer player = (EntityPlayer) this.riddenByEntity;
+		    			player.updateRiderPosition();
+		    		}*/
 		    	}
 	    	}
     	}
