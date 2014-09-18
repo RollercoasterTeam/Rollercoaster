@@ -1,6 +1,7 @@
 package robomuss.rc.events;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
@@ -74,8 +75,14 @@ public class BlockClickedEvent {
 				if(event.entityPlayer.isSneaking()) {
 					EntityPlayer player = event.entityPlayer;
 					if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == RCItems.hammer) {
-						ItemHammer item = (ItemHammer) player.getCurrentEquippedItem().getItem();
-						player.getCurrentEquippedItem().stackTagCompound.setInteger("mode", player.getCurrentEquippedItem().stackTagCompound.getInteger("mode") + 1);
+						if(player.getCurrentEquippedItem().stackTagCompound == null) {
+							player.getCurrentEquippedItem().stackTagCompound = new NBTTagCompound();
+							
+							player.getCurrentEquippedItem().stackTagCompound.setInteger("mode", 0);
+						}
+						int mode = player.getCurrentEquippedItem().stackTagCompound.getInteger("mode");
+						int newMode = mode + 1 < ItemHammer.modes.length ? mode + 1 : 0;
+						player.getCurrentEquippedItem().stackTagCompound.setInteger("mode", newMode);
 					}
 				}
 			}

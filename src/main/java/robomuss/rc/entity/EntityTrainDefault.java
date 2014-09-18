@@ -131,13 +131,11 @@ public class EntityTrainDefault extends EntityTrain
 	}
     
     private void rotateOnPlace(TileEntity tileentity) {
-    	System.out.println("Test");
     	if(!(tileentity instanceof TileEntityTrack)) {
     		tileentity = altTileEntity;
     	}
     	if(tileentity != null & tileentity instanceof TileEntityTrack) {
     		TileEntityTrack te = (TileEntityTrack) tileentity;
-    		System.out.println("Meta: " + te.direction);
 	    	if(getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
 	    		if(te.direction == 0) {
 	    			this.rotationYaw = 90f;

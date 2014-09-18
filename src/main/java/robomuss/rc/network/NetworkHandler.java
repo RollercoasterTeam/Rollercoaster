@@ -21,7 +21,6 @@ public class NetworkHandler {
 	}
 	
 	public static void handleTrackDesignerButtonClick(TileEntityTrackDesigner te, int id) {
-		System.out.println("Button");
 		RCMod.packetPipeline.sendToServer(new PacketTrackDesignerButtonClick(te.xCoord, te.yCoord, te.zCoord, id));
 	}
 

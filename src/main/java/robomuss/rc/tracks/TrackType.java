@@ -1,7 +1,6 @@
 package robomuss.rc.tracks;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -10,9 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackType {

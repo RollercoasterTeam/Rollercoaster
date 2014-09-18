@@ -12,11 +12,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.AdvancedModelLoader;
 
 public class ItemHammer extends Item {
 
-	private HammerMode[] modes = {
-		new HammerMode("Rotatate"),
+	public static HammerMode[] modes = {
+		new HammerMode("Rotate"),
 		new HammerMode("Change Type"),
 		new HammerMode("Adjustment")
 	};

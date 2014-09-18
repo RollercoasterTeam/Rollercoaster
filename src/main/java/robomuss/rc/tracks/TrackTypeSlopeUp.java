@@ -8,9 +8,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.entity.OldEntityTrain;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
 public class TrackTypeSlopeUp extends TrackType {

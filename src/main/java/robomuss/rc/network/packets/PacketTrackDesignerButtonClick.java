@@ -49,7 +49,6 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-    	System.out.println("Test");
     	TileEntityTrackDesigner te = (TileEntityTrackDesigner) player.worldObj.getTileEntity(x, y, z);
     	player.worldObj.setBlock(te.currentPosX, te.currentPosY, te.currentPosZ, RCBlocks.path);
     }
