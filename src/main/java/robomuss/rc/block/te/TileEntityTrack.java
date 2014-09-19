@@ -8,15 +8,17 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+import pneumaticCraft.api.tileentity.AirHandlerSupplier;
 import pneumaticCraft.api.tileentity.IAirHandler;
 import pneumaticCraft.api.tileentity.IPneumaticMachine;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 import robomuss.rc.tracks.extra.TrackExtra;
+import robomuss.rc.tracks.extra.TrackExtraAirLauncher;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.fml.common.Optional;
 
 @Optional.InterfaceList(
        @Optional.Interface(iface = "pneumaticCraft.api.tileentity.IPneumaticMachine", modid = "PneumaticCraft")
@@ -29,6 +31,8 @@ public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 	public RollercoasterType type;
 	
 	private boolean converted = false;
+	
+	private IAirHandler airHandler;
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
@@ -101,12 +105,34 @@ public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 	@Optional.Method(modid = "PneumaticCraft")
 	@Override
 	public IAirHandler getAirHandler() {
-		return null;
+		if(airHandler == null) {
+			airHandler = AirHandlerSupplier.getAirHandler(5, 7, 50, 2000);
+		}
+		return airHandler;
 	}
 
 	@Optional.Method(modid = "PneumaticCraft")
 	@Override
 	public boolean isConnectedTo(ForgeDirection side) {
-		return false;
+		if(this.extra != null && this.extra instanceof TrackExtraAirLauncher) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
+	
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		getAirHandler().updateEntityI();
+	}
+	
+	@Override
+	public void validate() {
+		super.validate();
+		getAirHandler().validateI(this);
+	}
+	
+	
 }

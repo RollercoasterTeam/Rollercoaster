@@ -39,7 +39,7 @@ public class TrackTypeSlope extends TrackType {
 		return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
 	}
 	
-	@Override
+	/*@Override
 	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
 		TileEntityTrack te = (TileEntityTrack) iba.getTileEntity(x, y, z);
 		if(te.direction == 0) {
@@ -55,7 +55,7 @@ public class TrackTypeSlope extends TrackType {
 			return AxisAlignedBB.getBoundingBox(0, 0, 0, 2, 1, 1);
 		}
 		return super.getBlockBounds(iba, x, y, z);
-	}
+	}*/
 	
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {

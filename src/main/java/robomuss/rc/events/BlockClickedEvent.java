@@ -49,7 +49,6 @@ public class BlockClickedEvent {
 					}
 					
 					ItemHammer.modes[event.entityPlayer.getCurrentEquippedItem().stackTagCompound.getInteger("mode")].onRightClick(tileentity, event);
-
 				}
 			}
 			if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR)  {

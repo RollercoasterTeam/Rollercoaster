@@ -37,12 +37,7 @@ public class EntityTrainDefault extends EntityTrain
     	//TODO
         //if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, p_130002_1_))) return true;
         if (!this.worldObj.isRemote) {
-        	if(player.isSneaking()) {
-        		this.setDead();
-        	}
-        	else {
-        		player.mountEntity(this);
-        	}
+        	player.mountEntity(this);
         }
         return true;
     }
