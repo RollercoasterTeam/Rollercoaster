@@ -90,7 +90,6 @@ public class BlockRideFence extends BlockContainer implements IPaintable {
         	if(this == RCBlocks.ride_fence_gate) {
 	        	TileEntityRideFence te = (TileEntityRideFence) world.getTileEntity(x, y, z);
 	        	te.open = world.isBlockIndirectlyGettingPowered(x, y, z);
-	        	System.out.println(te.open);
 	        	world.markBlockForUpdate(x, y, z);
         	}
         }
