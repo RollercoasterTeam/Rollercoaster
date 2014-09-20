@@ -52,6 +52,22 @@ public class RecipeHandler {
 			"XXX", "X X", 'X', Blocks.iron_bars
 		});
 		
+		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.ride_fence_corner, 1), new Object[] {
+			RCBlocks.ride_fence, RCBlocks.ride_fence
+		});
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.ride_fence_triangle, 1), new Object[] {
+			RCBlocks.ride_fence, RCBlocks.ride_fence_corner
+		});
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.ride_fence_square, 1), new Object[] {
+			RCBlocks.ride_fence, RCBlocks.ride_fence_triangle
+		});
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.ride_fence_gate, 1), new Object[] {
+			RCBlocks.ride_fence, Blocks.lever
+		});
+		
 		GameRegistry.addRecipe(new ItemStack(RCBlocks.support, 4), new Object[] {
 			" X ", " X ", " X ", 'X', Items.iron_ingot
 		});
