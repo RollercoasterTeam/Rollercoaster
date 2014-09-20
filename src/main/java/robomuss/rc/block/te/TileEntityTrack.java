@@ -20,10 +20,10 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Optional.InterfaceList(
+/*@Optional.InterfaceList(
        @Optional.Interface(iface = "pneumaticCraft.api.tileentity.IPneumaticMachine", modid = "PneumaticCraft")
-)
-public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
+)*/
+public class TileEntityTrack extends TileEntity {
 
 	public int direction;
 	public int colour;
@@ -102,7 +102,7 @@ public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 		return false;
 	}
 
-	@Optional.Method(modid = "PneumaticCraft")
+	/*@Optional.Method(modid = "PneumaticCraft")
 	@Override
 	public IAirHandler getAirHandler() {
 		if(airHandler == null) {
@@ -120,9 +120,9 @@ public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 		else {
 			return false;
 		}
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void updateEntity() {
 		super.updateEntity();
 		getAirHandler().updateEntityI();
@@ -132,7 +132,5 @@ public class TileEntityTrack extends TileEntity implements IPneumaticMachine {
 	public void validate() {
 		super.validate();
 		getAirHandler().validateI(this);
-	}
-	
-	
+	}*/
 }
