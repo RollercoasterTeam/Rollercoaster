@@ -3,6 +3,7 @@ package robomuss.rc.tracks;
 import java.util.ArrayList;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import robomuss.rc.block.model.ModelAirLauncher;
@@ -48,7 +49,9 @@ public class TrackHandler {
 		extras.add(new TrackExtraStation("station", new ModelStation(), new Object[] {
 			"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
 		}, 6, TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), null, 0, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {
+			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
+		}, 1, TrackHandler.findTrackType("horizontal")));
 		
 		types.add(new RollercoasterTypeCorkscrew("corkscrew"));
 		types.add(new RollercoasterTypeFlumeOpen("flume_open"));
