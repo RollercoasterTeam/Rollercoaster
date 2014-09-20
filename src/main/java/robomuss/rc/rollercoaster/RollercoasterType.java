@@ -3,7 +3,7 @@ package robomuss.rc.rollercoaster;
 import java.util.ArrayList;
 
 import net.minecraft.client.model.ModelBase;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackType;
 
 public abstract class RollercoasterType {
 	

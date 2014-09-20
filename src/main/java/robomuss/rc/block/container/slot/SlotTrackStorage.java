@@ -4,8 +4,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 
 public class SlotTrackStorage extends Slot {
 

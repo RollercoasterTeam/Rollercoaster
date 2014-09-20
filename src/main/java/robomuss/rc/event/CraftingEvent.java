@@ -1,4 +1,4 @@
-package robomuss.rc.events;
+package robomuss.rc.event;
 
 
 public class CraftingEvent {

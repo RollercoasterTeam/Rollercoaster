@@ -1,4 +1,4 @@
-package robomuss.rc.tracks;
+package robomuss.rc.track;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.AxisAlignedBB;

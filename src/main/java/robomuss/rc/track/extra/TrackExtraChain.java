@@ -1,4 +1,4 @@
-package robomuss.rc.tracks.extra;
+package robomuss.rc.track.extra;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
@@ -6,8 +6,8 @@ import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelChainExtended;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 
 public class TrackExtraChain extends TrackExtra {
 

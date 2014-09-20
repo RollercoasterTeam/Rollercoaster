@@ -7,7 +7,7 @@ import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackType;
 
 public class RollercoasterTypeCorkscrew extends RollercoasterType {
 

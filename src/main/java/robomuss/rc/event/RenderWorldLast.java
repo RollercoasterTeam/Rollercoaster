@@ -1,4 +1,4 @@
-package robomuss.rc.events;
+package robomuss.rc.event;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

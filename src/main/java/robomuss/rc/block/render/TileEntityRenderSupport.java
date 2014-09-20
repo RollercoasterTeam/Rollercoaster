@@ -11,8 +11,8 @@ import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.model.ModelTrackSupport;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 
 public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
     

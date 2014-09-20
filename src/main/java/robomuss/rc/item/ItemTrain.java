@@ -8,7 +8,7 @@ import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.tracks.TrackHandler;
+import robomuss.rc.track.TrackHandler;
 
 public class ItemTrain extends Item {
 

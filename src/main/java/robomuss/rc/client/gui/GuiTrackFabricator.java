@@ -1,4 +1,4 @@
-package robomuss.rc.gui;
+package robomuss.rc.client.gui;
 
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import org.lwjgl.util.Rectangle;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
-import robomuss.rc.tracks.TrackHandler;
+import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

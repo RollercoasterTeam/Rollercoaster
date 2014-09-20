@@ -1,4 +1,4 @@
-package robomuss.rc.gui;
+package robomuss.rc.client.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

@@ -12,8 +12,8 @@ import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.item.ItemBlockPath;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCBlocks {

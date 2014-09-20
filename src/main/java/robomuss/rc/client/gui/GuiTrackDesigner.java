@@ -1,4 +1,4 @@
-package robomuss.rc.gui;
+package robomuss.rc.client.gui;
 
 import java.awt.Rectangle;
 

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.AbstractPacket;
-import robomuss.rc.tracks.TrackHandler;
+import robomuss.rc.track.TrackHandler;
 
 public class PacketTrackFabricatorUpdate extends AbstractPacket {
 

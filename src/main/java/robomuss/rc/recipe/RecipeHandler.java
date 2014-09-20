@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.item.RCItems;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.extra.TrackExtra;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.extra.TrackExtra;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHandler {

@@ -1,4 +1,4 @@
-package robomuss.rc.tracks;
+package robomuss.rc.track;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;

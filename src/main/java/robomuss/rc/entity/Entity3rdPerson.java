@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 
 import robomuss.rc.block.te.TileEntityTrackDesigner;
-import robomuss.rc.events.RenderWorldLast;
+import robomuss.rc.event.RenderWorldLast;
 
 /**
  * Created by Mark on 17/08/2014.

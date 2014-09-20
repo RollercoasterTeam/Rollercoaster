@@ -1,4 +1,4 @@
-package robomuss.rc.tracks.extra;
+package robomuss.rc.track.extra;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.RCItems;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackType;
 
 public class TrackExtra {
 	

@@ -1,4 +1,4 @@
-package robomuss.rc.events;
+package robomuss.rc.event;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

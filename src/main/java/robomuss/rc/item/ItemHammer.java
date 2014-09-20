@@ -14,7 +14,7 @@ import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
-import robomuss.rc.tracks.TrackHandler;
+import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.hammer.HammerMode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

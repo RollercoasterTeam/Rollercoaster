@@ -1,4 +1,4 @@
-package robomuss.rc.tracks;
+package robomuss.rc.track;
 
 import java.util.ArrayList;
 
@@ -15,10 +15,10 @@ import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.rollercoaster.RollercoasterTypeCorkscrew;
 import robomuss.rc.rollercoaster.RollercoasterTypeFlumeEnclosed;
 import robomuss.rc.rollercoaster.RollercoasterTypeFlumeOpen;
-import robomuss.rc.tracks.extra.TrackExtra;
-import robomuss.rc.tracks.extra.TrackExtraAirLauncher;
-import robomuss.rc.tracks.extra.TrackExtraChain;
-import robomuss.rc.tracks.extra.TrackExtraStation;
+import robomuss.rc.track.extra.TrackExtra;
+import robomuss.rc.track.extra.TrackExtraAirLauncher;
+import robomuss.rc.track.extra.TrackExtraChain;
+import robomuss.rc.track.extra.TrackExtraStation;
 
 public class TrackHandler {
 

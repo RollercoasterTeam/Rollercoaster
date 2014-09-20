@@ -14,8 +14,8 @@ import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

@@ -1,4 +1,4 @@
-package robomuss.rc.gui;
+package robomuss.rc.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;

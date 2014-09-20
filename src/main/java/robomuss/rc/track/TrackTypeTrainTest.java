@@ -1,4 +1,4 @@
-package robomuss.rc.tracks;
+package robomuss.rc.track;
 
 
 public class TrackTypeTrainTest extends TrackType {

@@ -13,8 +13,8 @@ import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {

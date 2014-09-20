@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.block.model.ModelFlumeEnclosed;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackType;
 
 public class RollercoasterTypeFlumeEnclosed extends RollercoasterType {
 

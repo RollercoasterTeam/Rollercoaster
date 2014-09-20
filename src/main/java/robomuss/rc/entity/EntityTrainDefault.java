@@ -6,8 +6,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.tracks.TrackHandler;
-import robomuss.rc.tracks.TrackType;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackType;
 
 public class EntityTrainDefault extends EntityTrain {
     //North = 0
