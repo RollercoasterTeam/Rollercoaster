@@ -2,19 +2,12 @@ package robomuss.rc.block.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.model.ModelCorkscrewCoaster;
-import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
-import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
-import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
-import robomuss.rc.block.model.ModelFlumeEnclosed;
-import robomuss.rc.block.model.ModelFlumeOpen;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;

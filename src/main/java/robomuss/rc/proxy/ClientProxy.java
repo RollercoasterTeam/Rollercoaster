@@ -21,6 +21,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 	
+	@SuppressWarnings("unused")
 	@Override
 	public void initRenderers() {
 		for(TrackType track : TrackHandler.tracks) {

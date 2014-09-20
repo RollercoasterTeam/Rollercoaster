@@ -7,13 +7,9 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import org.lwjgl.input.Keyboard;
 
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.ItemHammer;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
-import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.util.IPaintable;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

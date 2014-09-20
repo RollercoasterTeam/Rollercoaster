@@ -1,7 +1,6 @@
 package robomuss.rc.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -9,7 +8,6 @@ import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
-import robomuss.rc.tracks.extra.TrackExtra;
 
 public class EntityTrainDefault extends EntityTrain
 {

@@ -23,13 +23,11 @@ import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.tracks.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.fml.common.Optional;
 
 @SideOnly(Side.CLIENT)
 public class GuiTrackFabricator extends GuiContainer {
 	
 	private TileEntityTrackFabricator te;
-	private EntityPlayer player;
 	private int current_track;
 	private int amount = 1;
 	private GuiTextField textField;
@@ -39,7 +37,6 @@ public class GuiTrackFabricator extends GuiContainer {
     public GuiTrackFabricator(InventoryPlayer par1InventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World par2World, int par3, int par4, int par5) {
         super(new ContainerTrackFabricator(par1InventoryPlayer, player, te, par2World, par3, par4, par5));
         this.te = te;
-        this.player = player;
     }
 
 	@SuppressWarnings("unchecked")

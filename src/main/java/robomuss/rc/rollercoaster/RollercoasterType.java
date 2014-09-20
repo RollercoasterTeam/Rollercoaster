@@ -2,12 +2,8 @@ package robomuss.rc.rollercoaster;
 
 import java.util.ArrayList;
 
-import robomuss.rc.block.model.ModelCorkscrewCoaster;
-import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
-import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
-import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
-import robomuss.rc.tracks.TrackType;
 import net.minecraft.client.model.ModelBase;
+import robomuss.rc.tracks.TrackType;
 
 public abstract class RollercoasterType {
 	

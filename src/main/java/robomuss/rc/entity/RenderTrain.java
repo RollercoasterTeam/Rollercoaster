@@ -10,8 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -25,7 +23,6 @@ public class RenderTrain extends Render
     /** instance of ModelMinecart for rendering */
     protected ModelBase modelMinecart = new ModelMinecart();
     protected final RenderBlocks field_94145_f;
-    private static final String __OBFID = "CL_00001013";
 
     public RenderTrain()
     {

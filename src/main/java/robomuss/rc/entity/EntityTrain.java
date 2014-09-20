@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -48,7 +47,6 @@ public abstract class EntityTrain extends Entity
     private double velocityY;
     @SideOnly(Side.CLIENT)
     private double velocityZ;
-    private static final String __OBFID = "CL_00001670";
 
     /* Forge: Minecart Compatibility Layer Integration. */
     public static float defaultMaxSpeedAirLateral = 0.4f;
@@ -355,7 +353,6 @@ public abstract class EntityTrain extends Entity
             }
 
             double d0 = 0.4D;
-            double d2 = 0.0078125D;
             Block block = this.worldObj.getBlock(l, i, i1);
 
             if (canUseRail() && block instanceof BlockTrack)
@@ -413,7 +410,7 @@ public abstract class EntityTrain extends Entity
                 box = boundingBox.expand(0.2D, 0.0D, 0.2D);
             }
 
-            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, box);
+            List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, box);
 
             if (list != null && !list.isEmpty())
             {

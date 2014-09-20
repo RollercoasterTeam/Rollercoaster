@@ -6,8 +6,6 @@ import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelChainExtended;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 

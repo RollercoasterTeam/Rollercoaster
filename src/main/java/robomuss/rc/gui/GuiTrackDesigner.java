@@ -1,21 +1,12 @@
 package robomuss.rc.gui;
 
 import java.awt.Rectangle;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import org.lwjgl.opengl.GL11;
-
-import com.ibm.icu.text.DateFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.entity.Entity3rdPerson;
@@ -26,22 +17,15 @@ public class GuiTrackDesigner extends GuiScreen {
 	private TileEntityTrackDesigner te;
 
     public Entity3rdPerson entity3rdPerson;
-    private EntityLivingBase player3rd;
     private int thirdPersonView = 0;
 
     private double posX, posY, posZ;
-    private float yaw;
-    
-    private static final ResourceLocation trackDesignerGuiTextures = new ResourceLocation("rc", "textures/gui/track_designer.png");
-
-
     public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
 		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
 		
         entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
         if (entity3rdPerson != null) {
             Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
-            player3rd = Minecraft.getMinecraft().renderViewEntity;
 
             entity3rdPerson.setLocationAndAngles(x, y, z, 0 , 50);
 

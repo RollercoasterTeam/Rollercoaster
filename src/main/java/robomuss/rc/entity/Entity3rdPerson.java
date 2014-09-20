@@ -1,12 +1,6 @@
 package robomuss.rc.entity;
 
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -23,13 +17,13 @@ import robomuss.rc.events.RenderWorldLast;
  */
 public class Entity3rdPerson extends EntityLivingBase {
 
-    private static FloatBuffer modelviewF = GLAllocation.createDirectFloatBuffer(16);
+    /*private static FloatBuffer modelviewF = GLAllocation.createDirectFloatBuffer(16);
     private static FloatBuffer projectionF = GLAllocation.createDirectFloatBuffer(16);
     private static DoubleBuffer modelviewD = ByteBuffer.allocateDirect(16 * 8).asDoubleBuffer();
     private static DoubleBuffer projectionD = ByteBuffer.allocateDirect(16 * 8).asDoubleBuffer();
     private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
     private static FloatBuffer winZ = ByteBuffer.allocateDirect(1 * 4).asFloatBuffer();
-    private static FloatBuffer pos = ByteBuffer.allocateDirect(3 * 4).asFloatBuffer();
+    private static FloatBuffer pos = ByteBuffer.allocateDirect(3 * 4).asFloatBuffer();*/
 
     public EntityLivingBase player;
     public TileEntityTrackDesigner tile;

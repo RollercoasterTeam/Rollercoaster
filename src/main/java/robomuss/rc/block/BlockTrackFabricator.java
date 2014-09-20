@@ -2,19 +2,15 @@ package robomuss.rc.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTrackFabricator extends BlockContainer {
 
@@ -57,7 +53,6 @@ public class BlockTrackFabricator extends BlockContainer {
 	@Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
         int l = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-        int i1 = world.getBlockMetadata(x, y, z) >> 2;
         ++l;
         l %= 4;
 

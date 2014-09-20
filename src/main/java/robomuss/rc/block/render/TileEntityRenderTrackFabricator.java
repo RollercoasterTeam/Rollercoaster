@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelTrackFabricator;
-import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 
 

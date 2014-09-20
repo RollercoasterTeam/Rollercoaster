@@ -5,19 +5,12 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
-import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.util.IPaintable;
 
 public class BlockRideFence extends BlockContainer implements IPaintable {

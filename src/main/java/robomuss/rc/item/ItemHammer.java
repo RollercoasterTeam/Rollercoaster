@@ -131,7 +131,7 @@ public class ItemHammer extends Item {
 		stack.stackTagCompound.setInteger("mode", 0);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean val) {

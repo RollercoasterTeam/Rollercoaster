@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
-import robomuss.rc.tracks.TrackHandler;
 
 public class PacketTrackDesignerStartPoint extends AbstractPacket {
 

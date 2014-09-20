@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.util.IPaintable;
 
