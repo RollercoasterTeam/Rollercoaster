@@ -46,17 +46,6 @@ public class BlockRideFence extends BlockContainer implements IPaintable {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
 			if(player.getHeldItem() != null) {
-				if(player.getHeldItem().getItem() == RCItems.hammer) {
-					TileEntityRideFence terf = (TileEntityRideFence) world.getTileEntity(x, y, z);
-					if(terf.direction == 3) {
-						terf.direction = 0;
-					}
-					else {
-						terf.direction++;
-					}
-					world.markBlockForUpdate(x, y, z);
-					return true;
-				}
 				if(player.getHeldItem().getItem() == RCItems.brush) {
 					TileEntityRideFence terf = (TileEntityRideFence) world.getTileEntity(x, y, z);
 					terf.colour = player.getHeldItem().getItemDamage();

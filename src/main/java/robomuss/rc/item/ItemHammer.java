@@ -10,8 +10,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import robomuss.rc.block.te.TileEntityFooter;
+import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.util.hammer.HammerMode;
 import cpw.mods.fml.relauncher.Side;
@@ -30,6 +32,26 @@ public class ItemHammer extends Item {
 					}
 					else {
 						tet.direction++;
+					}
+					event.world.markBlockForUpdate(event.x, event.y, event.z);
+				}
+				if(tileentity instanceof TileEntityRideFence) {
+					TileEntityRideFence terf = (TileEntityRideFence) event.world.getTileEntity(event.x, event.y, event.z);
+					if(terf.direction == 3) {
+						terf.direction = 0;
+					}
+					else {
+						terf.direction++;
+					}
+					event.world.markBlockForUpdate(event.x, event.y, event.z);
+				}
+				if(tileentity instanceof TileEntityWoodenSupport) {
+					TileEntityWoodenSupport tews = (TileEntityWoodenSupport) event.world.getTileEntity(event.x, event.y, event.z);
+					if(tews.direction == 3) {
+						tews.direction = 0;
+					}
+					else {
+						tews.direction++;
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}
