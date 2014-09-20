@@ -1,15 +1,23 @@
 package robomuss.rc.block;
 
+import java.util.Random;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityRideFence;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.entity.EntityTrainDefault;
+import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.util.IPaintable;
 
 public class BlockRideFence extends BlockContainer implements IPaintable {
@@ -74,5 +82,22 @@ public class BlockRideFence extends BlockContainer implements IPaintable {
 	@Override
 	public int getPaintMeta(World world, int x, int y, int z) {
 		return ((TileEntityRideFence) world.getTileEntity(x, y, z)).colour;
+	}
+	
+	@Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        if(!world.isRemote) {
+        	if(this == RCBlocks.ride_fence_gate) {
+	        	TileEntityRideFence te = (TileEntityRideFence) world.getTileEntity(x, y, z);
+	        	te.open = world.isBlockIndirectlyGettingPowered(x, y, z);
+	        	System.out.println(te.open);
+	        	world.markBlockForUpdate(x, y, z);
+        	}
+        }
+    }
+	
+	@Override
+	public Item getItemDropped(int i, Random random, int j) {
+		return super.getItemDropped(i, random, j);
 	}
 }

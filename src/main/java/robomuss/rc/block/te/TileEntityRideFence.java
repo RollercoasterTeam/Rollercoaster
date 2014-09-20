@@ -11,6 +11,7 @@ public class TileEntityRideFence extends TileEntity {
 	
 	public int direction;
 	public int colour;
+	public boolean open = false;
 	
 	@Override
 	public Packet getDescriptionPacket() {
@@ -30,6 +31,7 @@ public class TileEntityRideFence extends TileEntity {
 		
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
+		open = compound.getBoolean("open");
 	}
 	
 	@Override
@@ -38,6 +40,7 @@ public class TileEntityRideFence extends TileEntity {
 		
 		compound.setInteger("direction", direction);
 		compound.setInteger("colour", colour);
+		compound.setBoolean("open", open);
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.ModelRideFence;
 import robomuss.rc.block.model.ModelRideFenceCorner;
 import robomuss.rc.block.model.ModelRideFenceGate;
+import robomuss.rc.block.model.ModelRideFenceGateOpen;
 import robomuss.rc.block.model.ModelRideFenceSquare;
 import robomuss.rc.block.model.ModelRideFenceTriangle;
 import robomuss.rc.block.te.TileEntityRideFence;
@@ -71,10 +72,12 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 			model = square;
 		}
 		else if(te.getBlockType() == RCBlocks.ride_fence_gate) {
-			model = gate;
-		}
-		else if(te.getBlockType() == RCBlocks.ride_fence_gate_open) {
-			model = gate_open;
+			if(((TileEntityRideFence) te).open) {
+				model = gate_open;
+			}
+			else {
+				model = gate;
+			}
 		}
 		
 		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
