@@ -24,7 +24,7 @@ public class TileEntityRenderWoodenSupport extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 
 		 
-		ResourceLocation textures = (new ResourceLocation("rc:textures/models/woodenSupport.png"));
+		ResourceLocation textures = (new ResourceLocation("rc:textures/models/wooden_support.png"));
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		

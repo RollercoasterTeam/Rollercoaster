@@ -30,7 +30,7 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityTrack.class, "te_track");
         
 		support = new BlockSupport().setBlockName("support").setBlockTextureName("rc:support").setCreativeTab(RCMod.track);
-		woodenSupport = new BlockWoodenSupport().setBlockName("woodenSupport").setBlockTextureName("rc:woodenSupport").setCreativeTab(RCMod.track);
+		woodenSupport = new BlockWoodenSupport().setBlockName("wooden_support").setBlockTextureName("rc:wooden_support").setCreativeTab(RCMod.track);
 		track_designer = new BlockTrackDesigner().setBlockName("track_designer").setBlockTextureName("rc:track_designer").setCreativeTab(RCMod.track);
         track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setBlockTextureName("rc:track_fabricator").setCreativeTab(RCMod.track);
         track_storage = new BlockTrackStorage().setBlockName("track_storage").setCreativeTab(RCMod.track);

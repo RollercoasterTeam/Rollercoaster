@@ -2,6 +2,8 @@ package robomuss.rc.tracks;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
@@ -37,5 +39,10 @@ public class TrackTypeHorizontal extends TrackType {
 				entity.posX -= entity.speed;
 			}
 		}
+	}
+	
+	@Override
+	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
+		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
 	}
 }

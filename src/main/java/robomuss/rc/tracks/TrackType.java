@@ -92,7 +92,7 @@ public class TrackType {
 	}
 
 	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
-		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
+		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}
 
     public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {

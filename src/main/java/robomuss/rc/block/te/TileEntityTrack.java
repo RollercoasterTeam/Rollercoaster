@@ -7,16 +7,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
-import pneumaticCraft.api.tileentity.AirHandlerSupplier;
-import pneumaticCraft.api.tileentity.IAirHandler;
-import pneumaticCraft.api.tileentity.IPneumaticMachine;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.tracks.TrackHandler;
 import robomuss.rc.tracks.TrackType;
 import robomuss.rc.tracks.extra.TrackExtra;
-import robomuss.rc.tracks.extra.TrackExtraAirLauncher;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -32,7 +26,7 @@ public class TileEntityTrack extends TileEntity {
 	
 	private boolean converted = false;
 	
-	private IAirHandler airHandler;
+	//private IAirHandler airHandler;
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
