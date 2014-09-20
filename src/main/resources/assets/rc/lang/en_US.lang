@@ -12,7 +12,7 @@ tile.heartline_roll_track.name=Heartline Roll Track
 
 tile.support.name=Steel Support
 tile.footer.name=Support Footer
-tle.wooden_support=Wooden Support
+tile.wooden_support.name=Wooden Support
 
 tile.path_0.name=Asphalt Path
 tile.path_1.name=Dusty Path
