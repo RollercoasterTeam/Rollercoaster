@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.ModelRideFence;
 import robomuss.rc.block.model.ModelRideFenceCorner;
+import robomuss.rc.block.model.ModelRideFenceGate;
 import robomuss.rc.block.model.ModelRideFenceSquare;
 import robomuss.rc.block.model.ModelRideFenceTriangle;
 import robomuss.rc.block.te.TileEntityRideFence;
@@ -23,6 +24,8 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 	private ModelRideFenceCorner corner = new ModelRideFenceCorner();
 	private ModelRideFenceTriangle triangle = new ModelRideFenceTriangle();
 	private ModelRideFenceSquare square = new ModelRideFenceSquare();
+	private ModelRideFenceGate gate = new ModelRideFenceGate();
+	private ModelRideFenceGateOpen gate_open = new ModelRideFenceGateOpen();
 	
 	private ModelBase model;
 
@@ -66,6 +69,12 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 		}
 		else if(te.getBlockType() == RCBlocks.ride_fence_square) {
 			model = square;
+		}
+		else if(te.getBlockType() == RCBlocks.ride_fence_gate) {
+			model = gate;
+		}
+		else if(te.getBlockType() == RCBlocks.ride_fence_gate_open) {
+			model = gate_open;
 		}
 		
 		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);

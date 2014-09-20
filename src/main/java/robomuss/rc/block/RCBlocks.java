@@ -19,7 +19,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class RCBlocks {
 
 	public static int last_track_id;
-	public static Block support, woodenSupport, path, railings, picket, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, track_designer, track_fabricator, track_storage;
+	public static Block support, woodenSupport, path, railings, picket, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, ride_fence_gate, track_designer, track_fabricator, track_storage;
 	public static Block footer;
 	
 	public static void init() {
@@ -38,10 +38,12 @@ public class RCBlocks {
         path = new BlockPath().setBlockName("path").setCreativeTab(RCMod.decor);
 		railings = new BlockRailings("railings").setBlockName("railings").setCreativeTab(RCMod.decor);
 		picket = new BlockRailings("picket").setBlockName("picket").setCreativeTab(RCMod.decor);
+		
 		ride_fence = new BlockRideFence().setBlockName("ride_fence").setBlockTextureName("rc:ride_fence").setCreativeTab(RCMod.decor);
 		ride_fence_corner = new BlockRideFence().setBlockName("ride_fence_corner").setBlockTextureName("rc:ride_fence_corner").setCreativeTab(RCMod.decor);
 		ride_fence_triangle = new BlockRideFence().setBlockName("ride_fence_triangle").setBlockTextureName("rc:ride_fence_triangle").setCreativeTab(RCMod.decor);
 		ride_fence_square = new BlockRideFence().setBlockName("ride_fence_square").setBlockTextureName("rc:ride_fence_square").setCreativeTab(RCMod.decor);
+		ride_fence_gate = new BlockRideFence().setBlockName("ride_fence_gate").setBlockTextureName("rc:ride_fence_gate").setCreativeTab(RCMod.decor);
 		
 		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
 		
@@ -54,10 +56,12 @@ public class RCBlocks {
         GameRegistry.registerBlock(path, ItemBlockPath.class, "path");
 		GameRegistry.registerBlock(railings, "railings");
 		GameRegistry.registerBlock(picket, "picket");
+		
 		GameRegistry.registerBlock(ride_fence, "ride_fence");
 		GameRegistry.registerBlock(ride_fence_corner, "ride_fence_corner");
 		GameRegistry.registerBlock(ride_fence_triangle, "ride_fence_triangle");
 		GameRegistry.registerBlock(ride_fence_square, "ride_fence_square");
+		GameRegistry.registerBlock(ride_fence_gate, "ride_fence_gate");
 		
 		GameRegistry.registerBlock(footer, "footer");
         
