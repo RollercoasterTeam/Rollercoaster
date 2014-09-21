@@ -16,11 +16,8 @@ import robomuss.rc.track.TrackType;
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	
+	public static TileEntityRenderTrack instance = new TileEntityRenderTrack();
 	private RollercoasterType type;
-
-	public TileEntityRenderTrack() {
-		
-	}
 	
 	int animation;
 

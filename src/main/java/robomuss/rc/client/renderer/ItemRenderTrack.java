@@ -1,11 +1,12 @@
 package robomuss.rc.client.renderer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import robomuss.rc.block.render.TileEntityRenderTrackFabricator;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.block.render.TileEntityRenderTrack;
+import robomuss.rc.block.te.TileEntityTrack;
 
-public class ItemRenderTrackFabricator implements IItemRenderer {
+public class ItemRenderTrack implements IItemRenderer {
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -19,6 +20,8 @@ public class ItemRenderTrackFabricator implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		TileEntityRenderTrackFabricator.instance.renderTileEntityAt(new TileEntityTrackFabricator(), 0, 0, 0, 0);
+		TileEntityTrack te = new TileEntityTrack();
+		te.setWorldObj(Minecraft.getMinecraft().theWorld);
+		TileEntityRenderTrack.instance.renderTileEntityAt(te, 0, 0, 0, 0);
 	}
 }

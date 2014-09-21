@@ -15,6 +15,8 @@ import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.client.renderer.ItemRenderFooter;
+import robomuss.rc.client.renderer.ItemRenderTrack;
 import robomuss.rc.client.renderer.ItemRenderTrackFabricator;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
@@ -44,5 +46,10 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
         
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.track_fabricator), new ItemRenderTrackFabricator());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.footer), new ItemRenderFooter());
+        
+        /*for(TrackType track : TrackHandler.tracks) {
+        	MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
+        }*/
 	}
 }

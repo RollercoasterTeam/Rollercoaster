@@ -19,6 +19,7 @@ import robomuss.rc.track.TrackType;
 public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
     
     public ModelFooter model;
+    public static TileEntityRenderFooter instance = new TileEntityRenderFooter();
 
     public TileEntityRenderFooter() {
         this.model = new ModelFooter();
