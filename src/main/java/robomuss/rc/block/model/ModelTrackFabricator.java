@@ -18,18 +18,18 @@ import net.minecraft.entity.Entity;
 public class ModelTrackFabricator extends ModelBase
 {
   //fields
-    ModelRenderer bottom;
-    ModelRenderer panel;
-    ModelRenderer pillar1;
-    ModelRenderer pillar2;
-    ModelRenderer pillar3;
-    ModelRenderer pillar4;
-    ModelRenderer top;
-    ModelRenderer part1;
-    ModelRenderer glass1;
-    ModelRenderer glass2;
-    ModelRenderer glass3;
-    ModelRenderer glass4;
+    public ModelRenderer bottom;
+    public ModelRenderer panel;
+    public ModelRenderer pillar1;
+    public ModelRenderer pillar2;
+    public ModelRenderer pillar3;
+    public ModelRenderer pillar4;
+    public ModelRenderer top;
+    public ModelRenderer part1;
+    public ModelRenderer glass1;
+    public ModelRenderer glass2;
+    public ModelRenderer glass3;
+    public ModelRenderer glass4;
   
   public ModelTrackFabricator()
   {
