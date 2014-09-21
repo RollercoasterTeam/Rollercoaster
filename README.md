@@ -14,4 +14,4 @@ TODO
 -More Inversions [unassigned],
 -Food stalls [robo],
 -Flat rides [robo]
-
+-Write a proper changelog for v1.4
