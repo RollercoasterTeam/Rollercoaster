@@ -7,11 +7,11 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.model.ModelFooter;
+import robomuss.rc.block.model.ModelSupport;
 
-public class ItemRenderFooter implements IItemRenderer {
+public class ItemRenderSupport implements IItemRenderer {
 
-	private ModelFooter model = new ModelFooter();
+	private ModelSupport model = new ModelSupport();
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -28,19 +28,14 @@ public class ItemRenderFooter implements IItemRenderer {
 		GL11.glPushMatrix();
         GL11.glTranslatef((float) 0 + 0.5F, (float) 0 + 1.35F, (float) 0 + 0.5F);
         GL11.glRotatef(180, 1, 0, 0);
-        ResourceLocation textures = (new ResourceLocation("rc:textures/models/footer.png"));
+        ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_0.png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
-        this.model.footer.render(0.0625F);  
-        
-        textures = (new ResourceLocation("rc:textures/models/colour_0.png"));
-        Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-        
         this.model.middle.render(0.0625F);  
-        this.model.middle2.render(0.0625F); 
+        this.model.middle2.render(0.0625F);  
         
         this.model.flange1.render(0.0625F);  
-        this.model.flange2.render(0.0625F); 
+        this.model.flange2.render(0.0625F);  
 
         GL11.glPopMatrix();
 	}

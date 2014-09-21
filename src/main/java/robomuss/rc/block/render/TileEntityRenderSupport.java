@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.BlockTrack;
-import robomuss.rc.block.model.ModelTrackSupport;
+import robomuss.rc.block.model.ModelSupport;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
@@ -16,10 +16,10 @@ import robomuss.rc.track.TrackType;
 
 public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
     
-    public ModelTrackSupport model;
+    public ModelSupport model;
 
     public TileEntityRenderSupport() {
-        this.model = new ModelTrackSupport();
+        this.model = new ModelSupport();
     }
 
     @Override

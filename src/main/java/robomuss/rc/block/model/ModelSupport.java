@@ -15,7 +15,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelTrackSupport extends ModelBase
+public class ModelSupport extends ModelBase
 {
   //fields
     public ModelRenderer middle;
@@ -24,7 +24,7 @@ public class ModelTrackSupport extends ModelBase
     public ModelRenderer flange1;
     public ModelRenderer flange2;
   
-  public ModelTrackSupport()
+  public ModelSupport()
   {
     textureWidth = 64;
     textureHeight = 32;
