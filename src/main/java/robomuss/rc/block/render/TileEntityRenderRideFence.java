@@ -28,6 +28,7 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 	private ModelRideFenceGate gate = new ModelRideFenceGate();
 	private ModelRideFenceGateOpen gate_open = new ModelRideFenceGateOpen();
 	
+	public static TileEntityRenderRideFence instance = new TileEntityRenderRideFence();
 	private ModelBase model;
 
 	public TileEntityRenderRideFence() {

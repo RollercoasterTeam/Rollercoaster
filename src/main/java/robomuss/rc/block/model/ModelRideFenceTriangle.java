@@ -18,11 +18,11 @@ import net.minecraft.entity.Entity;
 public class ModelRideFenceTriangle extends ModelBase
 {
   //fields
-    ModelRenderer Shape1;
-    ModelRenderer Shape3;
-    ModelRenderer Shape2;
-    ModelRenderer Shape4;
-    ModelRenderer Shape5;
+	public ModelRenderer Shape1;
+	public ModelRenderer Shape3;
+	public ModelRenderer Shape2;
+	public ModelRenderer Shape4;
+	public ModelRenderer Shape5;
   
   public ModelRideFenceTriangle()
   {

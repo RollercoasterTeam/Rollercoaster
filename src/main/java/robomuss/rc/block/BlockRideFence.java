@@ -40,7 +40,7 @@ public class BlockRideFence extends BlockContainer implements IPaintable {
 	
 	@Override
 	public int getRenderType() {
-		return 110;
+		return -1;
 	}
 	
 	@Override

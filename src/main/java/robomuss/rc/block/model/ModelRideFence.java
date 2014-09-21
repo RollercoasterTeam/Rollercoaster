@@ -18,9 +18,9 @@ import net.minecraft.entity.Entity;
 public class ModelRideFence extends ModelBase
 {
   //fields
-    ModelRenderer Shape1;
-    ModelRenderer Shape3;
-    ModelRenderer Shape2;
+    public ModelRenderer Shape1;
+    public ModelRenderer Shape3;
+    public ModelRenderer Shape2;
   
   public ModelRideFence()
   {

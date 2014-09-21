@@ -18,18 +18,18 @@ import net.minecraft.entity.Entity;
 public class ModelRideFenceGate extends ModelBase
 {
   //fields
-    ModelRenderer pole1;
-    ModelRenderer pole2;
-    ModelRenderer bar1;
-    ModelRenderer bar2;
-    ModelRenderer bar3;
-    ModelRenderer bar4;
-    ModelRenderer bar5;
-    ModelRenderer bar6;
-    ModelRenderer bar7;
-    ModelRenderer bar8;
-    ModelRenderer bar9;
-    ModelRenderer bar10;
+	public ModelRenderer pole1;
+	public ModelRenderer pole2;
+	public ModelRenderer bar1;
+	public ModelRenderer bar2;
+	public ModelRenderer bar3;
+	public ModelRenderer bar4;
+	public ModelRenderer bar5;
+	public ModelRenderer bar6;
+	public ModelRenderer bar7;
+	public ModelRenderer bar8;
+	public ModelRenderer bar9;
+	public ModelRenderer bar10;
   
   public ModelRideFenceGate()
   {
