@@ -41,13 +41,13 @@ public class GuiTrackDesigner extends GuiScreen {
         }
 	}
 	
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		buttonList.clear();
 		
 		buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
-	}
+	}*/
 	
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
@@ -96,7 +96,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		Rectangle bounds = new Rectangle(10, 10, 100, 20);
 		if(!mouse.intersects(bounds)) {
 			MovingObjectPosition pos = entity3rdPerson.rayTraceMouse();
-			NetworkHandler.placeTrackStartPoint(te, pos);
+			//NetworkHandler.placeTrackStartPoint(te, pos);
 		}
 	}
 
