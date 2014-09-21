@@ -14,6 +14,7 @@ import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCBlocks {
@@ -32,7 +33,7 @@ public class RCBlocks {
 		support = new BlockSupport().setBlockName("support").setBlockTextureName("rc:support").setCreativeTab(RCMod.track);
 		woodenSupport = new BlockWoodenSupport().setBlockName("wooden_support").setBlockTextureName("rc:wooden_support").setCreativeTab(RCMod.track);
 		track_designer = new BlockTrackDesigner().setBlockName("track_designer").setBlockTextureName("rc:track_designer").setCreativeTab(RCMod.track);
-        track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setBlockTextureName("rc:track_fabricator").setCreativeTab(RCMod.track);
+        track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setCreativeTab(RCMod.track);
         track_storage = new BlockTrackStorage().setBlockName("track_storage").setCreativeTab(RCMod.track);
 		
         path = new BlockPath().setBlockName("path").setCreativeTab(RCMod.decor);

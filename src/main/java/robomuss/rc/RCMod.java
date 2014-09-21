@@ -85,8 +85,7 @@ public class RCMod {
 		};
 
 		TrackHandler.registerTracks();
-		proxy.initRenderers();
-		proxy.initNetwork();
+		
 		RCItems.init();
 		RCBlocks.init();
         RCEntitys.init();
@@ -95,6 +94,8 @@ public class RCMod {
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
         packetPipeline.initalise();
+        proxy.initRenderers();
+		proxy.initNetwork();
 	}
 	
 	@EventHandler

@@ -1,5 +1,8 @@
 package robomuss.rc.proxy;
 
+import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
+import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.render.TileEntityRenderFooter;
 import robomuss.rc.block.render.TileEntityRenderRideFence;
 import robomuss.rc.block.render.TileEntityRenderSupport;
@@ -12,6 +15,7 @@ import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.client.renderer.ItemRenderTrackFabricator;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
@@ -38,5 +42,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrackFabricator.class, new TileEntityRenderTrackFabricator());
 		
         RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
+        
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.track_fabricator), new ItemRenderTrackFabricator());
 	}
 }

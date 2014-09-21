@@ -2,6 +2,7 @@ package robomuss.rc.block.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -16,6 +17,7 @@ import robomuss.rc.block.te.TileEntityTrackFabricator;
 public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {
 
 	private ModelBase model;
+	public static TileEntityRenderTrackFabricator instance = new TileEntityRenderTrackFabricator();
 
 	public TileEntityRenderTrackFabricator() {
 	
