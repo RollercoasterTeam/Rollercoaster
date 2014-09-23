@@ -9,8 +9,9 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.util.IInventoryRenderSettings;
 
-public class TrackTypeHeartlineRoll extends TrackType {
+public class TrackTypeHeartlineRoll extends TrackType implements IInventoryRenderSettings {
 
 	public TrackTypeHeartlineRoll(String unlocalized_name, int crafting_cost, int special_render_stages) {
 		super(unlocalized_name, crafting_cost, special_render_stages);
@@ -54,5 +55,34 @@ public class TrackTypeHeartlineRoll extends TrackType {
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(World world, int xCoord, int yCoord, int zCoord) {
 		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 10, yCoord + 3, zCoord + 10);
+	}
+
+
+	@Override
+	public float getInventoryX() {
+		return 0;
+	}
+
+
+	@Override
+	public float getInventoryY() {
+		return 0;
+	}
+
+
+	@Override
+	public float getInventoryZ() {
+		return 0;
+	}
+
+
+	@Override
+	public float getInventoryScale() {
+		return 1f;
+	}
+	
+	@Override
+	public boolean useIcon() {
+		return true;
 	}
 }

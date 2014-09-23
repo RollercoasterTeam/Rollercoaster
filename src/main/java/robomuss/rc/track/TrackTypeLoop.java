@@ -7,8 +7,9 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.util.IInventoryRenderSettings;
 
-public class TrackTypeLoop extends TrackType {
+public class TrackTypeLoop extends TrackType implements IInventoryRenderSettings {
 
 	public TrackTypeLoop(String unlocalized_name, int crafting_cost, int special_render_stages) {
 		super(unlocalized_name, crafting_cost, special_render_stages);
@@ -73,5 +74,30 @@ public class TrackTypeLoop extends TrackType {
 		else {
 			return (float) (z + 0.5f);
 		}
+	}
+
+	@Override
+	public float getInventoryX() {
+		return -0.5f;
+	}
+
+	@Override
+	public float getInventoryY() {
+		return -1.05f;
+	}
+
+	@Override
+	public float getInventoryZ() {
+		return 0;
+	}
+
+	@Override
+	public float getInventoryScale() {
+		return 0.4f;
+	}
+	
+	@Override
+	public boolean useIcon() {
+		return true;
 	}
 }

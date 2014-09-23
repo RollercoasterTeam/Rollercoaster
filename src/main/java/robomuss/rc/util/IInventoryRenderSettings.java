@@ -1,5 +1,6 @@
 package robomuss.rc.util;
 
+
 public interface IInventoryRenderSettings {
 
 	public float getInventoryX();
@@ -9,4 +10,6 @@ public interface IInventoryRenderSettings {
 	public float getInventoryZ();
 	
 	public float getInventoryScale();
+	
+	public boolean useIcon();
 }
