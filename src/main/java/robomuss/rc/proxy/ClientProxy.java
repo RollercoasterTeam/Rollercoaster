@@ -18,6 +18,7 @@ import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.client.renderer.ItemRenderFence;
 import robomuss.rc.client.renderer.ItemRenderFooter;
 import robomuss.rc.client.renderer.ItemRenderSupport;
+import robomuss.rc.client.renderer.ItemRenderTrack;
 import robomuss.rc.client.renderer.ItemRenderTrackFabricator;
 import robomuss.rc.client.renderer.ItemRenderWoodenSupport;
 import robomuss.rc.entity.EntityTrain;
@@ -60,8 +61,8 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_square), new ItemRenderFence());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
         
-        /*for(TrackType track : TrackHandler.tracks) {
+        for(TrackType track : TrackHandler.tracks) {
         	MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
-        }*/
+        }
 	}
 }
