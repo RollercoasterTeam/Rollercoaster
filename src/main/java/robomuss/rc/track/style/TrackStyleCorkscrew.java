@@ -9,14 +9,14 @@ import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
 import robomuss.rc.track.piece.TrackPiece;
 
-public class RollercoasterTypeCorkscrew extends RollercoasterType {
+public class TrackStyleCorkscrew extends TrackStyle {
 
 	private ModelBase standard = new ModelCorkscrewCoaster();
 	private ModelBase large = new ModelCorkscrewCoasterLarge();
 	private ModelBase extended = new ModelCorkscrewCoasterExtended();
 	private ModelBase corner = new ModelCorkscrewCoasterCorner();
 	
-	public RollercoasterTypeCorkscrew(String name) {
+	public TrackStyleCorkscrew(String name) {
 		super(name);
 	}
 

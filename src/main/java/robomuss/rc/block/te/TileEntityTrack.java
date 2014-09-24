@@ -10,7 +10,7 @@ import net.minecraft.util.AxisAlignedBB;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.piece.TrackPiece;
-import robomuss.rc.track.style.RollercoasterType;
+import robomuss.rc.track.style.TrackStyle;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -22,7 +22,7 @@ public class TileEntityTrack extends TileEntity {
 	public int direction;
 	public int colour;
 	public TrackExtra extra;
-	public RollercoasterType type;
+	public TrackStyle type;
 	
 	private boolean converted = false;
 	

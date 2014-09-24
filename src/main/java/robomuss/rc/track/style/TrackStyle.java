@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.track.piece.TrackPiece;
 
-public abstract class RollercoasterType {
+public abstract class TrackStyle {
 	
 	private String name;
 	
-	public RollercoasterType(String name) {
+	public TrackStyle(String name) {
 		this.name = name;
 	}
  	

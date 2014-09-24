@@ -11,13 +11,13 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
-import robomuss.rc.track.style.RollercoasterType;
+import robomuss.rc.track.style.TrackStyle;
 
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	
 	public static TileEntityRenderTrack instance = new TileEntityRenderTrack();
-	private RollercoasterType type;
+	private TrackStyle type;
 	
 	int animation;
 

@@ -6,7 +6,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.track.style.RollercoasterType;
+import robomuss.rc.track.style.TrackStyle;
 
 public class TrackPieceHorizontal extends TrackPiece {
 
@@ -15,7 +15,7 @@ public class TrackPieceHorizontal extends TrackPiece {
 	}
 
 	@Override
-	public void render(RollercoasterType type, TileEntityTrack te) {
+	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		ModelBase model = type.getStandardModel();
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);

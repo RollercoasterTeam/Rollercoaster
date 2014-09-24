@@ -3,17 +3,17 @@ package robomuss.rc.track.style;
 import java.util.ArrayList;
 
 import net.minecraft.client.model.ModelBase;
-import robomuss.rc.block.model.ModelFlumeEnclosed;
+import robomuss.rc.block.model.ModelFlumeOpen;
 import robomuss.rc.track.piece.TrackPiece;
 
-public class RollercoasterTypeFlumeEnclosed extends RollercoasterType {
+public class TrackStyleFlumeOpen extends TrackStyle {
 
-	private ModelBase standard = new ModelFlumeEnclosed();
-	private ModelBase large = new ModelFlumeEnclosed();
-	private ModelBase extended = new ModelFlumeEnclosed();
-	private ModelBase corner = new ModelFlumeEnclosed();
+	private ModelBase standard = new ModelFlumeOpen();
+	private ModelBase large = new ModelFlumeOpen();
+	private ModelBase extended = new ModelFlumeOpen();
+	private ModelBase corner = new ModelFlumeOpen();
 	
-	public RollercoasterTypeFlumeEnclosed(String name) {
+	public TrackStyleFlumeOpen(String name) {
 		super(name);
 	}
 

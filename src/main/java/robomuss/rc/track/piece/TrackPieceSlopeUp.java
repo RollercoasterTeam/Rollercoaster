@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.track.style.RollercoasterType;
+import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSettings {
@@ -19,7 +19,7 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	}
 
 	@Override
-	public void render(RollercoasterType type, TileEntityTrack te) {
+	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		
 		ModelBase model = type.getStandardModel();

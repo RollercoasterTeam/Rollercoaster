@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.track.style.RollercoasterType;
+import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRenderSettings {
@@ -19,7 +19,7 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 
 	
 	@Override
-	public void renderSpecial(int renderStage, RollercoasterType type, TileEntityTrack te) {
+	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		/*if(renderStage <= 9) {
 			GL11.glRotatef(-3f * renderStage, 0, 1, 0);
