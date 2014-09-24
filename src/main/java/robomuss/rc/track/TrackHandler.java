@@ -35,13 +35,9 @@ public class TrackHandler {
 	public static ArrayList<TrackStyle> styles = new ArrayList<TrackStyle>();
 	
 	public static void registerTracks() {
-		TrackHandler.pieces.add(new TrackPieceHorizontal("horizontal", 3));
-		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3));
-		TrackHandler.pieces.add(new TrackPieceSlope("slope", 3));
-		TrackHandler.pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
-		TrackHandler.pieces.add(new TrackPieceCurve("curve", 3, 3));
-		TrackHandler.pieces.add(new TrackPieceLoop("loop", 10, 2));
-		TrackHandler.pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
+		addTrackPieces();
+		addTrackExtras();
+		addTrackStyles();
 		
 		/*RCBlocks.tracks.add(new TrackTypeHorizontal("inverted_horizontal", 3).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeSlopeUp("inverted_slope_up", 3).invertTrack());
@@ -50,7 +46,19 @@ public class TrackHandler {
 		RCBlocks.tracks.add(new TrackTypeCurve("inverted_curve", 3, 3).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeLoop("inverted_loop", 10, 2).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeHeartlineRoll("inverted_heartline_roll", 12, 19).invertTrack());*/
-		
+	}
+	
+	public static void addTrackPieces() {
+		TrackHandler.pieces.add(new TrackPieceHorizontal("horizontal", 3));
+		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3));
+		TrackHandler.pieces.add(new TrackPieceSlope("slope", 3));
+		TrackHandler.pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
+		TrackHandler.pieces.add(new TrackPieceCurve("curve", 3, 3));
+		TrackHandler.pieces.add(new TrackPieceLoop("loop", 10, 2));
+		TrackHandler.pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
+	}
+	
+	public static void addTrackExtras() {
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), null, 0, TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), null, 0, TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), null, 0, TrackHandler.findTrackType("horizontal")));
@@ -60,7 +68,9 @@ public class TrackHandler {
 		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {
 			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
 		}, 1, TrackHandler.findTrackType("horizontal")));
-		
+	}
+	
+	public static void addTrackStyles() {
 		styles.add(new TrackStyleCorkscrew("corkscrew"));
 		styles.add(new TrackStyleFlumeOpen("flume_open"));
 		styles.add(new TrackStyleFlumeEnclosed("flume_enclosed"));
