@@ -1,24 +1,18 @@
 package robomuss.rc.client.renderer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
+import robomuss.rc.util.IInventoryRenderRotation;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class ItemRenderTrack implements IItemRenderer {
@@ -58,6 +52,8 @@ public class ItemRenderTrack implements IItemRenderer {
 		
 		float inventoryScale = 1f;
 		
+		float itemRotation = 0f;
+		
 		boolean useIcon = false;
 		
 		if(track_type instanceof IInventoryRenderSettings) {
@@ -70,14 +66,19 @@ public class ItemRenderTrack implements IItemRenderer {
 			useIcon = ((IInventoryRenderSettings) track_type).useIcon();
 		}
 		
+		if(track_type instanceof IInventoryRenderRotation) {
+			itemRotation = ((IInventoryRenderRotation) track_type).getItemRotation();
+		}
+		
 		if(useIcon) {
 			if(type == ItemRenderType.INVENTORY) {
-				renderItem.renderIcon(0, 0, Items.apple.getIconFromDamage(0), 16, 16);
+				renderItem.renderIcon(0, 0, Items.baked_potato.getIcon(item, 0), 16, 16);
 			}
-
-
 		}
 		else {
+			if(type == ItemRenderType.INVENTORY) {
+				GL11.glRotatef(itemRotation, 0, 1, 0);
+			}
 			if(track_type.special_render_stages != 0) {
 				for(int i = 0; i < track_type.special_render_stages; i++) {
 					GL11.glPushMatrix();

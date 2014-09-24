@@ -11,8 +11,9 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.util.IInventoryRenderRotation;
 
-public class TrackTypeSlopeDown extends TrackType {
+public class TrackTypeSlopeDown extends TrackType implements IInventoryRenderRotation {
 
 	public TrackTypeSlopeDown(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
@@ -138,5 +139,10 @@ public class TrackTypeSlopeDown extends TrackType {
 				entity.rotationPitch = -45f;
 			}
 		}
+	}
+
+	@Override
+	public float getItemRotation() {
+		return 180f;
 	}
 }
