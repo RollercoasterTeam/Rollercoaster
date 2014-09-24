@@ -25,6 +25,7 @@ import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
+import robomuss.rc.util.IInventoryRenderSettings;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -62,7 +63,13 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
         
         for(TrackType track : TrackHandler.tracks) {
-        	MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
+        	boolean useIcon = false;
+        	if(track instanceof IInventoryRenderSettings) {
+        		useIcon = ((IInventoryRenderSettings) track).useIcon();
+        	}
+        	if(!useIcon) {
+        		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
+        	}
         }
 	}
 }
