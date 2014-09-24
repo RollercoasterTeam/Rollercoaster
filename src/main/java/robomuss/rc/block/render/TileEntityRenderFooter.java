@@ -14,7 +14,7 @@ import robomuss.rc.block.model.ModelFooter;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
     

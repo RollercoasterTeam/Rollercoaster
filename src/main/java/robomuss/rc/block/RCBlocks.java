@@ -13,7 +13,7 @@ import robomuss.rc.block.te.TileEntityTrackStorage;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 

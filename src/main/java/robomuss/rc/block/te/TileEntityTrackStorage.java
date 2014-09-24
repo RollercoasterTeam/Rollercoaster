@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityTrackStorage extends TileEntity implements IInventory {
 

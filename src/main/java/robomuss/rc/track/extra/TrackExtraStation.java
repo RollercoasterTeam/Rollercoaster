@@ -3,7 +3,7 @@ package robomuss.rc.track.extra;
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 
 public class TrackExtraStation extends TrackExtra {
 

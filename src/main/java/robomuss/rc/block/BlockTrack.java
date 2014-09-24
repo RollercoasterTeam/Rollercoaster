@@ -14,7 +14,7 @@ import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
@@ -99,7 +99,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     public void onBlockAdded(World world, int x, int y, int z) {
     	if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityTrack) {
 	    	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
-	    	te.type = TrackHandler.style.get(0);
+	    	te.type = TrackHandler.styles.get(0);
     	}
     }
     

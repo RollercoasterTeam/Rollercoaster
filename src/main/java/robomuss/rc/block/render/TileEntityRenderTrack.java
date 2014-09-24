@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
@@ -25,7 +25,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
-			type = TrackHandler.style.get(0);
+			type = TrackHandler.styles.get(0);
 		}
 		int colour = ((TileEntityTrack) te).colour;
 

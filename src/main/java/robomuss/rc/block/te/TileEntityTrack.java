@@ -9,8 +9,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
 import robomuss.rc.track.extra.TrackExtra;
+import robomuss.rc.track.piece.TrackPiece;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -35,9 +35,9 @@ public class TileEntityTrack extends TileEntity {
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
 		converted = compound.getBoolean("converted");
-		for(int i = 0; i < TrackHandler.style.size(); i++) {
-			if(TrackHandler.style.get(i).getId().contains(compound.getString("typeName"))) {
-				type = TrackHandler.style.get(i);
+		for(int i = 0; i < TrackHandler.styles.size(); i++) {
+			if(TrackHandler.styles.get(i).getId().contains(compound.getString("typeName"))) {
+				type = TrackHandler.styles.get(i);
 			}
 		}
 		
@@ -50,7 +50,7 @@ public class TileEntityTrack extends TileEntity {
 		super.writeToNBT(compound);
 		
 		if(!converted) {
-			type = TrackHandler.style.get(0);
+			type = TrackHandler.styles.get(0);
 			converted = true;
 		}
 		

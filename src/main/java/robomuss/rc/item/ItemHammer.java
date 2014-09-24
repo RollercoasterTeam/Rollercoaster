@@ -63,16 +63,16 @@ public class ItemHammer extends Item {
 				if(tileentity instanceof TileEntityTrack) {
 					TileEntityTrack te = (TileEntityTrack) tileentity;
 					int id = 0;
-					for(int i = 0; i < TrackHandler.style.size(); i++) {
-						if(te.type != null && TrackHandler.style.get(i).getId() == te.type.getId()) {
+					for(int i = 0; i < TrackHandler.styles.size(); i++) {
+						if(te.type != null && TrackHandler.styles.get(i).getId() == te.type.getId()) {
 							id = i;
 						}
 					}
-					if(id < TrackHandler.style.size() - 1) {
-						te.type = TrackHandler.style.get(id + 1);
+					if(id < TrackHandler.styles.size() - 1) {
+						te.type = TrackHandler.styles.get(id + 1);
 					}
 					else {
-						te.type = TrackHandler.style.get(0);
+						te.type = TrackHandler.styles.get(0);
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}

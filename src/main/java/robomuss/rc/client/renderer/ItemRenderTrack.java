@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class ItemRenderTrack implements IItemRenderer {
@@ -73,7 +73,7 @@ public class ItemRenderTrack implements IItemRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, TrackHandler.style.get(0), te);
+				track_type.renderSpecial(i, TrackHandler.styles.get(0), te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -82,7 +82,7 @@ public class ItemRenderTrack implements IItemRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(inventoryX, inventoryY, inventoryZ);
 			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
-			track_type.render(TrackHandler.style.get(0), new TileEntityTrack());
+			track_type.render(TrackHandler.styles.get(0), new TileEntityTrack());
 			GL11.glPopMatrix();
 		}
 	}

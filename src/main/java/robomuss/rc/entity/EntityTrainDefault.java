@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackPiece;
+import robomuss.rc.track.piece.TrackPiece;
 
 public class EntityTrainDefault extends EntityTrain {
     //North = 0

@@ -19,12 +19,20 @@ import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.extra.TrackExtraAirLauncher;
 import robomuss.rc.track.extra.TrackExtraChain;
 import robomuss.rc.track.extra.TrackExtraStation;
+import robomuss.rc.track.piece.TrackPiece;
+import robomuss.rc.track.piece.TrackPieceCurve;
+import robomuss.rc.track.piece.TrackPieceHeartlineRoll;
+import robomuss.rc.track.piece.TrackPieceHorizontal;
+import robomuss.rc.track.piece.TrackPieceLoop;
+import robomuss.rc.track.piece.TrackPieceSlope;
+import robomuss.rc.track.piece.TrackPieceSlopeDown;
+import robomuss.rc.track.piece.TrackPieceSlopeUp;
 
 public class TrackHandler {
 
 	public static ArrayList<TrackPiece> pieces = new ArrayList<TrackPiece>();
 	public static ArrayList<TrackExtra> extras = new ArrayList<TrackExtra>();
-	public static ArrayList<RollercoasterType> style = new ArrayList<RollercoasterType>();
+	public static ArrayList<RollercoasterType> styles = new ArrayList<RollercoasterType>();
 	
 	public static void registerTracks() {
 		TrackHandler.pieces.add(new TrackPieceHorizontal("horizontal", 3));
@@ -53,9 +61,9 @@ public class TrackHandler {
 			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
 		}, 1, TrackHandler.findTrackType("horizontal")));
 		
-		style.add(new RollercoasterTypeCorkscrew("corkscrew"));
-		style.add(new RollercoasterTypeFlumeOpen("flume_open"));
-		style.add(new RollercoasterTypeFlumeEnclosed("flume_enclosed"));
+		styles.add(new RollercoasterTypeCorkscrew("corkscrew"));
+		styles.add(new RollercoasterTypeFlumeOpen("flume_open"));
+		styles.add(new RollercoasterTypeFlumeEnclosed("flume_enclosed"));
 	}
 
 	public static TrackPiece findTrackType(Item item) {
