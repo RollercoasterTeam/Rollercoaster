@@ -15,6 +15,7 @@ import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
 import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -44,7 +45,9 @@ public class RCMod {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		
+		FMLLog.info("[Rollercoaster] Successfully loaded track style 'corkscrew' from corkscrew.json!");
+		FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_open' from flume_open.json!");
+		FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_enclosed' from flume_enclosed.json!");
 	}
 	
 	@EventHandler
