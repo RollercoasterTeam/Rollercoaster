@@ -24,7 +24,7 @@ import robomuss.rc.client.renderer.ItemRenderWoodenSupport;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy {
 	@SuppressWarnings("unused")
 	@Override
 	public void initRenderers() {
-		for(TrackType track : TrackHandler.tracks) {
+		for(TrackPiece track : TrackHandler.pieces) {
 			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrack.class, new TileEntityRenderTrack());
 		}
         
@@ -62,7 +62,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_square), new ItemRenderFence());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
         
-        for(TrackType track : TrackHandler.tracks) {
+        for(TrackPiece track : TrackHandler.pieces) {
         	boolean useIcon = false;
         	if(track instanceof IInventoryRenderSettings) {
         		useIcon = ((IInventoryRenderSettings) track).useIcon();

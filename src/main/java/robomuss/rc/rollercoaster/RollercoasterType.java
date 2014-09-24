@@ -3,7 +3,7 @@ package robomuss.rc.rollercoaster;
 import java.util.ArrayList;
 
 import net.minecraft.client.model.ModelBase;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public abstract class RollercoasterType {
 	
@@ -21,7 +21,7 @@ public abstract class RollercoasterType {
 
 	public abstract ModelBase getCornerModel();
 	
-	public abstract ArrayList<TrackType> getBlacklistedTrackTypes();
+	public abstract ArrayList<TrackPiece> getBlacklistedTrackTypes();
 	
 	public abstract boolean isRiddenUsingCart();
 	

@@ -14,14 +14,14 @@ import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
 
-	public TrackType track_type;
+	public TrackPiece track_type;
 	
-	public BlockTrack(TrackType track) {
+	public BlockTrack(TrackPiece track) {
 		super(Material.iron);
 		setHardness(1F);
 		setResistance(3F);
@@ -99,7 +99,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     public void onBlockAdded(World world, int x, int y, int z) {
     	if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityTrack) {
 	    	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
-	    	te.type = TrackHandler.types.get(0);
+	    	te.type = TrackHandler.style.get(0);
     	}
     }
     

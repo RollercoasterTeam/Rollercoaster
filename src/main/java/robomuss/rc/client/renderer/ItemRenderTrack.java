@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class ItemRenderTrack implements IItemRenderer {
@@ -25,7 +25,7 @@ public class ItemRenderTrack implements IItemRenderer {
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
 		if(type == ItemRenderType.INVENTORY) {
-			TrackType track_type = TrackHandler.findTrackType(item.getItem());
+			TrackPiece track_type = TrackHandler.findTrackType(item.getItem());
 			if(track_type != null && track_type instanceof IInventoryRenderSettings) {
 				if(((IInventoryRenderSettings) track_type).useIcon()) {
 					return false;
@@ -42,7 +42,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		
 		TileEntityTrack te = new TileEntityTrack();
-		TrackType track_type = TrackHandler.findTrackType(item.getItem());
+		TrackPiece track_type = TrackHandler.findTrackType(item.getItem());
 		
 		float inventoryX = 0f;
 		float inventoryY = 1f;
@@ -73,7 +73,7 @@ public class ItemRenderTrack implements IItemRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, TrackHandler.types.get(0), te);
+				track_type.renderSpecial(i, TrackHandler.style.get(0), te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -82,7 +82,7 @@ public class ItemRenderTrack implements IItemRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(inventoryX, inventoryY, inventoryZ);
 			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
-			track_type.render(TrackHandler.types.get(0), new TileEntityTrack());
+			track_type.render(TrackHandler.style.get(0), new TileEntityTrack());
 			GL11.glPopMatrix();
 		}
 	}

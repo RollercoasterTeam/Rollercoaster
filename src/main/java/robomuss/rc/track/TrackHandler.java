@@ -22,18 +22,18 @@ import robomuss.rc.track.extra.TrackExtraStation;
 
 public class TrackHandler {
 
-	public static ArrayList<TrackType> tracks = new ArrayList<TrackType>();
+	public static ArrayList<TrackPiece> pieces = new ArrayList<TrackPiece>();
 	public static ArrayList<TrackExtra> extras = new ArrayList<TrackExtra>();
-	public static ArrayList<RollercoasterType> types = new ArrayList<RollercoasterType>();
+	public static ArrayList<RollercoasterType> style = new ArrayList<RollercoasterType>();
 	
 	public static void registerTracks() {
-		TrackHandler.tracks.add(new TrackTypeHorizontal("horizontal", 3));
-		TrackHandler.tracks.add(new TrackTypeSlopeUp("slope_up", 3));
-		TrackHandler.tracks.add(new TrackTypeSlope("slope", 3));
-		TrackHandler.tracks.add(new TrackTypeSlopeDown("slope_down", 3, 2));
-		TrackHandler.tracks.add(new TrackTypeCurve("curve", 3, 3));
-		TrackHandler.tracks.add(new TrackTypeLoop("loop", 10, 2));
-		TrackHandler.tracks.add(new TrackTypeHeartlineRoll("heartline_roll", 12, 19));
+		TrackHandler.pieces.add(new TrackPieceHorizontal("horizontal", 3));
+		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3));
+		TrackHandler.pieces.add(new TrackPieceSlope("slope", 3));
+		TrackHandler.pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
+		TrackHandler.pieces.add(new TrackPieceCurve("curve", 3, 3));
+		TrackHandler.pieces.add(new TrackPieceLoop("loop", 10, 2));
+		TrackHandler.pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
 		
 		/*RCBlocks.tracks.add(new TrackTypeHorizontal("inverted_horizontal", 3).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeSlopeUp("inverted_slope_up", 3).invertTrack());
@@ -53,13 +53,13 @@ public class TrackHandler {
 			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
 		}, 1, TrackHandler.findTrackType("horizontal")));
 		
-		types.add(new RollercoasterTypeCorkscrew("corkscrew"));
-		types.add(new RollercoasterTypeFlumeOpen("flume_open"));
-		types.add(new RollercoasterTypeFlumeEnclosed("flume_enclosed"));
+		style.add(new RollercoasterTypeCorkscrew("corkscrew"));
+		style.add(new RollercoasterTypeFlumeOpen("flume_open"));
+		style.add(new RollercoasterTypeFlumeEnclosed("flume_enclosed"));
 	}
 
-	public static TrackType findTrackType(Item item) {
-		for(TrackType track : TrackHandler.tracks) {
+	public static TrackPiece findTrackType(Item item) {
+		for(TrackPiece track : TrackHandler.pieces) {
 			if(item.getUnlocalizedName().substring(5, item.getUnlocalizedName().length() - 6).equalsIgnoreCase(track.unlocalized_name)) {
 				return track;
 			}
@@ -67,8 +67,8 @@ public class TrackHandler {
 		return null;
 	}
 	
-	public static TrackType findTrackType(String name) {
-		for(TrackType track : TrackHandler.tracks) {
+	public static TrackPiece findTrackType(String name) {
+		for(TrackPiece track : TrackHandler.pieces) {
 			if(name.equalsIgnoreCase(track.unlocalized_name)) {
 				return track;
 			}
@@ -76,8 +76,8 @@ public class TrackHandler {
 		return null;
 	}
 
-	public static TrackType findTrackTypeFull(String name) {
-		for(TrackType track : TrackHandler.tracks) {
+	public static TrackPiece findTrackTypeFull(String name) {
+		for(TrackPiece track : TrackHandler.pieces) {
 			if(name.equalsIgnoreCase("tile." + track.unlocalized_name + "_track")) {
 				return track;
 			}

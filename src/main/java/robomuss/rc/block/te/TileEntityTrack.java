@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 import robomuss.rc.track.extra.TrackExtra;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +35,9 @@ public class TileEntityTrack extends TileEntity {
 		direction = compound.getInteger("direction");
 		colour = compound.getInteger("colour");
 		converted = compound.getBoolean("converted");
-		for(int i = 0; i < TrackHandler.types.size(); i++) {
-			if(TrackHandler.types.get(i).getId().contains(compound.getString("typeName"))) {
-				type = TrackHandler.types.get(i);
+		for(int i = 0; i < TrackHandler.style.size(); i++) {
+			if(TrackHandler.style.get(i).getId().contains(compound.getString("typeName"))) {
+				type = TrackHandler.style.get(i);
 			}
 		}
 		
@@ -50,7 +50,7 @@ public class TileEntityTrack extends TileEntity {
 		super.writeToNBT(compound);
 		
 		if(!converted) {
-			type = TrackHandler.types.get(0);
+			type = TrackHandler.style.get(0);
 			converted = true;
 		}
 		
@@ -82,7 +82,7 @@ public class TileEntityTrack extends TileEntity {
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		Block block = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord);
-		TrackType track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
+		TrackPiece track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 		if(track_type != null) {
 			return track_type.getRenderBoundingBox(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 		}

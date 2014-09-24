@@ -7,7 +7,7 @@ import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
 import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
 import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class RollercoasterTypeCorkscrew extends RollercoasterType {
 
@@ -41,7 +41,7 @@ public class RollercoasterTypeCorkscrew extends RollercoasterType {
 	}
 
 	@Override
-	public ArrayList<TrackType> getBlacklistedTrackTypes() {
+	public ArrayList<TrackPiece> getBlacklistedTrackTypes() {
 		return null;
 	}
 

@@ -13,9 +13,9 @@ import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.util.IInventoryRenderSettings;
 
-public class TrackTypeSlopeDown extends TrackType implements IInventoryRenderSettings {
+public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackTypeSlopeDown(String unlocalized_name, int crafting_cost, int i) {
+	public TrackPieceSlopeDown(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
 	}
 	

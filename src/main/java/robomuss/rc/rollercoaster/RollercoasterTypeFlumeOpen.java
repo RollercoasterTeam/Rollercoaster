@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.block.model.ModelFlumeOpen;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class RollercoasterTypeFlumeOpen extends RollercoasterType {
 
@@ -38,7 +38,7 @@ public class RollercoasterTypeFlumeOpen extends RollercoasterType {
 	}
 
 	@Override
-	public ArrayList<TrackType> getBlacklistedTrackTypes() {
+	public ArrayList<TrackPiece> getBlacklistedTrackTypes() {
 		return null;
 	}
 

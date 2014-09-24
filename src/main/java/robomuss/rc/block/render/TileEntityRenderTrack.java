@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
@@ -25,7 +25,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
-			type = TrackHandler.types.get(0);
+			type = TrackHandler.style.get(0);
 		}
 		int colour = ((TileEntityTrack) te).colour;
 
@@ -34,7 +34,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		
 		Block block = te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord);
-		TrackType track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
+		TrackPiece track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 		if(track_type != null) {
 			if(track_type.special_render_stages == 0) {
 				GL11.glPushMatrix();
@@ -66,7 +66,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F,(float) z + 0.5F);
 				GL11.glPushMatrix();
-				TrackType.rotate((TileEntityTrack) te);
+				TrackPiece.rotate((TileEntityTrack) te);
 				((TileEntityTrack) te).extra.render(track_type);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -75,7 +75,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(((TileEntityTrack) te).extra.getSpecialX(i, x, (TileEntityTrack) te), ((TileEntityTrack) te).extra.getSpecialY(i, y, (TileEntityTrack) te), ((TileEntityTrack) te).extra.getSpecialZ(i, z, (TileEntityTrack) te));
 					GL11.glPushMatrix();
-					TrackType.rotate((TileEntityTrack) te);
+					TrackPiece.rotate((TileEntityTrack) te);
 					((TileEntityTrack) te).extra.renderSpecial(i, track_type, (TileEntityTrack) te);
 					GL11.glPopMatrix();
 					GL11.glPopMatrix();

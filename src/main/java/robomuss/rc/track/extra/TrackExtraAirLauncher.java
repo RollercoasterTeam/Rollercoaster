@@ -3,11 +3,11 @@ package robomuss.rc.track.extra;
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class TrackExtraAirLauncher extends TrackExtra {
 
-	public TrackExtraAirLauncher(String name, ModelBase model, Object[] recipe, int amount, TrackType... allowedTrackTypes) {
+	public TrackExtraAirLauncher(String name, ModelBase model, Object[] recipe, int amount, TrackPiece... allowedTrackTypes) {
 		super(name, model, recipe, amount, allowedTrackTypes);
 	}
 	

@@ -14,7 +14,7 @@ import robomuss.rc.block.model.ModelFooter;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
     
@@ -160,7 +160,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         GL11.glPopMatrix();
     }
 
-	private boolean isConnectable(TrackType track_type) {
+	private boolean isConnectable(TrackPiece track_type) {
 		if(track_type == TrackHandler.findTrackType("slope_up")) {
 			return true;
 		}

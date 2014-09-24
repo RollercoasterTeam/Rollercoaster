@@ -55,7 +55,7 @@ public class PacketTrackFabricatorUpdate extends AbstractPacket {
     public void handleServerSide(EntityPlayer player) {
         World world = player.worldObj;
         TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
-        int cost = TrackHandler.tracks.get(current_track).crafting_cost * amount;
+        int cost = TrackHandler.pieces.get(current_track).crafting_cost * amount;
         if(te.contents[0] != null) {
         	if(te.contents[0].getItem() == Items.iron_ingot) {
 		        if(te.contents[0].stackSize >= cost) {
@@ -65,9 +65,9 @@ public class PacketTrackFabricatorUpdate extends AbstractPacket {
 		        			te.contents[0] = null;
 		        		}
 		        		
-		        		te.contents[1] = new ItemStack(TrackHandler.tracks.get(current_track).block, amount);
+		        		te.contents[1] = new ItemStack(TrackHandler.pieces.get(current_track).block, amount);
 		        	}
-		        	else if(te.contents[1].getItem() == Item.getItemFromBlock(TrackHandler.tracks.get(current_track).block) && te.contents[1].stackSize + amount <= 64) {
+		        	else if(te.contents[1].getItem() == Item.getItemFromBlock(TrackHandler.pieces.get(current_track).block) && te.contents[1].stackSize + amount <= 64) {
 		        		te.contents[0].stackSize -= cost;
 		        		if(te.contents[0].stackSize <= 0) {
 		        			te.contents[0] = null;

@@ -8,9 +8,9 @@ import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
-public class TrackTypeHorizontal extends TrackType {
+public class TrackPieceHorizontal extends TrackPiece {
 
-	public TrackTypeHorizontal(String unlocalized_name, int crafting_cost) {
+	public TrackPieceHorizontal(String unlocalized_name, int crafting_cost) {
 		super(unlocalized_name, crafting_cost);
 	}
 

@@ -12,7 +12,7 @@ import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
 
-public class TrackType {
+public class TrackPiece {
 	
 	public int id;
 	
@@ -25,13 +25,13 @@ public class TrackType {
 	
 	public boolean inverted = false;
 	
-	public TrackType(String unlocalized_name, int crafting_cost) {
+	public TrackPiece(String unlocalized_name, int crafting_cost) {
 		this.id = RCBlocks.last_track_id++;
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
 	}
 	
-	public TrackType(String unlocalized_name, int crafting_cost, int special_render_stages) {
+	public TrackPiece(String unlocalized_name, int crafting_cost, int special_render_stages) {
 		this.id = RCBlocks.last_track_id++;
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
@@ -99,7 +99,7 @@ public class TrackType {
 
     }
     
-    public TrackType invertTrack() {
+    public TrackPiece invertTrack() {
     	inverted = true;
 		return this;
 	}

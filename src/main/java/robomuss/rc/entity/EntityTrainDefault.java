@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class EntityTrainDefault extends EntityTrain {
     //North = 0
@@ -111,13 +111,13 @@ public class EntityTrainDefault extends EntityTrain {
         }
     }
 
-    private TrackType getTrackTypeFromTE(TileEntity tileentity) {
+    private TrackPiece getTrackTypeFromTE(TileEntity tileentity) {
         TileEntityTrack te = (TileEntityTrack) tileentity;
         if (te.getBlockType() instanceof BlockTrack) {
             BlockTrack block = (BlockTrack) te.getBlockType();
             return block.track_type;
         }
-        return TrackHandler.tracks.get(0);
+        return TrackHandler.pieces.get(0);
     }
 
     private void rotateOnPlace(TileEntity tileentity) {

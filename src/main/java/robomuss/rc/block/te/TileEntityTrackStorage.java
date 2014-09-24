@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class TileEntityTrackStorage extends TileEntity implements IInventory {
 
@@ -88,7 +88,7 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		for(TrackType track : TrackHandler.tracks) {
+		for(TrackPiece track : TrackHandler.pieces) {
 			if(itemstack.getItem() == Item.getItemFromBlock(track.block)) {
 				return true;
 			}

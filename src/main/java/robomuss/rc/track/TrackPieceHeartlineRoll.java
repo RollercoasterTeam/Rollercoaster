@@ -11,9 +11,9 @@ import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.util.IInventoryRenderSettings;
 
-public class TrackTypeHeartlineRoll extends TrackType implements IInventoryRenderSettings {
+public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackTypeHeartlineRoll(String unlocalized_name, int crafting_cost, int special_render_stages) {
+	public TrackPieceHeartlineRoll(String unlocalized_name, int crafting_cost, int special_render_stages) {
 		super(unlocalized_name, crafting_cost, special_render_stages);
 	}
 

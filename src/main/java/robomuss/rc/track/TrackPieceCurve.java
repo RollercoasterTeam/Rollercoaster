@@ -10,9 +10,9 @@ import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 
-public class TrackTypeCurve extends TrackType implements IInventoryRenderSettings {
+public class TrackPieceCurve extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackTypeCurve(String unlocalized_name, int crafting_cost, int i) {
+	public TrackPieceCurve(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
 	}
 	

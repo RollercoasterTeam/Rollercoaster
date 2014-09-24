@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.RCItems;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 
 public class TrackExtra {
 	
@@ -23,23 +23,23 @@ public class TrackExtra {
 	public String name;
 	public ResourceLocation texture;
 	public ModelBase model;
-	public ArrayList<TrackType> allowedTrackTypes;
+	public ArrayList<TrackPiece> allowedTrackTypes;
 	public int amount;
 	public Object[] recipe;
 
 	public int special_render_stages;
 	
-	public TrackExtra(String name, ModelBase model, Object[] recipe, int amount, TrackType... allowedTrackTypes) {
+	public TrackExtra(String name, ModelBase model, Object[] recipe, int amount, TrackPiece... allowedTrackTypes) {
 		this.id = RCItems.last_extra_id++;
 		this.name = name;
 		this.texture = new ResourceLocation("rc:textures/models/extras/" + name + ".png");
 		this.model = model;
 		this.recipe = recipe;
 		this.amount = amount;
-		this.allowedTrackTypes = new ArrayList<TrackType>(Arrays.asList(allowedTrackTypes));
+		this.allowedTrackTypes = new ArrayList<TrackPiece>(Arrays.asList(allowedTrackTypes));
 	}
 	
-	public TrackExtra(String name, ModelBase model, Object[] recipe, int amount, int special_render_stages, TrackType... allowedTrackTypes) {
+	public TrackExtra(String name, ModelBase model, Object[] recipe, int amount, int special_render_stages, TrackPiece... allowedTrackTypes) {
 		this.id = RCItems.last_extra_id++;
 		this.name = name;
 		this.texture = new ResourceLocation("rc:textures/models/extras/" + name + ".png");
@@ -47,10 +47,10 @@ public class TrackExtra {
 		this.recipe = recipe;
 		this.amount = amount;
 		this.special_render_stages = special_render_stages;
-		this.allowedTrackTypes = new ArrayList<TrackType>(Arrays.asList(allowedTrackTypes));
+		this.allowedTrackTypes = new ArrayList<TrackPiece>(Arrays.asList(allowedTrackTypes));
 	}
 
-	public void render(TrackType track) {
+	public void render(TrackPiece track) {
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 	}
 	
@@ -66,7 +66,7 @@ public class TrackExtra {
 		return (float) (z + 0.5F);
 	}
 
-	public void renderSpecial(int i, TrackType track_type, TileEntityTrack te) {
+	public void renderSpecial(int i, TrackPiece track_type, TileEntityTrack te) {
 		
 	}
 	

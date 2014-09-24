@@ -74,7 +74,7 @@ public class GuiTrackFabricator extends GuiContainer {
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
-        GuiUtils.renderBlockIntoGui(TrackHandler.tracks.get(current_track).block, k + 35, l + 28, 2F, this.fontRendererObj, this.mc);
+        GuiUtils.renderBlockIntoGui(TrackHandler.pieces.get(current_track).block, k + 35, l + 28, 2F, this.fontRendererObj, this.mc);
     }
     
     @Override
@@ -114,18 +114,18 @@ public class GuiTrackFabricator extends GuiContainer {
 		Rectangle box = new Rectangle(k + 26, l + 18, 52, 52);
 		Rectangle mouse = new Rectangle(x, y, 1, 1);
 		if(mouse.intersects(box)) {
-			String name = TrackHandler.tracks.get(current_track).block.getLocalizedName();
-			int num = TrackHandler.tracks.get(current_track).crafting_cost * amount;
+			String name = TrackHandler.pieces.get(current_track).block.getLocalizedName();
+			int num = TrackHandler.pieces.get(current_track).crafting_cost * amount;
 			if(isShiftKeyDown()) {
 				drawHoveringText(Arrays.asList(new Object[]{
 						name, 
-						num + " Iron Ingots (" + TrackHandler.tracks.get(current_track).crafting_cost + " per track)", 
+						num + " Iron Ingots (" + TrackHandler.pieces.get(current_track).crafting_cost + " per track)", 
 						"========================",
 						"Try SHIFT-clicking the + & -"
 						}), x, y, fontRendererObj);
 			}
 			else {
-				drawHoveringText(Arrays.asList(new Object[]{name, num + " Iron Ingots (" + TrackHandler.tracks.get(current_track).crafting_cost + " per track)", "Hold SHIFT for more info"}), x, y, fontRendererObj);
+				drawHoveringText(Arrays.asList(new Object[]{name, num + " Iron Ingots (" + TrackHandler.pieces.get(current_track).crafting_cost + " per track)", "Hold SHIFT for more info"}), x, y, fontRendererObj);
 			}
 		}
 	}
@@ -135,10 +135,10 @@ public class GuiTrackFabricator extends GuiContainer {
 		int id = button.id;
 		
 		if(id == 0) {
-			current_track = current_track == 0 ? TrackHandler.tracks.size() - 1 : current_track - 1;
+			current_track = current_track == 0 ? TrackHandler.pieces.size() - 1 : current_track - 1;
 		}
 		if(id == 1) {
-			current_track = current_track < TrackHandler.tracks.size() - 1 ? current_track + 1 : 0;
+			current_track = current_track < TrackHandler.pieces.size() - 1 ? current_track + 1 : 0;
 		}
 		if(id == 2) {
 			if(isShiftKeyDown()) {

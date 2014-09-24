@@ -13,7 +13,7 @@ import robomuss.rc.block.te.TileEntityTrackStorage;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.TrackPiece;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -24,7 +24,7 @@ public class RCBlocks {
 	public static Block footer;
 	
 	public static void init() {
-		for(TrackType track: TrackHandler.tracks) {
+		for(TrackPiece track: TrackHandler.pieces) {
 			track.block = new BlockTrack(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
 			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
 		}

@@ -66,7 +66,7 @@ public class RCMod {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Item getTabIconItem() {
-				return Item.getItemFromBlock(TrackHandler.tracks.get(0).block);
+				return Item.getItemFromBlock(TrackHandler.pieces.get(0).block);
 			}
 		};
 		tools = new CreativeTabs("tab.tools") {

@@ -9,9 +9,9 @@ import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.util.IInventoryRenderSettings;
 
-public class TrackTypeLoop extends TrackType implements IInventoryRenderSettings {
+public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackTypeLoop(String unlocalized_name, int crafting_cost, int special_render_stages) {
+	public TrackPieceLoop(String unlocalized_name, int crafting_cost, int special_render_stages) {
 		super(unlocalized_name, crafting_cost, special_render_stages);
 	}
 
