@@ -1,4 +1,4 @@
-package robomuss.rc.rollercoaster;
+package robomuss.rc.track.style;
 
 import java.util.ArrayList;
 

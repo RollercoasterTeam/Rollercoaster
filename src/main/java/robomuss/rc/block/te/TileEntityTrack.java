@@ -7,10 +7,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.piece.TrackPiece;
+import robomuss.rc.track.style.RollercoasterType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

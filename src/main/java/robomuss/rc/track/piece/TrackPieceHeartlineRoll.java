@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.track.style.RollercoasterType;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRenderSettings {

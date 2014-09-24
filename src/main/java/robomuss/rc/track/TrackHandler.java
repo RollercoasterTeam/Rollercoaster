@@ -11,10 +11,6 @@ import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
 import robomuss.rc.block.model.ModelStation;
 import robomuss.rc.block.model.ModelTires;
-import robomuss.rc.rollercoaster.RollercoasterType;
-import robomuss.rc.rollercoaster.RollercoasterTypeCorkscrew;
-import robomuss.rc.rollercoaster.RollercoasterTypeFlumeEnclosed;
-import robomuss.rc.rollercoaster.RollercoasterTypeFlumeOpen;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.extra.TrackExtraAirLauncher;
 import robomuss.rc.track.extra.TrackExtraChain;
@@ -27,6 +23,10 @@ import robomuss.rc.track.piece.TrackPieceLoop;
 import robomuss.rc.track.piece.TrackPieceSlope;
 import robomuss.rc.track.piece.TrackPieceSlopeDown;
 import robomuss.rc.track.piece.TrackPieceSlopeUp;
+import robomuss.rc.track.style.RollercoasterType;
+import robomuss.rc.track.style.RollercoasterTypeCorkscrew;
+import robomuss.rc.track.style.RollercoasterTypeFlumeEnclosed;
+import robomuss.rc.track.style.RollercoasterTypeFlumeOpen;
 
 public class TrackHandler {
 

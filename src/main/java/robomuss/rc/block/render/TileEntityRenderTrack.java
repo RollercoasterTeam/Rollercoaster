@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.rollercoaster.RollercoasterType;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
+import robomuss.rc.track.style.RollercoasterType;
 
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {

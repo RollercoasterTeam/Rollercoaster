@@ -6,7 +6,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.track.style.RollercoasterType;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 

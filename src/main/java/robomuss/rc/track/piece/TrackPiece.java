@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.track.style.RollercoasterType;
 
 public class TrackPiece {
 	
