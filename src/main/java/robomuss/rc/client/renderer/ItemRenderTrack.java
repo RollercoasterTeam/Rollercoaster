@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
-import robomuss.rc.util.IInventoryRenderRotation;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class ItemRenderTrack implements IItemRenderer {
@@ -62,7 +61,7 @@ public class ItemRenderTrack implements IItemRenderer {
 			inventoryZ = ((IInventoryRenderSettings) track_type).getInventoryZ();
 		
 			inventoryScale = ((IInventoryRenderSettings) track_type).getInventoryScale();
-			inventoryRotation = ((IInventoryRenderSettings) track_type).getInventoryRotationO();
+			inventoryRotation = ((IInventoryRenderSettings) track_type).getInventoryRotation();
 			
 			useIcon = ((IInventoryRenderSettings) track_type).useIcon();
 		}
