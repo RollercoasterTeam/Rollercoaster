@@ -15,3 +15,10 @@ TODO
 -Food stalls [robo],
 -Flat rides [robo]
 -Write a proper changelog for v1.4 (and beta2)
+
+1.5 features
+JSON Track style system
+API for track pieces
+Stalls
+
+
