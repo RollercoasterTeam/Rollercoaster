@@ -87,12 +87,12 @@ public class TrackTypeSlopeUp extends TrackType implements IInventoryRenderSetti
 
 	@Override
 	public float getInventoryX() {
-		return 0;
+		return 0.3f;
 	}
 
 	@Override
 	public float getInventoryY() {
-		return 0;
+		return 0.55f;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class TrackTypeSlopeUp extends TrackType implements IInventoryRenderSetti
 
 	@Override
 	public float getInventoryScale() {
-		return 1f;
+		return 0.9f;
 	}
 
 	@Override

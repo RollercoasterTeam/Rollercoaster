@@ -148,7 +148,7 @@ public class TrackTypeSlopeDown extends TrackType implements IInventoryRenderSet
 
 	@Override
 	public float getInventoryY() {
-		return 0;
+		return -1f;
 	}
 
 	@Override
@@ -168,6 +168,6 @@ public class TrackTypeSlopeDown extends TrackType implements IInventoryRenderSet
 
 	@Override
 	public boolean useIcon() {
-		return false;
+		return true;
 	}
 }

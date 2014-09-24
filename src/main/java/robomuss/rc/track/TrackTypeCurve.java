@@ -7,9 +7,10 @@ import net.minecraft.world.IBlockAccess;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.rollercoaster.RollercoasterType;
+import robomuss.rc.util.IInventoryRenderSettings;
 
 
-public class TrackTypeCurve extends TrackType {
+public class TrackTypeCurve extends TrackType implements IInventoryRenderSettings {
 
 	public TrackTypeCurve(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
@@ -87,5 +88,35 @@ public class TrackTypeCurve extends TrackType {
 	@Override
 	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
+	}
+
+	@Override
+	public float getInventoryX() {
+		return 0;
+	}
+
+	@Override
+	public float getInventoryY() {
+		return -1f;
+	}
+
+	@Override
+	public float getInventoryZ() {
+		return 0;
+	}
+
+	@Override
+	public float getInventoryScale() {
+		return 1f;
+	}
+
+	@Override
+	public float getInventoryRotation() {
+		return 180f;
+	}
+
+	@Override
+	public boolean useIcon() {
+		return false;
 	}
 }

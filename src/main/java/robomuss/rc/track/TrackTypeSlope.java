@@ -108,12 +108,12 @@ public class TrackTypeSlope extends TrackType implements IInventoryRenderSetting
 
 	@Override
 	public float getInventoryX() {
-		return 0;
+		return 0.6f;
 	}
 
 	@Override
 	public float getInventoryY() {
-		return 0;
+		return 0.45f;
 	}
 
 	@Override
