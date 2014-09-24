@@ -85,4 +85,10 @@ public class TrackTypeHeartlineRoll extends TrackType implements IInventoryRende
 	public boolean useIcon() {
 		return true;
 	}
+
+
+	@Override
+	public float getInventoryRotation() {
+		return 0;
+	}
 }

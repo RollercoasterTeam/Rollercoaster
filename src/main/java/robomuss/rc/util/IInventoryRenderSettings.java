@@ -11,5 +11,7 @@ public interface IInventoryRenderSettings {
 	
 	public float getInventoryScale();
 	
+	public float getInventoryRotation();
+	
 	public boolean useIcon();
 }

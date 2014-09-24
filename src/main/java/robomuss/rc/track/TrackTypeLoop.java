@@ -100,4 +100,9 @@ public class TrackTypeLoop extends TrackType implements IInventoryRenderSettings
 	public boolean useIcon() {
 		return true;
 	}
+
+	@Override
+	public float getInventoryRotation() {
+		return 0;
+	}
 }

@@ -52,7 +52,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		
 		float inventoryScale = 1f;
 		
-		float itemRotation = 0f;
+		float inventoryRotation = 0f;
 		
 		boolean useIcon = false;
 		
@@ -62,12 +62,9 @@ public class ItemRenderTrack implements IItemRenderer {
 			inventoryZ = ((IInventoryRenderSettings) track_type).getInventoryZ();
 		
 			inventoryScale = ((IInventoryRenderSettings) track_type).getInventoryScale();
+			inventoryRotation = ((IInventoryRenderSettings) track_type).getInventoryRotationO();
 			
 			useIcon = ((IInventoryRenderSettings) track_type).useIcon();
-		}
-		
-		if(track_type instanceof IInventoryRenderRotation) {
-			itemRotation = ((IInventoryRenderRotation) track_type).getItemRotation();
 		}
 		
 		if(useIcon) {
@@ -77,7 +74,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		}
 		else {
 			if(type == ItemRenderType.INVENTORY) {
-				GL11.glRotatef(itemRotation, 0, 1, 0);
+				GL11.glRotatef(inventoryRotation, 0, 1, 0);
 			}
 			if(track_type.special_render_stages != 0) {
 				for(int i = 0; i < track_type.special_render_stages; i++) {
