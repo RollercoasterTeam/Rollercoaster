@@ -11,7 +11,11 @@ public class JSONHandler {
 			dir.mkdirs();
 		}
 		else {
-			
+			for(File file : dir.listFiles()) {
+				if(file.getName().contains(".json")) {
+					System.out.println("Found JSON file: " + file.getName().substring(0, file.getName().lastIndexOf(".json")));
+				}
+			}
 		}
 	}
 
