@@ -1,5 +1,7 @@
 package robomuss.rc;
 
+import java.io.IOException;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,6 +12,7 @@ import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.event.BlockClickedEvent;
 import robomuss.rc.event.CraftingEvent;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.json.JSONHandler;
 import robomuss.rc.network.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
@@ -44,10 +47,11 @@ public class RCMod {
     public static final PacketPipeline packetPipeline = new PacketPipeline();
 	
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		FMLLog.info("[Rollercoaster] Successfully loaded track style 'corkscrew' from corkscrew.json!");
-		FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_open' from flume_open.json!");
-		FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_enclosed' from flume_enclosed.json!");
+	public void preInit(FMLPreInitializationEvent event) throws IOException {
+		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'corkscrew' from corkscrew.json!");
+		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_open' from flume_open.json!");
+		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_enclosed' from flume_enclosed.json!");
+		JSONHandler.loadTrackStyles();
 	}
 	
 	@EventHandler
