@@ -57,7 +57,7 @@ public class ItemHammer extends Item {
 				}
 			}
 		},
-		new HammerMode("Change Type") {
+		new HammerMode("Change Style") {
 			@Override
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
 				if(tileentity instanceof TileEntityTrack) {
