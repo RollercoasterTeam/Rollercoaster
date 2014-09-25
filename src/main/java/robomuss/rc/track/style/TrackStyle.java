@@ -5,25 +5,46 @@ import java.util.ArrayList;
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.track.piece.TrackPiece;
 
-public abstract class TrackStyle {
+public class TrackStyle {
 	
-	private String name;
+	public String name;
+	
+	public ModelBase standard;
+	public ModelBase large;
+	public ModelBase extended;
+	public ModelBase corner;
+	
+	public ArrayList<TrackPiece> whitelistedPieces;
+	
+	public boolean riddenUsingCart;
 	
 	public TrackStyle(String name) {
 		this.name = name;
 	}
  	
-	public abstract ModelBase getStandardModel();
+	public ModelBase getStandardModel() {
+		return standard;
+	}
 	
-	public abstract ModelBase getLargeModel();
+	public ModelBase getLargeModel() {
+		return large;
+	}
 	
-	public abstract ModelBase getExtendedModel();
+	public ModelBase getExtendedModel() {
+		return extended;
+	}
 
-	public abstract ModelBase getCornerModel();
+	public ModelBase getCornerModel() {
+		return corner;
+	}
 	
-	public abstract ArrayList<TrackPiece> getBlacklistedTrackTypes();
+	public ArrayList<TrackPiece> getWhitelistedTrackPieces() {
+		return whitelistedPieces;
+	}
 	
-	public abstract boolean isRiddenUsingCart();
+	public boolean isRiddenUsingCart() {
+		return riddenUsingCart;
+	}
 	
 	public String getId() {
 		return name;

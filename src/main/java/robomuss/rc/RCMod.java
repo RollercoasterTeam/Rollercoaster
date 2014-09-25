@@ -18,7 +18,6 @@ import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
 import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

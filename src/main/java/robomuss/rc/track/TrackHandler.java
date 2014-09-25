@@ -24,9 +24,6 @@ import robomuss.rc.track.piece.TrackPieceSlope;
 import robomuss.rc.track.piece.TrackPieceSlopeDown;
 import robomuss.rc.track.piece.TrackPieceSlopeUp;
 import robomuss.rc.track.style.TrackStyle;
-import robomuss.rc.track.style.TrackStyleCorkscrew;
-import robomuss.rc.track.style.TrackStyleFlumeEnclosed;
-import robomuss.rc.track.style.TrackStyleFlumeOpen;
 
 public class TrackHandler {
 
@@ -37,7 +34,6 @@ public class TrackHandler {
 	public static void registerTracks() {
 		addTrackPieces();
 		addTrackExtras();
-		addTrackStyles();
 		
 		/*RCBlocks.tracks.add(new TrackTypeHorizontal("inverted_horizontal", 3).invertTrack());
 		RCBlocks.tracks.add(new TrackTypeSlopeUp("inverted_slope_up", 3).invertTrack());
@@ -68,12 +64,6 @@ public class TrackHandler {
 		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {
 			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
 		}, 1, TrackHandler.findTrackType("horizontal")));
-	}
-	
-	public static void addTrackStyles() {
-		styles.add(new TrackStyleCorkscrew("corkscrew"));
-		styles.add(new TrackStyleFlumeOpen("flume_open"));
-		styles.add(new TrackStyleFlumeEnclosed("flume_enclosed"));
 	}
 
 	public static TrackPiece findTrackType(Item item) {
