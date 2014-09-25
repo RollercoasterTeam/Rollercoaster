@@ -16,7 +16,7 @@ import robomuss.rc.track.extra.TrackExtraAirLauncher;
 import robomuss.rc.track.extra.TrackExtraChain;
 import robomuss.rc.track.extra.TrackExtraStation;
 import robomuss.rc.track.piece.TrackPiece;
-import robomuss.rc.track.piece.TrackPieceCurve;
+import robomuss.rc.track.piece.TrackPieceCorner;
 import robomuss.rc.track.piece.TrackPieceHeartlineRoll;
 import robomuss.rc.track.piece.TrackPieceHorizontal;
 import robomuss.rc.track.piece.TrackPieceLoop;
@@ -53,7 +53,7 @@ public class TrackHandler {
 		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3));
 		TrackHandler.pieces.add(new TrackPieceSlope("slope", 3));
 		TrackHandler.pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
-		TrackHandler.pieces.add(new TrackPieceCurve("curve", 3, 3));
+		TrackHandler.pieces.add(new TrackPieceCorner("curve", 3, 3));
 		TrackHandler.pieces.add(new TrackPieceLoop("loop", 10, 2));
 		TrackHandler.pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
 	}

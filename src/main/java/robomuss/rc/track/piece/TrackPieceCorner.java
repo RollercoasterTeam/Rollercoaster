@@ -10,9 +10,9 @@ import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 
-public class TrackPieceCurve extends TrackPiece implements IInventoryRenderSettings {
+public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackPieceCurve(String unlocalized_name, int crafting_cost, int i) {
+	public TrackPieceCorner(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
 	}
 	
