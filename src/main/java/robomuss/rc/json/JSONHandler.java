@@ -21,17 +21,22 @@ public class JSONHandler {
 		else {
 			for(File file : dir.listFiles()) {
 				if(file.getName().contains(".json")) {
-					FMLLog.info("[Rollercoaster] Found track style: " + file.getName().substring(0, file.getName().lastIndexOf(".json")));
-					
 					JsonParser parser = new JsonParser();
 					JsonObject obj = (JsonObject) parser.parse(new FileReader(file));
 					JsonArray whitelistedPieces = obj.getAsJsonArray("whitelistedPieces");
+					
+					String name = obj.get("name").getAsString();
+					
+					StringBuilder sb = new StringBuilder();
+					
 					for(JsonElement element : whitelistedPieces) {
 						if(element.isJsonObject()) {
 							JsonObject whitelistedPiece = element.getAsJsonObject();
-							FMLLog.info("[Rollercoaster] Whitelisted Piece: " + whitelistedPiece.get("piece"));
+							sb.append(whitelistedPiece.get("piece") + ", ");
 						}
 					}
+					
+					FMLLog.info("[Rollercoaster] Loaded track style: '" + name + "', Whitelisted Pieces: " + sb.toString());
 				}
 			}
 		}
