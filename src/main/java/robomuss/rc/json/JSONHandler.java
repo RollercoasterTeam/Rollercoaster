@@ -56,10 +56,10 @@ public class JSONHandler {
 				
 				String name = obj.get("Name").getAsString();
 				
-				String standard = obj.get("Standard Model").getAsString();
+				/*String standard = obj.get("Standard Model").getAsString();
 				String large = obj.get("Large Model").getAsString();
 				String extended = obj.get("Extended Model").getAsString();
-				String corner = obj.get("Corner Model").getAsString();
+				String corner = obj.get("Corner Model").getAsString();*/
 				
 				ArrayList<TrackPiece> whitelistedPieces = new ArrayList<TrackPiece>();
 				
