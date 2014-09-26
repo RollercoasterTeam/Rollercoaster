@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.minecraftforge.client.model.AdvancedModelLoader;
+
 import org.apache.commons.io.FileUtils;
 
 import robomuss.rc.block.model.ModelCorkscrewCoaster;
@@ -50,9 +52,14 @@ public class JSONHandler {
 			if(file.getName().contains(".json")) {
 				JsonParser parser = new JsonParser();
 				JsonObject obj = (JsonObject) parser.parse(new FileReader(file));
-				JsonArray whitelistedPiecesArray = obj.getAsJsonArray("whitelistedPieces");
+				JsonArray whitelistedPiecesArray = obj.getAsJsonArray("Whitelisted Pieces");
 				
-				String name = obj.get("name").getAsString();
+				String name = obj.get("Name").getAsString();
+				
+				String standard = obj.get("Standard Model").getAsString();
+				String large = obj.get("Large Model").getAsString();
+				String extended = obj.get("Extended Model").getAsString();
+				String corner = obj.get("Corner Model").getAsString();
 				
 				ArrayList<TrackPiece> whitelistedPieces = new ArrayList<TrackPiece>();
 				
@@ -61,13 +68,13 @@ public class JSONHandler {
 				for(JsonElement element : whitelistedPiecesArray) {
 					if(element.isJsonObject()) {
 						JsonObject whitelistedPiece = element.getAsJsonObject();
-						whitelistedPieces.add(TrackHandler.findTrackType(whitelistedPiece.get("piece").getAsString()));
-						sb.append(whitelistedPiece.get("piece") + ", ");
+						whitelistedPieces.add(TrackHandler.findTrackType(whitelistedPiece.get("Piece").getAsString()));
+						sb.append(whitelistedPiece.get("Piece") + ", ");
 					}
 				}
 				
 				TrackStyle style = new TrackStyle(file.getName().substring(0, file.getName().lastIndexOf(".json")));
-				
+			
 				style.standard = new ModelCorkscrewCoaster();
 				style.large = new ModelCorkscrewCoasterLarge();
 				style.extended = new ModelCorkscrewCoasterExtended();

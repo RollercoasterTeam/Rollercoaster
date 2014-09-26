@@ -1,12 +1,12 @@
 {
-	"name": "Corkscrew Coaster",	
-	"whitelistedPieces": [
-		{"piece": "horizontal"},
-		{"piece": "slope_up"},
-		{"piece": "slope"},
-		{"piece": "slope_down"},
-		{"piece": "corner"},
-		{"piece": "loop"},
-		{"piece": "heartline_roll"}
+	"Name": "Corkscrew Coaster",	
+	"Whitelisted Pieces": [
+		{"Piece": "horizontal"},
+		{"Piece": "slope_up"},
+		{"Piece": "slope"},
+		{"Piece": "slope_down"},
+		{"Piece": "corner"},
+		{"Piece": "loop"},
+		{"Piece": "heartline_roll"}
 	]
 }

@@ -1,10 +1,10 @@
 {
-	"name": "Body Slide",	
-	"whitelistedPieces": [
-		{"piece": "horizontal"},
-		{"piece": "slope_up"},
-		{"piece": "slope"},
-		{"piece": "slope_down"},
-		{"piece": "corner"},
+	"Name": "Body Slide",	
+	"Whitelisted Pieces": [
+		{"Piece": "horizontal"},
+		{"Piece": "slope_up"},
+		{"Piece": "slope"},
+		{"Piece": "slope_down"},
+		{"Piece": "corner"},
 	]
 }
