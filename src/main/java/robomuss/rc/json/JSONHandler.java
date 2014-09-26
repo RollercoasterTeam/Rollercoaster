@@ -27,12 +27,21 @@ import cpw.mods.fml.common.FMLLog;
 
 public class JSONHandler {
 
+	private static String[] defaults = {
+		"corkscrew", "body_slide", "body_slide_tunnel"	
+	};
+	
 	public static void loadTrackStyles() throws IOException {
 		File dir = new File("rollercoaster/track-styles/");
 		if(!dir.exists()) {
 			dir.mkdirs();
-			//FileUtils.copyDirectory(srcDir, "rollercoaster/track-styles/");
 		}
+		
+		ClassLoader loader = JSONHandler.class.getClassLoader();
+		for(String string : defaults) {
+			FileUtils.copyURLToFile(loader.getResource("assets/rc/trackStyles/" + string + ".json"), new File("rollercoaster/track-styles/" + string + ".json"));
+		}
+		
 		loadJSONFilesFromDir(dir);
 	}
 
@@ -44,6 +53,7 @@ public class JSONHandler {
 				JsonArray whitelistedPiecesArray = obj.getAsJsonArray("whitelistedPieces");
 				
 				String name = obj.get("name").getAsString();
+				
 				ArrayList<TrackPiece> whitelistedPieces = new ArrayList<TrackPiece>();
 				
 				StringBuilder sb = new StringBuilder();

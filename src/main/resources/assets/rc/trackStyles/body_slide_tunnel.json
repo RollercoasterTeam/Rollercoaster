@@ -1,0 +1,10 @@
+{
+	"name": "Body Slide Tunnel",	
+	"whitelistedPieces": [
+		{"piece": "horizontal"},
+		{"piece": "slope_up"},
+		{"piece": "slope"},
+		{"piece": "slope_down"},
+		{"piece": "corner"},
+	]
+}

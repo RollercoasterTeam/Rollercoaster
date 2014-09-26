@@ -49,7 +49,7 @@ public class TileEntityTrack extends TileEntity {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		
-		if(!converted) {
+		if(!converted || type == null) {
 			type = TrackHandler.styles.get(0);
 			converted = true;
 		}
