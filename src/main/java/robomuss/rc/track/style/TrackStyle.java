@@ -2,17 +2,17 @@ package robomuss.rc.track.style;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraftforge.client.model.IModelCustom;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TrackStyle {
 	
 	public String name;
 	
-	public ModelBase standard;
-	public ModelBase large;
-	public ModelBase extended;
-	public ModelBase corner;
+	public IModelCustom standard;
+	public IModelCustom large;
+	public IModelCustom extended;
+	public IModelCustom corner;
 	
 	public ArrayList<TrackPiece> whitelistedPieces;
 	
@@ -22,19 +22,19 @@ public class TrackStyle {
 		this.name = name;
 	}
  	
-	public ModelBase getStandardModel() {
+	public IModelCustom getStandardModel() {
 		return standard;
 	}
 	
-	public ModelBase getLargeModel() {
+	public IModelCustom getLargeModel() {
 		return large;
 	}
 	
-	public ModelBase getExtendedModel() {
+	public IModelCustom getExtendedModel() {
 		return extended;
 	}
 
-	public ModelBase getCornerModel() {
+	public IModelCustom getCornerModel() {
 		return corner;
 	}
 	

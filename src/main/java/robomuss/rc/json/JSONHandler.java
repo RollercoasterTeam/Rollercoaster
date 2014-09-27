@@ -6,14 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
 import org.apache.commons.io.FileUtils;
 
-import robomuss.rc.block.model.ModelCorkscrewCoaster;
-import robomuss.rc.block.model.ModelCorkscrewCoasterCorner;
-import robomuss.rc.block.model.ModelCorkscrewCoasterExtended;
-import robomuss.rc.block.model.ModelCorkscrewCoasterLarge;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.track.style.TrackStyle;
@@ -41,7 +38,16 @@ public class JSONHandler {
 		
 		ClassLoader loader = JSONHandler.class.getClassLoader();
 		for(String string : defaults) {
+			File folder = new File("rollercoaster/track-styles/" + string + "/");
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
 			FileUtils.copyURLToFile(loader.getResource("assets/rc/trackStyles/" + string + ".json"), new File("rollercoaster/track-styles/" + string + ".json"));
+			
+			/*FileUtils.copyURLToFile(loader.getResource("assets/rc/models/track-styles/" + string + "/standard.tcn"), new File("rollercoaster/track-styles/" + string + "/standard.tcn"));
+			FileUtils.copyURLToFile(loader.getResource("assets/rc/models/track-styles/" + string + "/large.tcn"), new File("rollercoaster/track-styles/" + string + "/large.tcn"));
+			FileUtils.copyURLToFile(loader.getResource("assets/rc/models/track-styles/" + string + "/extended.tcn"), new File("rollercoaster/track-styles/" + string + "/extended.tcn"));
+			FileUtils.copyURLToFile(loader.getResource("assets/rc/models/track-styles/" + string + "/corner.tcn"), new File("rollercoaster/track-styles/" + string + "/corner.tcn"));*/
 		}
 		
 		loadJSONFilesFromDir(dir);
@@ -75,10 +81,22 @@ public class JSONHandler {
 				
 				TrackStyle style = new TrackStyle(file.getName().substring(0, file.getName().lastIndexOf(".json")));
 			
-				style.standard = new ModelCorkscrewCoaster();
-				style.large = new ModelCorkscrewCoasterLarge();
-				style.extended = new ModelCorkscrewCoasterExtended();
-				style.corner = new ModelCorkscrewCoasterCorner();
+				ResourceLocation loc = new ResourceLocation("standard.tcn") {
+					@Override
+					public String getResourcePath() {
+						return "rollercoaster/track-styles/corkscrew/standard.tcn";
+					}
+					
+					@Override
+					public String getResourceDomain() {
+						return "";
+					}
+				};
+				//System.out.println(loc.getResourcePath() + loc.getResourceDomain());
+				style.standard = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/standard.tcn"));
+				style.large = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/large.tcn"));
+				style.extended = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/extended.tcn"));
+				style.corner = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/corner.tcn"));
 				
 				style.whitelistedPieces = whitelistedPieces;
 				

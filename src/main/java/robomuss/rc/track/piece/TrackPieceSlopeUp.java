@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -22,13 +23,13 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		
-		ModelBase model = type.getStandardModel();
+		IModelCustom model = type.getStandardModel();
 		GL11.glRotatef(45f, 0f, 0f, 1f);
-		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		model.renderAll();
 	
 		GL11.glPushMatrix();
 		GL11.glRotatef(-45f, 0f, 0f, 1f);
-		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		model.renderAll();
 		GL11.glPopMatrix();
 	}
 	

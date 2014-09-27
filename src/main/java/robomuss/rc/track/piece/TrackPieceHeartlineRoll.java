@@ -1,9 +1,8 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -28,8 +27,8 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 			GL11.glRotatef(3f * renderStage, 0, 1, 0);
 		}*/
 		GL11.glRotatef(20f * renderStage, 1, 0, 0);
-		ModelBase model = type.getStandardModel();
-		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		IModelCustom model = type.getStandardModel();
+		model.renderAll();
 	}
 	
 	@Override

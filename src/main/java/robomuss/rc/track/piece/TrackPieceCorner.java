@@ -1,9 +1,8 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.model.IModelCustom;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
@@ -20,9 +19,9 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		
-		ModelBase model = type.getCornerModel();
+		IModelCustom model = type.getCornerModel();
 		
-		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		model.renderAll();
 	}
 
 	@Override

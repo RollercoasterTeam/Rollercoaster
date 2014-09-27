@@ -1,10 +1,9 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,15 +22,15 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		if(renderStage == 0) {
-			ModelBase model = type.getExtendedModel();
+			IModelCustom model = type.getExtendedModel();
 			
 			GL11.glRotatef(45f, 0f, 0f, 1f);
-			model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+			model.renderAll();
 		}
 		else if(renderStage == 1) {
-			ModelBase model = type.getStandardModel();
+			IModelCustom model = type.getStandardModel();
 			
-			model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+			model.renderAll();
 		}
 	}
 	
