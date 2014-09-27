@@ -1,5 +1,7 @@
 package robomuss.rc.track.piece;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.IModelCustom;
@@ -20,7 +22,6 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 		rotate(te);
 		
 		IModelCustom model = type.getCornerModel();
-		
 		model.renderAll();
 	}
 

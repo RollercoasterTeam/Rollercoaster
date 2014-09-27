@@ -93,10 +93,10 @@ public class JSONHandler {
 					}
 				};
 				//System.out.println(loc.getResourcePath() + loc.getResourceDomain());
-				style.standard = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/standard.tcn"));
-				style.large = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/large.tcn"));
-				style.extended = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/extended.tcn"));
-				style.corner = AdvancedModelLoader.loadModel(new ResourceLocation("rc:models/track-styles/corkscrew/corner.tcn"));
+				style.standard = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/track-styles/corkscrew/standard.tcn"));
+				style.large = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/track-styles/corkscrew/large.tcn"));
+				style.extended = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/track-styles/corkscrew/extended.tcn"));
+				style.corner = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/track-styles/corkscrew/corner.tcn"));
 				
 				style.whitelistedPieces = whitelistedPieces;
 				
