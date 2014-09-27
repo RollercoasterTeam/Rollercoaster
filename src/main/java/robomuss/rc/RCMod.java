@@ -11,6 +11,7 @@ import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.event.BlockClickedEvent;
 import robomuss.rc.event.CraftingEvent;
+import robomuss.rc.exception.TrackStyleModelNotFoundException;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.json.JSONHandler;
 import robomuss.rc.network.PacketPipeline;
@@ -46,7 +47,7 @@ public class RCMod {
     public static final PacketPipeline packetPipeline = new PacketPipeline();
 	
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) throws IOException {
+	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException {
 		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'corkscrew' from corkscrew.json!");
 		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_open' from flume_open.json!");
 		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_enclosed' from flume_enclosed.json!");
