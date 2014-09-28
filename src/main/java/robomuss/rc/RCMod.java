@@ -2,14 +2,13 @@ package robomuss.rc;
 
 import java.io.IOException;
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.event.BlockClickedEvent;
@@ -21,6 +20,10 @@ import robomuss.rc.network.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
 import robomuss.rc.track.TrackHandler;
+
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -51,9 +54,6 @@ public class RCMod {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'corkscrew' from corkscrew.json!");
-		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_open' from flume_open.json!");
-		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_enclosed' from flume_enclosed.json!");
 		JSONHandler.loadTrackStyles();
 	}
 	
@@ -111,5 +111,6 @@ public class RCMod {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
         packetPipeline.postInitialise();
+        MinecraftForge.EVENT_BUS.register(new GuiHammerOverlay(Minecraft.getMinecraft()));
 	}
 }
