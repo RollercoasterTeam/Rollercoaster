@@ -1,6 +1,5 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
@@ -14,22 +13,76 @@ import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackPieceSlopeUp(String unlocalized_name, int crafting_cost) {
-		super(unlocalized_name, crafting_cost);
+	public TrackPieceSlopeUp(String unlocalized_name, int crafting_cost, int i) {
+		super(unlocalized_name, crafting_cost, i);
 	}
 
 	@Override
-	public void render(TrackStyle type, TileEntityTrack te) {
+	public void renderSpecial(int special_render_stage, TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		
 		IModelCustom model = type.getStandardModel();
-		GL11.glRotatef(45f, 0f, 0f, 1f);
-		model.renderAll();
+		if(special_render_stage == 0) {
+			GL11.glRotatef(45f, 0f, 0f, 1f);
+			model.renderAll();
+		}
 	
-		GL11.glPushMatrix();
-		GL11.glRotatef(-45f, 0f, 0f, 1f);
-		model.renderAll();
-		GL11.glPopMatrix();
+		if(special_render_stage == 1) {
+			GL11.glPushMatrix();
+			model.renderAll();
+			GL11.glPopMatrix();
+		}
+	}
+	
+	@Override
+	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
+		if(renderStage == 0) {
+			switch(te.direction) {
+				case 0 : return (float) (x + 0.5F);
+				case 1 : return (float) (x - 0.5F);
+				case 2 : return (float) (x + 0.5F);
+				default: return (float) (x + 1.5F);
+			}
+		}
+		else if(renderStage == 1) {
+			switch(te.direction) {
+				case 1 : return (float) (x + 0.5F);
+				case 3 : return (float) (x + 0.5F);
+				default : return super.getSpecialX(renderStage, x, te);
+			}
+		}
+		else {
+			return super.getSpecialX(renderStage, x, te);
+		}
+	}
+	
+	@Override
+	public float getSpecialY(int renderStage, double y, TileEntityTrack te) {
+		if(renderStage == 1) {
+			return (float) (y + 1.5F);
+		}
+		else {
+			return super.getSpecialY(renderStage, y + 0.5f, te);
+		}
+	}
+	
+	@Override
+	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
+		if(renderStage == 1) {
+			switch(te.direction) {
+				case 0 : return (float) (z + 0.5F);
+				case 2 : return (float) (z + 0.5F);
+				default : return super.getSpecialZ(renderStage, z, te);
+			}
+		}
+		else {
+			switch(te.direction) {
+			case 0 : return (float) (z + 1.5F);
+			case 1 : return (float) (z + 0.5F);
+			case 2 : return (float) (z - 0.5F);
+			default: return (float) (z + 0.5F);
+		}
+		}
 	}
 	
 	@Override

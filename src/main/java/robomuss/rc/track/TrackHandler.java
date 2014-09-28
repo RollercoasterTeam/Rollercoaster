@@ -46,7 +46,7 @@ public class TrackHandler {
 	
 	public static void addTrackPieces() {
 		TrackHandler.pieces.add(new TrackPieceHorizontal("horizontal", 3));
-		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3));
+		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3, 2));
 		TrackHandler.pieces.add(new TrackPieceSlope("slope", 3));
 		TrackHandler.pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
 		TrackHandler.pieces.add(new TrackPieceCorner("curve", 3));
