@@ -20,15 +20,30 @@ public class TrackPieceHorizontal extends TrackPiece {
 	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		
+		
 		IModelCustom model = (IModelCustom) type.getStandardModel();
-		model.renderPart("topper1");
-		model.renderPart("topper2");
 		
 		
-		ResourceLocation textures = (new ResourceLocation("textures/blocks/planks_oak.png"));
+		if(type.name.equals("wooden_hybrid_topper")) {
+			ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + te.colour + ".png"));
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-		model.renderAllExcept("topper1", "topper2");
+			Minecraft.getMinecraft().renderEngine.bindTexture(textures);
+			
+			model.renderPart("topper1");
+			model.renderPart("topper2");
+			
+			ResourceLocation textures2 = (new ResourceLocation("textures/blocks/planks_oak.png"));
+
+			Minecraft.getMinecraft().renderEngine.bindTexture(textures2);
+			
+			model.renderPart("top1");
+			model.renderPart("top2");
+			model.renderPart("bottom1");
+			model.renderPart("bottom2");
+		}
+		else {
+			model.renderAll();
+		}
 	}
 	
 	@Override
