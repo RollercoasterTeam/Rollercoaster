@@ -38,8 +38,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		if(track_type != null) {
 			if(track_type.special_render_stages == 0) {
 				GL11.glPushMatrix();
+				GL11.glTranslatef(track_type.getX(x, (TileEntityTrack) te), track_type.getY(y, (TileEntityTrack) te) - 2f, track_type.getZ(z, (TileEntityTrack) te));
 				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
-				GL11.glTranslatef(track_type.getX(x, (TileEntityTrack) te), track_type.getY(y, (TileEntityTrack) te), track_type.getZ(z, (TileEntityTrack) te));
 				GL11.glPushMatrix();
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
@@ -51,7 +51,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 			
 			for(int i = 0; i < track_type.special_render_stages; i++) { 
 				GL11.glPushMatrix();
-				GL11.glTranslatef(track_type.getSpecialX(i, x, (TileEntityTrack) te), track_type.getSpecialY(i, y, (TileEntityTrack) te), track_type.getSpecialZ(i, z, (TileEntityTrack) te));
+				GL11.glTranslatef(track_type.getSpecialX(i, x, (TileEntityTrack) te), track_type.getSpecialY(i, y, (TileEntityTrack) te) - 2f, track_type.getSpecialZ(i, z, (TileEntityTrack) te));
+				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);

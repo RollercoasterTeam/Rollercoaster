@@ -31,7 +31,7 @@ public class JSONHandler {
 		"corkscrew", "body_slide", "body_slide_tunnel"	
 	};
 	
-	public static void loadTrackStyles() throws IOException, TrackStyleModelNotFoundException {
+	public static void loadTrackStyles() throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		File dir = new File("rollercoaster/track-styles/");
 		if(!dir.exists()) {
 			dir.mkdirs();
@@ -45,22 +45,21 @@ public class JSONHandler {
 			}
 			FileUtils.copyURLToFile(loader.getResource("assets/rc/trackStyles/" + string + ".json"), new File("rollercoaster/track-styles/" + string + ".json"));
 			
-			try {
-				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/standard.tcn"), new File("rollercoaster/track-styles/" + string + "/standard.tcn"));
-				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/large.tcn"), new File("rollercoaster/track-styles/" + string + "/large.tcn"));
-				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/extended.tcn"), new File("rollercoaster/track-styles/" + string + "/extended.tcn"));
-				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/corner.tcn"), new File("rollercoaster/track-styles/" + string + "/corner.tcn"));
+			/*try {
+				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/corkscrew/Standard.java"), new File("rollercoaster/track-styles/" + string + "/Standard.java"));
+				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/Large.java"), new File("rollercoaster/track-styles/" + string + "/Large.java"));
+				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/Extended.java"), new File("rollercoaster/track-styles/" + string + "/Extended.java"));
+				FileUtils.copyURLToFile(loader.getResource("assets/rc/models/trackStyles/" + string + "/Corner.java"), new File("rollercoaster/track-styles/" + string + "/Corner.java"));
 			}
 			catch(IOException e) {
 				throw new TrackStyleModelNotFoundException(e.getMessage().substring(e.getMessage().lastIndexOf("trackStyles/")), e.getMessage());
-			}
+			}*/
 		}
 		
 		loadJSONFilesFromDir(dir);
 	}
 
-	private static void loadJSONFilesFromDir(File dir) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
-		System.out.println("Size: " + dir.listFiles().length);
+	private static void loadJSONFilesFromDir(File dir) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		for(File file : dir.listFiles()) {
 			if(file.getName().contains(".json")) {
 				JsonParser parser = new JsonParser();
@@ -69,10 +68,10 @@ public class JSONHandler {
 				
 				String name = obj.get("Name").getAsString();
 				
-				/*String standard = obj.get("Standard Model").getAsString();
-				String large = obj.get("Large Model").getAsString();
-				String extended = obj.get("Extended Model").getAsString();
-				String corner = obj.get("Corner Model").getAsString();*/
+				String standard = obj.get("Standard Model") != null ? obj.get("Standard Model").getAsString() : "corkscrew/Standard";
+				String large = obj.get("Large Model") != null ? obj.get("Large Model").getAsString() : "corkscrew/Large";
+				String extended = obj.get("Extended Model") != null ? obj.get("Extended Model").getAsString() : "corkscrew/Extended";
+				String corner = obj.get("Corner Model") != null ? obj.get("Corner Model").getAsString() : "corkscrew/Corner";
 				
 				ArrayList<TrackPiece> whitelistedPieces = new ArrayList<TrackPiece>();
 				
@@ -87,7 +86,7 @@ public class JSONHandler {
 				}
 				
 				TrackStyle style = new TrackStyle(file.getName().substring(0, file.getName().lastIndexOf(".json")));
-				//System.out.println(loc.getResourcePath() + loc.getResourceDomain());
+				
 				style.standard = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/corkscrew/standard.tcn"));
 				style.large = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/corkscrew/large.tcn"));
 				style.extended = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/corkscrew/extended.tcn"));
@@ -97,7 +96,6 @@ public class JSONHandler {
 				
 				style.riddenUsingCart = true;
 				
-				System.out.println("Adding track style: " + style.name);
 				TrackHandler.styles.add(style);
 				
 				FMLLog.info("[Rollercoaster] Loaded track style: '" + name + "', Whitelisted Pieces: " + sb.toString());

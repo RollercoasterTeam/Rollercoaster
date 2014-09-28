@@ -2,6 +2,9 @@ package robomuss.rc;
 
 import java.io.IOException;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -47,7 +50,7 @@ public class RCMod {
     public static final PacketPipeline packetPipeline = new PacketPipeline();
 	
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException {
+	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'corkscrew' from corkscrew.json!");
 		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_open' from flume_open.json!");
 		//FMLLog.info("[Rollercoaster] Successfully loaded track style 'flume_enclosed' from flume_enclosed.json!");

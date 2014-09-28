@@ -1,10 +1,11 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.IModelCustom;
+import robomuss.rc.block.model.ModelRMCTopperCoaster;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
@@ -18,8 +19,16 @@ public class TrackPieceHorizontal extends TrackPiece {
 	@Override
 	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
-		IModelCustom model = type.getStandardModel();
-		model.renderAll();
+		
+		IModelCustom model = (IModelCustom) type.getStandardModel();
+		model.renderPart("topper1");
+		model.renderPart("topper2");
+		
+		
+		ResourceLocation textures = (new ResourceLocation("textures/blocks/planks_oak.png"));
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
+		model.renderAllExcept("topper1", "topper2");
 	}
 	
 	@Override

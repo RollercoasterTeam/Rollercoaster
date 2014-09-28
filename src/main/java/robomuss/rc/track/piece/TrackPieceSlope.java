@@ -1,5 +1,6 @@
 package robomuss.rc.track.piece;
 
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;

@@ -1,7 +1,6 @@
 package robomuss.rc.track.piece;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
