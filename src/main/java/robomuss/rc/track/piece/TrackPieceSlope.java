@@ -31,7 +31,39 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	
 	@Override
 	public float getX(double x, TileEntityTrack te) {
-		return (float) (x + 0.5F);
+		if(te.direction == 1) {
+			return (float) (x - 0.5f);
+		}
+		else if(te.direction == 3) {
+			return (float) (x + 1.5f);
+		}
+		else {
+			return (float) x + 0.5f;
+		}
+	}
+	
+	@Override
+	public float getY(double y, TileEntityTrack te) {
+		return (float) (y + 2f);
+	}
+	
+	@Override
+	public float getZ(double z, TileEntityTrack te) {
+		if(te.direction == 0) {
+			return (float) (z + 1.5f);
+		}
+		else if(te.direction == 1) {
+			return (float) (z + 0.5f);
+		}
+		else if(te.direction == 2) {
+			return (float) (z - 0.5f);
+		}
+		else if(te.direction == 3) {
+			return (float) (z + 0.5f);
+		}
+		else {
+			return (float) z;
+		}
 	}
 	
 	@Override

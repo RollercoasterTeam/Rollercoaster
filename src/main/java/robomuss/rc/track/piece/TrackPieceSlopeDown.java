@@ -37,7 +37,12 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	@Override
 	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
 		if(renderStage == 0) {
-			return (float) (x + 0.5F);
+			switch(te.direction) {
+				case 0 : return (float) (x + 0.5F);
+				case 1 : return (float) (x - 0.5F);
+				case 2 : return (float) (x + 0.5F);
+				default: return (float) (x + 1.5F);
+			}
 		}
 		else if(renderStage == 1) {
 			switch(te.direction) {
@@ -57,7 +62,7 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 			return (float) (y + 2.5F);
 		}
 		else {
-			return super.getSpecialY(renderStage, y, te);
+			return super.getSpecialY(renderStage, y + 0.5f, te);
 		}
 	}
 	
@@ -71,7 +76,12 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 			}
 		}
 		else {
-			return super.getSpecialZ(renderStage, z, te);
+			switch(te.direction) {
+			case 0 : return (float) (z + 1.5F);
+			case 1 : return (float) (z + 0.5F);
+			case 2 : return (float) (z - 0.5F);
+			default: return (float) (z + 0.5F);
+		}
 		}
 	}
 	

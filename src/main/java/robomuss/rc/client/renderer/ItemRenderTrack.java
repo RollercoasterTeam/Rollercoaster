@@ -61,6 +61,7 @@ public class ItemRenderTrack implements IItemRenderer {
 			inventoryRotation = ((IInventoryRenderSettings) track_type).getInventoryRotation();
 		}
 
+		GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 		if(type == ItemRenderType.INVENTORY) {
 			GL11.glRotatef(inventoryRotation, 0, 1, 0);
 		}
@@ -80,7 +81,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		}
 		else {
 			GL11.glPushMatrix();
-			GL11.glTranslatef(inventoryX, inventoryY, inventoryZ);
+			GL11.glTranslatef(inventoryX, inventoryY - 2, inventoryZ);
 			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
 			track_type.render(TrackHandler.styles.get(0), new TileEntityTrack());
 			GL11.glPopMatrix();

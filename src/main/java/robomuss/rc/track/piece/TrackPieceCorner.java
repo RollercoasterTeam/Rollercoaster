@@ -1,6 +1,5 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.IModelCustom;
@@ -12,12 +11,12 @@ import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSettings {
 
-	public TrackPieceCorner(String unlocalized_name, int crafting_cost, int i) {
-		super(unlocalized_name, crafting_cost, i);
+	public TrackPieceCorner(String unlocalized_name, int crafting_cost) {
+		super(unlocalized_name, crafting_cost);
 	}
 	
 	@Override
-	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
+	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
 		
 		IModelCustom model = type.getCornerModel();
