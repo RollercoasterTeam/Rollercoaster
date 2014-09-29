@@ -2,13 +2,16 @@ package robomuss.rc.client.gui;
 
 import java.awt.Rectangle;
 
+import com.sun.javafx.scene.control.behavior.KeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import org.lwjgl.input.Keyboard;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
+import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.OsUtil;
@@ -17,7 +20,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 	private TileEntityTrackDesigner te;
 
-    public Entity3rdPerson entity3rdPerson;
+    public static Entity3rdPerson entity3rdPerson;
     private int thirdPersonView = 0;
 
     private double posX, posY, posZ;
@@ -42,13 +45,13 @@ public class GuiTrackDesigner extends GuiScreen {
         }
 	}
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		buttonList.clear();
 		
 		buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
-	}*/
+	}
 	
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
@@ -69,13 +72,10 @@ public class GuiTrackDesigner extends GuiScreen {
 		String controls1 = "Use W A S D to move around";
 		drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
 
-		String controls2 = "Use PAGE-UP and PAGE-DOWN to move up and down";
-        if(OsUtil.isMac()){
-            controls2 = "Use UP and DOWN to move up and down";
-        }
+		String controls2 = "Use " + Keyboard.getKeyName(Keybindings.up.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.down.getKeyCode()).toUpperCase() + " to move up and down";
 		drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
 		
-		String controls3 = "Use Q and E to rotate left and right";
+		String controls3 = "Use " + Keyboard.getKeyName(Keybindings.lookLeft.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.lookRight.getKeyCode()).toUpperCase() + " to rotate left and right";
 		drawString(fontRendererObj, controls3, this.width / 2 - (fontRendererObj.getStringWidth(controls3) / 2), this.height / 2 + 60, 0xFFFFFF);
 		
 		String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";

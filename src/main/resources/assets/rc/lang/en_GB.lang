@@ -88,3 +88,9 @@ item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
 
 entity.entityTrain.name=Rollercoaster Train
+
+key.categories.rc.trackdesigner=Track Designer
+key.trackdesigner.up=Up
+key.trackdesigner.down=Down
+key.trackdesigner.lookleft=Look Left
+key.trackdesigner.lookright=Look Right

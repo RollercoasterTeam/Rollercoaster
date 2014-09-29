@@ -1,5 +1,7 @@
 package robomuss.rc.proxy;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import robomuss.rc.block.RCBlocks;
@@ -15,6 +17,7 @@ import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.client.Keybindings;
 import robomuss.rc.client.renderer.ItemRenderFence;
 import robomuss.rc.client.renderer.ItemRenderFooter;
 import robomuss.rc.client.renderer.ItemRenderSupport;
@@ -28,6 +31,8 @@ import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+
+import javax.swing.text.JTextComponent;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -72,4 +77,15 @@ public class ClientProxy extends CommonProxy {
         	}
         }
 	}
+
+    @Override
+    public void registerKeybindings()
+    {
+        Keybindings.init();
+        ClientRegistry.registerKeyBinding(Keybindings.lookLeft);
+        ClientRegistry.registerKeyBinding(Keybindings.lookRight);
+        ClientRegistry.registerKeyBinding(Keybindings.down);
+        ClientRegistry.registerKeyBinding(Keybindings.up);
+
+    }
 }

@@ -10,4 +10,9 @@ public class CommonProxy {
 	public void initNetwork() {
 		
 	}
+
+    public void registerKeybindings()
+    {
+
+    }
 }

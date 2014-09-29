@@ -6,28 +6,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
 import org.lwjgl.input.Keyboard;
-
 import robomuss.rc.block.te.TileEntityTrackDesigner;
+import robomuss.rc.client.Keybindings;
 import robomuss.rc.event.RenderWorldLast;
-import robomuss.rc.util.OsUtil;
 
 /**
  * Created by Mark on 17/08/2014.
  */
 public class Entity3rdPerson extends EntityLivingBase {
 
-    /*private static FloatBuffer modelviewF = GLAllocation.createDirectFloatBuffer(16);
-    private static FloatBuffer projectionF = GLAllocation.createDirectFloatBuffer(16);
-    private static DoubleBuffer modelviewD = ByteBuffer.allocateDirect(16 * 8).asDoubleBuffer();
-    private static DoubleBuffer projectionD = ByteBuffer.allocateDirect(16 * 8).asDoubleBuffer();
-    private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
-    private static FloatBuffer winZ = ByteBuffer.allocateDirect(1 * 4).asFloatBuffer();
-    private static FloatBuffer pos = ByteBuffer.allocateDirect(3 * 4).asFloatBuffer();*/
-
     public EntityLivingBase player;
-    public TileEntityTrackDesigner tile;
+
+    public static boolean needsToMoveUp = false;
 
 
     public Entity3rdPerson(World par1World) {
@@ -57,11 +48,11 @@ public class Entity3rdPerson extends EntityLivingBase {
                 motionX = side.xCoord * -0.5;
                 motionZ = side.zCoord * -0.5;
             }
-        } 
-        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            setAngles (-10, 0);
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            setAngles (10, 0);
+        }
+        if (Keyboard.isKeyDown(Keybindings.lookLeft.getKeyCode())) {
+            setAngles(-10, 0);
+        } else if (Keyboard.isKeyDown(Keybindings.lookRight.getKeyCode())) {
+            setAngles(10, 0);
         }
 
         if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
@@ -80,20 +71,11 @@ public class Entity3rdPerson extends EntityLivingBase {
             }
         }
 
-        if(OsUtil.isMac()){
-            if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-                motionY = 0.2;
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-                motionY = -0.2;
-            }
-        } else {
-            if (Keyboard.isKeyDown(Keyboard.KEY_PRIOR)) {
-                motionY = 0.2;
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_NEXT)) {
-                motionY = -0.2;
-            }
+        if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
+            motionY = 0.2;
+        } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
+            motionY = -0.2;
         }
-
 
 
         super.onUpdate();
