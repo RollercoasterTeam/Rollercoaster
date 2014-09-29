@@ -62,12 +62,6 @@ public class Entity3rdPerson extends EntityLivingBase {
             setAngles(dx * speed, dy * speed);
         }
 
-        //TODO come back and work on this later, not too sure at the moment
-        int dxWheel = Mouse.getDWheel();
-        if(dxWheel != 0){
-           motionZ = dxWheel / 100;
-        }
-
         if (Keyboard.isKeyDown(Keybindings.lookLeft.getKeyCode())) {
             setAngles(-10, 0);
         } else if (Keyboard.isKeyDown(Keybindings.lookRight.getKeyCode())) {

@@ -18,7 +18,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 	@Override
 	public void render(TrackStyle type, TileEntityTrack te) {
 		rotate(te);
-		
+
 		IModelCustom model = type.getCornerModel();
 		model.renderAll();
 	}

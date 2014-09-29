@@ -1,21 +1,29 @@
 package robomuss.rc.client.gui;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import com.sun.javafx.scene.control.behavior.KeyBinding;
+import modforgery.forgerylib.ChatColours;
+import modforgery.forgerylib.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.event.RenderWorldLast;
 import robomuss.rc.network.NetworkHandler;
+import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.OSUtil;
 
 public class GuiTrackDesigner extends GuiScreen {
@@ -24,6 +32,13 @@ public class GuiTrackDesigner extends GuiScreen {
 
     public static Entity3rdPerson entity3rdPerson;
     private int thirdPersonView = 0;
+
+    private static final ResourceLocation TOOLBAR_TEXTURE = new ResourceLocation("rc", "textures/gui/track_designer_toolbar.png");
+    private static final int TOOLBAR_TEXTURE_WIDTH = 194;
+    private static final int TOOLBAR_TEXTURE_HEIGHT = 35;
+
+    private int selectedSlot = 0;
+
 
     private double posX, posY, posZ;
     public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
@@ -57,8 +72,8 @@ public class GuiTrackDesigner extends GuiScreen {
 	
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
-		super.drawScreen(par1, par2, par3);
-		
+
+         /*
 		String string = "Coming in v1.5!";
 		drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
 		
@@ -83,11 +98,52 @@ public class GuiTrackDesigner extends GuiScreen {
 		String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
 		drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
 
-       /*GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+      GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(trackDesignerGuiTextures);
         int k = (this.width - this.mc.displayWidth) / 2;
         int l = (this.height - this.mc.displayHeight) / 2;
         this.drawTexturedModalRect(k, l, 0, 100, this.mc.displayWidth, this.mc.displayHeight);*/
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        int cornerX = (width - TOOLBAR_TEXTURE_WIDTH) / 2;
+        int cornerY = -5;
+
+        mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
+        drawTexturedModalRect(cornerX, cornerY, 0, 0, TOOLBAR_TEXTURE_WIDTH, TOOLBAR_TEXTURE_HEIGHT);
+
+        for (int i = 0; i < TrackHandler.pieces.size(); i++) {
+            if(TrackHandler.pieces.get(i).block != null)
+            GuiUtils.renderItemIntoGui(ItemBlock.getItemFromBlock(TrackHandler.pieces.get(i).block), cornerX  + TOOLBAR_TEXTURE_WIDTH /2  + (i * 30) - 10, cornerY + 6 , 1.2F, this.fontRendererObj, this.mc);
+        }
+
+        for (int i = 0; i < 9; i++) {
+            drawString(this.fontRendererObj, "0", cornerX + (i * 19) + 10, cornerY + 25, ChatColours.WHITE);
+        }
+
+        if (selectedSlot != -1) {
+            mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
+            drawTexturedModalRect(cornerX + 8 + selectedSlot * 18, cornerY + 8, 194, 0, 18, 18);
+        }
+
+        int dxWheel = Mouse.getDWheel();
+        if(dxWheel != 0){
+            if(dxWheel > 0){
+                if(selectedSlot != 9){
+                    selectedSlot += 1;
+                } else {
+                    selectedSlot = 0;
+                }
+            }
+            if(dxWheel < 0){
+                if(selectedSlot != 0){
+                    selectedSlot -= 1;
+                } else {
+                    selectedSlot = 9;
+                }
+            }
+        }
+
+        super.drawScreen(par1, par2, par3);
 	}
 	
 	@Override

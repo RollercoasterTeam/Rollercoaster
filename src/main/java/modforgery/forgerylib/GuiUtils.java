@@ -58,9 +58,13 @@ public class GuiUtils {
 	public static void renderBlockIntoGui(Block block, int x, int y, float scale, FontRenderer fontRenderer, Minecraft mc) {
 		RenderItem itemRenderer = new RenderItem();
 		GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glScalef(scale, scale, scale);
         GL11.glTranslated(-x /2, -y /2, 0);
 		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.getTextureManager(), new ItemStack(block), x, y);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glPopMatrix();
 	}
 	
