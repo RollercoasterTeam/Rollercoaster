@@ -11,6 +11,7 @@ import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.event.RenderWorldLast;
 
+
 /**
  * Created by Mark on 17/08/2014.
  */
@@ -49,37 +50,39 @@ public class Entity3rdPerson extends EntityLivingBase {
                 motionZ = side.zCoord * -0.5;
             }
         }
+
         if (Keyboard.isKeyDown(Keybindings.lookLeft.getKeyCode())) {
             setAngles(-10, 0);
         } else if (Keyboard.isKeyDown(Keybindings.lookRight.getKeyCode())) {
             setAngles(10, 0);
+
         }
 
-        if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
-            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
-                motionX = forward.xCoord * 0.5;
-                motionZ = forward.zCoord * 0.5;
-            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
-                motionX = forward.xCoord * -0.5;
-                motionZ = forward.zCoord * -0.5;
+
+            if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
+                if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
+                    motionX = forward.xCoord * 0.5;
+                    motionZ = forward.zCoord * 0.5;
+                } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+                    motionX = forward.xCoord * -0.5;
+                    motionZ = forward.zCoord * -0.5;
+                }
+            } else {
+                if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
+                    setAngles(0, 10);
+                } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+                    setAngles(0, -10);
+                }
             }
-        } else {
-            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
-                setAngles(0, 10);
-            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
-                setAngles(0, -10);
+
+            if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
+                motionY = 0.2;
+            } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
+                motionY = -0.2;
             }
+
+            super.onUpdate();
         }
-
-        if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
-            motionY = 0.2;
-        } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
-            motionY = -0.2;
-        }
-
-
-        super.onUpdate();
-    }
 
     @Override
     public ItemStack getHeldItem() {

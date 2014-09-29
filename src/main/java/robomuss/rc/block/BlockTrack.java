@@ -99,7 +99,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     public void onBlockAdded(World world, int x, int y, int z) {
     	if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityTrack) {
 	    	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
-	    	te.type = TrackHandler.styles.get(0);
+	    	te.type = TrackHandler.findTrackStyle("corkscrew");
     	}
     }
     

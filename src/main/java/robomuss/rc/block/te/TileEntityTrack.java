@@ -50,7 +50,7 @@ public class TileEntityTrack extends TileEntity {
 		super.writeToNBT(compound);
 		
 		if(!converted || type == null) {
-			type = TrackHandler.styles.get(0);
+			type = TrackHandler.findTrackStyle("corkscrew");
 			converted = true;
 		}
 		

@@ -1,13 +1,10 @@
 package robomuss.rc.client;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
+
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
-import robomuss.rc.client.gui.GuiTrackDesigner;
-import robomuss.rc.entity.Entity3rdPerson;
-import robomuss.rc.util.OsUtil;
+import robomuss.rc.util.OSUtil;
+
 
 public class Keybindings {
     public static final String CATEGORY = "key.categories.rc.trackdesigner";
@@ -22,7 +19,7 @@ public class Keybindings {
     public static KeyBinding lookRight = new KeyBinding(RIGHT, Keyboard.KEY_E, CATEGORY);
 
     public static void init() {
-        if (OsUtil.isMac()) {
+        if (OSUtil.isMac()) {
             //sets the default to up and down on a mac
             up = new KeyBinding(UP, Keyboard.KEY_UP, CATEGORY);
             down = new KeyBinding(DOWN, Keyboard.KEY_DOWN, CATEGORY);

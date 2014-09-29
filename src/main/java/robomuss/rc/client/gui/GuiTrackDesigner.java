@@ -14,7 +14,7 @@ import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.network.NetworkHandler;
-import robomuss.rc.util.OsUtil;
+import robomuss.rc.util.OSUtil;
 
 public class GuiTrackDesigner extends GuiScreen {
 

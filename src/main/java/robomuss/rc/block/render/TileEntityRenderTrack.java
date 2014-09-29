@@ -25,7 +25,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
-			type = TrackHandler.styles.get(0);
+			type = TrackHandler.findTrackStyle("corkscrew");
 		}
 		int colour = ((TileEntityTrack) te).colour;
 
