@@ -28,8 +28,12 @@ public class GuiHammerOverlay extends GuiScreen {
     public void eventHandler(RenderGameOverlayEvent event) {
 		MovingObjectPosition pos = rayTraceMouse();
 		if(pos != null) {
-			if(minecraft.theWorld.getBlock(pos.blockX, pos.blockY, pos.blockZ) instanceof BlockTrack) {
-				drawString(minecraft.fontRenderer, "Track Type: " + ((TileEntityTrack) minecraft.theWorld.getTileEntity(pos.blockX, pos.blockY, pos.blockZ)).type.name, 10, 100, 0xFFFFFF);
+			if(minecraft.theWorld.getTileEntity(pos.blockX, pos.blockY, pos.blockZ) instanceof TileEntityTrack) {
+				TileEntityTrack te = (TileEntityTrack) minecraft.theWorld.getTileEntity(pos.blockX, pos.blockY, pos.blockZ);
+				if(te.type == null) {
+					te.type = TrackHandler.styles.get(0);
+				}
+				drawString(minecraft.fontRenderer, "Track Type: " + te.type.name, 10, 100, 0xFFFFFF);
 			}
 		}
 	}
