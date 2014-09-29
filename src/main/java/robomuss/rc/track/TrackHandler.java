@@ -92,4 +92,13 @@ public class TrackHandler {
 		}
 		return null;
 	}
+
+	public static TrackStyle findTrackStyle(String string) {
+		for(TrackStyle style : styles) {
+			if(style.name.contains(string)) {
+				return style;
+			}
+		}
+		return null;
+	}
 }

@@ -31,7 +31,7 @@ public class GuiHammerOverlay extends GuiScreen {
 			if(minecraft.theWorld.getTileEntity(pos.blockX, pos.blockY, pos.blockZ) instanceof TileEntityTrack) {
 				TileEntityTrack te = (TileEntityTrack) minecraft.theWorld.getTileEntity(pos.blockX, pos.blockY, pos.blockZ);
 				if(te.type == null) {
-					te.type = TrackHandler.styles.get(0);
+					te.type = TrackHandler.findTrackStyle("corkscrew");
 				}
 				drawString(minecraft.fontRenderer, "Track Type: " + te.type.name, 10, 100, 0xFFFFFF);
 			}

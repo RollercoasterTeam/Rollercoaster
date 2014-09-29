@@ -11,7 +11,6 @@ import org.lwjgl.input.Keyboard;
 
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.event.RenderWorldLast;
-import robomuss.rc.util.OsUtil;
 
 /**
  * Created by Mark on 17/08/2014.
@@ -80,21 +79,12 @@ public class Entity3rdPerson extends EntityLivingBase {
             }
         }
 
-        if(OsUtil.isMac()){
-            if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-                motionY = 0.2;
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-                motionY = -0.2;
-            }
-        } else {
-            if (Keyboard.isKeyDown(Keyboard.KEY_PRIOR)) {
-                motionY = 0.2;
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_NEXT)) {
-                motionY = -0.2;
-            }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_PRIOR)) {
+            motionY = 0.2;
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_NEXT)) {
+            motionY = -0.2;
         }
-
-
 
         super.onUpdate();
     }
