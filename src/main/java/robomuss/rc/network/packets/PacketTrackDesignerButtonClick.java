@@ -3,6 +3,7 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MovingObjectPosition;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
@@ -15,13 +16,16 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
     private int x, y, z;
     private int id;
+    private MovingObjectPosition movingObjectPosition;
+    private int Xx, Xy, Xz;
 
-    public PacketTrackDesignerButtonClick(int x, int y, int z, int id) {
+    public PacketTrackDesignerButtonClick(int x, int y, int z, int id, MovingObjectPosition xHair) {
         this.x = x;
         this.y = y;
         this.z = z;
         
         this.id = id;
+        this.movingObjectPosition = xHair;
     }
 
     @Override
@@ -31,6 +35,10 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
         buffer.writeInt(this.z);
         
         buffer.writeInt(this.id);
+
+        buffer.writeInt(movingObjectPosition.blockX);
+        buffer.writeInt(movingObjectPosition.blockY);
+        buffer.writeInt(movingObjectPosition.blockZ);
     }
 
     @Override
@@ -40,16 +48,18 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
         this.z = buffer.readInt();
         
         this.id = buffer.readInt();
+
+        this.Xx = buffer.readInt();
+        this.Xy = buffer.readInt();
+        this.Xz = buffer.readInt();
     }
 
     @Override
     public void handleClientSide(EntityPlayer player) {
-
     }
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-    	TileEntityTrackDesigner te = (TileEntityTrackDesigner) player.worldObj.getTileEntity(x, y, z);
-    	player.worldObj.setBlock(te.currentPosX, te.currentPosY, te.currentPosZ, RCBlocks.path);
+    	player.worldObj.setBlock(Xx, Xy + 1, Xz, RCBlocks.path, 0 , 2);
     }
 }

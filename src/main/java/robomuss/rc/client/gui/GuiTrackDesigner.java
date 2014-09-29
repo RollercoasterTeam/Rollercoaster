@@ -8,11 +8,13 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.Entity3rdPerson;
+import robomuss.rc.event.RenderWorldLast;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.OSUtil;
 
@@ -90,7 +92,7 @@ public class GuiTrackDesigner extends GuiScreen {
 	
 	@Override
 	public void actionPerformed(GuiButton button) {
-		NetworkHandler.handleTrackDesignerButtonClick(te, button.id);
+		NetworkHandler.handleTrackDesignerButtonClick(te, button.id, entity3rdPerson.rayTraceMouse());
 	}
 	
 	@Override

@@ -7,7 +7,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.event.RenderWorldLast;
 
@@ -51,6 +52,22 @@ public class Entity3rdPerson extends EntityLivingBase {
             }
         }
 
+        int dx = Mouse.getDX();
+        int dy = Mouse.getDY();
+        boolean leftButtonDown = Mouse.isButtonDown(0);
+        boolean rightButtonDown = Mouse.isButtonDown(1);
+        boolean middleButtonDown = Mouse.isButtonDown(2);
+        int speed = 10;
+        if(leftButtonDown || middleButtonDown){
+            setAngles(dx * speed, dy * speed);
+        }
+
+        //TODO come back and work on this later, not too sure at the moment
+        int dxWheel = Mouse.getDWheel();
+        if(dxWheel != 0){
+           motionZ = dxWheel / 100;
+        }
+
         if (Keyboard.isKeyDown(Keybindings.lookLeft.getKeyCode())) {
             setAngles(-10, 0);
         } else if (Keyboard.isKeyDown(Keybindings.lookRight.getKeyCode())) {
@@ -59,30 +76,30 @@ public class Entity3rdPerson extends EntityLivingBase {
         }
 
 
-            if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
-                if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
-                    motionX = forward.xCoord * 0.5;
-                    motionZ = forward.zCoord * 0.5;
-                } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
-                    motionX = forward.xCoord * -0.5;
-                    motionZ = forward.zCoord * -0.5;
-                }
-            } else {
-                if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
-                    setAngles(0, 10);
-                } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
-                    setAngles(0, -10);
-                }
+        if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
+            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
+                motionX = forward.xCoord * 0.5;
+                motionZ = forward.zCoord * 0.5;
+            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+                motionX = forward.xCoord * -0.5;
+                motionZ = forward.zCoord * -0.5;
             }
-
-            if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
-                motionY = 0.2;
-            } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
-                motionY = -0.2;
+        } else {
+            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
+                setAngles(0, 10);
+            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+                setAngles(0, -10);
             }
-
-            super.onUpdate();
         }
+
+        if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
+            motionY = 0.2;
+        } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
+            motionY = -0.2;
+        }
+
+        super.onUpdate();
+    }
 
     @Override
     public ItemStack getHeldItem() {
