@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.network.NetworkHandler;
+import robomuss.rc.util.OSUtil;
 
 public class GuiTrackDesigner extends GuiScreen {
 
@@ -69,6 +70,9 @@ public class GuiTrackDesigner extends GuiScreen {
 		drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
 		
 		String controls2 = "Use PAGE-UP and PAGE-DOWN to move up and down";
+		if(OSUtil.isMac()) {
+			controls2 = "Use UP and DOWN to move up and down";
+		}
 		drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
 		
 		String controls3 = "Use Q and E to rotate left and right";

@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
 
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.event.RenderWorldLast;
+import robomuss.rc.util.OSUtil;
 
 /**
  * Created by Mark on 17/08/2014.
@@ -52,14 +53,16 @@ public class Entity3rdPerson extends EntityLivingBase {
             if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindLeft.getKeyCode())) {
                 motionX = side.xCoord * 0.5;
                 motionZ = side.zCoord * 0.5;
-            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode())) {
+            } 
+            else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode())) {
                 motionX = side.xCoord * -0.5;
                 motionZ = side.zCoord * -0.5;
             }
         } 
         if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
             setAngles (-10, 0);
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+        } 
+        else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
             setAngles (10, 0);
         }
 
@@ -67,11 +70,13 @@ public class Entity3rdPerson extends EntityLivingBase {
             if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
                 motionX = forward.xCoord * 0.5;
                 motionZ = forward.zCoord * 0.5;
-            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+            } 
+            else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
                 motionX = forward.xCoord * -0.5;
                 motionZ = forward.zCoord * -0.5;
             }
-        } else {
+        } 
+        else {
             if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
                 setAngles(0, 10);
             } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
@@ -80,10 +85,21 @@ public class Entity3rdPerson extends EntityLivingBase {
         }
 
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_PRIOR)) {
-            motionY = 0.2;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_NEXT)) {
-            motionY = -0.2;
+        if(OSUtil.isMac()){
+            if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+                motionY = 0.2;
+            } 
+            else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+                motionY = - 0.2;
+            }
+        } 
+        else {
+            if (Keyboard.isKeyDown(Keyboard.KEY_PRIOR)) {
+                motionY = 0.2;
+            } 
+            else if (Keyboard.isKeyDown(Keyboard.KEY_NEXT)) {
+                motionY = - 0.2;
+            }
         }
 
         super.onUpdate();
