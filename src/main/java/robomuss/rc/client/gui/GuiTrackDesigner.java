@@ -1,6 +1,8 @@
 package robomuss.rc.client.gui;
 
 import modforgery.forgerylib.ChatColours;
+import modforgery.forgerylib.GuiUtils;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,6 +13,7 @@ import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.Entity3rdPerson;
@@ -18,6 +21,7 @@ import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GuiTrackDesigner extends GuiScreen {
 
@@ -29,12 +33,9 @@ public class GuiTrackDesigner extends GuiScreen {
     private static final ResourceLocation TOOLBAR_TEXTURE = new ResourceLocation("rc", "textures/gui/track_designer_toolbar.png");
     private static final int TOOLBAR_TEXTURE_WIDTH = 194;
     private static final int TOOLBAR_TEXTURE_HEIGHT = 35;
-
     private int selectedSlot = 0;
-
-    private static final ResourceLocation slot1 = new ResourceLocation("rc", "textures/blocks/tracks/curve.png");
-
     private boolean showHelp = false;
+    private ArrayList<Block> blocks =  new ArrayList<Block>();;
 
     private double posX, posY, posZ;
 
@@ -57,6 +58,14 @@ public class GuiTrackDesigner extends GuiScreen {
 
             entity3rdPerson.setPositionAndUpdate(posX, posY, posZ);
         }
+
+        //Add all of the blocks that you want in the hotbar here
+        for (int i = 0; i < TrackHandler.pieces.size(); i++) {
+            blocks.add(TrackHandler.pieces.get(i).block);
+        }
+
+        blocks.add(RCBlocks.support);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +80,7 @@ public class GuiTrackDesigner extends GuiScreen {
     @Override
     public void drawScreen(int par1, int par2, float par3) {
 
+        //Only draw when the help button has been pressed
         if (showHelp) {
             String string = "Coming in v1.5!";
             drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
@@ -113,30 +123,33 @@ public class GuiTrackDesigner extends GuiScreen {
         mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
         drawTexturedModalRect(cornerX, cornerY, 0, 0, TOOLBAR_TEXTURE_WIDTH, TOOLBAR_TEXTURE_HEIGHT);
 
-        //TODO this is broken fix it
-//        for (int i = 0; i < TrackHandler.pieces.size(); i++) {
-//            if(TrackHandler.pieces.get(i).block != null)
-//            GuiUtils.renderItemIntoGui(ItemBlock.getItemFromBlock(TrackHandler.pieces.get(i).block), cornerX  + TOOLBAR_TEXTURE_WIDTH /2  + (i * 30) - 10, cornerY + 6 , 1.2F, this.fontRendererObj, this.mc);
-//        }
+        //Renders all the blocks in the hotbar
+        for (int i = 0; i < blocks.size(); i++) {
+          //  GuiUtils.renderBlockIntoGui(blocks.get(i), cornerX + TOOLBAR_TEXTURE_WIDTH / 2 + (i * 30) - 10, cornerY + 6, 1.2F, this.fontRendererObj, this.mc);
+        }
 
-        mc.renderEngine.bindTexture(slot1);
-        drawTexturedModalRect(cornerX + 8 + 1 * 18, cornerY + 8, 0, 0, 18, 18);
-
+        //Renders all the things in the hotbar
         for (int i = 0; i < 10; i++) {
             drawString(this.fontRendererObj, "0", cornerX + (i * 18) + 12, cornerY + 25, ChatColours.WHITE);
         }
 
+        //Draws the block name in a gui
+        if (selectedSlot != -1) {
+            //This is always recommend my me(modmuss50)
+            try{
+                drawString(this.fontRendererObj, blocks.get(selectedSlot).getLocalizedName(), 10, 55, ChatColours.WHITE);
+            } catch (IndexOutOfBoundsException e){
 
-        if (selectedSlot <= TrackHandler.pieces.size()) {
-            drawString(this.fontRendererObj, TrackHandler.extras.get(selectedSlot).name, 10, 55, ChatColours.WHITE);
+            }
         }
 
-
+        //Draw the selected
         if (selectedSlot != -1) {
             mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
             drawTexturedModalRect(cornerX + 8 + selectedSlot * 18, cornerY + 8, 194, 0, 18, 18);
         }
 
+        //Changes the slot based on the mouse wheel
         int dxWheel = Mouse.getDWheel();
         if (dxWheel != 0) {
             if (dxWheel > 0) {
@@ -161,8 +174,10 @@ public class GuiTrackDesigner extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) {
         if (button.id == 1) {
+            //Show the help
             this.showHelp = !this.showHelp;
         } else {
+            //send the packet to the server
             NetworkHandler.handleTrackDesignerButtonClick(te, button.id, entity3rdPerson.rayTraceMouse(), selectedSlot);
         }
 
