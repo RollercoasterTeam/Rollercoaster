@@ -1,19 +1,12 @@
 package robomuss.rc.client.gui;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
-import com.sun.javafx.scene.control.behavior.KeyBinding;
 import modforgery.forgerylib.ChatColours;
-import modforgery.forgerylib.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -21,14 +14,14 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.Entity3rdPerson;
-import robomuss.rc.event.RenderWorldLast;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.util.OSUtil;
+
+import java.awt.*;
 
 public class GuiTrackDesigner extends GuiScreen {
 
-	private TileEntityTrackDesigner te;
+    private TileEntityTrackDesigner te;
 
     public static Entity3rdPerson entity3rdPerson;
     private int thirdPersonView = 0;
@@ -44,14 +37,15 @@ public class GuiTrackDesigner extends GuiScreen {
     private boolean showHelp = false;
 
     private double posX, posY, posZ;
+
     public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
-		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
-		
+        te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
+
         entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
         if (entity3rdPerson != null) {
             Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
 
-            entity3rdPerson.setLocationAndAngles(x, y, z, 0 , 50);
+            entity3rdPerson.setLocationAndAngles(x, y, z, 0, 50);
 
             Minecraft.getMinecraft().renderViewEntity = entity3rdPerson;
             thirdPersonView = Minecraft.getMinecraft().gameSettings.thirdPersonView;
@@ -63,21 +57,21 @@ public class GuiTrackDesigner extends GuiScreen {
 
             entity3rdPerson.setPositionAndUpdate(posX, posY, posZ);
         }
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public void initGui() {
-		buttonList.clear();
-		
-		buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
-        buttonList.add(new GuiButton(1, this.width - 40, 10, 30, 20, "Help"));
-	}
-	
-	@Override
-	public void drawScreen(int par1, int par2, float par3) {
+    }
 
-        if(showHelp){
+    @SuppressWarnings("unchecked")
+    @Override
+    public void initGui() {
+        buttonList.clear();
+
+        buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
+        buttonList.add(new GuiButton(1, this.width - 40, 10, 30, 20, "Help"));
+    }
+
+    @Override
+    public void drawScreen(int par1, int par2, float par3) {
+
+        if (showHelp) {
             String string = "Coming in v1.5!";
             drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
 
@@ -119,6 +113,7 @@ public class GuiTrackDesigner extends GuiScreen {
         mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
         drawTexturedModalRect(cornerX, cornerY, 0, 0, TOOLBAR_TEXTURE_WIDTH, TOOLBAR_TEXTURE_HEIGHT);
 
+        //TODO this is broken fix it
 //        for (int i = 0; i < TrackHandler.pieces.size(); i++) {
 //            if(TrackHandler.pieces.get(i).block != null)
 //            GuiUtils.renderItemIntoGui(ItemBlock.getItemFromBlock(TrackHandler.pieces.get(i).block), cornerX  + TOOLBAR_TEXTURE_WIDTH /2  + (i * 30) - 10, cornerY + 6 , 1.2F, this.fontRendererObj, this.mc);
@@ -131,22 +126,28 @@ public class GuiTrackDesigner extends GuiScreen {
             drawString(this.fontRendererObj, "0", cornerX + (i * 18) + 12, cornerY + 25, ChatColours.WHITE);
         }
 
+
+        if (selectedSlot <= TrackHandler.pieces.size()) {
+            drawString(this.fontRendererObj, TrackHandler.extras.get(selectedSlot).name, 10, 55, ChatColours.WHITE);
+        }
+
+
         if (selectedSlot != -1) {
             mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
             drawTexturedModalRect(cornerX + 8 + selectedSlot * 18, cornerY + 8, 194, 0, 18, 18);
         }
 
         int dxWheel = Mouse.getDWheel();
-        if(dxWheel != 0){
-            if(dxWheel > 0){
-                if(selectedSlot != 9){
+        if (dxWheel != 0) {
+            if (dxWheel > 0) {
+                if (selectedSlot != 9) {
                     selectedSlot += 1;
                 } else {
                     selectedSlot = 0;
                 }
             }
-            if(dxWheel < 0){
-                if(selectedSlot != 0){
+            if (dxWheel < 0) {
+                if (selectedSlot != 0) {
                     selectedSlot -= 1;
                 } else {
                     selectedSlot = 9;
@@ -155,28 +156,28 @@ public class GuiTrackDesigner extends GuiScreen {
         }
 
         super.drawScreen(par1, par2, par3);
-	}
-	
-	@Override
-	public void actionPerformed(GuiButton button) {
-        if(button.id == 1) {
+    }
+
+    @Override
+    public void actionPerformed(GuiButton button) {
+        if (button.id == 1) {
             this.showHelp = !this.showHelp;
         } else {
             NetworkHandler.handleTrackDesignerButtonClick(te, button.id, entity3rdPerson.rayTraceMouse(), selectedSlot);
         }
 
-	}
-	
-	@Override
-	public void mouseClicked(int x, int y, int button) {
-		super.mouseClicked(x, y, button);
-		Rectangle mouse = new Rectangle(x, y, 1, 1);
-		Rectangle bounds = new Rectangle(10, 10, 100, 20);
-		if(!mouse.intersects(bounds)) {
-			MovingObjectPosition pos = entity3rdPerson.rayTraceMouse();
-			//NetworkHandler.placeTrackStartPoint(te, pos);
-		}
-	}
+    }
+
+    @Override
+    public void mouseClicked(int x, int y, int button) {
+        super.mouseClicked(x, y, button);
+        Rectangle mouse = new Rectangle(x, y, 1, 1);
+        Rectangle bounds = new Rectangle(10, 10, 100, 20);
+        if (!mouse.intersects(bounds)) {
+            MovingObjectPosition pos = entity3rdPerson.rayTraceMouse();
+            //NetworkHandler.placeTrackStartPoint(te, pos);
+        }
+    }
 
     public boolean doesGuiPauseGame() {
         return false;
@@ -184,7 +185,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-    	super.onGuiClosed();
+        super.onGuiClosed();
         Minecraft.getMinecraft().renderViewEntity = Minecraft.getMinecraft().thePlayer;
         Minecraft.getMinecraft().gameSettings.thirdPersonView = thirdPersonView;
         Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
