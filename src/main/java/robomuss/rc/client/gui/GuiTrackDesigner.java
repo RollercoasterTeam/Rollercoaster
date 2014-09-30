@@ -39,6 +39,9 @@ public class GuiTrackDesigner extends GuiScreen {
 
     private int selectedSlot = 0;
 
+    private static final ResourceLocation slot1 = new ResourceLocation("rc", "textures/blocks/tracks/curve.png");
+
+    private boolean showHelp = false;
 
     private double posX, posY, posZ;
     public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
@@ -68,36 +71,41 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.clear();
 		
 		buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
+        buttonList.add(new GuiButton(1, this.width - 40, 10, 30, 20, "Help"));
 	}
 	
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
 
-         /*
-		String string = "Coming in v1.5!";
-		drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
-		
-		String string2 = "===============";
-		drawString(fontRendererObj, string2, this.width / 2 - (fontRendererObj.getStringWidth(string2) / 2), this.height / 2 - 50, 0xFFFFFF);
-		
-		String string3 = "Track Designer";
-		drawString(fontRendererObj, string3, this.width / 2 - (fontRendererObj.getStringWidth(string3) / 2), this.height / 2 - 30, 0xFFFFFF);
-		
-		String string4 = "===============";
-		drawString(fontRendererObj, string4, this.width / 2 - (fontRendererObj.getStringWidth(string4) / 2), this.height / 2 - 10, 0xFFFFFF);
-		
-		String controls1 = "Use W A S D to move around";
-		drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
+        if(showHelp){
+            String string = "Coming in v1.5!";
+            drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
 
-		String controls2 = "Use " + Keyboard.getKeyName(Keybindings.up.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.down.getKeyCode()).toUpperCase() + " to move up and down";
-		drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
-		
-		String controls3 = "Use " + Keyboard.getKeyName(Keybindings.lookLeft.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.lookRight.getKeyCode()).toUpperCase() + " to rotate left and right";
-		drawString(fontRendererObj, controls3, this.width / 2 - (fontRendererObj.getStringWidth(controls3) / 2), this.height / 2 + 60, 0xFFFFFF);
-		
-		String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
-		drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
+            String string2 = "===============";
+            drawString(fontRendererObj, string2, this.width / 2 - (fontRendererObj.getStringWidth(string2) / 2), this.height / 2 - 50, 0xFFFFFF);
 
+            String string3 = "Track Designer";
+            drawString(fontRendererObj, string3, this.width / 2 - (fontRendererObj.getStringWidth(string3) / 2), this.height / 2 - 30, 0xFFFFFF);
+
+            String string4 = "===============";
+            drawString(fontRendererObj, string4, this.width / 2 - (fontRendererObj.getStringWidth(string4) / 2), this.height / 2 - 10, 0xFFFFFF);
+
+            String controls1 = "Use W A S D to move around";
+            drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
+
+            String controls2 = "Use " + Keyboard.getKeyName(Keybindings.up.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.down.getKeyCode()).toUpperCase() + " to move up and down";
+            drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
+
+            String controls3 = "Use " + Keyboard.getKeyName(Keybindings.lookLeft.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.lookRight.getKeyCode()).toUpperCase() + " to rotate left and right";
+            drawString(fontRendererObj, controls3, this.width / 2 - (fontRendererObj.getStringWidth(controls3) / 2), this.height / 2 + 60, 0xFFFFFF);
+
+            String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
+            drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
+
+        }
+
+
+        /*
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(trackDesignerGuiTextures);
         int k = (this.width - this.mc.displayWidth) / 2;
@@ -111,13 +119,16 @@ public class GuiTrackDesigner extends GuiScreen {
         mc.renderEngine.bindTexture(TOOLBAR_TEXTURE);
         drawTexturedModalRect(cornerX, cornerY, 0, 0, TOOLBAR_TEXTURE_WIDTH, TOOLBAR_TEXTURE_HEIGHT);
 
-        for (int i = 0; i < TrackHandler.pieces.size(); i++) {
-            if(TrackHandler.pieces.get(i).block != null)
-            GuiUtils.renderItemIntoGui(ItemBlock.getItemFromBlock(TrackHandler.pieces.get(i).block), cornerX  + TOOLBAR_TEXTURE_WIDTH /2  + (i * 30) - 10, cornerY + 6 , 1.2F, this.fontRendererObj, this.mc);
-        }
+//        for (int i = 0; i < TrackHandler.pieces.size(); i++) {
+//            if(TrackHandler.pieces.get(i).block != null)
+//            GuiUtils.renderItemIntoGui(ItemBlock.getItemFromBlock(TrackHandler.pieces.get(i).block), cornerX  + TOOLBAR_TEXTURE_WIDTH /2  + (i * 30) - 10, cornerY + 6 , 1.2F, this.fontRendererObj, this.mc);
+//        }
 
-        for (int i = 0; i < 9; i++) {
-            drawString(this.fontRendererObj, "0", cornerX + (i * 19) + 10, cornerY + 25, ChatColours.WHITE);
+        mc.renderEngine.bindTexture(slot1);
+        drawTexturedModalRect(cornerX + 8 + 1 * 18, cornerY + 8, 0, 0, 18, 18);
+
+        for (int i = 0; i < 10; i++) {
+            drawString(this.fontRendererObj, "0", cornerX + (i * 18) + 12, cornerY + 25, ChatColours.WHITE);
         }
 
         if (selectedSlot != -1) {
@@ -148,7 +159,12 @@ public class GuiTrackDesigner extends GuiScreen {
 	
 	@Override
 	public void actionPerformed(GuiButton button) {
-		NetworkHandler.handleTrackDesignerButtonClick(te, button.id, entity3rdPerson.rayTraceMouse());
+        if(button.id == 1) {
+            this.showHelp = !this.showHelp;
+        } else {
+            NetworkHandler.handleTrackDesignerButtonClick(te, button.id, entity3rdPerson.rayTraceMouse(), selectedSlot);
+        }
+
 	}
 	
 	@Override

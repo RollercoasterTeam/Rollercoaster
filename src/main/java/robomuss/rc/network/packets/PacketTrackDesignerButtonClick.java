@@ -3,10 +3,12 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
+import robomuss.rc.track.TrackHandler;
 
 public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
@@ -18,14 +20,17 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
     private int id;
     private MovingObjectPosition movingObjectPosition;
     private int Xx, Xy, Xz;
+    private int selectedSlot;
 
-    public PacketTrackDesignerButtonClick(int x, int y, int z, int id, MovingObjectPosition xHair) {
+    public PacketTrackDesignerButtonClick(int x, int y, int z, int id, MovingObjectPosition xHair, int selection) {
         this.x = x;
         this.y = y;
         this.z = z;
         
         this.id = id;
         this.movingObjectPosition = xHair;
+
+        this.selectedSlot = selection;
     }
 
     @Override
@@ -39,6 +44,8 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
         buffer.writeInt(movingObjectPosition.blockX);
         buffer.writeInt(movingObjectPosition.blockY);
         buffer.writeInt(movingObjectPosition.blockZ);
+
+        buffer.writeInt(selectedSlot);
     }
 
     @Override
@@ -52,6 +59,7 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
         this.Xx = buffer.readInt();
         this.Xy = buffer.readInt();
         this.Xz = buffer.readInt();
+        this.selectedSlot = buffer.readInt();
     }
 
     @Override
@@ -60,6 +68,7 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-    	player.worldObj.setBlock(Xx, Xy + 1, Xz, RCBlocks.path, 0 , 2);
+        if(player.worldObj.getBlock(Xx, Xy + 1, Xz) == Blocks.air)
+    	player.worldObj.setBlock(Xx, Xy + 1, Xz, TrackHandler.pieces.get(selectedSlot).block, 0 , 2);
     }
 }
