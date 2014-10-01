@@ -20,8 +20,8 @@ public class NetworkHandler {
         RCMod.packetPipeline.sendToServer(new PacketTrackDesignerStartPoint(te.xCoord, te.yCoord, te.zCoord, movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ));
 	}
 	
-	public static void handleTrackDesignerButtonClick(TileEntityTrackDesigner te, int id, MovingObjectPosition xHair) {
-		RCMod.packetPipeline.sendToServer(new PacketTrackDesignerButtonClick(te.xCoord, te.yCoord, te.zCoord, id, xHair));
+	public static void handleTrackDesignerButtonClick(TileEntityTrackDesigner te, int id, MovingObjectPosition xHair, int slection) {
+		RCMod.packetPipeline.sendToServer(new PacketTrackDesignerButtonClick(te.xCoord, te.yCoord, te.zCoord, id, xHair, slection));
 	}
 
 	public static void changePaintColour(int meta) {
