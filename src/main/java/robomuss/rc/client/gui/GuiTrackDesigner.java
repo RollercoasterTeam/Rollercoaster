@@ -32,7 +32,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
     private static final ResourceLocation TOOLBAR_TEXTURE = new ResourceLocation("rc", "textures/gui/track_designer_toolbar.png");
     private static final int TOOLBAR_TEXTURE_WIDTH = 194;
-    private static final int TOOLBAR_TEXTURE_HEIGHT = 35;
+    private static final int TOOLBAR_TEXTURE_HEIGHT = 36;
     private int selectedSlot = 0;
     private boolean showHelp = false;
     private ArrayList<Block> blocks =  new ArrayList<Block>();;
@@ -82,7 +82,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
         //Only draw when the help button has been pressed
         if (showHelp) {
-            String string = "Coming in v1.5!";
+            /*String string = "Coming in v1.5!";
             drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
 
             String string2 = "===============";
@@ -93,7 +93,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
             String string4 = "===============";
             drawString(fontRendererObj, string4, this.width / 2 - (fontRendererObj.getStringWidth(string4) / 2), this.height / 2 - 10, 0xFFFFFF);
-
+*/
             String controls1 = "Use W A S D to move around";
             drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
 
