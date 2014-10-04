@@ -19,6 +19,8 @@ public class TrackStyle {
 	public ArrayList<TrackPiece> whitelistedPieces;
 	
 	public boolean riddenUsingCart;
+
+	public String localizedName;
 	
 	public TrackStyle(String name) {
 		this.name = name;

@@ -16,9 +16,12 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.Keybindings;
+import robomuss.rc.client.gui.exList.ExpandableListNode;
+import robomuss.rc.client.gui.exList.ExpandableListNodeRollercoasters;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
+import scala.actors.threadpool.Arrays;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,11 +34,17 @@ public class GuiTrackDesigner extends GuiScreen {
     private int thirdPersonView = 0;
 
     private static final ResourceLocation TOOLBAR_TEXTURE = new ResourceLocation("rc", "textures/gui/track_designer_toolbar.png");
+    private static final ResourceLocation NODE_TEXTURE = new ResourceLocation("rc", "textures/gui/node.png");
     private static final int TOOLBAR_TEXTURE_WIDTH = 194;
     private static final int TOOLBAR_TEXTURE_HEIGHT = 36;
     private int selectedSlot = 0;
     private boolean showHelp = false;
-    private ArrayList<Block> blocks =  new ArrayList<Block>();;
+    private ArrayList<Block> blocks =  new ArrayList<Block>();
+    
+    private ExpandableListNode[] nodes = {
+    	new ExpandableListNodeRollercoasters("Rollercoasters", null, null),
+    	new ExpandableListNodeRollercoasters("Paths", null, null)
+    };
 
     private double posX, posY, posZ;
 
@@ -65,7 +74,6 @@ public class GuiTrackDesigner extends GuiScreen {
         }
 
         blocks.add(RCBlocks.support);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -73,13 +81,32 @@ public class GuiTrackDesigner extends GuiScreen {
     public void initGui() {
         buttonList.clear();
 
-        buttonList.add(new GuiButton(0, 10, 10, 100, 20, "Place"));
-        buttonList.add(new GuiButton(1, this.width - 40, 10, 30, 20, "Help"));
+        buttonList.add(new GuiButton(0, this.width - 40, 10, 30, 20, "Help"));
     }
 
     @Override
-    public void drawScreen(int par1, int par2, float par3) {
-
+    public void drawScreen(int x, int y, float f) {
+    	GL11.glPushMatrix();
+    	GL11.glScalef(0.125f, 0.125f, 0.125f);
+        for(int i = 0; i < nodes.length; i++) {
+        	ExpandableListNode node = nodes[i];
+        	//drawRect(100, 100 + (i * 20), 110, 110 + (i * 20), 0xFFFFFF);
+        	mc.renderEngine.bindTexture(NODE_TEXTURE);
+	        drawTexturedModalRect(50, 350 + (i * 250), 0, 0, 256, 256);
+        }
+        GL11.glPopMatrix();
+        
+        int k = (this.width - mc.displayWidth) / 2;
+	    int l = (this.height - mc.displayHeight) / 2;
+        Rectangle mouse = new Rectangle(x, y, 1, 1);
+        for(int i = 0; i < nodes.length; i++) {
+        	ExpandableListNode node = nodes[i];
+        	Rectangle bounds = new Rectangle(k + 50, l + 350 + (i * 250), 32, 32);
+        	if(mouse.intersects(bounds)) {
+        		System.out.println("Interesects");
+        		drawHoveringText(Arrays.asList(new Object[]{node.getName()}), x, y, fontRendererObj);
+        	}
+        }
         //Only draw when the help button has been pressed
         if (showHelp) {
             /*String string = "Coming in v1.5!";
@@ -125,7 +152,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
         //Renders all the blocks in the hotbar
         for (int i = 0; i < blocks.size(); i++) {
-          //  GuiUtils.renderBlockIntoGui(blocks.get(i), cornerX + TOOLBAR_TEXTURE_WIDTH / 2 + (i * 30) - 10, cornerY + 6, 1.2F, this.fontRendererObj, this.mc);
+        	//GuiUtils.renderBlockIntoGui(blocks.get(i), cornerX + TOOLBAR_TEXTURE_WIDTH / 2 + (i * 30) - 10, cornerY + 6, 1.2F, this.fontRendererObj, this.mc);
         }
 
         //Renders all the things in the hotbar
@@ -137,7 +164,7 @@ public class GuiTrackDesigner extends GuiScreen {
         if (selectedSlot != -1) {
             //This is always recommend my me(modmuss50)
             try{
-                drawString(this.fontRendererObj, blocks.get(selectedSlot).getLocalizedName(), 10, 55, ChatColours.WHITE);
+                //drawString(this.fontRendererObj, blocks.get(selectedSlot).getLocalizedName(), 10, 55, ChatColours.WHITE);
             } catch (IndexOutOfBoundsException e){
 
             }
@@ -168,12 +195,12 @@ public class GuiTrackDesigner extends GuiScreen {
             }
         }
 
-        super.drawScreen(par1, par2, par3);
+        super.drawScreen(x, y, f);
     }
 
     @Override
     public void actionPerformed(GuiButton button) {
-        if (button.id == 1) {
+        if (button.id == 0) {
             //Show the help
             this.showHelp = !this.showHelp;
         } else {
