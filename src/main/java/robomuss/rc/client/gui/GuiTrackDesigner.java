@@ -3,10 +3,14 @@ package robomuss.rc.client.gui;
 import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFence;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -34,7 +38,6 @@ public class GuiTrackDesigner extends GuiScreen {
     private int thirdPersonView = 0;
 
     private static final ResourceLocation TOOLBAR_TEXTURE = new ResourceLocation("rc", "textures/gui/track_designer_toolbar.png");
-    private static final ResourceLocation NODE_TEXTURE = new ResourceLocation("rc", "textures/gui/node.png");
     private static final int TOOLBAR_TEXTURE_WIDTH = 194;
     private static final int TOOLBAR_TEXTURE_HEIGHT = 36;
     private int selectedSlot = 0;
@@ -43,7 +46,8 @@ public class GuiTrackDesigner extends GuiScreen {
     
     private ExpandableListNode[] nodes = {
     	new ExpandableListNodeRollercoasters("Rollercoasters", null, null),
-    	new ExpandableListNodeRollercoasters("Paths", null, null)
+    	new ExpandableListNode("Paths", null, null),
+    	new ExpandableListNode("Fences", null, null)
     };
 
     private double posX, posY, posZ;
@@ -86,27 +90,22 @@ public class GuiTrackDesigner extends GuiScreen {
 
     @Override
     public void drawScreen(int x, int y, float f) {
-    	GL11.glPushMatrix();
-    	GL11.glScalef(0.125f, 0.125f, 0.125f);
-        for(int i = 0; i < nodes.length; i++) {
-        	ExpandableListNode node = nodes[i];
-        	//drawRect(100, 100 + (i * 20), 110, 110 + (i * 20), 0xFFFFFF);
-        	mc.renderEngine.bindTexture(NODE_TEXTURE);
-	        drawTexturedModalRect(50, 350 + (i * 250), 0, 0, 256, 256);
-        }
-        GL11.glPopMatrix();
-        
-        int k = (this.width - mc.displayWidth) / 2;
-	    int l = (this.height - mc.displayHeight) / 2;
+        GL11.glPushMatrix();
+        GL11.glScalef(0.125f, 0.125f, 0.125f);
+        int k = (this.width - 176) / 2;
+	    int l = (this.height - 166) / 2;
         Rectangle mouse = new Rectangle(x, y, 1, 1);
         for(int i = 0; i < nodes.length; i++) {
         	ExpandableListNode node = nodes[i];
         	Rectangle bounds = new Rectangle(k + 50, l + 350 + (i * 250), 32, 32);
         	if(mouse.intersects(bounds)) {
-        		System.out.println("Interesects");
         		drawHoveringText(Arrays.asList(new Object[]{node.getName()}), x, y, fontRendererObj);
+        		
         	}
+    		mc.renderEngine.bindTexture(node.texture);
+	        drawTexturedModalRect(58, 358 + (i * 250), 0, 0, 256, 256);
         }
+        GL11.glPopMatrix();
         //Only draw when the help button has been pressed
         if (showHelp) {
             /*String string = "Coming in v1.5!";

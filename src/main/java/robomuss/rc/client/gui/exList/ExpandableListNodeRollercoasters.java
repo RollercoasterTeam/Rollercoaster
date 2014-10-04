@@ -1,5 +1,6 @@
 package robomuss.rc.client.gui.exList;
 
+import net.minecraft.util.ResourceLocation;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.style.TrackStyle;
 
@@ -14,7 +15,7 @@ public class ExpandableListNodeRollercoasters extends ExpandableListNode {
 		ExpandableListNode[] children = new ExpandableListNode[TrackHandler.styles.size()];
 		for(int i = 0; i < TrackHandler.styles.size(); i++) {
 			TrackStyle style = TrackHandler.styles.get(i);
-			children[i] = new ExpandableListNode(style.localizedName, this, null);
+			children[i] = new ExpandableListNode(style.localizedName, new ResourceLocation("rc", "textures/gui/nodes.blank.png"), this, null);
 		}
 		return children;
 	}

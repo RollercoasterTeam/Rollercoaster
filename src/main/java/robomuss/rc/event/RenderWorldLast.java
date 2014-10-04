@@ -4,7 +4,10 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 import org.lwjgl.input.Mouse;
@@ -31,7 +34,6 @@ public class RenderWorldLast {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void renderLast (RenderWorldLastEvent evt) {
-
         if (modelviewF == null) {
             modelviewF = GLAllocation.createDirectFloatBuffer(16);
             projectionF = GLAllocation.createDirectFloatBuffer(16);
@@ -56,6 +58,7 @@ public class RenderWorldLast {
         diffX = pos.get(0);
         diffY = pos.get(1);
         diffZ = pos.get(2);
+
     }
 
 }
