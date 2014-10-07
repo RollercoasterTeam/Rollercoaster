@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class GuiUtils {
-	
+
 	public static void renderEntityIntoGui(int par0, int par1, int par2, float par3, float par4, EntityLivingBase par5EntityLivingBase) {
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
@@ -39,8 +39,8 @@ public class GuiUtils {
 		par5EntityLivingBase.rotationPitch = -((float) Math.atan((double) (par4 / 40.0F))) * 20.0F;
 		par5EntityLivingBase.rotationYawHead = par5EntityLivingBase.rotationYaw;
 		par5EntityLivingBase.prevRotationYawHead = par5EntityLivingBase.rotationYaw;
-		GL11.glTranslatef(0.0F, par5EntityLivingBase.yOffset, 0.0F);
-		RenderManager.instance.playerViewY = 180.0F;
+		GL11.glTranslatef(0.0F, (float) par5EntityLivingBase.getYOffset(), 0.0F);
+		RenderManager.playerViewY = 180.0F;
 		RenderManager.instance.renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 		par5EntityLivingBase.renderYawOffset = f2;
 		par5EntityLivingBase.rotationYaw = f3;
@@ -54,7 +54,7 @@ public class GuiUtils {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 	}
-	
+
 	public static void renderBlockIntoGui(Block block, int x, int y, float scale, FontRenderer fontRenderer, Minecraft mc) {
 		RenderItem itemRenderer = new RenderItem();
 		GL11.glPushMatrix();

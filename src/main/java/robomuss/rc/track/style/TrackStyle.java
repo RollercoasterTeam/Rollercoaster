@@ -1,11 +1,9 @@
 package robomuss.rc.track.style;
 
-import java.util.ArrayList;
-
-import net.minecraft.client.model.ModelBase;
 import net.minecraftforge.client.model.IModelCustom;
-import robomuss.rc.block.model.ModelCorkscrewCoaster;
 import robomuss.rc.track.piece.TrackPiece;
+
+import java.util.ArrayList;
 
 public class TrackStyle {
 	

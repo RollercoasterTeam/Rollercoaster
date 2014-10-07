@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.util.IChatComponent;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
@@ -56,15 +56,6 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 		}
 	}
 
-	@Override
-	public String getInventoryName() {
-		return "Track Storage";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return true;
-	}
 
 	@Override
 	public int getInventoryStackLimit() {
@@ -76,15 +67,16 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 		return true;
 	}
 
-	@Override
-	public void openInventory() {
+    @Override
+    public void openInventory(EntityPlayer playerIn) {
 
-	}
+    }
 
-	@Override
-	public void closeInventory() {
+    @Override
+    public void closeInventory(EntityPlayer playerIn) {
 
-	}
+    }
+
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -96,7 +88,27 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 		return false;
 	}
 
-	@Override
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clearInventory() {
+
+    }
+
+    @Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagList nbttaglist = new NBTTagList();
@@ -126,8 +138,19 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 		}
 	}
 	
-	@Override
-	public boolean canUpdate() {
-		return false;
-	}
+
+    @Override
+    public String getName() {
+         return "Track Storage";
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
 }

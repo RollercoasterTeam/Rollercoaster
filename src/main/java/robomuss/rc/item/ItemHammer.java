@@ -1,7 +1,7 @@
 package robomuss.rc.item;
 
-import java.util.List;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,15 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.block.te.*;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.hammer.HammerMode;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemHammer extends Item {
 

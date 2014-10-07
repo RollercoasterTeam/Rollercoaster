@@ -1,17 +1,21 @@
 package robomuss.rc;
 
-import java.io.IOException;
-
-import net.minecraft.client.Minecraft;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntitys;
-import robomuss.rc.event.BlockClickedEvent;
 import robomuss.rc.event.CraftingEvent;
 import robomuss.rc.exception.TrackStyleModelNotFoundException;
 import robomuss.rc.item.RCItems;
@@ -21,19 +25,7 @@ import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
 import robomuss.rc.track.TrackHandler;
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.io.IOException;
 
 @Mod(modid = RCMod.MODID, name = RCMod.NAME, version = RCMod.VERSION)
 public class RCMod {
@@ -42,7 +34,7 @@ public class RCMod {
 	public static final String NAME = "Rollercoaster Mod";
 	public static final String VERSION = "v1.4_beta2";
 
-	@Instance
+	@Mod.Instance
 	public static RCMod instance;
 	
 	@SidedProxy(clientSide="robomuss.rc.proxy.ClientProxy", serverSide="robomuss.rc.proxy.CommonProxy")
@@ -52,15 +44,15 @@ public class RCMod {
 
     public static final PacketPipeline packetPipeline = new PacketPipeline();
 	
-	@EventHandler
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		JSONHandler.loadTrackStyles();
         proxy.registerKeybindings();
 	}
 	
-	@EventHandler
+	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		decor = new CreativeTabs("tab.decor") {
+		decor = new CreativeTabs(0, "tab.decor") {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Item getTabIconItem() {
@@ -73,21 +65,21 @@ public class RCMod {
 				return new ItemStack(RCBlocks.path, 1, 3);
 			}
 		};
-		track = new CreativeTabs("tab.track") {
+		track = new CreativeTabs(0, "tab.track") {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Item getTabIconItem() {
 				return Item.getItemFromBlock(TrackHandler.pieces.get(0).block);
 			}
 		};
-		tools = new CreativeTabs("tab.tools") {
+		tools = new CreativeTabs(0, "tab.tools") {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Item getTabIconItem() {
 				return RCItems.hammer;
 			}
 		};
-		other = new CreativeTabs("tab.other") {
+		other = new CreativeTabs(0, "tab.other") {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Item getTabIconItem() {
@@ -103,15 +95,17 @@ public class RCMod {
 		new RecipeHandler();
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
-		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
+        //TODO forge
+		//MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
         packetPipeline.initalise();
         proxy.initRenderers();
 		proxy.initNetwork();
 	}
 	
-	@EventHandler
+	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
         packetPipeline.postInitialise();
-        MinecraftForge.EVENT_BUS.register(new GuiHammerOverlay(Minecraft.getMinecraft()));
+        //TODO forge
+       // MinecraftForge.EVENT_BUS.register(new GuiHammerOverlay(Minecraft.getMinecraft()));
 	}
 }

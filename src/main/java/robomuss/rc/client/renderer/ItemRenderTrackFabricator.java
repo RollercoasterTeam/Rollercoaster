@@ -1,14 +1,11 @@
 package robomuss.rc.client.renderer;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.model.ModelTrackFabricator;
-import robomuss.rc.block.render.TileEntityRenderTrackFabricator;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
 
 public class ItemRenderTrackFabricator implements IItemRenderer {
 

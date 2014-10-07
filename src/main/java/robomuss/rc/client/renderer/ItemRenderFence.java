@@ -4,17 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.model.ModelRideFence;
-import robomuss.rc.block.model.ModelRideFenceCorner;
-import robomuss.rc.block.model.ModelRideFenceGate;
-import robomuss.rc.block.model.ModelRideFenceGateOpen;
-import robomuss.rc.block.model.ModelRideFenceSquare;
-import robomuss.rc.block.model.ModelRideFenceTriangle;
+import robomuss.rc.block.model.*;
 
 public class ItemRenderFence implements IItemRenderer {
 

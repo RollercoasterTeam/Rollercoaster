@@ -2,8 +2,11 @@ package robomuss.rc.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.item.RCItems;
@@ -33,13 +36,13 @@ public class BlockFooter extends BlockContainer implements IPaintable {
     }
     
     @Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
 		if(!world.isRemote) {
 			if(player.getHeldItem() != null) {
 				if(player.getHeldItem().getItem() == RCItems.brush) {
-					TileEntityFooter tes = (TileEntityFooter) world.getTileEntity(x, y, z);
+					TileEntityFooter tes = (TileEntityFooter) world.getTileEntity(blockPos);
 					tes.colour = player.getHeldItem().getItemDamage();
-					world.markBlockForUpdate(x, y, z);
+					world.markBlockForUpdate(blockPos);
 					return true;
 				}
 				else {
@@ -57,7 +60,7 @@ public class BlockFooter extends BlockContainer implements IPaintable {
 	}
     
     @Override
-	public int getPaintMeta(World world, int x, int y, int z) {
-		return ((TileEntityFooter) world.getTileEntity(x, y, z)).colour;
+	public int getPaintMeta(World world, BlockPos blockPos) {
+		return ((TileEntityFooter) world.getTileEntity(blockPos)).colour;
 	}
 }

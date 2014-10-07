@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.AbstractPacket;
@@ -54,7 +55,7 @@ public class PacketTrackFabricatorUpdate extends AbstractPacket {
     @Override
     public void handleServerSide(EntityPlayer player) {
         World world = player.worldObj;
-        TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+        TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(new BlockPos(x, y, z));
         int cost = TrackHandler.pieces.get(current_track).crafting_cost * amount;
         if(te.contents[0] != null) {
         	if(te.contents[0].getItem() == Items.iron_ingot) {

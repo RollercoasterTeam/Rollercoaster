@@ -2,11 +2,12 @@ package robomuss.rc.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.block.BlockStainedGlass;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
-import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackHandler;
 
@@ -41,9 +42,9 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
         
         buffer.writeInt(this.id);
 
-        buffer.writeInt(movingObjectPosition.blockX);
-        buffer.writeInt(movingObjectPosition.blockY);
-        buffer.writeInt(movingObjectPosition.blockZ);
+        buffer.writeInt(movingObjectPosition.func_178782_a().getX());
+        buffer.writeInt(movingObjectPosition.func_178782_a().getY());
+        buffer.writeInt(movingObjectPosition.func_178782_a().getZ());
 
         buffer.writeInt(selectedSlot);
     }
@@ -68,7 +69,7 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-        if(player.worldObj.getBlock(Xx, Xy + 1, Xz) == Blocks.air)
-    	player.worldObj.setBlock(Xx, Xy + 1, Xz, TrackHandler.pieces.get(selectedSlot).block, 0 , 2);
+        if(player.worldObj.getBlockState(new BlockPos(Xx, Xy + 1, Xz)).getBlock() == Blocks.air)
+    	player.worldObj.setBlockState(new BlockPos(Xx, Xy + 1, Xz) , new BlockState(TrackHandler.pieces.get(selectedSlot).block, null) , 2);
     }
 }

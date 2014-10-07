@@ -17,14 +17,9 @@ public class TileEntityRideFence extends TileEntity {
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, nbt);
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
-	}
-	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
@@ -42,9 +37,5 @@ public class TileEntityRideFence extends TileEntity {
 		compound.setInteger("colour", colour);
 		compound.setBoolean("open", open);
 	}
-	
-	@Override
-	public boolean canUpdate() {
-		return false;
-	}
+
 }

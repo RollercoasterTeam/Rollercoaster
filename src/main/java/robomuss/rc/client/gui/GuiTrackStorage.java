@@ -6,9 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.container.ContainerTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
@@ -17,7 +15,7 @@ public class GuiTrackStorage extends GuiContainer {
 	private static final ResourceLocation trackStorageGuiTextures = new ResourceLocation("rc", "textures/gui/track_storage.png");
 	
 	public GuiTrackStorage(InventoryPlayer inventory, EntityPlayer player, TileEntityTrackStorage te, World world) {
-		super(new ContainerTrackStorage(player.inventory, player, te, world, te.xCoord, te.yCoord, te.zCoord));
+		super(new ContainerTrackStorage(player.inventory, player, te, world, te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
 	}
 	
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {

@@ -3,6 +3,7 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
@@ -55,7 +56,7 @@ public class PacketTrackDesignerStartPoint extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-    	TileEntityTrackDesigner te = (TileEntityTrackDesigner) player.worldObj.getTileEntity(x, y, z);
+    	TileEntityTrackDesigner te = (TileEntityTrackDesigner) player.worldObj.getTileEntity(new BlockPos(x, y, z));
     	te.currentPosX = this.crosshairX;
     	te.currentPosY = this.crosshairY + 1;
     	te.currentPosZ = this.crosshairZ;

@@ -3,12 +3,11 @@ package robomuss.rc.recipe;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHandler {
 
@@ -18,9 +17,9 @@ public class RecipeHandler {
 	}
 
 	private void registerItemRecipes() {
-		GameRegistry.addRecipe(new ItemStack(RCItems.hammer, 1), new Object[] {
-			"X", "Y", 'X', Items.iron_ingot, 'Y', Items.stick
-		});
+		GameRegistry.addRecipe(new ItemStack(RCItems.hammer, 1), new Object[]{
+                "X", "Y", 'X', Items.iron_ingot, 'Y', Items.stick
+        });
 		
 		GameRegistry.addRecipe(new ItemStack(RCItems.empty_brush), new Object[] {
 			"X", "Y", 'X', new ItemStack(Blocks.wool, 1, 0), 'Y', Items.stick
@@ -83,49 +82,51 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ItemStack(RCBlocks.track_fabricator),
 				"XYX", "XZX", "XAX", 'X', Items.iron_ingot, 'Y', Items.redstone, 'Z', Blocks.furnace, 'A', Items.lava_bucket
 		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 0),
-				new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-	
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 1),
-			Blocks.dirt, Blocks.cobblestone, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 2),
-			Items.paper, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 3),
-			Blocks.dirt, Blocks.leaves, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 3),
-			Blocks.dirt, Blocks.leaves2, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 4),
-			new ItemStack(Blocks.planks, 1, 0), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 5),
-			new ItemStack(Blocks.planks, 1, 1), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 6),
-			new ItemStack(Blocks.planks, 1, 2), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 7),
-			new ItemStack(Blocks.planks, 1, 3), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 8), 
-			Blocks.sandstone, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 9), 
-			Blocks.quartz_block, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
-		);	
+
+
+        //TODO forge
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 0),
+//				new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 1),
+//			Blocks.dirt, Blocks.cobblestone, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 2),
+//			Items.paper, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 3),
+//			Blocks.dirt, Blocks.leaves, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 3),
+//			Blocks.dirt, Blocks.leaves2, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 4),
+//			new ItemStack(Blocks.planks, 1, 0), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 5),
+//			new ItemStack(Blocks.planks, 1, 1), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 6),
+//			new ItemStack(Blocks.planks, 1, 2), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 7),
+//			new ItemStack(Blocks.planks, 1, 3), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 8),
+//			Blocks.sandstone, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
+//
+//		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 9),
+//			Blocks.quartz_block, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE)
+//		);
 	}
 }

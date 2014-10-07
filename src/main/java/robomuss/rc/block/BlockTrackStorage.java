@@ -3,19 +3,15 @@ package robomuss.rc.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackStorage;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTrackStorage extends BlockContainer {
 
@@ -41,28 +37,29 @@ public class BlockTrackStorage extends BlockContainer {
 		return new TileEntityTrackStorage();
 	}
 
-	@SideOnly(Side.CLIENT)
-	private IIcon side;
-	@SideOnly(Side.CLIENT)
-	private IIcon top;
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register) {
-		side = register.registerIcon("rc:track_storage_side");
-		top = register.registerIcon("rc:track_storage_top");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int face, int meta) {
-		if (face == 0 || face == 1) {
-			return top;
-		} else {
-			return side;
-		}
-	}
-	
+    //TODO block things
+//	@SideOnly(Side.CLIENT)
+//	private IIcon side;
+//	@SideOnly(Side.CLIENT)
+//	private IIcon top;
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public void registerBlockIcons(IIconRegister register) {
+//		side = register.registerIcon("rc:track_storage_side");
+//		top = register.registerIcon("rc:track_storage_top");
+//	}
+//
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	public IIcon getIcon(int face, int meta) {
+//		if (face == 0 || face == 1) {
+//			return top;
+//		} else {
+//			return side;
+//		}
+//	}
+//
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(x, y, z);

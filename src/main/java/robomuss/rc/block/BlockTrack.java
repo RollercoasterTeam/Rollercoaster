@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrack;
@@ -15,8 +16,6 @@ import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
-import robomuss.rc.track.piece.TrackPieceCorner;
-import robomuss.rc.track.piece.TrackPieceHorizontal;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
@@ -38,7 +37,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
+	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityTrack();
 	}
 
@@ -61,6 +60,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 				else {
 					return false;
 				}
+				
 			}
 			else {
 				return false;
@@ -92,8 +92,8 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	}
 	
 	@Override
-	public int getPaintMeta(World world, int x, int y, int z) {
-		return ((TileEntityTrack) world.getTileEntity(x, y, z)).colour;
+	public int getPaintMeta(World world, BlockPos blockPos) {
+		return ((TileEntityTrack) world.getTileEntity(blockPos)).colour;
 	}
     
     @Override
@@ -101,8 +101,6 @@ public class BlockTrack extends BlockContainer implements IPaintable {
     	if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityTrack) {
 	    	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
 	    	te.type = TrackHandler.findTrackStyle("corkscrew");
-
-		    updateRotation(world, x, y, z, te);
     	}
     }
     
@@ -118,151 +116,4 @@ public class BlockTrack extends BlockContainer implements IPaintable {
         	}
         }
     }
-
-	private void updateRotation(World world, int x, int y, int z, TileEntityTrack track) {          //may be better way of doing this, but it works
-		if (!world.isRemote) {
-			Block blockWest = world.getBlock(x - 1, y, z);              //west
-			Block blockEast = world.getBlock(x + 1, y, z);              //east
-			Block blockNorth = world.getBlock(x, y, z - 1);             //north
-			Block blockSouth = world.getBlock(x, y, z + 1);             //south
-
-			if (isHorizontal(this)) {
-				if (isBlockTrack(blockWest)) {
-					if (isCorner(blockWest)) {
-						TileEntityTrack teWest = (TileEntityTrack) world.getTileEntity(x - 1, y, z);
-						if (teWest.direction == 1 || teWest.direction == 2) {
-							track.direction = 1;
-						}
-					} else if (isHorizontal(blockWest)) {
-						TileEntityTrack teWest = (TileEntityTrack) world.getTileEntity(x - 1, y, z);
-						if (teWest.direction == 1 || teWest.direction == 3) {
-							track.direction = teWest.direction;
-						}
-					}
-				}
-
-				if(isBlockTrack(blockEast)) {
-					if (isCorner(blockEast)) {
-						TileEntityTrack teEast = (TileEntityTrack) world.getTileEntity(x + 1, y, z);
-						if (teEast.direction == 0 || teEast.direction == 3) {
-							track.direction = 1;
-						}
-					} else if (isHorizontal(blockEast)) {
-						TileEntityTrack teEast = (TileEntityTrack) world.getTileEntity(x + 1, y, z);
-						if (teEast.direction == 1 || teEast.direction == 3) {
-							track.direction = teEast.direction;
-						}
-					}
-				}
-
-				if (isBlockTrack(blockNorth)) {
-					if (isCorner(blockNorth)) {
-						TileEntityTrack teNorth = (TileEntityTrack) world.getTileEntity(x, y, z - 1);
-						if (teNorth.direction == 2 || teNorth.direction == 3) {
-							track.direction = 0;
-						}
-					}
-				}
-
-				if (isBlockTrack(blockSouth)) {
-					if (isCorner(blockSouth)) {
-						TileEntityTrack teSouth = (TileEntityTrack) world.getTileEntity(x, y, z + 1);
-						if (teSouth.direction == 0 || teSouth.direction == 1) {
-							track.direction = 0;
-						}
-					}
-				}
-			}
-
-			if (isCorner(this)) {
-				if (isBlockTrack(blockWest)) {
-					if (isHorizontal(blockWest)) {
-						TileEntityTrack teWest = (TileEntityTrack) world.getTileEntity(x - 1, y, z);
-
-						if (teWest.direction == 1 || teWest.direction == 3) {
-							track.direction = 3;
-
-							if (isBlockTrack(blockNorth)) {
-								if (isHorizontal(blockNorth)) {
-									TileEntityTrack teNorth = (TileEntityTrack) world.getTileEntity(x, y, z - 1);
-									if (teNorth.direction == 0 || teNorth.direction == 2) {
-										track.direction = 0;
-									}
-								}
-							}
-
-							if (isBlockTrack(blockSouth)) {
-								if (isHorizontal(blockSouth)) {
-									TileEntityTrack teSouth = (TileEntityTrack) world.getTileEntity(x, y, z + 1);
-									if (teSouth.direction == 0 || teSouth.direction == 2) {
-										track.direction = 3;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				if (isBlockTrack(blockEast)) {
-					if (isHorizontal(blockEast)) {
-						TileEntityTrack teEast = (TileEntityTrack) world.getTileEntity(x + 1, y, z);
-
-						if (teEast.direction == 1 || teEast.direction == 3) {
-							track.direction = 1;
-
-							if (isBlockTrack(blockNorth)) {
-								if (isHorizontal(blockNorth)) {
-									TileEntityTrack teNorth = (TileEntityTrack) world.getTileEntity(x, y, z - 1);
-									if (teNorth.direction == 0 || teNorth.direction == 2) {
-										track.direction = 1;
-									}
-								}
-							}
-
-							if (isBlockTrack(blockSouth)) {
-								if (isHorizontal(blockSouth)) {
-									TileEntityTrack teSouth = (TileEntityTrack) world.getTileEntity(x, y, z + 1);
-									if (teSouth.direction == 0 || teSouth.direction == 2) {
-										track.direction = 2;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				if (isBlockTrack(blockNorth)) {
-					if (isHorizontal(blockNorth)) {
-						TileEntityTrack teNorth = (TileEntityTrack) world.getTileEntity(x, y, z - 1);
-						if (teNorth.direction == 0 || teNorth.direction == 2) {
-							track.direction = 0;
-						}
-					}
-				}
-
-				if (isBlockTrack(blockSouth)) {
-					if (isHorizontal(blockSouth)) {
-						TileEntityTrack teSouth = (TileEntityTrack) world.getTileEntity(x, y, z + 1);
-						if (teSouth.direction == 0 || teSouth.direction == 2) {
-							track.direction = 2;
-						}
-					}
-				}
-			}
-
-			world.markBlockForUpdate(x, y, z);
-		}
-	}
-
-	private boolean isBlockTrack(Block block) {
-		return block instanceof BlockTrack;
-	}
-
-	private boolean isHorizontal(Block block) {
-		return ((BlockTrack) block).track_type instanceof TrackPieceHorizontal;
-	}
-
-	private boolean isCorner(Block block) {
-		return ((BlockTrack) block).track_type instanceof TrackPieceCorner;
-	}
 }

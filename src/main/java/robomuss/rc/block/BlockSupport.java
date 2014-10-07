@@ -5,6 +5,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.item.RCItems;
@@ -58,8 +59,8 @@ public class BlockSupport extends BlockContainer implements IPaintable {
 	}
     
     @Override
-	public int getPaintMeta(World world, int x, int y, int z) {
-		return ((TileEntitySupport) world.getTileEntity(x, y, z)).colour;
+	public int getPaintMeta(World world, BlockPos blockPos) {
+		return ((TileEntitySupport) world.getTileEntity(blockPos)).colour;
 	}
     
     @Override

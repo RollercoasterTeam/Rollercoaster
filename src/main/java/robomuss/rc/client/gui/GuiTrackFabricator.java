@@ -1,7 +1,5 @@
 package robomuss.rc.client.gui;
 
-import java.awt.event.KeyEvent;
-import java.util.Arrays;
 
 import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
@@ -13,16 +11,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
-
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiTrackFabricator extends GuiContainer {
@@ -79,16 +79,24 @@ public class GuiTrackFabricator extends GuiContainer {
     
     @Override
 	public void keyTyped(char c, int i) {
-		super.keyTyped(c, i);
-		if(Character.toString(c).matches("[0-9]") || c == (char) KeyEvent.VK_BACK_SPACE) {
+        try {
+            super.keyTyped(c, i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(Character.toString(c).matches("[0-9]") || c == (char) KeyEvent.VK_BACK_SPACE) {
 			textField.textboxKeyTyped(c, i);
 		}
 	}
 	
 	@Override
 	public void mouseClicked(int i, int j, int k) {
-		super.mouseClicked(i, j, k);
-		textField.mouseClicked(i, j, k);
+        try {
+            super.mouseClicked(i, j, k);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        textField.mouseClicked(i, j, k);
 		if(!textField.isFocused()) {
 			if(Integer.parseInt(textField.getText()) == 0) {
 				amount = 1;
@@ -122,10 +130,10 @@ public class GuiTrackFabricator extends GuiContainer {
 						num + " Iron Ingots (" + TrackHandler.pieces.get(current_track).crafting_cost + " per track)", 
 						"========================",
 						"Try SHIFT-clicking the + & -"
-						}), x, y, fontRendererObj);
+						}), x, y);
 			}
 			else {
-				drawHoveringText(Arrays.asList(new Object[]{name, num + " Iron Ingots (" + TrackHandler.pieces.get(current_track).crafting_cost + " per track)", "Hold SHIFT for more info"}), x, y, fontRendererObj);
+				drawHoveringText(Arrays.asList(new Object[]{name, num + " Iron Ingots (" + TrackHandler.pieces.get(current_track).crafting_cost + " per track)", "Hold SHIFT for more info"}), x, y);
 			}
 		}
 	}

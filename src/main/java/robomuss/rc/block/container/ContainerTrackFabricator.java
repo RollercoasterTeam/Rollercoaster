@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
@@ -28,7 +28,8 @@ public class ContainerTrackFabricator extends Container {
 		}
 
 		this.addSlotToContainer(new Slot(te, 0, 8, 18));
-		this.addSlotToContainer(new SlotFurnace(player, te, 1, 8, 54));
+        //TODO check i used the right slot
+		this.addSlotToContainer(new SlotFurnaceOutput(player, te, 1, 8, 54));
 	}
 
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {

@@ -8,7 +8,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.event.RenderWorldLast;
 
@@ -106,9 +105,10 @@ public class Entity3rdPerson extends EntityLivingBase {
     }
 
     @Override
-    public ItemStack[] getLastActiveItems() {
-        return null;
+    public ItemStack[] getInventory() {
+        return new ItemStack[0];
     }
+
 
     public MovingObjectPosition rayTraceMouse() {
         double distance = 1000;
@@ -129,6 +129,11 @@ public class Entity3rdPerson extends EntityLivingBase {
 
     @Override
     public ItemStack getEquipmentInSlot(int var1) {
+        return null;
+    }
+
+    @Override
+    public ItemStack getCurrentArmor(int p_82169_1_) {
         return null;
     }
 }

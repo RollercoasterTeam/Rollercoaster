@@ -5,9 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
@@ -22,7 +20,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	int animation;
 
 	@Override
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
+	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale, int t) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
 			type = TrackHandler.findTrackStyle("corkscrew");
@@ -33,7 +31,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		
-		Block block = te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord);
+		Block block = te.getWorld().getBlockState(te.getPos()).getBlock();
 		TrackPiece track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 		if(track_type != null) {
 	        GL11.glEnable(GL11.GL_LIGHTING);

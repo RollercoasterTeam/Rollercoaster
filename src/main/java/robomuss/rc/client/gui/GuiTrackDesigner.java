@@ -1,16 +1,12 @@
 package robomuss.rc.client.gui;
 
 import modforgery.forgerylib.ChatColours;
-import modforgery.forgerylib.GuiUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -28,6 +24,7 @@ import robomuss.rc.track.TrackHandler;
 import scala.actors.threadpool.Arrays;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GuiTrackDesigner extends GuiScreen {
@@ -53,7 +50,7 @@ public class GuiTrackDesigner extends GuiScreen {
     private double posX, posY, posZ;
 
     public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
-        te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
+        te = (TileEntityTrackDesigner) world.getTileEntity(new BlockPos(x, y, z));
 
         entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
         if (entity3rdPerson != null) {
@@ -99,7 +96,7 @@ public class GuiTrackDesigner extends GuiScreen {
         	ExpandableListNode node = nodes[i];
         	Rectangle bounds = new Rectangle(k + 50, l + 350 + (i * 250), 32, 32);
         	if(mouse.intersects(bounds)) {
-        		drawHoveringText(Arrays.asList(new Object[]{node.getName()}), x, y, fontRendererObj);
+        		drawHoveringText(Arrays.asList(new Object[]{node.getName()}), x, y);
         		
         	}
     		mc.renderEngine.bindTexture(node.texture);
@@ -211,7 +208,11 @@ public class GuiTrackDesigner extends GuiScreen {
 
     @Override
     public void mouseClicked(int x, int y, int button) {
-        super.mouseClicked(x, y, button);
+        try {
+            super.mouseClicked(x, y, button);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Rectangle mouse = new Rectangle(x, y, 1, 1);
         Rectangle bounds = new Rectangle(10, 10, 100, 20);
         if (!mouse.intersects(bounds)) {

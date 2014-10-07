@@ -1,14 +1,16 @@
 package robomuss.rc.client.gui;
 
+
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.container.ContainerTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackStorage;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -19,11 +21,11 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if(ID == 1) {
-			TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+			TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerTrackFabricator(player.inventory, player, te, world, x, y, z);
 		}
 		if(ID == 2) {
-			TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(x, y, z);
+			TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerTrackStorage(player.inventory, player, te, world, x, y, z);
 		}
 		return null;
@@ -35,11 +37,11 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiTrackDesigner(player, world, x, y, z);
 		}
 		if(ID == 1) {
-			TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+			TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(new BlockPos(x, y, z));
 			return new GuiTrackFabricator(player.inventory, player, te, world, x, y, z);
 		}
 		if(ID == 2) {
-			TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(x, y, z);
+			TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(new BlockPos(x, y, z));
 			return new GuiTrackStorage(player.inventory, player, te, world);
 		}
 		return null;

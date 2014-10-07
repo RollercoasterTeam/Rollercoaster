@@ -1,7 +1,5 @@
 package robomuss.rc.entity;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
@@ -13,20 +11,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.IMinecartCollisionHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public abstract class EntityTrain extends Entity
 {
@@ -54,7 +50,6 @@ public abstract class EntityTrain extends Entity
     public static double defaultDragAir = 0.94999998807907104D;
     protected boolean canUseRail = true;
     protected boolean canBePushed = true;
-    private static IMinecartCollisionHandler collisionHandler = null;
 
     /* Instance versions of the above physics properties */
     private float currentSpeedRail = getMaxCartSpeedOnRail();
@@ -281,7 +276,7 @@ public abstract class EntityTrain extends Entity
                         this.timeUntilPortal = this.getPortalCooldown();
                         byte b0;
 
-                        if (this.worldObj.provider.dimensionId == -1)
+                        if (this.worldObj.provider.getDimensionId() == -1)
                         {
                             b0 = 0;
                         }
@@ -353,7 +348,7 @@ public abstract class EntityTrain extends Entity
             }
 
             double d0 = 0.4D;
-            Block block = this.worldObj.getBlock(l, i, i1);
+            Block block = this.worldObj.getBlockState(new BlockPos(l, i, i1)).getBlock();
 
             if (canUseRail() && block instanceof BlockTrack)
             {
@@ -365,6 +360,7 @@ public abstract class EntityTrain extends Entity
 
                 if (block == Blocks.activator_rail)
                 {
+                    //No more metadata
                     this.onActivatorRailPass(l, i, i1, (worldObj.getBlockMetadata(l, i, i1) & 8) != 0);
                 }
             }

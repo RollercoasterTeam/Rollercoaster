@@ -1,5 +1,6 @@
 package robomuss.rc.block.te;
 
+
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -7,9 +8,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.BlockSupport;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntitySupport extends TileEntity {
 	
@@ -34,27 +36,18 @@ public class TileEntitySupport extends TileEntity {
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, nbt);
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
-	}
-	
-	@Override
-	public boolean canUpdate() {
-		return false;
-	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
         int supportHeight = 0;
-        Block above = worldObj.getBlock(this.xCoord, this.yCoord + 1, this.zCoord);
+        Block above = worldObj.getBlockState(this.getPos().add(0, 1, 0)).getBlock();
         if(above == null || above.getClass() != BlockSupport.class) {
-        	for(int i = this.yCoord; i > 0; i--) {
-        		Block support = worldObj.getBlock(this.xCoord, i, this.zCoord);
+        	for(int i = this.getPos().getY(); i > 0; i--) {
+        		Block support = worldObj.getBlockState(new BlockPos(this.getPos().getX(), i, this.getPos().getZ())).getBlock();
         		if(support != null && support instanceof BlockSupport) {
         			supportHeight++;
         		}

@@ -5,9 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.model.ModelFooter;
@@ -26,17 +24,17 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float var8) {
+    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float var8, int i) {
     	boolean connectNorth = false;
     	boolean connectEast = false;
     	boolean connectSouth = false;
     	boolean connectWest = false;
-    	
-        TileEntity north = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord + 1);
-        TileEntity east = te.getWorldObj().getTileEntity(te.xCoord + 1, te.yCoord + 1, te.zCoord);
-        TileEntity south = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord - 1);
-        TileEntity west = te.getWorldObj().getTileEntity(te.xCoord - 1, te.yCoord + 1, te.zCoord);
-    	
+
+        TileEntity north = te.getWorld().getTileEntity(te.getPos().add(0, 1, 1));
+        TileEntity east = te.getWorld().getTileEntity(te.getPos().add(1, 1, 0));
+        TileEntity south = te.getWorld().getTileEntity(te.getPos().add(0, 1, -1));
+        TileEntity west = te.getWorld().getTileEntity(te.getPos().add(-1, +1, 0));
+
         if(north instanceof TileEntityTrack) {
         	TileEntityTrack track = (TileEntityTrack) north;
         	BlockTrack block = (BlockTrack) track.getBlockType();
@@ -90,7 +88,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
         
-        Block above = te.getWorldObj().getBlock(te.xCoord, te.yCoord + 1, te.zCoord);
+        Block above = te.getWorld().getBlockState(te.getPos().offsetUp()).getBlock();
         
         if(above instanceof BlockSupport || (connectNorth || connectEast || connectSouth || connectWest) || ((TileEntityFooter) te).forceConnection) {
         	 this.model.middle.render(0.0625F);  

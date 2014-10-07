@@ -10,7 +10,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.util.IChatComponent;
 
 public class TileEntityTrackFabricator extends TileEntity implements IInventory {
 
@@ -58,15 +58,7 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 		}
 	}
 
-	@Override
-	public String getInventoryName() {
-		return "Track Fabricator";
-	}
 
-	@Override
-	public boolean hasCustomInventoryName() {
-		return true;
-	}
 
 	@Override
 	public int getInventoryStackLimit() {
@@ -78,22 +70,43 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 		return true;
 	}
 
-	@Override
-	public void openInventory() {
+    @Override
+    public void openInventory(EntityPlayer playerIn) {
 
-	}
+    }
 
-	@Override
-	public void closeInventory() {
+    @Override
+    public void closeInventory(EntityPlayer playerIn) {
 
-	}
+    }
+
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return itemstack.getItem() == Items.iron_ingot;
 	}
 
-	@Override
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clearInventory() {
+
+    }
+
+    @Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagList nbttaglist = new NBTTagList();
@@ -131,11 +144,21 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		this.writeToNBT(nbtTag);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, nbtTag);
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
-	}
+    @Override
+    public String getName() {
+        return "Track Fabricator";
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
 }

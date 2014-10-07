@@ -1,20 +1,15 @@
 package robomuss.rc.client.gui;
 
-import javax.vecmath.Vector3d;
-
-import robomuss.rc.block.BlockTrack;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.event.RenderWorldLast;
-import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.event.RenderWorldLast;
+import robomuss.rc.track.TrackHandler;
 
 public class GuiHammerOverlay extends GuiScreen {
 	

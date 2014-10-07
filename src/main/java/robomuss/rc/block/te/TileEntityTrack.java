@@ -1,5 +1,6 @@
 package robomuss.rc.block.te;
 
+
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -7,12 +8,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.track.style.TrackStyle;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /*@Optional.InterfaceList(
        @Optional.Interface(iface = "pneumaticCraft.api.tileentity.IPneumaticMachine", modid = "PneumaticCraft")
@@ -70,31 +71,23 @@ public class TileEntityTrack extends TileEntity {
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, nbt);
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
-	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
-		Block block = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord);
+		Block block = this.worldObj.getBlockState(this.getPos()).getBlock();
 		TrackPiece track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 		if(track_type != null) {
-			return track_type.getRenderBoundingBox(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
+			return track_type.getRenderBoundingBox(this.getWorld(), this.xCoord, this.yCoord, this.zCoord);
 		}
 		else {
 			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 		}
 	}
-	
-	@Override
-	public boolean canUpdate() {
-		return false;
-	}
+
 
 	/*@Optional.Method(modid = "PneumaticCraft")
 	@Override

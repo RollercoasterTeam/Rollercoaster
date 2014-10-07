@@ -1,21 +1,14 @@
 package robomuss.rc.block;
 
 
+
 import net.minecraft.block.Block;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import robomuss.rc.RCMod;
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.block.te.TileEntityTrackStorage;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.block.te.*;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCBlocks {
 
@@ -25,28 +18,28 @@ public class RCBlocks {
 	
 	public static void init() {
 		for(TrackPiece track: TrackHandler.pieces) {
-			track.block = new BlockTrack(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
+			track.block = new BlockTrack(track).setUnlocalizedName(track.unlocalized_name + "_track").setCreativeTab(RCMod.track);
 			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
 		}
 		GameRegistry.registerTileEntity(TileEntityTrack.class, "te_track");
         
-		support = new BlockSupport().setBlockName("support").setBlockTextureName("rc:support").setCreativeTab(RCMod.track);
-		woodenSupport = new BlockWoodenSupport().setBlockName("wooden_support").setBlockTextureName("rc:wooden_support").setCreativeTab(RCMod.track);
-		track_designer = new BlockTrackDesigner().setBlockName("track_designer").setBlockTextureName("rc:track_designer").setCreativeTab(RCMod.track);
-        track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setCreativeTab(RCMod.track);
-        track_storage = new BlockTrackStorage().setBlockName("track_storage").setCreativeTab(RCMod.track);
+		support = new BlockSupport().setUnlocalizedName("support").setCreativeTab(RCMod.track);
+		woodenSupport = new BlockWoodenSupport().setUnlocalizedName("wooden_support").setCreativeTab(RCMod.track);
+		track_designer = new BlockTrackDesigner().setUnlocalizedName("track_designer").setCreativeTab(RCMod.track);
+        track_fabricator = new BlockTrackFabricator().setUnlocalizedName("track_fabricator").setCreativeTab(RCMod.track);
+        track_storage = new BlockTrackStorage().setUnlocalizedName("track_storage").setCreativeTab(RCMod.track);
 		
-        path = new BlockPath().setBlockName("path").setCreativeTab(RCMod.decor);
-		railings = new BlockRailings("railings").setBlockName("railings").setCreativeTab(RCMod.decor);
-		picket = new BlockRailings("picket").setBlockName("picket").setCreativeTab(RCMod.decor);
+        path = new BlockPath().setUnlocalizedName("path").setCreativeTab(RCMod.decor);
+		railings = new BlockRailings("railings").setUnlocalizedName("railings").setCreativeTab(RCMod.decor);
+		picket = new BlockRailings("picket").setUnlocalizedName("picket").setCreativeTab(RCMod.decor);
 		
-		ride_fence = new BlockRideFence().setBlockName("ride_fence").setBlockTextureName("rc:ride_fence").setCreativeTab(RCMod.decor);
-		ride_fence_corner = new BlockRideFence().setBlockName("ride_fence_corner").setBlockTextureName("rc:ride_fence_corner").setCreativeTab(RCMod.decor);
-		ride_fence_triangle = new BlockRideFence().setBlockName("ride_fence_triangle").setBlockTextureName("rc:ride_fence_triangle").setCreativeTab(RCMod.decor);
-		ride_fence_square = new BlockRideFence().setBlockName("ride_fence_square").setBlockTextureName("rc:ride_fence_square").setCreativeTab(RCMod.decor);
-		ride_fence_gate = new BlockRideFence().setBlockName("ride_fence_gate").setBlockTextureName("rc:ride_fence_gate").setCreativeTab(RCMod.decor);
+		ride_fence = new BlockRideFence().setUnlocalizedName("ride_fence").setCreativeTab(RCMod.decor);
+		ride_fence_corner = new BlockRideFence().setUnlocalizedName("ride_fence_corner").setCreativeTab(RCMod.decor);
+		ride_fence_triangle = new BlockRideFence().setUnlocalizedName("ride_fence_triangle").setCreativeTab(RCMod.decor);
+		ride_fence_square = new BlockRideFence().setUnlocalizedName("ride_fence_square").setCreativeTab(RCMod.decor);
+		ride_fence_gate = new BlockRideFence().setUnlocalizedName("ride_fence_gate").setCreativeTab(RCMod.decor);
 		
-		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
+		footer = new BlockFooter().setUnlocalizedName("footer").setCreativeTab(RCMod.track);
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");

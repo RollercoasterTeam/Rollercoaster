@@ -4,11 +4,7 @@ import net.minecraft.util.MovingObjectPosition;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.network.packets.PacketChangePaintColour;
-import robomuss.rc.network.packets.PacketKillAll;
-import robomuss.rc.network.packets.PacketTrackDesignerButtonClick;
-import robomuss.rc.network.packets.PacketTrackDesignerStartPoint;
-import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
+import robomuss.rc.network.packets.*;
 
 public class NetworkHandler {
 	

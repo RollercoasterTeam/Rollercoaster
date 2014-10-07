@@ -3,18 +3,16 @@ package robomuss.rc.entity;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelMinecart;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTrain extends Render
@@ -22,12 +20,10 @@ public class RenderTrain extends Render
     private static final ResourceLocation minecartTextures = new ResourceLocation("rc:textures/entities/train_classic.png");
     /** instance of ModelMinecart for rendering */
     protected ModelBase modelMinecart = new ModelMinecart();
-    protected final RenderBlocks field_94145_f;
 
-    public RenderTrain()
-    {
+    protected RenderTrain(RenderManager p_i46179_1_) {
+        super(p_i46179_1_);
         this.shadowSize = 0.5F;
-        this.field_94145_f = new RenderBlocks();
     }
 
     /**
