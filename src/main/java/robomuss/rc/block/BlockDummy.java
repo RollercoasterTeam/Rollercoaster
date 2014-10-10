@@ -1,19 +1,20 @@
 package robomuss.rc.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.te.TileEntityDummy;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.piece.TrackPieceSlope;
@@ -31,36 +32,11 @@ public class BlockDummy extends BlockContainer {
 	private boolean breakSlope = true;
 	private int slopeDirection;
 
-	private IIcon[] icons = new IIcon[3];
 
 	public BlockDummy() {
 		super(Material.iron);
 		setHardness(1F);
 		setHardness(3F);
-	}
-
-	/* Dummy blocks are always invisible, this grabs the BlockTrack icon for applying to the destroy/hit particles of the dummy block. */
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		if (blockSlope == null) {
-//			System.out.println("blockSlope null!");
-		} else if (blockSlope.track_type instanceof TrackPieceSlopeUp) {
-			return icons[0];
-		} else if (blockSlope.track_type instanceof TrackPieceSlope) {
-			return icons[1];
-		} else if (blockSlope.track_type instanceof TrackPieceSlopeDown) {
-			return icons[2];
-		}
-		return this.blockIcon;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.icons[0] = iconRegister.registerIcon("rc:tracks/slope_up");
-		this.icons[1] = iconRegister.registerIcon("rc:tracks/slope");
-		this.icons[2] = iconRegister.registerIcon("rc:tracks/slope_down");
-		this.blockIcon = iconRegister.registerIcon("rc:tracks/horizontal");
 	}
 
 	@Override
@@ -153,20 +129,25 @@ public class BlockDummy extends BlockContainer {
 //		System.out.println("Dummy Added to World!");
 	}
 
+
+	public void onBlockHarvested(World world, int x, int y, int z, EntityPlayer player) {
+		onBlockHarvested(world ,new BlockPos(x, y ,z), world.getBlockState(new BlockPos(x, y, z)), player);
+	}
+
 	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {         //passed in coords are those of this block
-//		if (player.capabilities.isCreativeMode) {
+	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn) {
+		//		if (player.capabilities.isCreativeMode) {
 //			System.out.println("Player in creative.");
 //			System.out.println(getBreakSlope());
-			if (getBreakSlope()) {
-				world.setBlockToAir(slopeLocX, slopeLocY, slopeLocZ);
-				world.markBlockForUpdate(slopeLocX, slopeLocY, slopeLocZ);
-				world.setBlockToAir(x, y, z);
-				world.markBlockForUpdate(x, y, z);
-			} else {
-				world.setBlockToAir(x, y, z);
-				world.markBlockForUpdate(x, y, z);
-			}
+		if (getBreakSlope()) {
+			world.setBlockToAir(slopeLoc());
+			world.markBlockForUpdate(slopeLoc());
+			world.setBlockToAir(pos);
+			world.markBlockForUpdate(pos);
+		} else {
+			world.setBlockToAir(pos);
+			world.markBlockForUpdate(pos);
+		}
 //		}
 	}
 
@@ -195,5 +176,9 @@ public class BlockDummy extends BlockContainer {
 
 	public BlockTrack getParentSlope() {
 		return blockSlope;
+	}
+
+	public BlockPos slopeLoc(){
+		return new BlockPos(slopeLocX, slopeLocY, slopeLocZ);
 	}
 }

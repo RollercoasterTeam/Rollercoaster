@@ -31,10 +31,12 @@ public class TileEntityTrack extends TileEntity {
 	public int dummyX, dummyY, dummyZ;
 	
 	private boolean converted = false;
-	
-	//private IAirHandler airHandler;
 
-	@Override
+	//This is messy but time saving
+	public int xCoord = getPos().getX();
+	public int yCoord = getPos().getY();
+	public int zCoord = getPos().getZ();
+
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		

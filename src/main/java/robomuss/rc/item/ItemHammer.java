@@ -1,24 +1,17 @@
 package robomuss.rc.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-<<<<<<< HEAD
-import robomuss.rc.block.te.*;
-=======
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
->>>>>>> master
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPieceSlopeUp;
 import robomuss.rc.util.hammer.HammerMode;
