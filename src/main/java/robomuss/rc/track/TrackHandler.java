@@ -34,13 +34,14 @@ public class TrackHandler {
 	}
 	
 	public static void addTrackPieces() {
-		TrackHandler.pieces.add(new TrackPieceHorizontal("horizontal", 3));
-		TrackHandler.pieces.add(new TrackPieceSlopeUp("slope_up", 3, 2));
-		TrackHandler.pieces.add(new TrackPieceSlope("slope", 3));
-		TrackHandler.pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
-		TrackHandler.pieces.add(new TrackPieceCorner("curve", 3));
-		TrackHandler.pieces.add(new TrackPieceLoop("loop", 10, 2));
-		TrackHandler.pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
+		pieces.add(new TrackPieceHorizontal("horizontal", 3));
+		pieces.add(new TrackPieceSlopeUp("slope_up", 3, 2));
+		pieces.add(new TrackPieceSlope("slope", 3));
+		pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
+		pieces.add(new TrackPieceCorner("curve", 3));
+		pieces.add(new TrackPieceLoop("loop", 10, 2));
+		pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
+//		pieces.add(new TrackDummy("dummy", 0));
 	}
 	
 	public static void addTrackExtras() {

@@ -8,8 +8,15 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+import net.minecraft.world.World;
+import robomuss.rc.block.BlockDummy;
+import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.RCBlocks;
+>>>>>>> master
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.piece.TrackPiece;
@@ -24,6 +31,9 @@ public class TileEntityTrack extends TileEntity {
 	public int colour;
 	public TrackExtra extra;
 	public TrackStyle type;
+
+	public BlockDummy dummy;
+	public int dummyX, dummyY, dummyZ;
 	
 	private boolean converted = false;
 	
@@ -88,6 +98,15 @@ public class TileEntityTrack extends TileEntity {
 		}
 	}
 
+
+	public void setDummy(Block block, int dummyX, int dummyY, int dummyZ) {
+		if (block instanceof BlockDummy) {
+			this.dummy = (BlockDummy) block;
+			this.dummyX = dummyX;
+			this.dummyY = dummyY;
+			this.dummyZ = dummyZ;
+		}
+	}
 
 	/*@Optional.Method(modid = "PneumaticCraft")
 	@Override

@@ -14,7 +14,7 @@ public class RCBlocks {
 
 	public static int last_track_id;
 	public static Block support, woodenSupport, path, railings, picket, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, ride_fence_gate, track_designer, track_fabricator, track_storage;
-	public static Block footer;
+	public static Block footer, dummy;
 	
 	public static void init() {
 		for(TrackPiece track: TrackHandler.pieces) {
@@ -39,7 +39,13 @@ public class RCBlocks {
 		ride_fence_square = new BlockRideFence().setUnlocalizedName("ride_fence_square").setCreativeTab(RCMod.decor);
 		ride_fence_gate = new BlockRideFence().setUnlocalizedName("ride_fence_gate").setCreativeTab(RCMod.decor);
 		
+<<<<<<< HEAD
 		footer = new BlockFooter().setUnlocalizedName("footer").setCreativeTab(RCMod.track);
+=======
+		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
+
+		dummy = new BlockDummy().setBlockName("dummy");
+>>>>>>> master
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");
@@ -58,6 +64,8 @@ public class RCBlocks {
 		GameRegistry.registerBlock(ride_fence_gate, "ride_fence_gate");
 		
 		GameRegistry.registerBlock(footer, "footer");
+
+		GameRegistry.registerBlock(dummy, "dummy");
         
         GameRegistry.registerTileEntity(TileEntityTrackDesigner.class, "te_track_designer");
         GameRegistry.registerTileEntity(TileEntityTrackFabricator.class, "te_track_fabricator");
@@ -69,6 +77,8 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityWoodenSupport.class, "te_woodenSupport");
 		
 		GameRegistry.registerTileEntity(TileEntityFooter.class, "te_footer");
+
+		GameRegistry.registerTileEntity(TileEntityDummy.class, "te_dummy");
 	}
 
 }

@@ -15,10 +15,14 @@ TODO
 -Food stalls [robo],
 -Flat rides [robo]
 -Write a proper changelog for v1.4 (and beta2)
+-Refinements to track placement mechanics [shade] (in-progress)
+-Ride Control Panel [shade]
 
 1.5 features
 JSON Track style system
 API for track pieces
 Stalls
+Refined track placement mechanics
 
+Minecraft 1.8 update[modmuss50]
 
