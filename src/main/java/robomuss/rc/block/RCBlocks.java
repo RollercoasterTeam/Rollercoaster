@@ -3,14 +3,7 @@ package robomuss.rc.block;
 
 import net.minecraft.block.Block;
 import robomuss.rc.RCMod;
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.block.te.TileEntityTrackStorage;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.block.te.*;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
@@ -21,7 +14,7 @@ public class RCBlocks {
 
 	public static int last_track_id;
 	public static Block support, woodenSupport, path, railings, picket, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, ride_fence_gate, track_designer, track_fabricator, track_storage;
-	public static Block footer;
+	public static Block footer, dummy;
 	
 	public static void init() {
 		for(TrackPiece track: TrackHandler.pieces) {
@@ -47,6 +40,8 @@ public class RCBlocks {
 		ride_fence_gate = new BlockRideFence().setBlockName("ride_fence_gate").setBlockTextureName("rc:ride_fence_gate").setCreativeTab(RCMod.decor);
 		
 		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
+
+		dummy = new BlockDummy().setBlockName("dummy");
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");
@@ -65,6 +60,8 @@ public class RCBlocks {
 		GameRegistry.registerBlock(ride_fence_gate, "ride_fence_gate");
 		
 		GameRegistry.registerBlock(footer, "footer");
+
+		GameRegistry.registerBlock(dummy, "dummy");
         
         GameRegistry.registerTileEntity(TileEntityTrackDesigner.class, "te_track_designer");
         GameRegistry.registerTileEntity(TileEntityTrackFabricator.class, "te_track_fabricator");
@@ -76,6 +73,8 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityWoodenSupport.class, "te_woodenSupport");
 		
 		GameRegistry.registerTileEntity(TileEntityFooter.class, "te_footer");
+
+		GameRegistry.registerTileEntity(TileEntityDummy.class, "te_dummy");
 	}
 
 }
