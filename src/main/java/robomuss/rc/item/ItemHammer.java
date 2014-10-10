@@ -9,12 +9,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.piece.TrackPieceSlopeUp;
 import robomuss.rc.util.hammer.HammerMode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,12 +29,22 @@ public class ItemHammer extends Item {
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
 				if(tileentity instanceof TileEntityTrack) {
 					TileEntityTrack tet = (TileEntityTrack) tileentity;
-					if(tet.direction == 3) {
-						tet.direction = 0;
+					if (event.world.getBlock(tet.xCoord, tet.yCoord, tet.zCoord) instanceof BlockTrack) {
+						BlockTrack track = (BlockTrack) event.world.getBlock(tet.xCoord, tet.yCoord, tet.zCoord);
+						if (track.track_type instanceof TrackPieceSlopeUp) {
+							if (tet.direction != 3) {
+								tet.direction++;
+							} else if (tet.direction == 3) {
+								tet.direction = 0;
+							}
+							track.updateRotation(event.world, tet.xCoord, tet.yCoord, tet.zCoord, tet);
+						} else if(tet.direction == 3) {
+							tet.direction = 0;
+						} else {
+							tet.direction++;
+						}
 					}
-					else {
-						tet.direction++;
-					}
+
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}
 				if(tileentity instanceof TileEntityRideFence) {

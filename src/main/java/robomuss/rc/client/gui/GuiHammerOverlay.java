@@ -24,6 +24,8 @@ public class GuiHammerOverlay extends GuiScreen {
 		this.minecraft = minecraft;
 	}
 
+	//TODO: fix player gui when in survival and looking at a track block.
+	//TODO: add a range limit to when this renders.
 	@SubscribeEvent(priority = EventPriority.NORMAL)
     public void eventHandler(RenderGameOverlayEvent event) {
 		MovingObjectPosition pos = rayTraceMouse();
