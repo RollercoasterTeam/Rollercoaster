@@ -39,13 +39,10 @@ public class RCBlocks {
 		ride_fence_square = new BlockRideFence().setUnlocalizedName("ride_fence_square").setCreativeTab(RCMod.decor);
 		ride_fence_gate = new BlockRideFence().setUnlocalizedName("ride_fence_gate").setCreativeTab(RCMod.decor);
 		
-<<<<<<< HEAD
-		footer = new BlockFooter().setUnlocalizedName("footer").setCreativeTab(RCMod.track);
-=======
-		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
 
-		dummy = new BlockDummy().setBlockName("dummy");
->>>>>>> master
+		footer = new BlockFooter().setUnlocalizedName("footer").setCreativeTab(RCMod.track);
+
+		dummy = new BlockDummy().setUnlocalizedName("dummy");
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");

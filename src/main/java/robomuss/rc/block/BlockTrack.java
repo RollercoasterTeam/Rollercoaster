@@ -7,11 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-<<<<<<< HEAD
 import net.minecraft.util.BlockPos;
-=======
-import net.minecraft.util.IIcon;
->>>>>>> master
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityDummy;
@@ -21,18 +17,14 @@ import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
-<<<<<<< HEAD
-import robomuss.rc.track.piece.TrackPiece;
-=======
 import robomuss.rc.track.piece.*;
->>>>>>> master
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
 	public TrackPiece track_type;
 
 	Block blockWest, blockEast, blockNorth, blockSouth, blockSlope;
-	
+
 	public BlockTrack(TrackPiece track) {
 		super(Material.iron);
 		setHardness(1F);
@@ -40,7 +32,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 
 		this.track_type = track;
 	}
-	
+
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
 		AxisAlignedBB bounds = track_type.getBlockBounds(iba, x, y, z);
@@ -54,111 +46,103 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(!world.isRemote) {
-			if(player.getHeldItem() != null) {
-				if(player.getHeldItem().getItem() == RCItems.brush) {
+		if (!world.isRemote) {
+			if (player.getHeldItem() != null) {
+				if (player.getHeldItem().getItem() == RCItems.brush) {
 					TileEntityTrack tet = (TileEntityTrack) world.getTileEntity(x, y, z);
 					tet.colour = player.getHeldItem().getItemDamage();
 					world.markBlockForUpdate(x, y, z);
 					return true;
-				}
-				else if(player.getHeldItem().getItem() instanceof ItemExtra) {
+				} else if (player.getHeldItem().getItem() instanceof ItemExtra) {
 					TileEntityTrack tet = (TileEntityTrack) world.getTileEntity(x, y, z);
 					tet.extra = TrackHandler.extras.get(((ItemExtra) player.getHeldItem().getItem()).id);
 					world.markBlockForUpdate(x, y, z);
 					return true;
-				}
-				else {
+				} else {
 					return false;
 				}
-				
-			}
-			else {
+
+			} else {
 				return false;
 			}
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return -1;
 	}
-	
+
 	@Override
 	public int damageDropped(int dmg) {
 		return dmg;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public int getPaintMeta(World world, BlockPos blockPos) {
 		return ((TileEntityTrack) world.getTileEntity(blockPos)).colour;
 	}
-    
-    @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-    	if(world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityTrack) {
+
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityTrack) {
 //		    System.out.println("Track Added!");
-	    	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
-	    	te.type = TrackHandler.findTrackStyle("corkscrew");
-<<<<<<< HEAD
-=======
+			TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
+			te.type = TrackHandler.findTrackStyle("corkscrew");
+			findNeighborBlocks(world, x, y, z);
 
-		    findNeighborBlocks(world, x, y, z);
-
-		    if (isBlockTrack(this)) {
-			    if (isSlopeUp(this) || isSlope(this) || isSlopeDown(this)) {
-				    blockSlope = this;
-				    switch (te.direction) {
-					    case 0:
-						    BlockDummy dummySouth = (BlockDummy) RCBlocks.dummy;
-						    placeDummy(world, x, y, z + 1, dummySouth, te, te.direction, true);
-						    break;
-					    case 1:
+			if (isBlockTrack(this)) {
+				if (isSlopeUp(this) || isSlope(this) || isSlopeDown(this)) {
+					blockSlope = this;
+					switch (te.direction) {
+						case 0:
+							BlockDummy dummySouth = (BlockDummy) RCBlocks.dummy;
+							placeDummy(world, x, y, z + 1, dummySouth, te, te.direction, true);
+							break;
+						case 1:
 							BlockDummy dummyWest = (BlockDummy) RCBlocks.dummy;
-						    placeDummy(world, x - 1, y, z, dummyWest, te, te.direction, true);
-						    break;
-					    case 2:
-						    BlockDummy dummyNorth = (BlockDummy) RCBlocks.dummy;
+							placeDummy(world, x - 1, y, z, dummyWest, te, te.direction, true);
+							break;
+						case 2:
+							BlockDummy dummyNorth = (BlockDummy) RCBlocks.dummy;
 							placeDummy(world, x, y, z - 1, dummyNorth, te, te.direction, true);
-						    break;
-					    case 3:
-						    BlockDummy dummyEast = (BlockDummy) RCBlocks.dummy;
-						    placeDummy(world, x + 1, y, z, dummyEast, te, te.direction, true);
-						    break;
-				    }
-			    }
-		    }
+							break;
+						case 3:
+							BlockDummy dummyEast = (BlockDummy) RCBlocks.dummy;
+							placeDummy(world, x + 1, y, z, dummyEast, te, te.direction, true);
+							break;
+					}
+				}
+			}
 
-		    updateRotation(world, x, y, z, te);
->>>>>>> master
-    	}
-    }
-    
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-        if(!world.isRemote) {
-        	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
-        	if(te.extra == TrackHandler.extras.get(3)) {
-	            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
-	                EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
-	                world.spawnEntityInWorld(entity);
-	            }
-        	}
+			updateRotation(world, x, y, z, te);
+		}
+	}
 
-	        //TODO: MUST CHECK ALL NEIGHBORS!!!
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		if (!world.isRemote) {
+			TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
+			if (te.extra == TrackHandler.extras.get(3)) {
+				if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
+					EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
+					world.spawnEntityInWorld(entity);
+				}
+			}
+
+			//TODO: MUST CHECK ALL NEIGHBORS!!!
 //	        if (!(world.getBlock(x, y, z + 1) instanceof BlockDummy) && te.direction != 0) {
 //		        BlockDummy newDummy = (BlockDummy) RCBlocks.dummy;
 //		        placeDummy(world, x, y, z + 1, newDummy, te, te.direction, true);
@@ -172,56 +156,54 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 //		        BlockDummy newDummy = (BlockDummy) RCBlocks.dummy;
 //		        placeDummy(world, x + 1, y, z, newDummy, te, te.direction, true);
 //	        }
-        }
-    }
-<<<<<<< HEAD
-=======
+		}
+	}
 
 	@Override
 	public void onBlockHarvested(World world, int trackX, int trackY, int trackZ, int meta, EntityPlayer player) {
 //		if (player.capabilities.isCreativeMode) {                                                                   //TODO: check that this works in survival
-			if (world.getTileEntity(trackX, trackY, trackZ) instanceof TileEntityTrack) {
-				TileEntityTrack te = (TileEntityTrack) world.getTileEntity(trackX, trackY, trackZ);
-				findNeighborBlocks(world, trackX, trackY, trackZ);
-				if (isSlopeUp(this)) {
-					switch (te.direction) {
-						case 0:
-							if (world.getBlock(trackX, trackY, trackZ + 1) instanceof BlockDummy) {                 //check if block z + 1 is a dummy
-								BlockDummy dummySouth = (BlockDummy) world.getBlock(trackX, trackY, trackZ + 1);    //obtain the dummy
-								dummySouth.setBreakSlope(false);                                                    //tell dummy to not attempt to break the slope
-								dummySouth.onBlockHarvested(world, trackX, trackY, trackZ + 1, meta, player);
-								world.markBlockForUpdate(trackX, trackY, trackZ + 1);
-							}
-							break;
-						case 1:
-							if (world.getBlock(trackX - 1, trackY, trackZ) instanceof BlockDummy) {
-								BlockDummy dummyWest = (BlockDummy) world.getBlock(trackX - 1, trackY, trackZ);
-								dummyWest.setBreakSlope(false);
-								dummyWest.onBlockHarvested(world, trackX - 1, trackY, trackZ, meta, player);
-								world.markBlockForUpdate(trackX - 1, trackY, trackZ);
-							}
-							break;
-						case 2:
-							if (world.getBlock(trackX, trackY, trackZ - 1) instanceof BlockDummy) {
-								BlockDummy dummyNorth = (BlockDummy) world.getBlock(trackX, trackY, trackZ - 1);
-								dummyNorth.setBreakSlope(false);
-								dummyNorth.onBlockHarvested(world, trackX, trackY, trackZ - 1, meta, player);
-								world.markBlockForUpdate(trackX, trackY, trackZ - 1);
-							}
-							break;
-						case 3:
-							if (world.getBlock(trackX + 1, trackY, trackZ) instanceof BlockDummy) {
-								BlockDummy dummyEast = (BlockDummy) world.getBlock(trackX + 1, trackY, trackZ);
-								dummyEast.setBreakSlope(false);
-								dummyEast.onBlockHarvested(world, trackX + 1, trackY, trackZ, meta, player);
-								world.markBlockForUpdate(trackX + 1, trackY, trackZ);
-							}
-							break;
-					}
-					world.setBlockToAir(trackX, trackY, trackZ);
-					world.markBlockForUpdate(trackX, trackY, trackZ);
+		if (world.getTileEntity(trackX, trackY, trackZ) instanceof TileEntityTrack) {
+			TileEntityTrack te = (TileEntityTrack) world.getTileEntity(trackX, trackY, trackZ);
+			findNeighborBlocks(world, trackX, trackY, trackZ);
+			if (isSlopeUp(this)) {
+				switch (te.direction) {
+					case 0:
+						if (world.getBlock(trackX, trackY, trackZ + 1) instanceof BlockDummy) {                 //check if block z + 1 is a dummy
+							BlockDummy dummySouth = (BlockDummy) world.getBlock(trackX, trackY, trackZ + 1);    //obtain the dummy
+							dummySouth.setBreakSlope(false);                                                    //tell dummy to not attempt to break the slope
+							dummySouth.onBlockHarvested(world, trackX, trackY, trackZ + 1, meta, player);
+							world.markBlockForUpdate(trackX, trackY, trackZ + 1);
+						}
+						break;
+					case 1:
+						if (world.getBlock(trackX - 1, trackY, trackZ) instanceof BlockDummy) {
+							BlockDummy dummyWest = (BlockDummy) world.getBlock(trackX - 1, trackY, trackZ);
+							dummyWest.setBreakSlope(false);
+							dummyWest.onBlockHarvested(world, trackX - 1, trackY, trackZ, meta, player);
+							world.markBlockForUpdate(trackX - 1, trackY, trackZ);
+						}
+						break;
+					case 2:
+						if (world.getBlock(trackX, trackY, trackZ - 1) instanceof BlockDummy) {
+							BlockDummy dummyNorth = (BlockDummy) world.getBlock(trackX, trackY, trackZ - 1);
+							dummyNorth.setBreakSlope(false);
+							dummyNorth.onBlockHarvested(world, trackX, trackY, trackZ - 1, meta, player);
+							world.markBlockForUpdate(trackX, trackY, trackZ - 1);
+						}
+						break;
+					case 3:
+						if (world.getBlock(trackX + 1, trackY, trackZ) instanceof BlockDummy) {
+							BlockDummy dummyEast = (BlockDummy) world.getBlock(trackX + 1, trackY, trackZ);
+							dummyEast.setBreakSlope(false);
+							dummyEast.onBlockHarvested(world, trackX + 1, trackY, trackZ, meta, player);
+							world.markBlockForUpdate(trackX + 1, trackY, trackZ);
+						}
+						break;
 				}
+				world.setBlockToAir(trackX, trackY, trackZ);
+				world.markBlockForUpdate(trackX, trackY, trackZ);
 			}
+		}
 //		}
 	}
 
@@ -237,6 +219,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	/**
 	 * Depending on the type of track piece, this handles auto-rotation and/or rotation of complex track pieces (ie. slopes).
 	 * Coordinates and the TileEntity passed in are those of the track block being rotated.
+	 *
 	 * @param world
 	 * @param x
 	 * @param y
@@ -260,7 +243,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 					}
 				}
 
-				if(isBlockTrack(blockEast)) {
+				if (isBlockTrack(blockEast)) {
 					if (isCorner(blockEast)) {
 						TileEntityTrack teEast = (TileEntityTrack) world.getTileEntity(x + 1, y, z);
 						if (teEast.direction == 0 || teEast.direction == 3) {
@@ -458,5 +441,4 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	private boolean isSlopeDown(Block block) {
 		return ((BlockTrack) block).track_type instanceof TrackPieceSlopeDown;
 	}
->>>>>>> master
 }
