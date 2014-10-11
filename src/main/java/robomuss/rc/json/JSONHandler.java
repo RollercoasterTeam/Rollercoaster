@@ -69,6 +69,8 @@ public class JSONHandler {
 				
 				String name = obj.get("Name").getAsString();
 				
+				String modelFormat = obj.get("Model Format").getAsString();
+				
 				/*String standard = obj.get("Standard Model") != null ? obj.get("Standard Model").getAsString() : "corkscrew/Standard";
 				String large = obj.get("Large Model") != null ? obj.get("Large Model").getAsString() : "corkscrew/Large";
 				String extended = obj.get("Extended Model") != null ? obj.get("Extended Model").getAsString() : "corkscrew/Extended";
@@ -88,19 +90,19 @@ public class JSONHandler {
 				
 				String fileName = file.getName().substring(0, file.getName().lastIndexOf(".json"));
 				ClassLoader loader = JSONHandler.class.getClassLoader();
-				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/standard.tcn"), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/standard.tcn").getPath()));
-				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/large.tcn"), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/large.tcn").getPath()));
-				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/extended.tcn"), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/extended.tcn").getPath()));
-				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/corner.tcn"), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/corner.tcn").getPath()));
+				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/standard." + modelFormat), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/standard." + modelFormat).getPath()));
+				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/large." + modelFormat), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/large." + modelFormat).getPath()));
+				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/extended." + modelFormat), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/extended." + modelFormat).getPath()));
+				FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/corner." + modelFormat), new File(loader.getResource("assets/rc/models/trackStyles/" + fileName + "/corner." + modelFormat).getPath()));
 				
 				TrackStyle style = new TrackStyle(file.getName().substring(0, file.getName().lastIndexOf(".json")));
 				
 				style.localizedName = name;
 				
-				style.standard = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/standard.tcn"));
-				style.large = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/large.tcn"));
-				style.extended = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/extended.tcn"));
-				style.corner = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/corner.tcn"));
+				style.standard = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/standard." + modelFormat));
+				style.large = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/large." + modelFormat));
+				style.extended = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/extended." + modelFormat));
+				style.corner = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/trackStyles/" + fileName + "/corner." + modelFormat));
 				
 				style.whitelistedPieces = whitelistedPieces;
 				

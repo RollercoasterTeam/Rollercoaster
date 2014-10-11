@@ -1,5 +1,6 @@
 {
 	"Name": "Wooden Hybrid I-Box Track",	
+	"Model Format": "tcn",
 	"Whitelisted Pieces": [
 		{"Piece": "horizontal"},
 		{"Piece": "slope_up"},
