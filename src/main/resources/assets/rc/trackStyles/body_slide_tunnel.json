@@ -1,5 +1,6 @@
 {
 	"Name": "Body Slide Tunnel",	
+	"Model Format": "tcn",
 	"Whitelisted Pieces": [
 		{"Piece": "horizontal"},
 		{"Piece": "slope_up"},
