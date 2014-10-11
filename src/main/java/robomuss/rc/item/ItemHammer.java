@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
@@ -130,7 +132,7 @@ public class ItemHammer extends Item {
     }
 	
 	@Override
-	public boolean hasContainerItem(ItemStack stack) {
+	public boolean hasContainerItem() {
 		return true;
 	}
 	

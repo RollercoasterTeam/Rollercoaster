@@ -91,7 +91,7 @@ public class TileEntityTrack extends TileEntity {
 			return track_type.getRenderBoundingBox(this.getWorld(), this.xCoord, this.yCoord, this.zCoord);
 		}
 		else {
-			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
 		}
 	}
 

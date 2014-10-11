@@ -105,7 +105,7 @@ public class BlockDummy extends BlockContainer {
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
+	public void setBlockBoundsBasedOnState(IBlockAccess iba, BlockPos pos) {
 		setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
@@ -118,17 +118,6 @@ public class BlockDummy extends BlockContainer {
 	public int getRenderType() {
 		return -1;
 	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-//		System.out.println("Dummy Added to World!");
-	}
-
 
 	public void onBlockHarvested(World world, int x, int y, int z, EntityPlayer player) {
 		onBlockHarvested(world ,new BlockPos(x, y ,z), world.getBlockState(new BlockPos(x, y, z)), player);

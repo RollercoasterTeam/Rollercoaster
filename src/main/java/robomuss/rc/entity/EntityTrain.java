@@ -105,9 +105,9 @@ public abstract class EntityTrain extends Entity
         {
         	//TODO
             //return getCollisionHandler().getCollisionBox(this, p_70114_1_);
-        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+        	return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
         }
-        return p_70114_1_.canBePushed() ? p_70114_1_.boundingBox : null;
+        return p_70114_1_.canBePushed() ? p_70114_1_.getBoundingBox() : null;
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class EntityTrain extends Entity
         {
         	//TODO
             //return getCollisionHandler().getBoundingBox(this);
-        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+        	return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
         }
         return null;
     }
@@ -342,11 +342,6 @@ public abstract class EntityTrain extends Entity
             i = MathHelper.floor_double(this.posY);
             int i1 = MathHelper.floor_double(this.posZ);
 
-            if (BlockRailBase.func_150049_b_(this.worldObj, l, i - 1, i1))
-            {
-                --i;
-            }
-
             double d0 = 0.4D;
             Block block = this.worldObj.getBlockState(new BlockPos(l, i, i1)).getBlock();
 
@@ -358,11 +353,6 @@ public abstract class EntityTrain extends Entity
                 double maxSpeed = Math.min(railMaxSpeed, getCurrentCartSpeedCapOnRail());
                 this.func_145821_a(l, i, i1, maxSpeed, getSlopeAdjustment(), block, getBasicRailMetadata(worldObj, this, l, i, i1));
 
-                if (block == Blocks.activator_rail)
-                {
-                    //No more metadata
-                    this.onActivatorRailPass(l, i, i1, (worldObj.getBlockMetadata(l, i, i1) & 8) != 0);
-                }
             }
             else
             {
@@ -399,11 +389,11 @@ public abstract class EntityTrain extends Entity
             {
             	//TODO
                 //box = getCollisionHandler().getMinecartCollisionBox(this);
-            	box = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+            	box = AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
             }
             else
             {
-                box = boundingBox.expand(0.2D, 0.0D, 0.2D);
+                box = getBoundingBox().expand(0.2D, 0.0D, 0.2D);
             }
 
             List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, box);
@@ -499,12 +489,6 @@ public abstract class EntityTrain extends Entity
         boolean flag = false;
         boolean flag1 = false;
 
-        if (block == Blocks.golden_rail)
-        {
-            flag = (worldObj.getBlockMetadata(x, y, z) & 8) != 0;
-            flag1 = !flag;
-        }
-
         //TODO powered things 
         /*if (((BlockRailBase)block).isPowered())
         {
@@ -513,7 +497,7 @@ public abstract class EntityTrain extends Entity
 
         BlockTrack track = (BlockTrack) block;
         boolean slopeFlag = track.track_type == TrackHandler.findTrackType("slope");
-        TileEntityTrack te = (TileEntityTrack) worldObj.getTileEntity(x, y, z);
+        TileEntityTrack te = (TileEntityTrack) worldObj.getTileEntity(new BlockPos(x, y, z));
         
         if (slopeFlag) 
         {
@@ -632,7 +616,7 @@ public abstract class EntityTrain extends Entity
 
         this.posX = d8 + d2 * d7;
         this.posZ = d9 + d3 * d7;
-        this.setPosition(this.posX, this.posY + (double)this.yOffset, this.posZ);
+        this.setPosition(this.posX, this.posY + (double)this.getYOffset(), this.posZ);
 
         moveMinecartOnRail(x, y, z, p_145821_4_);
 
@@ -741,7 +725,7 @@ public abstract class EntityTrain extends Entity
             --j;
         }
 
-        Block block = this.worldObj.getBlock(i, j, k);
+        Block block = this.worldObj.getBlockState(new BlockPos( i, j, k)).getBlock();
 
         if (!BlockRailBase.func_150051_a(block))
         {
@@ -786,12 +770,9 @@ public abstract class EntityTrain extends Entity
         int j = MathHelper.floor_double(p_70489_3_);
         int k = MathHelper.floor_double(p_70489_5_);
 
-        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k))
-        {
-            --j;
-        }
 
-        Block block = this.worldObj.getBlock(i, j, k);
+
+        Block block = this.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock();
 
         if (BlockRailBase.func_150051_a(block))
         {
