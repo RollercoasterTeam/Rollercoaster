@@ -5,6 +5,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
@@ -34,7 +35,7 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 	
 	@Override
 	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
-		if(te.direction == 1 || te.direction == 3) {
+		if(te.direction == ForgeDirection.WEST || te.direction == ForgeDirection.EAST) {
 			return (float) (x + 0.5f + (renderStage * 0.5f));
 		}
 		else {
@@ -44,7 +45,7 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 	
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
-		if(te.direction == 0 || te.direction == 2) {
+		if(te.direction == ForgeDirection.SOUTH || te.direction == ForgeDirection.NORTH) {
 			return (float) (z + 0.5f + (renderStage * 0.5f));
 		}
 		else {

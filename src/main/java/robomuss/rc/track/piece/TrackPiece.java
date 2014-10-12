@@ -42,20 +42,33 @@ public class TrackPiece {
 		
 	}
 	
-	public static void rotate(TileEntityTrack te) {
-		switch(te.direction){
-        case 1:
-        		GL11.glRotatef(180f, -180f, 0f, 0f);
+	public static void rotate(TileEntityTrack teTrack) {
+		/*switch(te.direction){
+            case 1:
+        	    GL11.glRotatef(180f, -180f, 0f, 0f);
                 break;
-        case 2:
+            case 2:
                 GL11.glRotatef(180f, 180f, 0f, 180f);
                 break;
-        case 3:
+            case 3:
                 GL11.glRotatef(180f, 0f, 0f, 180f);
                 break;
-        default:
+            default:
         		GL11.glRotatef(180f, -180f, 0f, 180f);
-        		break;
+        		break;*/
+		switch (teTrack.direction.ordinal() - 2) {
+			case 0:         //NORTH
+				GL11.glRotatef(180f, 180f, 0f, 180f);
+				break;
+			case 1:         //SOUTH
+				GL11.glRotatef(180f, -180f, 0f, 180f);
+				break;
+			case 2:         //WEST
+				GL11.glRotatef(180f, -180f, 0f, 0f);
+				break;
+			case 3:
+				GL11.glRotatef(180f, 0f, 0f, 180f);
+				break;
 		}
 	}
 

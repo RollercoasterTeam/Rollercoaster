@@ -6,6 +6,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
@@ -31,10 +32,10 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	
 	@Override
 	public float getX(double x, TileEntityTrack te) {
-		if(te.direction == 1) {
+		if(te.direction == ForgeDirection.WEST) {
 			return (float) (x - 0.5f);
 		}
-		else if(te.direction == 3) {
+		else if(te.direction == ForgeDirection.EAST) {
 			return (float) (x + 1.5f);
 		}
 		else {
@@ -49,16 +50,16 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	
 	@Override
 	public float getZ(double z, TileEntityTrack te) {
-		if(te.direction == 0) {
+		if(te.direction == ForgeDirection.SOUTH) {
 			return (float) (z + 1.5f);
 		}
-		else if(te.direction == 1) {
+		else if(te.direction == ForgeDirection.WEST) {
 			return (float) (z + 0.5f);
 		}
-		else if(te.direction == 2) {
+		else if(te.direction == ForgeDirection.NORTH) {
 			return (float) (z - 0.5f);
 		}
-		else if(te.direction == 3) {
+		else if(te.direction == ForgeDirection.EAST) {
 			return (float) (z + 0.5f);
 		}
 		else {
@@ -95,43 +96,43 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
-		if(te.direction == 0) {
-			if(entity.direction == 0) {
+		if(te.direction == ForgeDirection.SOUTH) {
+			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posY += 1f;
 				entity.posZ += 1f;
 				
 			}
-			if(entity.direction == 2) {
+			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posY -= 1f;
 				entity.posZ -= 1f;
 			}
 		}
-		if(te.direction == 1) {
-			if(entity.direction == 1) {
+		if(te.direction == ForgeDirection.WEST) {
+			if(entity.direction.ordinal() - 2 == 1) {
 				entity.posY -= 1f;
 				entity.posX += 1f;
 			}
-			if(entity.direction == 3) {
+			if(entity.direction.ordinal() - 2 == 3) {
 				entity.posY += 1f;
 				entity.posX -= 1f;
 			}
 		}
-		if(te.direction == 2) {
-			if(entity.direction == 2) {
+		if(te.direction == ForgeDirection.NORTH) {
+			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posY += 1f;
 				entity.posZ -= 1f;
 			}
-			if(entity.direction == 0) {
+			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posY -= 1f;
 				entity.posZ += 1f;
 			}
 		}
-		if(te.direction == 3) {
-			if(entity.direction == 1) {
+		if(te.direction == ForgeDirection.EAST) {
+			if(entity.direction.ordinal() - 2 == 1) {
 				entity.posY += 1f;
 				entity.posX += 1f;
 			}
-			if(entity.direction == 3) {
+			if(entity.direction.ordinal() - 2 == 3) {
 				entity.posY -= 1f;
 				entity.posX -= 1f;
 			}

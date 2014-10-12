@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntitys;
@@ -103,6 +104,7 @@ public class RCMod {
 		new RecipeHandler();
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
+		FMLCommonHandler.instance().bus().register(new ChatHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
         packetPipeline.initalise();
         proxy.initRenderers();

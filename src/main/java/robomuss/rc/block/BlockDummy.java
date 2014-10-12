@@ -182,12 +182,12 @@ public class BlockDummy extends BlockContainer {
 //		this.slopeDirection = direction;
 //	}
 
-	public void setParentSlope(TileEntityTrack te, BlockTrack track) {
-		this.slopeLocX = te.xCoord;
-		this.slopeLocY = te.yCoord;
-		this.slopeLocZ = te.zCoord;
-		this.slopeDirection = te.direction;
-		this.teSlope = te;
+	public void setParentSlope(TileEntityTrack teTrack, BlockTrack track) {
+		this.slopeLocX = teTrack.xCoord;
+		this.slopeLocY = teTrack.yCoord;
+		this.slopeLocZ = teTrack.zCoord;
+		this.slopeDirection = teTrack.direction.ordinal();
+		this.teSlope = teTrack;
 		this.blockSlope = track;
 //		System.out.printf("Parent slope set: %d, %d, %d, %b, %b", slopeLocX, slopeLocY, slopeLocZ, teSlope != null, blockSlope != null);
 //		System.out.println();

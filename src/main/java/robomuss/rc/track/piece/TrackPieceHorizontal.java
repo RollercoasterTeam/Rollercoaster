@@ -5,6 +5,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.model.ModelRMCTopperCoaster;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
@@ -48,19 +49,19 @@ public class TrackPieceHorizontal extends TrackPiece {
 	
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
-		if(te.direction == 0 || te.direction == 2) {
-			if(entity.direction == 0) {
+		if(te.direction == ForgeDirection.SOUTH || te.direction == ForgeDirection.NORTH) {
+			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posZ += entity.speed;
 			}
-			if(entity.direction == 2) {
+			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posZ -= entity.speed;
 			}
 		}
-		if(te.direction == 1 || te.direction == 3) {
-			if(entity.direction == 1) {
+		if(te.direction == ForgeDirection.WEST || te.direction == ForgeDirection.EAST) {
+			if(entity.direction.ordinal() - 2 == 1) {
 				entity.posX += entity.speed;
 			}
-			if(entity.direction == 3) {
+			if(entity.direction.ordinal() - 2 == 3) {
 				entity.posX -= entity.speed;
 			}
 		}
