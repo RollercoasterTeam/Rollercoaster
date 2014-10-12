@@ -75,7 +75,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = 3;
 			}
 			if(entity.direction == 1) {
-				entity.posX += 0.5f;
+				entity.posX += 0.4f;
 				entity.posZ += 1f;
 				entity.rotationYaw = 90f;
 				entity.direction = 0;
