@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.te.TileEntityConveyor;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
@@ -64,6 +65,16 @@ public class ItemHammer extends Item {
 					}
 					else {
 						tews.direction++;
+					}
+					event.world.markBlockForUpdate(event.x, event.y, event.z);
+				}
+				if(tileentity instanceof TileEntityConveyor) {
+					TileEntityConveyor tec = (TileEntityConveyor) event.world.getTileEntity(event.x, event.y, event.z);
+					if(tec.direction == 3) {
+						tec.direction = 0;
+					}
+					else {
+						tec.direction++;
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}

@@ -21,6 +21,7 @@ public class RCBlocks {
 	public static Block track_designer, track_fabricator, track_storage;
 	public static Block dummy;
 	public static Block track_fabricator_casing, track_fabricator_glass, track_fabricator_output;
+	public static Block conveyor;
 	
 	public static void init() {
 		for(TrackPiece track: TrackHandler.pieces) {
@@ -54,6 +55,8 @@ public class RCBlocks {
 		track_fabricator_glass = new BlockSimple(Material.glass).setBlockName("track_fabricator_glass").setBlockTextureName("rc:track_fabricator_glass").setCreativeTab(RCMod.track);
 		track_fabricator_output = new BlockSimple(Material.iron).setBlockName("track_fabricator_output").setBlockTextureName("rc:track_fabricator_output").setCreativeTab(RCMod.track);
 		
+		conveyor = new BlockConveyor().setBlockName("conveyor").setBlockTextureName("rc:conveyor").setCreativeTab(RCMod.track);
+		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");
 		GameRegistry.registerBlock(footer, "footer");
@@ -78,7 +81,9 @@ public class RCBlocks {
 		GameRegistry.registerBlock(track_fabricator_casing, "track_fabricator_casing");
 		GameRegistry.registerBlock(track_fabricator_glass, "track_fabricator_glass");
 		GameRegistry.registerBlock(track_fabricator_output, "track_fabricator_output");
-        
+
+		GameRegistry.registerBlock(conveyor, "conveyor");
+		
         GameRegistry.registerTileEntity(TileEntityTrackDesigner.class, "te_track_designer");
         GameRegistry.registerTileEntity(TileEntityTrackFabricator.class, "te_track_fabricator");
         GameRegistry.registerTileEntity(TileEntityTrackStorage.class, "te_track_storage");
@@ -91,6 +96,8 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityFooter.class, "te_footer");
 
 		GameRegistry.registerTileEntity(TileEntityDummy.class, "te_dummy");
+		
+		GameRegistry.registerTileEntity(TileEntityConveyor.class, "te_conveyor");
 	}
 
 }

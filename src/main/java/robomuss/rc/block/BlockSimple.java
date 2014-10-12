@@ -8,6 +8,9 @@ public class BlockSimple extends Block {
 
 	public BlockSimple(Material material) {
 		super(material);
+		setHardness(1F);
+		setResistance(3F);
+		setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
 	public boolean isOpaqueCube() {
