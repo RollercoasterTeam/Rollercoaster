@@ -18,7 +18,7 @@ import robomuss.rc.block.te.TileEntityTrackFabricator;
 
 public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {
 
-	//private ModelBase model;
+	private ModelBase model;
 	public static TileEntityRenderTrackFabricator instance = new TileEntityRenderTrackFabricator();
 
 	public TileEntityRenderTrackFabricator() {
@@ -30,9 +30,9 @@ public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/track_fabricator.png"));
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x + 0.5F, (float) y, (float) z + 0.5F);
+		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5f, (float) z + 0.5F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-		GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
+		//GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 		switch(((TileEntityTrackFabricator) te).direction){
         case 1:
         		GL11.glRotatef(180f, -180f, 0f, 0f);
@@ -47,13 +47,13 @@ public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {
         		GL11.glRotatef(180f, -180f, 0f, 180f);
         		break;
 		}
-		//model = new ModelTrackFabricator();
+		model = new ModelTrackFabricator();
 		
 		
-		IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/machines/track_fabricator.tcn"));
-		model.renderAll();
+		/*IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation("rc", "models/machines/track_fabricator.tcn"));
+		model.renderAll();*/
 		
-		//this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
 		GL11.glPopMatrix();
 	}
