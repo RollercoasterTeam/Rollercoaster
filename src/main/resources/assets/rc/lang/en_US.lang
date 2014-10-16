@@ -34,9 +34,13 @@ tile.ride_fence_square.name=Queue Fencing Square
 tile.ride_fence_gate.name=Queue Fencing Gate
 
 tile.track_fabricator.name=Track Fabricator
+tile.track_fabricator_casing.name=Track Fabricator Casing
+tile.track_fabricator_output.name=Track Fabricator Output
+tile.track_fabricator_glass.name=Track Fabricator Glass
 tile.track_storage.name=Track Storage
 tile.track_designer.name=Track Designer (WIP)
 
+tile.conveyor.name=Conveyor
 
 item.hammer.name=Track Maintenance Tool
 

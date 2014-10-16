@@ -5,9 +5,9 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelConveyor extends ModelBase {
-    ModelRenderer side1;
-    ModelRenderer side2;
-    ModelRenderer conveyor;
+    public ModelRenderer side1;
+    public ModelRenderer side2;
+    public ModelRenderer conveyor;
   
   public ModelConveyor() {
 		textureWidth = 128;

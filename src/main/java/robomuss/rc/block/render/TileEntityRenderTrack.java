@@ -34,9 +34,11 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-		
+
 		Block block = te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord);
 		TrackPiece track_type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
+//		TrackPiece track_type = TrackHandler.findTrackTypeFull(((TileEntityTrack) te).track.getUnlocalizedName());
+
 		if(track_type != null) {
 	        //GL11.glEnable(GL11.GL_LIGHTING);
 

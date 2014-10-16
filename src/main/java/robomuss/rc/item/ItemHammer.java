@@ -30,38 +30,17 @@ public class ItemHammer extends Item {
 			@Override
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
 				if(tileentity instanceof TileEntityTrack) {
-									 TileEntityTrack teTrack = (TileEntityTrack) tileentity;
-									 if (teTrack.track instanceof BlockTrack) {
-										 if (teTrack.hasSlope(teTrack.track)) {
-											 if (teTrack.direction != ForgeDirection.EAST) {
-												 teTrack.direction = ForgeDirection.VALID_DIRECTIONS[teTrack.direction.ordinal() + 1];
-											 } else if (teTrack.direction == ForgeDirection.EAST) {
-												 teTrack.direction = ForgeDirection.NORTH;
-											 }
-											 teTrack.track.updateRotation(event.world, teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-										 } else if (teTrack.direction == ForgeDirection.EAST) {
-											 teTrack.direction = ForgeDirection.NORTH;
-										 } else {
-											 teTrack.direction = ForgeDirection.VALID_DIRECTIONS[teTrack.direction.ordinal() + 1];
-										 }
-									 }
-				 //					if (event.world.getBlock(tet.xCoord, tet.yCoord, tet.zCoord) instanceof BlockTrack) {
-				 //						BlockTrack track = (BlockTrack) event.world.getBlock(tet.xCoord, tet.yCoord, tet.zCoord);
-				 //						if (track.track_type instanceof TrackPieceSlopeUp) {
-				 //							if (tet.direction != 3) {
-				 //								tet.direction++;
-				 //							} else if (tet.direction == 3) {
-				 //								tet.direction = 0;
-				 //							}
-				 //							track.updateRotation(event.world, tet.xCoord, tet.yCoord, tet.zCoord, tet);
-				 //						} else if(tet.direction == 3) {
-				 //							tet.direction = 0;
-				 //						} else {
-				 //							tet.direction++;
-				 //						}
-				 //					}
-									 event.world.markBlockForUpdate(event.x, event.y, event.z);
-								 }
+					TileEntityTrack teTrack = (TileEntityTrack) tileentity;
+					if (teTrack.track instanceof BlockTrack) {
+						if (teTrack.hasSlope(teTrack.track)) {
+							teTrack.direction = teTrack.direction.getRotation(ForgeDirection.UP);
+							teTrack.track.updateRotation(event.world, teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+						} else {
+							teTrack.direction = teTrack.direction.getRotation(ForgeDirection.UP);
+						}
+					}
+					event.world.markBlockForUpdate(event.x, event.y, event.z);
+				}
 				if(tileentity instanceof TileEntityRideFence) {
 					TileEntityRideFence terf = (TileEntityRideFence) event.world.getTileEntity(event.x, event.y, event.z);
 					if(terf.direction == 3) {

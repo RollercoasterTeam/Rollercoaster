@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.multiblock.MultiblockTrackFabricator;
@@ -24,7 +25,8 @@ public class BlockTrackFabricator extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
-			if(MultiblockTrackFabricator.isMultiBlockStructure(world, x, y, z)) {
+			TileEntityTrackFabricator teFab = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+			if(MultiblockTrackFabricator.isMultiBlockStructure(world, x, y, z, teFab.direction)) {
 				FMLNetworkHandler.openGui(player, RCMod.instance, 1, world, x, y, z);
 				return true;
 			}
@@ -52,31 +54,49 @@ public class BlockTrackFabricator extends BlockContainer {
 		return false;
 	}
 	
-	
 	@Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
         int l = MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-        ++l;
+//        ++l;
+//		System.out.println(l);
         l %= 4;
 
-        if (l == 0) {
-            TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
-            te.direction = 2;
-        }
-
-        if (l == 1) {
-        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
-            te.direction = 3;
-        }
-
-        if (l == 2) {
-        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
-            te.direction = 0;
-        }
-
-        if (l == 3) {
-        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
-            te.direction = 1;
-        }
+//		System.out.println(l);
+		TileEntityTrackFabricator teFab = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+//		teFab.direction = ForgeDirection.VALID_DIRECTIONS[l + 2].getOpposite();
+		switch (l) {
+			case 0:
+				teFab.direction = ForgeDirection.SOUTH;
+				break;
+			case 1:
+				teFab.direction = ForgeDirection.EAST;
+				break;
+			case 2:
+				teFab.direction = ForgeDirection.NORTH;
+				break;
+			case 3:
+				teFab.direction = ForgeDirection.WEST;
+				break;
+		}
+//        if (l == 0) {
+//            TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+////            te.direction = 2;
+//	        te.direction = te.direction.getOpposite();
+//        }
+//
+//        if (l == 1) {
+//        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+//            te.direction = 3;
+//        }
+//
+//        if (l == 2) {
+//        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+//            te.direction = 0;
+//        }
+//
+//        if (l == 3) {
+//        	TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+//            te.direction = 1;
+//        }
     }
 }

@@ -34,7 +34,18 @@ public abstract class EntityTrain extends Entity
     private boolean isInReverse;
     private String entityName;
     /** Minecart rotational logic matrix */
-    private static final int[][][] matrix = new int[][][] {{{0, 0, -1}, {0, 0, 1}}, {{ -1, 0, 0}, {1, 0, 0}}, {{ -1, -1, 0}, {1, 0, 0}}, {{ -1, 0, 0}, {1, -1, 0}}, {{0, 0, -1}, {0, -1, 1}}, {{0, -1, -1}, {0, 0, 1}}, {{0, 0, 1}, {1, 0, 0}}, {{0, 0, 1}, { -1, 0, 0}}, {{0, 0, -1}, { -1, 0, 0}}, {{0, 0, -1}, {1, 0, 0}}};
+    private static final int[][][] matrix = new int[][][] {
+		{{0, 0, -1}, {0, 0, 1}},
+	    {{ -1, 0, 0}, {1, 0, 0}},
+	    {{ -1, -1, 0}, {1, 0, 0}},
+		{{ -1, 0, 0}, {1, -1, 0}},
+		{{0, 0, -1}, {0, -1, 1}},
+		{{0, -1, -1}, {0, 0, 1}},
+		{{0, 0, 1}, {1, 0, 0}},
+		{{0, 0, 1}, { -1, 0, 0}},
+		{{0, 0, -1}, { -1, 0, 0}},
+		{{0, 0, -1}, {1, 0, 0}}
+    };
     /** appears to be the progress of the turn */
     private int turnProgress;
     private double minecartX;
@@ -63,9 +74,9 @@ public abstract class EntityTrain extends Entity
     protected float maxSpeedAirVertical = defaultMaxSpeedAirVertical;
     protected double dragAir = defaultDragAir;
 
-    public EntityTrain(World p_i1712_1_)
+    public EntityTrain(World world)
     {
-        super(p_i1712_1_);
+        super(world);
         this.preventEntitySpawning = true;
         this.setSize(0.98F, 0.7F);
         this.yOffset = this.height / 2.0F;
@@ -105,7 +116,7 @@ public abstract class EntityTrain extends Entity
      * Returns a boundingBox used to collide the entity with other entities and blocks. This enables the entity to be
      * pushable on contact, like boats or minecarts.
      */
-    public AxisAlignedBB getCollisionBox(Entity p_70114_1_)
+    public AxisAlignedBB getCollisionBox(Entity entity)
     {
         if (getCollisionHandler() != null)
         {
@@ -113,7 +124,7 @@ public abstract class EntityTrain extends Entity
             //return getCollisionHandler().getCollisionBox(this, p_70114_1_);
         	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
         }
-        return p_70114_1_.canBePushed() ? p_70114_1_.boundingBox : null;
+        return entity.canBePushed() ? entity.boundingBox : null;
     }
 
     /**
@@ -138,16 +149,16 @@ public abstract class EntityTrain extends Entity
         return canBePushed;
     }
 
-    public EntityTrain(World p_i1713_1_, double p_i1713_2_, double p_i1713_4_, double p_i1713_6_)
+    public EntityTrain(World world, double prevPosX, double prevPosY, double prevPosZ)
     {
-        this(p_i1713_1_);
-        this.setPosition(p_i1713_2_, p_i1713_4_, p_i1713_6_);
+        this(world);
+        this.setPosition(prevPosX, prevPosY, prevPosZ);
         this.motionX = 0.0D;
         this.motionY = 0.0D;
         this.motionZ = 0.0D;
-        this.prevPosX = p_i1713_2_;
-        this.prevPosY = p_i1713_4_;
-        this.prevPosZ = p_i1713_6_;
+        this.prevPosX = prevPosX;
+        this.prevPosY = prevPosY;
+        this.prevPosZ = prevPosZ;
     }
 
     /**
@@ -161,7 +172,7 @@ public abstract class EntityTrain extends Entity
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
+    public boolean attackEntityFrom(DamageSource dmgSrc, float amount)
     {
         if (!this.worldObj.isRemote && !this.isDead)
         {
@@ -174,8 +185,8 @@ public abstract class EntityTrain extends Entity
                 this.setRollingDirection(-this.getRollingDirection());
                 this.setRollingAmplitude(10);
                 this.setBeenAttacked();
-                this.setDamage(this.getDamage() + p_70097_2_ * 10.0F);
-                boolean flag = p_70097_1_.getEntity() instanceof EntityPlayer && ((EntityPlayer)p_70097_1_.getEntity()).capabilities.isCreativeMode;
+                this.setDamage(this.getDamage() + amount * 10.0F);
+                boolean flag = dmgSrc.getEntity() instanceof EntityPlayer && ((EntityPlayer) dmgSrc.getEntity()).capabilities.isCreativeMode;
 
                 if (flag || this.getDamage() > 40.0F)
                 {
@@ -190,7 +201,7 @@ public abstract class EntityTrain extends Entity
                     }
                     else
                     {
-                        this.killMinecart(p_70097_1_);
+                        this.killMinecart(dmgSrc);
                     }
                 }
 
@@ -203,7 +214,7 @@ public abstract class EntityTrain extends Entity
         }
     }
 
-    public void killMinecart(DamageSource p_94095_1_)
+    public void killMinecart(DamageSource dmgSrc)
     {
         this.setDead();
         ItemStack itemstack = new ItemStack(RCItems.train, 1);
@@ -249,17 +260,17 @@ public abstract class EntityTrain extends Entity
     public void onUpdate()
     {
     	System.out.println("Updating");
-        if (this.getRollingAmplitude() > 0)
+        if (this.getRollingAmplitude() > 0)                                 //decrement rolling amplitude
         {
             this.setRollingAmplitude(this.getRollingAmplitude() - 1);
         }
 
-        if (this.getDamage() > 0.0F)
+        if (this.getDamage() > 0.0F)                                        //decrement damage
         {
             this.setDamage(this.getDamage() - 1.0F);
         }
 
-        if (this.posY < -64.0D)
+        if (this.posY < -64.0D)                                             //kill if in void
         {
             this.kill();
         }
@@ -1053,9 +1064,9 @@ public abstract class EntityTrain extends Entity
     /**
      * Sets the rolling amplitude the cart rolls while being attacked.
      */
-    public void setRollingAmplitude(int p_70497_1_)
+    public void setRollingAmplitude(int amplitude)
     {
-        this.dataWatcher.updateObject(17, Integer.valueOf(p_70497_1_));
+        this.dataWatcher.updateObject(17, Integer.valueOf(amplitude));
     }
 
     /**

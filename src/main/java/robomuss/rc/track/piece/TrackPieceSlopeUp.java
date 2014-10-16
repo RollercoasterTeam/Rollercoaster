@@ -4,6 +4,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.te.TileEntityTrack;
@@ -18,16 +19,16 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	}
 
 	@Override
-	public void renderSpecial(int special_render_stage, TrackStyle type, TileEntityTrack te) {
+	public void renderSpecial(int special_render_stage, TrackStyle style, TileEntityTrack te) {         //renders angled portion of slope
 		rotate(te);
 		
-		IModelCustom model = type.getStandardModel();
-		if(special_render_stage == 0) {
+		IModelCustom model = style.getStandardModel();
+		if(special_render_stage == 0) {                                 //render rotated model
 			GL11.glRotatef(45f, 0f, 0f, 1f);
 			model.renderAll();
 		}
 	
-		if(special_render_stage == 1) {
+		if(special_render_stage == 1) {                                 //render flat model
 			GL11.glPushMatrix();
 			model.renderAll();
 			GL11.glPopMatrix();
@@ -35,20 +36,21 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	}
 	
 	@Override
-	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
+	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {                           //X coord to render sloped track at
 		if(renderStage == 0) {
-			switch(te.direction.ordinal() - 2) {                //N,S,W,E
-				case 0 : return (float) (x + 0.5F);             //NORTH?
-				case 1 : return (float) (x + 0.5F);             //EAST?
-				case 2 : return (float) (x + 1.5F);             //SOUTH?
+			switch(te.direction) {                //N,S,W,E
+				case NORTH: return (float) (x + 0.5F);             //NORTH?
+				case SOUTH: return (float) (x + 0.5F);             //EAST?
+				case WEST: return (float) (x - 0.5F);             //SOUTH?
+				case EAST: return (float) (x + 1.5F);
 				default: return (float) (x - 0.5F);             //WEST?
 
 			}
 		}
 		else if(renderStage == 1) {
-			switch(te.direction.ordinal() - 2) {                //N,S,W,E
-				case 2 :                                        //WEST?
-				case 3 : return (float) (x + 0.5F);             //EAST?
+			switch(te.direction) {                //N,S,W,E
+				case WEST :                                        //WEST?
+				case EAST : return (float) (x + 0.5F);             //EAST?
 				default : return super.getSpecialX(renderStage, x, te);
 			}
 		}
@@ -61,8 +63,7 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	public float getSpecialY(int renderStage, double y, TileEntityTrack te) {
 		if(renderStage == 1) {
 			return (float) (y + 1.5F);
-		}
-		else {
+		} else {
 			return super.getSpecialY(renderStage, y + 0.5f, te);
 		}
 	}
@@ -70,17 +71,17 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
 		if(renderStage == 1) {
-			switch(te.direction.ordinal() - 2) {                //N,S,W,E
-				case 0 :                                        //NORTH?
-				case 1 : return (float) (z + 0.5F);             //SOUTH?
+			switch(te.direction) {                //N,S,W,E
+				case NORTH:                                        //NORTH?
+				case SOUTH: return (float) (z + 0.5F);             //SOUTH?
 				default : return super.getSpecialZ(renderStage, z, te);
 			}
-		}
-		else {
-			switch(te.direction.ordinal() - 2) {                //N,S,W,E
-				case 0 : return (float) (z + 1.5F);             //NORTH?
-				case 1 : return (float) (z - 0.5F);             //EAST?
-				case 2 : return (float) (z + 0.5F);             //SOUTH?
+		} else {
+			switch(te.direction) {                //N,S,W,E
+				case NORTH: return (float) (z - 0.5F);             //NORTH?
+				case SOUTH: return (float) (z + 1.5F);             //EAST?
+				case WEST: return (float) (z + 0.5F);             //SOUTH?
+				case EAST: return (float) (z + 0.5F);
 				default: return (float) (z + 0.5F);             //WEST?
 
 			}
@@ -94,7 +95,59 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
-		if(te.direction == 0) {
+		//if tileentity facing north, then if train facing north, add 1F to z and y and rotate 45 degrees
+		if (te.direction == ForgeDirection.NORTH) {
+			if (entity.direction == ForgeDirection.NORTH) {
+				entity.posZ += 1f;
+				entity.rotationPitch = 45f;
+				entity.posY += 1f;
+			}
+
+			if (entity.direction == ForgeDirection.SOUTH) {
+				entity.posZ -= 1f;
+				entity.rotationPitch = 0f;
+			}
+		}
+
+		if (te.direction == ForgeDirection.WEST) {
+			if (entity.direction == ForgeDirection.WEST) {
+				entity.posX += 1f;
+				entity.rotationPitch = 0f;
+			}
+
+			if (entity.direction == ForgeDirection.EAST) {
+				entity.posX -= 1f;
+				entity.rotationPitch = 45f;
+				entity.posY += 1f;
+			}
+		}
+
+		if (te.direction == ForgeDirection.SOUTH) {
+			if (entity.direction == ForgeDirection.SOUTH) {
+				entity.posZ -= 1f;
+				entity.rotationPitch = 45f;
+				entity.posY += 1f;
+			}
+
+			if (entity.direction == ForgeDirection.NORTH) {
+				entity.posZ += 1f;
+				entity.rotationPitch = 0f;
+			}
+		}
+
+		if (te.direction == ForgeDirection.EAST) {
+			if (entity.direction == ForgeDirection.EAST) {
+				entity.posX += 1f;
+				entity.rotationPitch = 45f;
+				entity.posY += 1f;
+			}
+
+			if (entity.direction == ForgeDirection.WEST) {
+				entity.posX -= 1f;
+				entity.rotationPitch = 0f;
+			}
+		}
+		/*if(te.direction == 0) {
 			if(entity.direction == 0) {
 				entity.posZ += 1f;
 				entity.rotationPitch = 45f;
@@ -137,7 +190,7 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 				entity.posX -= 1f;
 				entity.rotationPitch = 0f;
 			}
-		}
+		}*/
 	}
 
 	@Override

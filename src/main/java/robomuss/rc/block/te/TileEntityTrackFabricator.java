@@ -11,11 +11,13 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTrackFabricator extends TileEntity implements IInventory {
 
 	public ItemStack[] contents = new ItemStack[2];
-	public int direction;
+//	public int direction;
+	public ForgeDirection direction;
 
 	@Override
 	public int getSizeInventory() {
@@ -74,19 +76,15 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1) {
+	public boolean isUseableByPlayer(EntityPlayer player) {
 		return true;
 	}
 
 	@Override
-	public void openInventory() {
-
-	}
+	public void openInventory() {}
 
 	@Override
-	public void closeInventory() {
-
-	}
+	public void closeInventory() {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -107,14 +105,13 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 		}
 		compound.setTag("Items", nbttaglist);
 		
-		compound.setInteger("direction", direction);
+		compound.setInteger("direction", direction.ordinal());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		NBTTagList nbttaglist = compound.getTagList("Items",
-				Constants.NBT.TAG_COMPOUND);
+		NBTTagList nbttaglist = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		contents = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
@@ -124,7 +121,7 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 			}
 		}
 		
-		direction = compound.getInteger("direction");
+		direction = ForgeDirection.getOrientation(compound.getInteger("direction"));
 	}
 
 	@Override

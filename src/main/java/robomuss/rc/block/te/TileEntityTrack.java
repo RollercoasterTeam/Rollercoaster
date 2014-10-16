@@ -38,7 +38,7 @@ public class TileEntityTrack extends TileEntity {
 	//private IAirHandler airHandler;
 
 	public TileEntityTrack() {
-		this.direction = ForgeDirection.NORTH;
+		this.direction = ForgeDirection.SOUTH;
 	}
 
 	@Override
@@ -124,6 +124,7 @@ public class TileEntityTrack extends TileEntity {
 		world.setBlock(dummyX, dummyY, dummyZ, dummy);
 		this.setDummy(dummyX, dummyY, dummyZ, dummy);
 		dummy.setParentSlope(this, track);
+		dummy.setBreakSlope(shouldDummyBreakSlope);
 	}
 
 	public boolean isHorizontal(Block block) {

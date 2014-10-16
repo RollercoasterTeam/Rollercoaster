@@ -5,6 +5,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.RCBlocks;
@@ -38,35 +39,22 @@ public class TrackPiece {
 		this.special_render_stages = special_render_stages;
 	}
 
-	public void render(TrackStyle type, TileEntityTrack te) {
+	public void render(TrackStyle style, TileEntityTrack te) {
 		
 	}
 	
 	public static void rotate(TileEntityTrack teTrack) {
-		/*switch(te.direction){
-            case 1:
-        	    GL11.glRotatef(180f, -180f, 0f, 0f);
-                break;
-            case 2:
-                GL11.glRotatef(180f, 180f, 0f, 180f);
-                break;
-            case 3:
-                GL11.glRotatef(180f, 0f, 0f, 180f);
-                break;
-            default:
-        		GL11.glRotatef(180f, -180f, 0f, 180f);
-        		break;*/
-		switch (teTrack.direction.ordinal() - 2) {
-			case 0:         //NORTH
+		switch (teTrack.direction) {
+			case NORTH:         //NORTH
 				GL11.glRotatef(180f, 180f, 0f, 180f);
 				break;
-			case 1:         //SOUTH
+			case SOUTH:         //SOUTH
 				GL11.glRotatef(180f, -180f, 0f, 180f);
 				break;
-			case 2:         //WEST
+			case WEST:         //WEST
 				GL11.glRotatef(180f, -180f, 0f, 0f);
 				break;
-			case 3:
+			case EAST:         //EAST
 				GL11.glRotatef(180f, 0f, 0f, 180f);
 				break;
 		}

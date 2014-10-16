@@ -6,10 +6,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.model.ModelTrackFabricator;
@@ -33,17 +35,21 @@ public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5f, (float) z + 0.5F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		//GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
+		if (((TileEntityTrackFabricator) te).direction == null) {
+			int l = MathHelper.floor_double(Minecraft.getMinecraft().thePlayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			((TileEntityTrackFabricator) te).direction = ForgeDirection.VALID_DIRECTIONS[l].getOpposite();
+		}
 		switch(((TileEntityTrackFabricator) te).direction){
-        case 1:
+            case NORTH:
         		GL11.glRotatef(180f, -180f, 0f, 0f);
                 break;
-        case 2:
+            case WEST:
                 GL11.glRotatef(180f, 180f, 0f, 180f);
                 break;
-        case 3:
+            case SOUTH:
                 GL11.glRotatef(180f, 0f, 0f, 180f);
                 break;
-        default:
+            default:
         		GL11.glRotatef(180f, -180f, 0f, 180f);
         		break;
 		}

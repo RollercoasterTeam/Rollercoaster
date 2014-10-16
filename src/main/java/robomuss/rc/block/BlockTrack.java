@@ -105,6 +105,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 				}
 			}
 
+			findNeighborBlocks(world, x, y, z);
 			updateRotation(world, x, y, z);
 		}
 	}
@@ -112,7 +113,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		if (!world.isRemote) {
-			if (teTrack.extra == TrackHandler.extras.get(3)) {
+			if (teTrack != null && teTrack.extra != null && teTrack.extra == TrackHandler.extras.get(3)) {
 				if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
 					EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
 					world.spawnEntityInWorld(entity);
@@ -132,7 +133,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 			TileEntityTrack teTrack = (TileEntityTrack) world.getTileEntity(trackX, trackY, trackZ);
 			if (teTrack.hasSlope(this)) {
 				if (neighbors[teTrack.direction.ordinal() - 2] instanceof BlockDummy) {
-					((BlockDummy) neighbors[teTrack.direction.ordinal()]).setBreakSlope(false);         //tell dummy to not break the slope block
+					((BlockDummy) neighbors[teTrack.direction.ordinal() - 2]).setBreakSlope(false);         //tell dummy to not break the slope block
 					neighbors[teTrack.direction.ordinal() - 2].onBlockHarvested(world, trackX + teTrack.direction.offsetX, trackY + teTrack.direction.offsetY, trackZ + teTrack.direction.offsetZ, meta, player);
 					world.markBlockForUpdate(trackX + teTrack.direction.offsetX, trackY + teTrack.direction.offsetY, trackZ + teTrack.direction.offsetZ);
 				}
@@ -144,7 +145,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 
 	public void findNeighborBlocks(World world, int x, int y, int z) {
 		if (!world.isRemote) {
-			for (int i = 0; i < neighbors.length - 2; i++) {
+			for (int i = 0; i < neighbors.length; i++) {
 				int orientation = ForgeDirection.VALID_DIRECTIONS[i + 2].ordinal();                     //N,S,W,E
 				neighbors[i] = world.getBlock(x + ForgeDirection.getOrientation(orientation).offsetX, y + ForgeDirection.getOrientation(orientation).offsetY, z + ForgeDirection.getOrientation(orientation).offsetZ);
 			}
@@ -183,7 +184,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 					if (((BlockTrack) neighbors[2]).teTrack.direction == ForgeDirection.WEST || ((BlockTrack) neighbors[2]).teTrack.direction == ForgeDirection.NORTH) {
 						this.teTrack.direction = ForgeDirection.WEST;
 					}
-				} else if (teTrack.isHorizontal(neighbors[2])) {
+				} else if (this.teTrack.isHorizontal(neighbors[2])) {
 					if (((BlockTrack) neighbors[2]).teTrack.direction == ForgeDirection.WEST || ((BlockTrack) neighbors[2]).teTrack.direction == ForgeDirection.EAST) {
 						this.teTrack.direction = ((BlockTrack) neighbors[2]).teTrack.direction;
 					}
@@ -193,7 +194,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 					if (((BlockTrack) neighbors[3]).teTrack.direction == ForgeDirection.SOUTH || ((BlockTrack) neighbors[3]).teTrack.direction == ForgeDirection.EAST) {
 						this.teTrack.direction = ForgeDirection.WEST;
 					}
-				} else if (teTrack.isHorizontal(neighbors[3])) {
+				} else if (this.teTrack.isHorizontal(neighbors[3])) {
 					if (((BlockTrack) neighbors[3]).teTrack.direction == ForgeDirection.WEST || ((BlockTrack) neighbors[3]).teTrack.direction == ForgeDirection.EAST) {
 						this.teTrack.direction = ((BlockTrack) neighbors[3]).teTrack.direction;
 					}
@@ -267,37 +268,37 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 			if (this.teTrack.hasSlope(this)) {
 				if (this.canRotate(world, this)) {
 					if (this.teTrack.direction == ForgeDirection.WEST) {
-						if (neighbors[1] instanceof BlockDummy) {
-							((BlockDummy) neighbors[1]).setBreakSlope(false);
-							neighbors[1].onBlockHarvested(world, this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ, 0, Minecraft.getMinecraft().thePlayer);
-							world.markBlockForUpdate(this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ);
-						}
-						neighbors[1] = RCBlocks.dummy;
-						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.WEST.offsetX, this.teTrack.yCoord + ForgeDirection.WEST.offsetY, this.teTrack.zCoord + ForgeDirection.WEST.offsetZ, (BlockDummy) neighbors[1], true);
-					} else if (this.teTrack.direction == ForgeDirection.NORTH) {
 						if (neighbors[2] instanceof BlockDummy) {
 							((BlockDummy) neighbors[2]).setBreakSlope(false);
 							neighbors[2].onBlockHarvested(world, this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ, 0, Minecraft.getMinecraft().thePlayer);
 							world.markBlockForUpdate(this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ);
 						}
 						neighbors[2] = RCBlocks.dummy;
-						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.NORTH.offsetX, this.teTrack.yCoord + ForgeDirection.NORTH.offsetY, this.teTrack.zCoord + ForgeDirection.NORTH.offsetZ, (BlockDummy) neighbors[2], true);
-					} else if (this.teTrack.direction == ForgeDirection.EAST) {
+						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.WEST.offsetX, this.teTrack.yCoord + ForgeDirection.WEST.offsetY, this.teTrack.zCoord + ForgeDirection.WEST.offsetZ, (BlockDummy) neighbors[2], true);
+					} else if (this.teTrack.direction == ForgeDirection.NORTH) {
 						if (neighbors[0] instanceof BlockDummy) {
 							((BlockDummy) neighbors[0]).setBreakSlope(false);
 							neighbors[0].onBlockHarvested(world, this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ, 0, Minecraft.getMinecraft().thePlayer);
 							world.markBlockForUpdate(this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ);
 						}
 						neighbors[0] = RCBlocks.dummy;
-						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.EAST.offsetX, this.teTrack.yCoord + ForgeDirection.EAST.offsetY, this.teTrack.zCoord + ForgeDirection.EAST.offsetZ, (BlockDummy) neighbors[0], true);
-					} else if (this.teTrack.direction == ForgeDirection.SOUTH) {
+						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.NORTH.offsetX, this.teTrack.yCoord + ForgeDirection.NORTH.offsetY, this.teTrack.zCoord + ForgeDirection.NORTH.offsetZ, (BlockDummy) neighbors[0], true);
+					} else if (this.teTrack.direction == ForgeDirection.EAST) {
 						if (neighbors[3] instanceof BlockDummy) {
 							((BlockDummy) neighbors[3]).setBreakSlope(false);
 							neighbors[3].onBlockHarvested(world, this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ, 0, Minecraft.getMinecraft().thePlayer);
 							world.markBlockForUpdate(this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ);
 						}
 						neighbors[3] = RCBlocks.dummy;
-						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.SOUTH.offsetX, this.teTrack.yCoord + ForgeDirection.SOUTH.offsetY, this.teTrack.zCoord + ForgeDirection.SOUTH.offsetZ, (BlockDummy) neighbors[3], true);
+						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.EAST.offsetX, this.teTrack.yCoord + ForgeDirection.EAST.offsetY, this.teTrack.zCoord + ForgeDirection.EAST.offsetZ, (BlockDummy) neighbors[3], true);
+					} else if (this.teTrack.direction == ForgeDirection.SOUTH) {
+						if (neighbors[1] instanceof BlockDummy) {
+							((BlockDummy) neighbors[1]).setBreakSlope(false);
+							neighbors[1].onBlockHarvested(world, this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ, 0, Minecraft.getMinecraft().thePlayer);
+							world.markBlockForUpdate(this.teTrack.dummyX, this.teTrack.dummyY, this.teTrack.dummyZ);
+						}
+						neighbors[1] = RCBlocks.dummy;
+						this.teTrack.placeDummy(world, this.teTrack.xCoord + ForgeDirection.SOUTH.offsetX, this.teTrack.yCoord + ForgeDirection.SOUTH.offsetY, this.teTrack.zCoord + ForgeDirection.SOUTH.offsetZ, (BlockDummy) neighbors[1], true);
 					}
 				}
 			}
