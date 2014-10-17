@@ -43,8 +43,17 @@ public class GuiTrackDesigner extends GuiScreen {
     private int selectedSlot = 0;
     private boolean showHelp = false;
     private ArrayList<Block> blocks =  new ArrayList<Block>();
-    
-    private ExpandableListNode[] nodes = {
+
+	public static int keyForward = 17;                      //W
+	public static int keyBackward = 31;                     //S
+	public static int keyLeft = 30;                         //A
+	public static int keyRight = 32;                        //D
+	public static int keyLookLeft = 16;                     //Q
+	public static int keyLookRight = 18;                    //E
+	public static int keyUp = 201;                          //PgUp
+	public static int keyDown = 209;                        //PgDn
+
+	private ExpandableListNode[] nodes = {
     	new ExpandableListNodeRollercoasters("Rollercoasters", null, null),
     	new ExpandableListNode("Paths", null, null),
     	new ExpandableListNode("Fences", null, null)
@@ -121,12 +130,15 @@ public class GuiTrackDesigner extends GuiScreen {
             drawString(fontRendererObj, string4, this.width / 2 - (fontRendererObj.getStringWidth(string4) / 2), this.height / 2 - 10, 0xFFFFFF);
 */
             String controls1 = "Use W A S D to move around";
+//	        String controls1 = String.format("Use %s %s %s %s to move around", Keyboard.getKeyName(keyForward).toUpperCase(), Keyboard.getKeyName(keyLeft).toUpperCase(), Keyboard.getKeyName(keyBackward).toUpperCase(), Keyboard.getKeyName(keyRight).toUpperCase());
             drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
 
-            String controls2 = "Use " + Keyboard.getKeyName(Keybindings.up.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.down.getKeyCode()).toUpperCase() + " to move up and down";
+//            String controls2 = "Use " + Keyboard.getKeyName(Keybindings.up.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.down.getKeyCode()).toUpperCase() + " to move up and down";
+	        String controls2 = "Use " + Keyboard.getKeyName(keyUp).toUpperCase() + " and " + Keyboard.getKeyName(keyDown).toUpperCase() + " to move up and down";
             drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
 
-            String controls3 = "Use " + Keyboard.getKeyName(Keybindings.lookLeft.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.lookRight.getKeyCode()).toUpperCase() + " to rotate left and right";
+//            String controls3 = "Use " + Keyboard.getKeyName(Keybindings.lookLeft.getKeyCode()).toUpperCase() + " and " + Keyboard.getKeyName(Keybindings.lookRight.getKeyCode()).toUpperCase() + " to rotate left and right";
+	        String controls3 = "Use " + Keyboard.getKeyName(keyLookLeft).toUpperCase() + " and " + Keyboard.getKeyName(keyLookRight).toUpperCase() + " to rotate left and right";
             drawString(fontRendererObj, controls3, this.width / 2 - (fontRendererObj.getStringWidth(controls3) / 2), this.height / 2 + 60, 0xFFFFFF);
 
             String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
@@ -226,10 +238,24 @@ public class GuiTrackDesigner extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        super.onGuiClosed();
+//        super.onGuiClosed();
+	    Keyboard.enableRepeatEvents(false);
         Minecraft.getMinecraft().renderViewEntity = Minecraft.getMinecraft().thePlayer;
         Minecraft.getMinecraft().gameSettings.thirdPersonView = thirdPersonView;
         Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
         entity3rdPerson = null;
+//	    super.mc.displayGuiScreen((GuiScreen)null);
+//	    super.mc.setIngameFocus();
     }
+
+	@Override
+	public void keyTyped(char key, int value) {
+		super.keyTyped(key, value);
+
+		if ((value == keyForward || value == keyLeft || value == keyRight || value == keyLeft || value == keyLookLeft || value == keyLookRight || value == keyUp || value == keyDown) && entity3rdPerson != null) {
+			this.entity3rdPerson.onUpdate();
+		} else if (value >= 2 && value < 12) {
+			this.selectedSlot = value - 2;
+		}
+	}
 }

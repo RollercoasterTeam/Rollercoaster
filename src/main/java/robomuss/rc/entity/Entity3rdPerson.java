@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import robomuss.rc.client.Keybindings;
+import robomuss.rc.client.gui.GuiTrackDesigner;
 import robomuss.rc.event.RenderWorldLast;
 
 
@@ -23,8 +24,8 @@ public class Entity3rdPerson extends EntityLivingBase {
     public static boolean needsToMoveUp = false;
 
 
-    public Entity3rdPerson(World par1World) {
-        super(par1World);
+    public Entity3rdPerson(World world) {
+        super(world);
 
         width = 0;
         height = 0;
@@ -62,11 +63,12 @@ public class Entity3rdPerson extends EntityLivingBase {
             setAngles(dx * speed, dy * speed);
         }
 
-        if (Keyboard.isKeyDown(Keybindings.lookLeft.getKeyCode())) {
-            setAngles(-10, 0);
-        } else if (Keyboard.isKeyDown(Keybindings.lookRight.getKeyCode())) {
+//        if (Keyboard.isKeyDown(Keybindings.lookLeft.getKeyCode())) {
+	    if (Keyboard.isKeyDown(GuiTrackDesigner.keyLookLeft)) {
+		    setAngles(-10, 0);
+//        } else if (Keyboard.isKeyDown(Keybindings.lookRight.getKeyCode())) {
+	    } else if (Keyboard.isKeyDown(GuiTrackDesigner.keyLookRight)) {
             setAngles(10, 0);
-
         }
 
 
@@ -86,9 +88,11 @@ public class Entity3rdPerson extends EntityLivingBase {
             }
         }
 
-        if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
-            motionY = 0.2;
-        } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
+//        if (Keyboard.isKeyDown(Keybindings.up.getKeyCode())) {
+	    if (Keyboard.isKeyDown(GuiTrackDesigner.keyUp)) {
+		    motionY = 0.2;
+//        } else if (Keyboard.isKeyDown(Keybindings.down.getKeyCode())) {
+	    } else if (Keyboard.isKeyDown(GuiTrackDesigner.keyDown)) {
             motionY = -0.2;
         }
 

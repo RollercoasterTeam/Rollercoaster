@@ -79,14 +79,14 @@ public class ClientProxy extends CommonProxy {
         }
 	}
 
-    @Override
-    public void registerKeybindings()
-    {
-        Keybindings.init();
-        ClientRegistry.registerKeyBinding(Keybindings.lookLeft);
-        ClientRegistry.registerKeyBinding(Keybindings.lookRight);
-        ClientRegistry.registerKeyBinding(Keybindings.down);
-        ClientRegistry.registerKeyBinding(Keybindings.up);
-
-    }
+//    @Override
+//    public void registerKeybindings()
+//    {
+//        Keybindings.init();
+//        ClientRegistry.registerKeyBinding(Keybindings.lookLeft);
+//        ClientRegistry.registerKeyBinding(Keybindings.lookRight);
+//        ClientRegistry.registerKeyBinding(Keybindings.down);
+//        ClientRegistry.registerKeyBinding(Keybindings.up);
+//
+//    }
 }

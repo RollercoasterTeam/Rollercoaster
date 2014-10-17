@@ -18,5 +18,5 @@ public abstract class MultiblockControllerBase {
 
 	protected HashSet<IMultiBlockComponent> connectedParts;
 
-	private CoordTriplet referenceCoord;
+//	private CoordTriplet referenceCoord;
 }
