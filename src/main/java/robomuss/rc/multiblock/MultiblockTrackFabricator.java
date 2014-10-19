@@ -1,13 +1,11 @@
 package robomuss.rc.multiblock;
 
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.util.ForgeDirection;
-import robomuss.rc.block.BlockTrackFabricator;
-import robomuss.rc.block.RCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import robomuss.rc.chat.ChatHandler;
+import net.minecraftforge.common.util.ForgeDirection;
+import robomuss.rc.block.BlockTrackFabricator;
+import robomuss.rc.block.RCBlocks;
 
 public class MultiblockTrackFabricator {
 	
@@ -23,7 +21,7 @@ public class MultiblockTrackFabricator {
 //			return true;
 //		if (checkWest(world, x, y, z))/* West */
 //			return true;
-		return false;
+		return checkNorth(world, x, y, z) || checkEast(world, x, y, z) || checkSouth(world, x, y, z) || checkWest(world, x, y, z);
 	}
 
 	private static boolean checkStructure(World world, int x, int y, int z, ForgeDirection direction) {
