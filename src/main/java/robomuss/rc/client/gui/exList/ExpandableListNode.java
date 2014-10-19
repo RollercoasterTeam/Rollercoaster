@@ -36,4 +36,8 @@ public class ExpandableListNode {
 	public ExpandableListNode[] getChildren() {
 		return children;
 	}
+	
+	public void onClicked() {
+		
+	}
 }

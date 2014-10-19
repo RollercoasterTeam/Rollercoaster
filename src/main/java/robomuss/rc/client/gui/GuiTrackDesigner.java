@@ -1,34 +1,28 @@
 package robomuss.rc.client.gui;
 
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
 import modforgery.forgerylib.ChatColours;
-import modforgery.forgerylib.GuiUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
-import robomuss.rc.client.Keybindings;
 import robomuss.rc.client.gui.exList.ExpandableListNode;
 import robomuss.rc.client.gui.exList.ExpandableListNodeRollercoasters;
 import robomuss.rc.entity.Entity3rdPerson;
-import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
-import scala.actors.threadpool.Arrays;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class GuiTrackDesigner extends GuiScreen {
 
@@ -104,7 +98,7 @@ public class GuiTrackDesigner extends GuiScreen {
         		if(node.getChildren() != null) {
         			for(int j = 0; j < node.getChildren().length; j++) {
         				ExpandableListNode child = node.getChildren()[i];
-        				buttonList.add(new GuiButton(i + ((j + 1) * 10), 20, 40 + (i * 40), 100, 20, child.getName()));
+        				buttonList.add(new GuiButton(i + ((j + 1) * 10), 140, 40 + (i * 40), 100, 20, child.getName()));
         			}
         		}
         	}
