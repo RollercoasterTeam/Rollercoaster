@@ -89,17 +89,32 @@ public class GuiTrackDesigner extends GuiScreen {
         blocks.add(RCBlocks.support);
     }
 
+    int val = -1;
+    
     @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
         buttonList.clear();
 
-        buttonList.add(new GuiButton(0, this.width - 40, 10, 30, 20, "Help"));
+        buttonList.add(new GuiButton(100, this.width - 40, 10, 30, 20, "Help"));
+        
+        for(int i = 0; i < nodes.length; i++) {
+        	ExpandableListNode node = nodes[i];
+        	if(val == i) {
+        		if(node.getChildren() != null) {
+        			for(int j = 0; j < node.getChildren().length; j++) {
+        				ExpandableListNode child = node.getChildren()[i];
+        				buttonList.add(new GuiButton(i + ((j + 1) * 10), 20, 40 + (i * 40), 100, 20, child.getName()));
+        			}
+        		}
+        	}
+        	buttonList.add(new GuiButton(i, 20, 40 + (i * 40), 100, 20, node.getName()));
+        }
     }
 
     @Override
     public void drawScreen(int x, int y, float f) {
-        GL11.glPushMatrix();
+        /*GL11.glPushMatrix();
         GL11.glScalef(0.125f, 0.125f, 0.125f);
         int k = (this.width - 176) / 2;
 	    int l = (this.height - 166) / 2;
@@ -114,8 +129,8 @@ public class GuiTrackDesigner extends GuiScreen {
     		mc.renderEngine.bindTexture(node.texture);
 	        drawTexturedModalRect(58, 358 + (i * 250), 0, 0, 256, 256);
         }
-        GL11.glPopMatrix();
-        //Only draw when the help button has been pressed
+        GL11.glPopMatrix();*/
+        
         if (showHelp) {
             /*String string = "Coming in v1.5!";
             drawString(fontRendererObj, string, this.width / 2 - (fontRendererObj.getStringWidth(string) / 2), this.height / 2 - 60, 0xFFFFFF);
@@ -211,14 +226,13 @@ public class GuiTrackDesigner extends GuiScreen {
 
     @Override
     public void actionPerformed(GuiButton button) {
-        if (button.id == 0) {
-            //Show the help
+        if (button.id == 100) {
             this.showHelp = !this.showHelp;
-        } else {
-            //send the packet to the server
-            NetworkHandler.handleTrackDesignerButtonClick(te, button.id, entity3rdPerson.rayTraceMouse(), selectedSlot);
         }
-
+        if(button.id > 0) {
+        	val = button.id;
+        	initGui();
+        }
     }
 
     @Override
