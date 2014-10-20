@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -22,8 +23,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IMinecartCollisionHandler;
 import net.minecraftforge.common.util.ForgeDirection;
-import robomuss.rc.block.BlockTrack;
-import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -46,7 +47,7 @@ public abstract class EntityTrain extends Entity
 		{{0, 0, -1}, { -1, 0, 0}},
 		{{0, 0, -1}, {1, 0, 0}}
     };
-    /** appears to be the progress of the turn */
+	/** appears to be the progress of the turn */
     private int turnProgress;
     private double minecartX;
     private double minecartY;
@@ -259,7 +260,7 @@ public abstract class EntityTrain extends Entity
      */
     public void onUpdate()
     {
-    	System.out.println("Updating");
+//    	System.out.println("Updating");
         if (this.getRollingAmplitude() > 0)                                 //decrement rolling amplitude
         {
             this.setRollingAmplitude(this.getRollingAmplitude() - 1);
@@ -367,7 +368,7 @@ public abstract class EntityTrain extends Entity
             double d0 = 0.4D;
             Block block = this.worldObj.getBlock(l, i, i1);
 
-            if (canUseRail() && block instanceof BlockTrack)
+            if (canUseRail() && block instanceof BlockTrackBase)
             {
             	//TODO
                 //float railMaxSpeed = ((BlockRailBase)block).getRailMaxSpeed(worldObj, this, l, i, i1);
@@ -527,31 +528,31 @@ public abstract class EntityTrain extends Entity
             p_145821_9_ &= 7;
         }*/
 
-        BlockTrack track = (BlockTrack) block;
+	    BlockTrackBase track = (BlockTrackBase) block;
         boolean slopeFlag = track.track_type == TrackHandler.findTrackType("slope");
-        TileEntityTrack te = (TileEntityTrack) worldObj.getTileEntity(x, y, z);
+	    TileEntityTrackBase te = (TileEntityTrackBase) worldObj.getTileEntity(x, y, z);
         
         if (slopeFlag) 
         {
             this.posY = (double)(y + 1);
         }
 
-        if (slopeFlag && te.direction == ForgeDirection.SOUTH)
+        if (slopeFlag && track.direction == ForgeDirection.SOUTH)
         {
                      this.motionX -= p_145821_6_;
         }
 
-        if (slopeFlag && te.direction == ForgeDirection.WEST)
+        if (slopeFlag && track.direction == ForgeDirection.WEST)
         {
             this.motionX += p_145821_6_;
         }
 
-        if (slopeFlag && te.direction == ForgeDirection.NORTH)
+        if (slopeFlag && track.direction == ForgeDirection.NORTH)
 	    {
 		    this.motionZ += p_145821_6_;
 	    }
 
-        if (slopeFlag && te.direction == ForgeDirection.EAST)
+        if (slopeFlag && track.direction == ForgeDirection.EAST)
         {
             this.motionZ -= p_145821_6_;
         }

@@ -1,6 +1,7 @@
 package robomuss.rc.track.extra;
 
 import net.minecraft.client.model.ModelBase;
+import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.piece.TrackPiece;
@@ -12,8 +13,8 @@ public class TrackExtraAirLauncher extends TrackExtra {
 	}
 	
 	@Override
-	public void applyEffectToTrain(TileEntityTrack te, EntityTrainDefault entity) {
+	public void applyEffectToTrain(BlockTrackBase track, EntityTrainDefault entity) {
 		entity.speed += 0.3f;
-		//te.getAirHandler().addAir(20, ForgeDirection.UNKNOWN);
+		//track.getAirHandler().addAir(20, ForgeDirection.UNKNOWN);
 	}
 }

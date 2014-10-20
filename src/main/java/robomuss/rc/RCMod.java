@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.chat.ChatHandler;
@@ -35,6 +37,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import robomuss.rc.track.TrackManager;
 
 @Mod(modid = RCMod.MODID, name = RCMod.NAME, version = RCMod.VERSION)
 public class RCMod {
@@ -48,10 +51,12 @@ public class RCMod {
 	
 	@SidedProxy(clientSide="robomuss.rc.proxy.ClientProxy", serverSide="robomuss.rc.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	public static CreativeTabs decor, track, tools, other;
 
     public static final PacketPipeline packetPipeline = new PacketPipeline();
+
+	public static TrackManager trackManager;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -113,6 +118,7 @@ public class RCMod {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		this.trackManager = new TrackManager();
         packetPipeline.postInitialise();
         MinecraftForge.EVENT_BUS.register(new GuiHammerOverlay(Minecraft.getMinecraft()));
 	}

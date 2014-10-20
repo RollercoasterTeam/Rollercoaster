@@ -8,8 +8,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
+import robomuss.rc.RCMod;
+//import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.te.TileEntityTrack;
+//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 
@@ -21,6 +24,7 @@ public class TrackPiece {
 	public int crafting_cost;
 	
 	public Block block;
+//	private BlockTrackBase blockTrack;
 
 	public int special_render_stages;
 	
@@ -30,6 +34,9 @@ public class TrackPiece {
 		this.id = RCBlocks.last_track_id++;
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
+//		if (RCMod.trackManager.isTrack(block)) {
+//			blockTrack = (BlockTrackBase) block;
+//		}
 	}
 	
 	public TrackPiece(String unlocalized_name, int crafting_cost, int special_render_stages) {
@@ -37,54 +44,67 @@ public class TrackPiece {
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
 		this.special_render_stages = special_render_stages;
+//		if (RCMod.trackManager.isTrack(block)) {
+//			blockTrack = (BlockTrackBase) block;
+//		}
 	}
 
-	public void render(TrackStyle style, TileEntityTrack te) {
+	public void render(TrackStyle style, BlockTrackBase block) {
 		
 	}
 	
-	public static void rotate(TileEntityTrack teTrack) {
-		switch (teTrack.direction) {
-			case NORTH:         //NORTH
-				GL11.glRotatef(180f, 180f, 0f, 180f);
-				break;
-			case SOUTH:         //SOUTH
-				GL11.glRotatef(180f, -180f, 0f, 180f);
-				break;
-			case WEST:         //WEST
-				GL11.glRotatef(180f, -180f, 0f, 0f);
-				break;
-			case EAST:         //EAST
-				GL11.glRotatef(180f, 0f, 0f, 180f);
-				break;
+	public BlockTrackBase getTrack() {
+		return RCMod.trackManager.isTrack(block) ? (BlockTrackBase) block :  null;
+	}
+	
+	public static void rotate(BlockTrackBase track) {
+		if (track != null && track.direction == null) {
+			track.direction = ForgeDirection.SOUTH;
+		}
+
+		if (track != null && track.direction != null) {
+			switch (track.direction) {
+				case NORTH:         //NORTH
+					GL11.glRotatef(180f, 180f, 0f, 180f);
+					break;
+				case SOUTH:         //SOUTH
+					GL11.glRotatef(180f, -180f, 0f, 180f);
+					break;
+				case WEST:         //WEST
+					GL11.glRotatef(180f, -180f, 0f, 0f);
+					break;
+				case EAST:         //EAST
+					GL11.glRotatef(180f, 0f, 0f, 180f);
+					break;
+			}
 		}
 	}
 
-	public float getX(double x, TileEntityTrack te) {
+	public float getX(double x, BlockTrackBase track) {
 		return (float) (x + 0.5F);
 	}
 
-	public float getY(double y, TileEntityTrack te) {
+	public float getY(double y, BlockTrackBase track) {
 		return (float) (y + 1.5F);
 	}
 
-	public float getZ(double z, TileEntityTrack te) {
+	public float getZ(double z, BlockTrackBase track) {
 		return (float) (z + 0.5F);
 	}
 
-	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
+	public void renderSpecial(int renderStage, TrackStyle type, BlockTrackBase track) {
 		
 	}
 
-	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
+	public float getSpecialX(int renderStage, double x, BlockTrackBase track) {
 		return (float) (x + 0.5F);
 	}
 
-	public float getSpecialY(int renderStage, double y, TileEntityTrack te) {
+	public float getSpecialY(int renderStage, double y, BlockTrackBase track) {
 		return (float) (y + 1.5F);
 	}
 
-	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
+	public float getSpecialZ(int renderStage, double z, BlockTrackBase track) {
 		return (float) (z + 0.5F);
 	}
 
@@ -96,7 +116,7 @@ public class TrackPiece {
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}
 
-    public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
+    public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
 
     }
     

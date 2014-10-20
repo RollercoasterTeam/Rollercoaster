@@ -6,6 +6,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
+import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -17,8 +18,8 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 	}
 
 	@Override
-	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
-		rotate(te);
+	public void renderSpecial(int renderStage, TrackStyle type, BlockTrackBase track) {
+		rotate(track);
 		if(renderStage == 0) {
 			//GL11.glTranslatef((float) te.xCoord + 0.5F, (float) te.yCoord + 1.5F, (float) te.zCoord + 0.5F);
 			GL11.glRotatef(10f, 0f, 0f, -1f);
@@ -51,12 +52,12 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 
 	//TODO: double check this isn't broken
 	@Override
-	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
+	public float getSpecialX(int renderStage, double x, BlockTrackBase track) {
 		if(renderStage == 0) {
-			switch(te.direction.ordinal() - 2) {
+			switch(track.direction.ordinal() - 2) {
 				case 0 : return (float) (x + 1.5f);
 				case 2 : return (float) (x - 0.5f);
-				default: return super.getSpecialX(renderStage, x, te);
+				default: return super.getSpecialX(renderStage, x, track);
 			}
 		}
 		else {
@@ -66,12 +67,12 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 
 	//TODO: double check this isn't broken
 	@Override
-	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
+	public float getSpecialZ(int renderStage, double z, BlockTrackBase track) {
 		if(renderStage == 0) {
-			switch(te.direction.ordinal() - 2) {
+			switch(track.direction.ordinal() - 2) {
 				case 1 : return (float) (z + 1.5f);
 				case 3 : return (float) (z - 0.5f);
-				default: return super.getSpecialZ(renderStage, z, te);
+				default: return super.getSpecialZ(renderStage, z, track);
 			}
 		}
 		else {

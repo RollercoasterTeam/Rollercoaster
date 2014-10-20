@@ -12,18 +12,13 @@ import robomuss.rc.block.render.TileEntityRenderSupport;
 import robomuss.rc.block.render.TileEntityRenderTrack;
 import robomuss.rc.block.render.TileEntityRenderTrackFabricator;
 import robomuss.rc.block.render.TileEntityRenderWoodenSupport;
-import robomuss.rc.block.te.TileEntityConveyor;
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.block.te.*;
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.client.renderer.*;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -37,7 +32,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initRenderers() {
 		for(TrackPiece track : TrackHandler.pieces) {
-			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrack.class, new TileEntityRenderTrack());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrackBase.class, new TileEntityRenderTrack());
 		}
         
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRideFence.class, new TileEntityRenderRideFence());
@@ -69,12 +64,14 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
         
         for(TrackPiece track : TrackHandler.pieces) {
-        	boolean useIcon = false;
+
+	        //TODO: fix item rendering!!!
+        	boolean useIcon = true;
         	if(track instanceof IInventoryRenderSettings) {
         		useIcon = ((IInventoryRenderSettings) track).useIcon();
         	}
         	if(!useIcon) {
-        		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
+				MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
         	}
         }
 	}

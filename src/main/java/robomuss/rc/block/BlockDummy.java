@@ -3,8 +3,6 @@ package robomuss.rc.block;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,13 +15,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityDummy;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPieceSlope;
 import robomuss.rc.track.piece.TrackPieceSlopeDown;
 import robomuss.rc.track.piece.TrackPieceSlopeUp;
 
 import java.util.Random;
 
-public class BlockDummy extends BlockContainer {
+public class BlockDummy extends BlockTrack {
 	private int slopeLocX, slopeLocY, slopeLocZ;
 	private TileEntityTrack teSlope;
 	private BlockTrack blockSlope;
@@ -35,7 +34,7 @@ public class BlockDummy extends BlockContainer {
 	private IIcon[] icons = new IIcon[3];
 
 	public BlockDummy() {
-		super(Material.iron);
+		super(TrackHandler.findTrackType("slope_up"));
 		setHardness(1F);
 		setHardness(3F);
 	}
@@ -126,7 +125,7 @@ public class BlockDummy extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int direction) {
-		return new TileEntityDummy();
+		return new TileEntityDummy(this);
 	}
 
 	@Override
@@ -187,7 +186,7 @@ public class BlockDummy extends BlockContainer {
 		this.slopeLocX = teTrack.xCoord;
 		this.slopeLocY = teTrack.yCoord;
 		this.slopeLocZ = teTrack.zCoord;
-		this.slopeDirection = teTrack.direction.ordinal();
+		this.slopeDirection = teTrack.track.direction.ordinal();
 		this.teSlope = teTrack;
 		this.blockSlope = track;
 //		System.out.printf("Parent slope set: %d, %d, %d, %b, %b", slopeLocX, slopeLocY, slopeLocZ, teSlope != null, blockSlope != null);

@@ -260,7 +260,7 @@ public class GuiTrackDesigner extends GuiScreen {
 	public void keyTyped(char key, int value) {
 		super.keyTyped(key, value);
 
-		if ((value == keyForward || value == keyLeft || value == keyRight || value == keyLeft || value == keyLookLeft || value == keyLookRight || value == keyUp || value == keyDown) && entity3rdPerson != null) {
+		if ((value == keyForward || value == keyLeft || value == keyRight || value == keyLeft || value == keyLookLeft || value == keyLookRight || value == keyUp || value == keyDown || value == keyBackward) && entity3rdPerson != null) {
 			this.entity3rdPerson.onUpdate();
 		} else if (value >= 2 && value < 12) {
 			this.selectedSlot = value - 2;

@@ -10,7 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.piece.TrackPiece;
@@ -54,24 +55,24 @@ public class TrackExtra {
 		model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 	}
 	
-	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
+	public float getSpecialX(int renderStage, double x, BlockTrackBase track) {
 		return (float) (x + 0.5F);
 	}
 
-	public float getSpecialY(int renderStage, double y, TileEntityTrack te) {
+	public float getSpecialY(int renderStage, double y, BlockTrackBase track) {
 		return (float) (y + 1.5F);
 	}
 
-	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
+	public float getSpecialZ(int renderStage, double z, BlockTrackBase track) {
 		return (float) (z + 0.5F);
 	}
 
-	public void renderSpecial(int i, TrackPiece track_type, TileEntityTrack te) {
+	public void renderSpecial(int i, TrackPiece track_type, BlockTrackBase track) {
 		
 	}
 	
-	public static void rotate(TileEntityTrack te) {
-		switch(te.direction.ordinal() - 2){
+	public static void rotate(BlockTrackBase track) {
+		switch(track.direction.ordinal() - 2){
         case 1:
         		GL11.glRotatef(180f, -180f, 0f, 0f);
                 break;
@@ -87,7 +88,7 @@ public class TrackExtra {
 		}
 	}
 
-	public void applyEffectToTrain(TileEntityTrack te, EntityTrainDefault entity) {
+	public void applyEffectToTrain(BlockTrackBase track, EntityTrainDefault entity) {
 		
 	}
 }

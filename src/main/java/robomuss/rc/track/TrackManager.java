@@ -1,11 +1,16 @@
 package robomuss.rc.track;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
 import net.minecraft.block.Block;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.piece.*;
 
 import java.util.ArrayList;
@@ -29,24 +34,20 @@ import java.util.List;
 public class TrackManager {
 	private static World world;
 	private List neighbors = new ArrayList();
-//	private int focusX;
-//	private int focusY;
-//	private int focusZ;
-//	private int focusType;
-//	private ForgeDirection focusDirection;
-//	private BlockTrackBase focusBlock;
 
 	public TrackManager() {
 		this.world = Minecraft.getMinecraft().theWorld;
-//		this.focusX = focusX;
-//		this.focusY = focusY;
-//		this.focusZ = focusZ;
-//		this.focusBlock = BlockTrackBase.getTrackAtCoords(this.world, this.focusX, this.focusY, this.focusZ);
-//		this.focusDirection = focusBlock.direction;
-//		this.focusType = BlockTrackBase.getTrackType(focusBlock);
-//		this.findNeighbors(focusDirection, focusType);
 	}
 
+	private static void setWorld() {
+		world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld() != null ? Minecraft.getMinecraft().getIntegratedServer().getEntityWorld() : Minecraft.getMinecraft().theWorld;
+	}
+
+	private static void checkWorld() {
+		if (world == null) {
+			setWorld();
+		}
+	}
 	public static final boolean isBlockAtCoordsTrack(ChunkPosition position) {
 		return isTrack(world.getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ));
 	}
@@ -98,6 +99,17 @@ public class TrackManager {
 		} else {
 			return -1;
 		}
+	}
+
+	public static final TileEntity getTileEntity(ChunkPosition position) {
+		return world.getTileEntity(position.chunkPosX, position.chunkPosY, position.chunkPosZ);
+	}
+
+	public static final TileEntityTrackBase getTileEntityFromTrack(BlockTrackBase blockTrack) {
+		if (blockTrack != null) {
+			return (TileEntityTrackBase) world.getTileEntity(blockTrack.position.chunkPosX, blockTrack.position.chunkPosY, blockTrack.position.chunkPosZ);
+		}
+		return null;
 	}
 
 	private void findNeighbors(int x, int y, int z, ForgeDirection direction, int track_type) {
@@ -294,7 +306,7 @@ public class TrackManager {
 	}
 
 	private void setDirection(BlockTrackBase track) {
-		this.neighbors.add(new ChunkPosition(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ));
+//		this.neighbors.add(new ChunkPosition(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ));
 
 		boolean flagNorth = this.isTrackInNeighborList(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ - 1);        //NORTH
 		boolean flagSouth = this.isTrackInNeighborList(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ + 1);        //SOUTH
@@ -308,415 +320,385 @@ public class TrackManager {
 
 		byte byteDirection = -1;
 
-		//TODO: rearrange these!
-		switch (getTrackType(track)) { //type of track being rotated
-			case 0: //Horizontal
-				switch (track.direction) { //direction of track being rotated
-					case NORTH:
-						if (flagNorth) { //if there is a track to the north of the track being rotated
-							switch (getTrackType(getTrackFromChunkPosition(posNorth))) { //type of track to the north
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posNorth).direction) { //direction of track to the north
-										case NORTH: byteDirection = 0; break; //byteDirection will be the NEW direction of the track being rotated, 0N,1S,2W,3E
-										case SOUTH: byteDirection = 1; break;
+		System.out.println(posNorth.toString());
+		System.out.println(posSouth.toString());
+		System.out.println(posWest.toString());
+		System.out.println(posEast.toString());
+
+		switch (track.direction) {                                                                  //direction of rotating track
+			case NORTH:
+				switch (getTrackType(track)) {                                                      //type of rotating track
+					case 0:                                                                         //horizontal
+						if (flagNorth) {                                                            //has neighbor to the north
+							switch (getTrackFromChunkPosition(posNorth).direction) {                //direction of north neighbor
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {    //type of north neighbor
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH:
-										case EAST: byteDirection = 0; break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:  byteDirection = 1; break;
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 4: //Slope Down
-									//TBD
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+							}
+						}
+
+						if (flagSouth) {                                                            //has neighbor to south
+							switch (getTrackFromChunkPosition(posSouth).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:  byteDirection = 1; break;
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:  byteDirection = 0; break;
+										case 1:  byteDirection = 1; break;
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+							}
+						}
+
+						if (flagWest) {                                                             //has neighbor to west
+							switch (getTrackFromChunkPosition(posWest).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:  byteDirection = 0; break;
+										case 1:  byteDirection = 2; break;
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:
+										case 1:
+										case 2:  byteDirection = 2; break;
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:  byteDirection = 3; break;
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+							}
+						}
+
+						if (flagEast) {                                                             //has neighbor to the east
+							switch (getTrackFromChunkPosition(posEast).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:  byteDirection = 0; break;
+										case 1:  byteDirection = 3; break;
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:  byteDirection = 2; break;
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:
+										case 1:
+										case 2:  byteDirection = 3; break;
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+							}
+						}
+					case 1:                                                                         //corner
+						if (flagNorth) {
+							switch (getTrackFromChunkPosition(posNorth).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:  byteDirection = 1; break;
+										case 1:  byteDirection = 2; break;
+										case 2:  byteDirection = 1; break;
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:  byteDirection = 1; break;
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
+									break;
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
+										case 0:  byteDirection = 0; break;
+										case 1:  byteDirection = 1; break;
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
 									break;
 							}
 						}
 
 						if (flagSouth) {
-							switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
+							switch (getTrackFromChunkPosition(posSouth).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH:
-										case WEST: byteDirection = 1; break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH: byteDirection = 1; break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 4: //Slope Down
-									//TBD
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
 									break;
 							}
 						}
 
 						if (flagWest) {
-							switch (getTrackType(getTrackFromChunkPosition(posWest))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
+							switch (getTrackFromChunkPosition(posWest).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:  byteDirection = 0; break;
+										case 1:  byteDirection = 1; break;
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case NORTH:
-										case WEST: byteDirection = 2; break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:  byteDirection = 0; break;
+										case 1:
+										case 2:  byteDirection = 1; break;
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 4: //Slope Down
-									//TBD
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
+										case 0:  byteDirection = 1; break;
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
 									break;
 							}
 						}
 
 						if (flagEast) {
-							switch (getTrackType(getTrackFromChunkPosition(posEast))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
+							switch (getTrackFromChunkPosition(posEast).direction) {
+								case NORTH:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case SOUTH:
-										case EAST: byteDirection = 3; break;
+								case SOUTH:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:  byteDirection = 0; break;
+										case 1:  byteDirection = 2; break;
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case EAST: byteDirection = 3; break;
+								case WEST:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:  byteDirection = 2; break;
+										case 1:
+										case 2:
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
 									}
 									break;
-								case 4: //Slope Down
-									//TBD
+								case EAST:
+									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
+										case 0:
+										case 1:
+										case 2:  byteDirection = 2; break;
+										case 3:  byteDirection = 0; break;
+										case 4:  break; //TBD
+										default: break;
+									}
 									break;
 							}
 						}
 						break;
-					case SOUTH:
-						if (flagNorth) {
-							switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH:
-										case EAST: byteDirection = 0; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagSouth) {
-							switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH:
-										case WEST: byteDirection = 1; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagWest) {
-							switch (getTrackType(getTrackFromChunkPosition(posWest))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case NORTH:
-										case WEST: byteDirection = 2; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagEast) {
-							switch (getTrackType(getTrackFromChunkPosition(posEast))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case SOUTH:
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-						break;
-					case WEST:
-						if (flagNorth) {
-							switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH:
-										case EAST: byteDirection = 0; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagSouth) {
-							switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH:
-										case WEST: byteDirection = 1; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagWest) {
-							switch (getTrackType(getTrackFromChunkPosition(posWest))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case NORTH:
-										case WEST: byteDirection = 2; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagEast) {
-							switch (getTrackType(getTrackFromChunkPosition(posEast))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case SOUTH:
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-						break;
-					case EAST:
-						if (flagNorth) {
-							switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH:
-										case EAST: byteDirection = 0; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posNorth).direction) {
-										case NORTH: byteDirection = 0; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagSouth) {
-							switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case NORTH: byteDirection = 0; break;
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH:
-										case WEST: byteDirection = 1; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posSouth).direction) {
-										case SOUTH: byteDirection = 1; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagWest) {
-							switch (getTrackType(getTrackFromChunkPosition(posWest))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case NORTH:
-										case WEST: byteDirection = 2; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posWest).direction) {
-										case WEST: byteDirection = 2; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
-
-						if (flagEast) {
-							switch (getTrackType(getTrackFromChunkPosition(posEast))) {
-								case 0: //Horizontal
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case WEST: byteDirection = 2; break;
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 1: //Corner
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case SOUTH:
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 2: //Slope Up
-									switch (getTrackFromChunkPosition(posEast).direction) {
-										case EAST: byteDirection = 3; break;
-									}
-									break;
-								case 4: //Slope Down
-									//TBD
-									break;
-							}
-						}
+					case 2:                                                                         //slope up
+					case 3:                                                                         //slope
+					case 4:                                                                         //slope down
 				}
+				break;
+			case SOUTH:
+			case WEST:
+			case EAST:
 		}
+
 //		if (getTrackType(track) == 0) {
 //			if (flags0) {
 //				if (getTrackType(getTrackFromChunkPosition(posNorth)) == 0) {

@@ -6,10 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.RCMod;
+import robomuss.rc.block.BlockTrackBase;
+//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 
@@ -41,7 +45,8 @@ public class ItemRenderTrack implements IItemRenderer {
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		
-		TileEntityTrack te = new TileEntityTrack();
+//		TileEntityTrack te = new TileEntityTrack();
+//		TileEntityTrack te = TrackManager.getTrackAtCoords()
 		TrackPiece track_type = TrackHandler.findTrackType(item.getItem());
 		
 		float inventoryX = 0f;
@@ -68,13 +73,16 @@ public class ItemRenderTrack implements IItemRenderer {
 		if(track_type.special_render_stages != 0) {
 			for(int i = 0; i < track_type.special_render_stages; i++) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef(track_type.getSpecialX(i, inventoryX, te), track_type.getSpecialY(i, inventoryY, te), track_type.getSpecialZ(i, inventoryZ, te));
+				if (track_type != null && track_type.block != null) {
+					((BlockTrackBase) track_type.block).direction = ForgeDirection.SOUTH;
+					GL11.glTranslatef(track_type.getSpecialX(i, inventoryX, (BlockTrackBase) track_type.block), track_type.getSpecialY(i, inventoryY, (BlockTrackBase) track_type.block), track_type.getSpecialZ(i, inventoryZ, (BlockTrackBase) track_type.block));
+				}
 				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
 				GL11.glPushMatrix();
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, TrackHandler.findTrackStyle("corkscrew"), te);
+				track_type.renderSpecial(i, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -83,7 +91,7 @@ public class ItemRenderTrack implements IItemRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(inventoryX, inventoryY - 2, inventoryZ);
 			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
-			track_type.render(TrackHandler.findTrackStyle("corkscrew"), new TileEntityTrack());
+			track_type.render(TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block);
 			GL11.glPopMatrix();
 		}
 	}

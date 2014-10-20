@@ -20,44 +20,44 @@ import net.minecraft.block.Block;
 public class TileEntityTrackBase extends TileEntity {
 	//private IAirHandler airHandler;
 
-	public BlockTrackBase blockTrack;
+	public BlockTrackBase track;
 
-	public TileEntityTrackBase() {
-		blockTrack = (BlockTrackBase) this.worldObj.getBlock(xCoord, yCoord, zCoord);
+	public TileEntityTrackBase(BlockTrackBase track) {
+		this.track = track;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
-		blockTrack.direction = ForgeDirection.getOrientation(compound.getInteger("direction") + 2);
-		blockTrack.colour = compound.getInteger("colour");
-		blockTrack.converted = compound.getBoolean("converted");
+		track.direction = ForgeDirection.getOrientation(compound.getInteger("direction") + 2);
+		track.colour = compound.getInteger("colour");
+		track.converted = compound.getBoolean("converted");
 		for (int i = 0; i < TrackHandler.styles.size(); i++) {
 			if (TrackHandler.styles.get(i).getId().contains(compound.getString("styleName"))) {
-				blockTrack.style = TrackHandler.styles.get(i);
+				track.style = TrackHandler.styles.get(i);
 			}
 		}
 
 		int extraID = compound.getInteger("extraID");
-		blockTrack.extra = extraID == -1 ? null : TrackHandler.extras.get(extraID);
+		track.extra = extraID == -1 ? null : TrackHandler.extras.get(extraID);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
-		if (!blockTrack.converted || blockTrack.style == null) {
-			blockTrack.style = TrackHandler.findTrackStyle("corkscrew");
-			blockTrack.converted = true;
+		if (!track.converted || track.style == null) {
+			track.style = TrackHandler.findTrackStyle("corkscrew");
+			track.converted = true;
 		}
 
-		compound.setInteger("direction", blockTrack.direction.ordinal() - 2);
-		compound.setInteger("colour", blockTrack.colour);
-		compound.setString("styleName", blockTrack.style.getId());
-		compound.setBoolean("converted", blockTrack.converted);
-		if (blockTrack.extra != null) {
-			compound.setInteger("extraID", blockTrack.extra.id);
+		compound.setInteger("direction", track.direction.ordinal() - 2);
+		compound.setInteger("colour", track.colour);
+		compound.setString("styleName", track.style.getId());
+		compound.setBoolean("converted", track.converted);
+		if (track.extra != null) {
+			compound.setInteger("extraID", track.extra.id);
 		} else {
 			compound.setInteger("extraID", -1);
 		}

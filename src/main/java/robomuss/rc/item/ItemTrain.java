@@ -21,7 +21,7 @@ public class ItemTrain extends Item {
 			if(world.getBlock(x, y, z) instanceof BlockTrack) {
 				BlockTrack block = (BlockTrack) world.getBlock(x, y, z);
 				if(block.track_type == TrackHandler.findTrackType("horizontal")) {
-					if(((TileEntityTrack) world.getTileEntity(x, y, z)).extra == TrackHandler.extras.get(3)) {
+					if(((TileEntityTrack) world.getTileEntity(x, y, z)).track.extra == TrackHandler.extras.get(3)) {
 						EntityTrainDefault entity = spawnCart(world, x, y, z);
 						if(stack.hasDisplayName()) {
 							entity.setMinecartName(stack.getDisplayName());

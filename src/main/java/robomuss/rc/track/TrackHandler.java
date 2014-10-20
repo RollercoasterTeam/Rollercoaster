@@ -1,11 +1,18 @@
 package robomuss.rc.track;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+//import robomuss.rc.block.BlockTrack;
+//import robomuss.rc.block.BlockTrack2;
 import robomuss.rc.block.model.ModelAirLauncher;
 import robomuss.rc.block.model.ModelBrakes;
 import robomuss.rc.block.model.ModelChain;
@@ -45,7 +52,6 @@ public class TrackHandler {
 		pieces.add(new TrackPieceCorner("curve", 3));
 		pieces.add(new TrackPieceLoop("loop", 10, 2));
 		pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
-//		pieces.add(new TrackDummy("dummy", 0));
 	}
 	
 	public static void addTrackExtras() {

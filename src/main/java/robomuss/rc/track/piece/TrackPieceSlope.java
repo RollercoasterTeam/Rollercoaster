@@ -9,7 +9,9 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.BlockTrackBase;
+//import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -21,49 +23,55 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}
 
 	@Override
-	public void render(TrackStyle type, TileEntityTrack te) {
-		rotate(te);
+	public void render(TrackStyle style, BlockTrackBase track) {
+		rotate(track);
 
-		IModelCustom model = type.getLargeModel();
+		IModelCustom model = style.getLargeModel();
 		
 		GL11.glRotatef(45f, 0f, 0f, 1f);
 		model.renderAll();
 	}
 	
 	@Override
-	public float getX(double x, TileEntityTrack te) {
-		if(te.direction == ForgeDirection.WEST) {
-			return (float) (x - 0.5f);
-		}
-		else if(te.direction == ForgeDirection.EAST) {
-			return (float) (x + 1.5f);
-		}
-		else {
-			return (float) x + 0.5f;
+	public float getX(double x, BlockTrackBase track) {
+//		if(te.direction == ForgeDirection.WEST) {
+//			return (float) (x - 0.5f);
+//		} else if(te.direction == ForgeDirection.EAST) {
+//			return (float) (x + 1.5f);
+//		} else {
+//			return (float) x + 0.5f;
+//		}
+		switch (track.direction) {
+			case WEST:  return (float) (x - 0.5F);
+			case EAST:  return (float) (x + 1.5F);
+			default:    return (float) (x + 0.5F);
 		}
 	}
 	
 	@Override
-	public float getY(double y, TileEntityTrack te) {
+	public float getY(double y, BlockTrackBase track) {
 		return (float) (y + 2f);
 	}
 	
 	@Override
-	public float getZ(double z, TileEntityTrack te) {
-		if(te.direction == ForgeDirection.SOUTH) {
-			return (float) (z + 1.5f);
-		}
-		else if(te.direction == ForgeDirection.WEST) {
-			return (float) (z + 0.5f);
-		}
-		else if(te.direction == ForgeDirection.NORTH) {
-			return (float) (z - 0.5f);
-		}
-		else if(te.direction == ForgeDirection.EAST) {
-			return (float) (z + 0.5f);
-		}
-		else {
-			return (float) z;
+	public float getZ(double z, BlockTrackBase track) {
+//		if(te.direction == ForgeDirection.SOUTH) {
+//			return (float) (z + 1.5f);
+//		} else if(te.direction == ForgeDirection.WEST) {
+//			return (float) (z + 0.5f);
+//		} else if(te.direction == ForgeDirection.NORTH) {
+//			return (float) (z - 0.5f);
+//		} else if(te.direction == ForgeDirection.EAST) {
+//			return (float) (z + 0.5f);
+//		} else {
+//			return (float) z;
+//		}
+		switch (track.direction) {
+			case NORTH: return (float) (z + 1.5F);
+			case SOUTH: return (float) (z + 0.5F);
+			case WEST:  return (float) (z - 0.5F);
+			case EAST:  return (float) (z + 0.5F);
+			default:    return (float) z;
 		}
 	}
 	
@@ -91,52 +99,103 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}*/
 	
 	@Override
-	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
-		if(te.direction == ForgeDirection.SOUTH) {
-			if(entity.direction.ordinal() - 2 == 0) {
-				entity.posY += 1f;
-				entity.posZ += 1f;
-				
-			}
-			if(entity.direction.ordinal() - 2 == 2) {
-				entity.posY -= 1f;
-				entity.posZ -= 1f;
-			}
+
+		switch (track.direction) {
+			case NORTH:
+				switch (entity.direction) {
+					case NORTH:
+						entity.posY -= 1F;
+						entity.posZ += 1F;
+						break;
+					case SOUTH:
+						entity.posY += 1F;
+						entity.posZ -= 1F;
+						break;
+				}
+				break;
+			case SOUTH:
+				switch (entity.direction) {
+					case NORTH:
+						entity.posY += 1F;
+						entity.posZ += 1F;
+						break;
+					case SOUTH:
+						entity.posY -= 1F;
+						entity.posZ -= 1F;
+						break;
+				}
+				break;
+			case WEST:
+				switch (entity.direction) {
+					case WEST:
+						entity.posY -= 1F;
+						entity.posX += 1F;
+						break;
+					case EAST:
+						entity.posY += 1F;
+						entity.posX -= 1F;
+						break;
+				}
+				break;
+			case EAST:
+				switch (entity.direction) {
+					case WEST:
+						entity.posY += 1F;
+						entity.posX += 1F;
+						break;
+					case EAST:
+						entity.posY -= 1F;
+						entity.posX -= 1F;
+						break;
+				}
+				break;
 		}
-		if(te.direction == ForgeDirection.WEST) {
-			if(entity.direction.ordinal() - 2 == 1) {
-				entity.posY -= 1f;
-				entity.posX += 1f;
-			}
-			if(entity.direction.ordinal() - 2 == 3) {
-				entity.posY += 1f;
-				entity.posX -= 1f;
-			}
-		}
-		if(te.direction == ForgeDirection.NORTH) {
-			if(entity.direction.ordinal() - 2 == 2) {
-				entity.posY += 1f;
-				entity.posZ -= 1f;
-			}
-			if(entity.direction.ordinal() - 2 == 0) {
-				entity.posY -= 1f;
-				entity.posZ += 1f;
-			}
-		}
-		if(te.direction == ForgeDirection.EAST) {
-			if(entity.direction.ordinal() - 2 == 1) {
-				entity.posY += 1f;
-				entity.posX += 1f;
-			}
-			if(entity.direction.ordinal() - 2 == 3) {
-				entity.posY -= 1f;
-				entity.posX -= 1f;
-			}
-		}
+//		if(te.direction == ForgeDirection.SOUTH) {
+//			if(entity.direction.ordinal() - 2 == 0) {
+//				entity.posY += 1f;
+//				entity.posZ += 1f;
+//
+//			}
+//			if(entity.direction.ordinal() - 2 == 2) {
+//				entity.posY -= 1f;
+//				entity.posZ -= 1f;
+//			}
+//		}
+//		if(te.direction == ForgeDirection.WEST) {
+//			if(entity.direction.ordinal() - 2 == 1) {
+//				entity.posY -= 1f;
+//				entity.posX += 1f;
+//			}
+//			if(entity.direction.ordinal() - 2 == 3) {
+//				entity.posY += 1f;
+//				entity.posX -= 1f;
+//			}
+//		}
+//		if(te.direction == ForgeDirection.NORTH) {
+//			if(entity.direction.ordinal() - 2 == 2) {
+//				entity.posY += 1f;
+//				entity.posZ -= 1f;
+//			}
+//			if(entity.direction.ordinal() - 2 == 0) {
+//				entity.posY -= 1f;
+//				entity.posZ += 1f;
+//			}
+//		}
+//		if(te.direction == ForgeDirection.EAST) {
+//			if(entity.direction.ordinal() - 2 == 1) {
+//				entity.posY += 1f;
+//				entity.posX += 1f;
+//			}
+//			if(entity.direction.ordinal() - 2 == 3) {
+//				entity.posY -= 1f;
+//				entity.posX -= 1f;
+//			}
+//		}
 	}
 
 	@Override
