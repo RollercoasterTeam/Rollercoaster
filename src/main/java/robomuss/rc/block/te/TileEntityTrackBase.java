@@ -2,15 +2,20 @@ package robomuss.rc.block.te;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 import net.minecraft.block.Block;
 
@@ -21,16 +26,20 @@ public class TileEntityTrackBase extends TileEntity {
 	//private IAirHandler airHandler;
 
 	public BlockTrackBase track;
+	public int trackMeta;
 
-	public TileEntityTrackBase(BlockTrackBase track) {
+	public TileEntityTrackBase() {} //required to instantiate for network handler
+	public TileEntityTrackBase(World world, int trackMeta, BlockTrackBase track) {
+		this.worldObj = world;
+		this.trackMeta = trackMeta;
 		this.track = track;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-
-		track.direction = ForgeDirection.getOrientation(compound.getInteger("direction") + 2);
+		track.direction = ForgeDirection.valueOf(compound.getString("direction"));
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, track.direction.ordinal(), 2);
 		track.colour = compound.getInteger("colour");
 		track.converted = compound.getBoolean("converted");
 		for (int i = 0; i < TrackHandler.styles.size(); i++) {
@@ -46,13 +55,23 @@ public class TileEntityTrackBase extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-
+		if (track.extra != null) {
+			System.out.println(track.extra.id);
+		}
 		if (!track.converted || track.style == null) {
 			track.style = TrackHandler.findTrackStyle("corkscrew");
 			track.converted = true;
+//			track.converted = false;
 		}
 
-		compound.setInteger("direction", track.direction.ordinal() - 2);
+		if (track.direction == null) {
+			System.out.println("track direction is null");
+//			track.direction = TrackManager.getDirectionFromPlayerFacing(Minecraft.getMinecraft().thePlayer);
+//			track.direction = ForgeDirection.getOrientation(worldObj.getBlockMetadata(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ));
+			track.direction = ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
+		}
+
+		compound.setString("direction", track.direction.name());
 		compound.setInteger("colour", track.colour);
 		compound.setString("styleName", track.style.getId());
 		compound.setBoolean("converted", track.converted);
@@ -63,8 +82,14 @@ public class TileEntityTrackBase extends TileEntity {
 		}
 	}
 
+//	public void findTrack() {
+//		this.track = (BlockTrackBase) this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord);
+//	}
+
 	@Override
 	public Packet getDescriptionPacket() {
+//		findTrack();
+//		System.out.println("getDescriptionPacket!");
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
 		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
@@ -72,6 +97,8 @@ public class TileEntityTrackBase extends TileEntity {
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+//		findTrack();
+//		ChatHandler.broadcastChatMessageToPlayers("packet received!");
 		readFromNBT(packet.func_148857_g());
 	}
 

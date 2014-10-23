@@ -22,6 +22,7 @@ public class RCBlocks {
 //	public static Block dummy;
 	public static Block track_fabricator_casing, track_fabricator_glass, track_fabricator_output;
 	public static Block conveyor;
+	public static Block[] testTrackArray;
 	
 	public static void init() {
 //		for(TrackPiece track: TrackHandler.pieces) {
@@ -32,6 +33,16 @@ public class RCBlocks {
 			track.block = new BlockTrackBase(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
 			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
 		}
+
+//		testTrackArray = new Block[TrackHandler.pieces.size()];
+//
+//		for (int i = 0; i < TrackHandler.pieces.size(); i++) {
+//			TrackPiece track = TrackHandler.pieces.get(i);
+//			testTrackArray[i] = new BlockTrackBase(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
+//			TrackHandler.pieces.get(i).block = testTrackArray[i];
+//			GameRegistry.registerBlock(testTrackArray[i], track.unlocalized_name + "_track");
+//		}
+
 //		GameRegistry.registerTileEntity(TileEntityTrack.class, "te_track");
         GameRegistry.registerTileEntity(TileEntityTrackBase.class, "te_track");
 
@@ -103,8 +114,6 @@ public class RCBlocks {
 //		GameRegistry.registerTileEntity(TileEntityDummy.class, "te_dummy");
 		
 		GameRegistry.registerTileEntity(TileEntityConveyor.class, "te_conveyor");
-
-//		GameRegistry.registerTileEntity(TileEntityTrackBase.class, "te_track_base");
 	}
 
 }

@@ -19,15 +19,19 @@ import robomuss.rc.track.style.TrackStyle;
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	
-	public static TileEntityRenderTrack instance = new TileEntityRenderTrack();
+//	public static TileEntityRenderTrack instance = new TileEntityRenderTrack();
 	private TrackStyle style;
+	private TrackPiece type;
+	private BlockTrackBase track;
+	private TileEntityTrackBase teTrack;
 	
 	int animation;
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
-		TileEntityTrackBase teTrack = (TileEntityTrackBase) te;
-		BlockTrackBase track = teTrack.track;
+		teTrack = (TileEntityTrackBase) te;
+		track = teTrack.track;
+		type = track.track_type;
 		style = track.style;
 		if(style == null) {
 			style = TrackHandler.findTrackStyle("corkscrew");
@@ -40,48 +44,49 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
 //		Block block = te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord);
 //		Block block = TrackManager.getTrackAtCoords(te.xCoord, te.yCoord, te.zCoord);
-		TrackPiece track_type = TrackHandler.findTrackTypeFull(track.getUnlocalizedName());
+//		TrackPiece track_type = TrackHandler.findTrackTypeFull(track.getUnlocalizedName());
+		TrackPiece track_type = track.track_type != null ? track.track_type : TrackHandler.findTrackTypeFull(track.getUnlocalizedName());
 //		TrackPiece track_type = TrackHandler.findTrackTypeFull(((TileEntityTrack) te).track.getUnlocalizedName());
 
-		if(track_type != null) {
+		if(type != null) {
 	        //GL11.glEnable(GL11.GL_LIGHTING);
 
-			if(track_type.special_render_stages == 0) {
+			if(type.special_render_stages == 0) {
 				GL11.glPushMatrix();
 				GL11.glDisable(GL11.GL_LIGHTING);
-				GL11.glTranslatef(track_type.getX(x, track), track_type.getY(y, track) - 1.5f, track_type.getZ(z, track));
+				GL11.glTranslatef(type.getX(x, track), type.getY(y, track) - 1.5f, type.getZ(z, track));
 				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
-				if(track_type.inverted) {
+				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.render(style, ((TileEntityTrackBase) te).track);
+				type.render(style, track);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
 			
-			for(int i = 0; i < track_type.special_render_stages; i++) { 
+			for(int i = 0; i < type.special_render_stages; i++) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef(track_type.getSpecialX(i, x, track), track_type.getSpecialY(i, y, track) - 1.5f, track_type.getSpecialZ(i, z, track));
+				GL11.glTranslatef(type.getSpecialX(i, x, track), type.getSpecialY(i, y, track) - 1.5f, type.getSpecialZ(i, z, track));
 				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
-				if(track_type.inverted) {
+				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, style, track);
+				type.renderSpecial(i, style, track);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
 			
-			if(track.extra != null && track.extra.allowedTrackTypes.contains(track_type)) {
+			if(track.extra != null && track.extra.allowedTrackTypes.contains(type)) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(track.extra.texture);
 				
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F,(float) z + 0.5F);
 				GL11.glPushMatrix();
-				TrackPiece.rotate(track);
-				track.extra.render(track_type);
+				type.rotate(track);
+				track.extra.render(type);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 				
@@ -89,8 +94,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(track.extra.getSpecialX(i, x, track), track.extra.getSpecialY(i, y, track), track.extra.getSpecialZ(i, z, track));
 					GL11.glPushMatrix();
-					TrackPiece.rotate(track);
-					track.extra.renderSpecial(i, track_type, track);
+					type.rotate(track);
+					track.extra.renderSpecial(i, type, track);
 					GL11.glPopMatrix();
 					GL11.glPopMatrix();
 				}

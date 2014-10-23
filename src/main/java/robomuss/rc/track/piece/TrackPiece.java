@@ -32,6 +32,7 @@ public class TrackPiece {
 	
 	public TrackPiece(String unlocalized_name, int crafting_cost) {
 		this.id = RCBlocks.last_track_id++;
+		System.out.println(this.id);
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
 //		if (RCMod.trackManager.isTrack(block)) {
@@ -49,7 +50,7 @@ public class TrackPiece {
 //		}
 	}
 
-	public void render(TrackStyle style, BlockTrackBase block) {
+	public void render(TrackStyle style, BlockTrackBase track) {
 		
 	}
 	
@@ -57,7 +58,7 @@ public class TrackPiece {
 		return RCMod.trackManager.isTrack(block) ? (BlockTrackBase) block :  null;
 	}
 	
-	public static void rotate(BlockTrackBase track) {
+	public void rotate(BlockTrackBase track) {
 		if (track != null && track.direction == null) {
 			track.direction = ForgeDirection.SOUTH;
 		}
@@ -75,6 +76,44 @@ public class TrackPiece {
 					break;
 				case EAST:         //EAST
 					GL11.glRotatef(180f, 0f, 0f, 180f);
+					break;
+			}
+		}
+	}
+
+	public float[] getRotationOffsetsFromDirection(ForgeDirection direction) {
+		switch (direction) {
+			case NORTH:
+				return new float[] {180f, 180f, 0f, 180f};
+			case SOUTH:
+				return new float[] {180f, -180f, 0f, 180f};
+			case WEST:
+				return new float[] {180f, -180f, 0f, 0f};
+			case EAST:
+				return new float[] {180f, 0f, 0f, 180f};
+			default:
+				return new float[] {180f, -180f, 0f, 180f};
+		}
+	}
+
+	public void unRotate(BlockTrackBase track) {
+		if (track != null && track.direction == null) {
+			track.direction = ForgeDirection.SOUTH;
+		}
+
+		if (track != null && track.direction != null) {
+			switch (track.direction) {
+				case NORTH:
+					GL11.glRotatef(180f, -180f, 0f, -180f);
+					break;
+				case SOUTH:
+					GL11.glRotatef(180f, 180f, 0f, -180f);
+					break;
+				case WEST:
+					GL11.glRotatef(180f, 180f, 0f, 0f);
+					break;
+				case EAST:
+					GL11.glRotatef(180f, 0f, 0f, -180f);
 					break;
 			}
 		}

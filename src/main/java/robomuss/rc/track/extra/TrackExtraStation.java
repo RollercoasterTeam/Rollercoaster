@@ -2,7 +2,7 @@ package robomuss.rc.track.extra;
 
 import net.minecraft.client.model.ModelBase;
 import robomuss.rc.block.BlockTrackBase;
-import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.piece.TrackPiece;
 

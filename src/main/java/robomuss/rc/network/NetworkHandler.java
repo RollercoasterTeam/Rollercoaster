@@ -1,14 +1,11 @@
 package robomuss.rc.network;
 
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.network.packets.PacketChangePaintColour;
-import robomuss.rc.network.packets.PacketKillAll;
-import robomuss.rc.network.packets.PacketTrackDesignerButtonClick;
-import robomuss.rc.network.packets.PacketTrackDesignerStartPoint;
-import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
+import robomuss.rc.network.packets.*;
 
 public class NetworkHandler {
 	
@@ -30,5 +27,9 @@ public class NetworkHandler {
 
 	public static void killAll() {
 		RCMod.packetPipeline.sendToServer(new PacketKillAll());
+	}
+
+	public static void rotateTrack(int trackX, int trackY, int trackZ, ForgeDirection direction, boolean settingDirection, boolean rotateClockwise) {
+		RCMod.packetPipeline.sendToServer(new PacketRotateTrack(trackX, trackY, trackZ, direction, settingDirection, rotateClockwise));
 	}
 }

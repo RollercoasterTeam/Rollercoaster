@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -32,28 +33,16 @@ import java.util.List;
  *
  */
 public class TrackManager {
-	private static World world;
 	private List neighbors = new ArrayList();
 
-	public TrackManager() {
-		this.world = Minecraft.getMinecraft().theWorld;
-	}
+	public TrackManager() {}
 
-	private static void setWorld() {
-		world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld() != null ? Minecraft.getMinecraft().getIntegratedServer().getEntityWorld() : Minecraft.getMinecraft().theWorld;
-	}
-
-	private static void checkWorld() {
-		if (world == null) {
-			setWorld();
-		}
-	}
 	public static final boolean isBlockAtCoordsTrack(ChunkPosition position) {
-		return isTrack(world.getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ));
+		return isTrack(Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ));
 	}
 
 	public static final boolean isBlockAtCoordsTrack(int x, int y, int z) {
-		return isTrack(world.getBlock(x, y, z));
+		return isTrack(Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(x, y, z));
 	}
 
 	public static final boolean isTrack(Block block) {
@@ -61,7 +50,11 @@ public class TrackManager {
 	}
 
 	public static final BlockTrackBase getTrackAtCoords(int x, int y, int z) {
-		return isBlockAtCoordsTrack(x, y, z) ? (BlockTrackBase) world.getBlock(x, y, z) : null;
+		return isBlockAtCoordsTrack(x, y, z) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(x, y, z) : null;
+	}
+
+	public static final BlockTrackBase getTrackAtCoords(ChunkPosition position) {
+		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
 	}
 
 	public static final boolean isSloped(int track_type) {
@@ -102,17 +95,31 @@ public class TrackManager {
 	}
 
 	public static final TileEntity getTileEntity(ChunkPosition position) {
-		return world.getTileEntity(position.chunkPosX, position.chunkPosY, position.chunkPosZ);
+		return Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(position.chunkPosX, position.chunkPosY, position.chunkPosZ);
 	}
 
 	public static final TileEntityTrackBase getTileEntityFromTrack(BlockTrackBase blockTrack) {
 		if (blockTrack != null) {
-			return (TileEntityTrackBase) world.getTileEntity(blockTrack.position.chunkPosX, blockTrack.position.chunkPosY, blockTrack.position.chunkPosZ);
+			return (TileEntityTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(blockTrack.position.chunkPosX, blockTrack.position.chunkPosY, blockTrack.position.chunkPosZ);
 		}
 		return null;
 	}
 
-	private void findNeighbors(int x, int y, int z, ForgeDirection direction, int track_type) {
+	public static final int getPlayerFacing(EntityLivingBase player) {
+		return MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+	}
+
+	public static final ForgeDirection getDirectionFromPlayerFacing(EntityLivingBase player) {
+		switch (getPlayerFacing(player)) {
+			case 0: return ForgeDirection.SOUTH;
+			case 1: return ForgeDirection.WEST;
+			case 2: return ForgeDirection.NORTH;
+			case 3: return ForgeDirection.EAST;
+		}
+		return null;
+	}
+
+	public void findNeighbors(int x, int y, int z, ForgeDirection direction, int track_type) {
 		this.neighbors.clear();
 
 		switch (track_type) {
@@ -244,7 +251,7 @@ public class TrackManager {
 	}
 
 	private BlockTrackBase getTrackFromChunkPosition(ChunkPosition position) {
-		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) world.getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
+		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
 	}
 
 	private boolean isTrackInNeighborList(BlockTrackBase track) {
@@ -269,7 +276,7 @@ public class TrackManager {
 		return false;
 	}
 
-	protected int getNumberOfAdjacentTracks(BlockTrackBase track) {
+	private int getNumberOfAdjacentTracks(BlockTrackBase track) {
 		int i = 0;
 		if (this.checkForTrack(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ - 1)) {
 			i++;

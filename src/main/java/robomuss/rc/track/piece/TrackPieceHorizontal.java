@@ -6,14 +6,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.model.ModelRMCTopperCoaster;
 //import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
+import sun.org.mozilla.javascript.internal.ast.Block;
 
 public class TrackPieceHorizontal extends TrackPiece implements IInventoryRenderSettings {
+	private float[] rotationOffsets = new float[] {180f, 0f, 0f, 0f};
+	public Block block;
 
 	public TrackPieceHorizontal(String unlocalized_name, int crafting_cost) {
 		super(unlocalized_name, crafting_cost);
@@ -21,12 +25,21 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 
 	@Override
 	public void render(TrackStyle type, BlockTrackBase track) {
-		rotate(track);
-		
+		if (track.direction != null) {
+			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(track.direction);
+		} else {
+			track.direction = ForgeDirection.SOUTH;
+			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(track.direction);
+		}
+
+
+//		track.track_type.rotate(track);
+//		System.out.println(track.direction.toString());
 		
 		IModelCustom model = (IModelCustom) type.getStandardModel();
-		
-		
+
+		GL11.glPushMatrix();
+		GL11.glRotatef(rotationOffsets[0], rotationOffsets[1], rotationOffsets[2], rotationOffsets[3]);
 		if(type.name.equals("wooden_hybrid_topper")) {
 			ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + track.colour + ".png"));
 
@@ -43,10 +56,12 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 			model.renderPart("top2");
 			model.renderPart("bottom1");
 			model.renderPart("bottom2");
-		}
-		else {
+		} else {
 			model.renderAll();
 		}
+		GL11.glPopMatrix();
+
+//		track.track_type.unRotate(track);
 	}
 	
 	@Override

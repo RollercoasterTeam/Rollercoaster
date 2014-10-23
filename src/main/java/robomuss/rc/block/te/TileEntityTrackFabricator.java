@@ -105,7 +105,7 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 		}
 		compound.setTag("Items", nbttaglist);
 		
-		compound.setInteger("direction", direction.ordinal());
+		compound.setString("direction", direction.name());
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 			}
 		}
 		
-		direction = ForgeDirection.getOrientation(compound.getInteger("direction"));
+		direction = ForgeDirection.valueOf(compound.getString("direction"));
 	}
 
 	@Override

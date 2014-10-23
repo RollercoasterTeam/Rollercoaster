@@ -17,11 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
-import robomuss.rc.network.packets.PacketChangePaintColour;
-import robomuss.rc.network.packets.PacketKillAll;
-import robomuss.rc.network.packets.PacketTrackDesignerButtonClick;
-import robomuss.rc.network.packets.PacketTrackDesignerStartPoint;
-import robomuss.rc.network.packets.PacketTrackFabricatorUpdate;
+import robomuss.rc.network.packets.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -121,7 +117,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     }
 
     // Method to call from FMLInitializationEvent
-    public void initalise() {
+    public void initalize() {
         this.channels = NetworkRegistry.INSTANCE.newChannel("rc", this);
         registerPackets();
     }
@@ -132,6 +128,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
         registerPacket(PacketTrackDesignerButtonClick.class);
         registerPacket(PacketChangePaintColour.class);
         registerPacket(PacketKillAll.class);
+//	    registerPacket(PacketRotateTrack.class);
     }
 
     // Method to call from FMLPostInitializationEvent

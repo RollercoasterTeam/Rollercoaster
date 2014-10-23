@@ -2,7 +2,9 @@ package robomuss.rc.item;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,14 +12,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import robomuss.rc.block.BlockTrack;
-import robomuss.rc.block.te.TileEntityConveyor;
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrack;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.RCMod;
+//import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.te.*;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPieceSlopeUp;
 import robomuss.rc.util.hammer.HammerMode;
 import cpw.mods.fml.relauncher.Side;
@@ -29,6 +30,19 @@ public class ItemHammer extends Item {
 		new HammerMode("Rotate") {
 			@Override
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
+				if (tileentity instanceof TileEntityTrackBase) {
+					TileEntityTrackBase teTrack = (TileEntityTrackBase) tileentity;
+					if (teTrack != null) {
+						if (TrackManager.getTrackAtCoords(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) != null) {
+							BlockTrackBase track = TrackManager.getTrackAtCoords(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+							if (track.direction != null) {
+								if (track.direction == ForgeDirection.WEST) { //debug method...
+									Minecraft.getMinecraft().thePlayer.getEntityWorld().setBlock(track.position.chunkPosX + ForgeDirection.WEST.offsetX, track.position.chunkPosY + ForgeDirection.WEST.offsetY, track.position.chunkPosZ + ForgeDirection.WEST.offsetZ, Blocks.stone);
+								}
+							}
+						}
+					}
+				}
 //				if(tileentity instanceof TileEntityTrack) {
 //					TileEntityTrack teTrack = (TileEntityTrack) tileentity;
 //					if (teTrack.track instanceof BlockTrack) {

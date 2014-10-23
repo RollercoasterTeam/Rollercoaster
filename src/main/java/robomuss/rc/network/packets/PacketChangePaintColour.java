@@ -9,8 +9,7 @@ import robomuss.rc.network.AbstractPacket;
 
 public class PacketChangePaintColour extends AbstractPacket {
 
-    public PacketChangePaintColour() {
-    }
+    public PacketChangePaintColour() {}
 
     private int meta;
 

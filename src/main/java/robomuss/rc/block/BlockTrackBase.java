@@ -3,6 +3,7 @@ package robomuss.rc.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,28 +14,35 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackBase;
+import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.track.piece.*;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IPaintable;
 
-public class BlockTrackBase extends BlockContainer implements IPaintable, IRotatable {
+public class BlockTrackBase extends BlockContainer implements IPaintable {
 	public TrackPiece track_type;
 	public TrackStyle style;
 	public TrackExtra extra;
 	public ForgeDirection direction;
 	public int colour;
+	public int meta;
 	public boolean converted;
 	public boolean dummy;
 	public boolean isBig;
+	public boolean canRotate = true;
 	public ChunkPosition position;
+//	public GuiHammerOverlay hammerOverlay;
 
 	public BlockTrackBase(TrackPiece track_type) {
 		super(Material.iron);
@@ -42,6 +50,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable, IRotat
 		setResistance(3F);
 
 		this.track_type = track_type;
+//		hammerOverlay = new GuiHammerOverlay(Minecraft.getMinecraft());
 	}
 
 	@Override
@@ -52,8 +61,10 @@ public class BlockTrackBase extends BlockContainer implements IPaintable, IRotat
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
+
 //		System.out.println("Track TE created.");
-		return new TileEntityTrackBase(this);
+		return new TileEntityTrackBase(world, meta, this);
+//		return new TileEntityTrackBase(new BlockTrackBase(this.track_type));
 	}
 
 	@Override
@@ -101,40 +112,48 @@ public class BlockTrackBase extends BlockContainer implements IPaintable, IRotat
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
+//		super.onBlockPlacedBy(world, x, y, z, player, item);
+//		this.track_type.block = this;
+
 		if (!world.isRemote) {
-			this.position = new ChunkPosition(x, y, z);
-			style = TrackHandler.findTrackStyle("corkscrew");
-			switch (MathHelper.floor_double((player.rotationYaw * 4.0f / 360.0f) * 0.5D) & 3) {
-				case 0:	 direction = ForgeDirection.SOUTH; break;
-				case 1:	 direction = ForgeDirection.WEST;  break;
-				case 2:  direction = ForgeDirection.NORTH; break;
-				case 3:  direction = ForgeDirection.EAST;  break;
-				default: direction = ForgeDirection.SOUTH;
-			}
-			onBlockAdded(world, x, y, z);
+//			this.position = new ChunkPosition(x, y, z);
+//			style = TrackHandler.findTrackStyle("corkscrew");
+//			direction = TrackManager.getDirectionFromPlayerFacing(player) != null ? TrackManager.getDirectionFromPlayerFacing(player) : ForgeDirection.SOUTH;
+//			world.setBlockMetadataWithNotify(x, y, z, TrackManager.getPlayerFacing(player) - 2, 2);
+//			System.out.println(world.getBlockMetadata(x, y, z) + 2);
+//			onBlockAdded(world, x, y, z);
 		}
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		if (!world.isRemote) {
-			switch (RCMod.trackManager.getTrackType(this)) {
-				case 2:
-					//place track as dummy
-					break;
-				case 3:
-					//place track as dummy
-					break;
-				case 4:
-					//place track as dummy
-					break;
-				default:
-					//other things
-					break;
-			}
-			updateRotation(world, x, y, z);
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
+//		super.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, meta);
+//		if (!world.isRemote) {
+//			this.track_type.block = this;
+//			this.position = new ChunkPosition(x, y, z);
+//			style = TrackHandler.findTrackStyle("corkscrew");
+////			direction = TrackManager.getDirectionFromPlayerFacing(Minecraft.getMinecraft().thePlayer);
+//			direction = ForgeDirection.getOrientation(meta);
+//		}
+		this.style = TrackHandler.findTrackStyle("corkscrew");
+		this.position = new ChunkPosition(x, y, z);
+//		this.direction = ForgeDirection.getOrientation(meta + 2);
+		meta = MathHelper.floor_double((double)(Minecraft.getMinecraft().thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		switch (meta) {
+			case 0: direction = ForgeDirection.SOUTH; break;
+			case 1: direction = ForgeDirection.WEST;  break;
+			case 2: direction = ForgeDirection.NORTH; break;
+			case 3: direction = ForgeDirection.EAST;  break;
 		}
+		System.out.println(meta);
+		return meta;
+		world.spawnEntityInWorld()
 	}
+
+//	@Override
+//	public void onBlockAdded(World world, int x, int y, int z) {
+//		super.onBlockAdded(world, x, y, z);
+//	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
@@ -186,15 +205,15 @@ public class BlockTrackBase extends BlockContainer implements IPaintable, IRotat
 		return isBig;
 	}
 
-	public boolean canRotate(World world, BlockTrackBase track) {
+	public boolean canRotate(World world, BlockTrackBase track, boolean rotateClockwise) {
 		if (!world.isRemote) {
 
 		}
 		return false;
 	}
 
-	public void rotate(World world, BlockTrackBase track) {
-		if (canRotate(world, track)) {
+	public void rotate(World world, BlockTrackBase track, boolean rotateClockwise) {
+		if (canRotate(world, track, rotateClockwise)) {
 
 		}
 	}
@@ -205,18 +224,11 @@ public class BlockTrackBase extends BlockContainer implements IPaintable, IRotat
 		}
 	}
 
-	@Override
-	public boolean canRotate(World world, BlockTrack2 track) {
-		return false;
-	}
-
-	@Override
 	public void setDirection(ForgeDirection direction) {
-
+		this.direction = direction != null ? direction : ForgeDirection.SOUTH;
 	}
 
-	@Override
 	public ForgeDirection getDirection() {
-		return null;
+		return this.direction;
 	}
 }

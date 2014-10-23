@@ -10,10 +10,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.BlockSupport;
-import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.model.ModelFooter;
 import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
@@ -38,9 +38,9 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         TileEntity south = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord - 1);
         TileEntity west = te.getWorldObj().getTileEntity(te.xCoord - 1, te.yCoord + 1, te.zCoord);
     	
-        if(north instanceof TileEntityTrack) {
-        	TileEntityTrack track = (TileEntityTrack) north;
-        	BlockTrack block = (BlockTrack) track.getBlockType();
+        if(north instanceof TileEntityTrackBase) {
+	        TileEntityTrackBase track = (TileEntityTrackBase) north;
+	        BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
         		if(block.direction == ForgeDirection.NORTH) {
 					connectNorth = true;
@@ -48,9 +48,9 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	}
         }
         
-        if(east instanceof TileEntityTrack) {
-        	TileEntityTrack track = (TileEntityTrack) east;
-        	BlockTrack block = (BlockTrack) track.getBlockType();
+        if(east instanceof TileEntityTrackBase) {
+	        TileEntityTrackBase track = (TileEntityTrackBase) east;
+	        BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
         		if(block.direction == ForgeDirection.WEST) {
         			connectEast = true;
@@ -58,9 +58,9 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	}
         }
         
-    	if(south instanceof TileEntityTrack) {
-        	TileEntityTrack track = (TileEntityTrack) south;
-        	BlockTrack block = (BlockTrack) track.getBlockType();
+    	if(south instanceof TileEntityTrackBase) {
+		    TileEntityTrackBase track = (TileEntityTrackBase) south;
+		    BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
         		if(block.direction == ForgeDirection.SOUTH) {
         			connectSouth = true;
@@ -68,9 +68,9 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	}
         }
     	
-    	if(west instanceof TileEntityTrack) {
-        	TileEntityTrack track = (TileEntityTrack) west;
-        	BlockTrack block = (BlockTrack) track.getBlockType();
+    	if(west instanceof TileEntityTrackBase) {
+		    TileEntityTrackBase track = (TileEntityTrackBase) west;
+		    BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
         		if(block.direction == ForgeDirection.EAST) {
         			connectWest = true;
@@ -101,8 +101,8 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	 this.model.flange2.render(0.0625F);  
         }
         
-        if(above instanceof BlockTrack) {
-        	BlockTrack track = (BlockTrack) above;
+        if(above instanceof BlockTrackBase) {
+	        BlockTrackBase track = (BlockTrackBase) above;
         	if(track.track_type == TrackHandler.findTrackType("horizontal") || track.track_type == TrackHandler.findTrackType("curve")) {
         		 this.model.middle.render(0.0625F);  
             	 this.model.middle2.render(0.0625F);  
@@ -130,16 +130,16 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         GL11.glRotatef(180, 1, 0, 0);
         int connector_colour = 0;
         if(connectNorth) {
-        	connector_colour = ((TileEntityTrack) north).track.colour;
+        	connector_colour = ((TileEntityTrackBase) north).track.colour;
         }
         else if(connectEast) {
-        	connector_colour = ((TileEntityTrack) east).track.colour;
+        	connector_colour = ((TileEntityTrackBase) east).track.colour;
         }
         else if(connectSouth) {
-        	connector_colour = ((TileEntityTrack) south).track.colour;
+        	connector_colour = ((TileEntityTrackBase) south).track.colour;
         }
         else if(connectWest) {
-        	connector_colour = ((TileEntityTrack) west).track.colour;
+        	connector_colour = ((TileEntityTrackBase) west).track.colour;
         }
         ResourceLocation connector_texture = (new ResourceLocation("rc:textures/models/colour_" + connector_colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(connector_texture);

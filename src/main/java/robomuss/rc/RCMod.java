@@ -111,7 +111,7 @@ public class RCMod {
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
 		FMLCommonHandler.instance().bus().register(new ChatHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
-        packetPipeline.initalise();
+        packetPipeline.initalize();
         proxy.initRenderers();
 		proxy.initNetwork();
 	}
