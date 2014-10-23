@@ -147,7 +147,6 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 		}
 		System.out.println(meta);
 		return meta;
-		world.spawnEntityInWorld()
 	}
 
 //	@Override
