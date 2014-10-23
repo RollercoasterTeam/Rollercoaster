@@ -34,7 +34,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	public TrackPiece track_type;
 	public TrackStyle style;
 	public TrackExtra extra;
-	public ForgeDirection direction;
+
 	public int colour;
 	public int meta;
 	public boolean converted;
@@ -139,12 +139,17 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 		this.position = new ChunkPosition(x, y, z);
 //		this.direction = ForgeDirection.getOrientation(meta + 2);
 		meta = MathHelper.floor_double((double)(Minecraft.getMinecraft().thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		switch (meta) {
-			case 0: direction = ForgeDirection.SOUTH; break;
-			case 1: direction = ForgeDirection.WEST;  break;
-			case 2: direction = ForgeDirection.NORTH; break;
-			case 3: direction = ForgeDirection.EAST;  break;
-		}
+        TileEntity entity = world.getTileEntity(x, y, z);
+        if(entity instanceof TileEntityTrackBase){
+            TileEntityTrackBase entityTrackBase = (TileEntityTrackBase) entity;
+            switch (meta) {
+                case 0: entityTrackBase.direction = ForgeDirection.SOUTH; break;
+                case 1: entityTrackBase.direction = ForgeDirection.WEST;  break;
+                case 2: entityTrackBase.direction = ForgeDirection.NORTH; break;
+                case 3: entityTrackBase.direction = ForgeDirection.EAST;  break;
+            }
+        }
+
 		System.out.println(meta);
 		return meta;
 	}
@@ -223,11 +228,11 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 		}
 	}
 
-	public void setDirection(ForgeDirection direction) {
-		this.direction = direction != null ? direction : ForgeDirection.SOUTH;
+	public void setDirection(ForgeDirection direction, TileEntityTrackBase tileEntityTrackBase) {
+		tileEntityTrackBase.direction = direction != null ? direction : ForgeDirection.SOUTH;
 	}
 
-	public ForgeDirection getDirection() {
-		return this.direction;
+	public ForgeDirection getDirection(TileEntityTrackBase tileEntityTrackBase) {
+		return tileEntityTrackBase.direction;
 	}
 }

@@ -39,7 +39,7 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         	TileEntityTrackBase track = (TileEntityTrackBase) north;
 	        BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(block.direction == ForgeDirection.NORTH) {
+        		if(track.direction == ForgeDirection.NORTH) {
         			connectNorth = true;
         		}
         	}
@@ -49,7 +49,7 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 	        TileEntityTrackBase track = (TileEntityTrackBase) east;
 	        BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(block.direction == ForgeDirection.WEST) {
+        		if(track.direction == ForgeDirection.WEST) {
         			connectEast = true;
         		}
         	}
@@ -59,7 +59,7 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 		    TileEntityTrackBase track = (TileEntityTrackBase) south;
 		    BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(block.direction == ForgeDirection.SOUTH) {
+        		if(track.direction == ForgeDirection.SOUTH) {
         			connectSouth = true;
         		}
         	}
@@ -69,7 +69,7 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 		    TileEntityTrackBase track = (TileEntityTrackBase) west;
 		    BlockTrackBase block = (BlockTrackBase) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(block.direction == ForgeDirection.EAST) {
+        		if(track.direction == ForgeDirection.EAST) {
         			connectWest = true;
         		}
         	}

@@ -13,6 +13,7 @@ import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.RCBlocks;
 //import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 
@@ -50,7 +51,7 @@ public class TrackPiece {
 //		}
 	}
 
-	public void render(TrackStyle style, BlockTrackBase track) {
+	public void render(TrackStyle style, BlockTrackBase track, World world, int x , int y , int z) {
 		
 	}
 	
@@ -58,13 +59,16 @@ public class TrackPiece {
 		return RCMod.trackManager.isTrack(block) ? (BlockTrackBase) block :  null;
 	}
 	
-	public void rotate(BlockTrackBase track) {
-		if (track != null && track.direction == null) {
-			track.direction = ForgeDirection.SOUTH;
+	public void rotate(BlockTrackBase track, World world, int x, int y, int z) {
+        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
+
+
+		if (tileEntity != null && track != null && tileEntity.direction == null) {
+            tileEntity.direction = ForgeDirection.SOUTH;
 		}
 
-		if (track != null && track.direction != null) {
-			switch (track.direction) {
+		if (tileEntity != null && track != null && tileEntity.direction != null) {
+			switch (tileEntity.direction) {
 				case NORTH:         //NORTH
 					GL11.glRotatef(180f, 180f, 0f, 180f);
 					break;
@@ -96,13 +100,15 @@ public class TrackPiece {
 		}
 	}
 
-	public void unRotate(BlockTrackBase track) {
-		if (track != null && track.direction == null) {
-			track.direction = ForgeDirection.SOUTH;
+	public void unRotate(BlockTrackBase track, World world, int x, int y, int z) {
+        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
+
+		if (track != null && tileEntity.direction == null) {
+            tileEntity.direction = ForgeDirection.SOUTH;
 		}
 
-		if (track != null && track.direction != null) {
-			switch (track.direction) {
+		if (track != null && tileEntity.direction != null) {
+			switch (tileEntity.direction) {
 				case NORTH:
 					GL11.glRotatef(180f, -180f, 0f, -180f);
 					break;
@@ -119,31 +125,31 @@ public class TrackPiece {
 		}
 	}
 
-	public float getX(double x, BlockTrackBase track) {
+	public float getX(double x, BlockTrackBase track, World world, int lx , int ly , int l) {
 		return (float) (x + 0.5F);
 	}
 
-	public float getY(double y, BlockTrackBase track) {
+	public float getY(double y, BlockTrackBase track, World world, int lx , int ly , int l) {
 		return (float) (y + 1.5F);
 	}
 
-	public float getZ(double z, BlockTrackBase track) {
+	public float getZ(double z, BlockTrackBase track, World world, int lx , int ly , int l) {
 		return (float) (z + 0.5F);
 	}
 
-	public void renderSpecial(int renderStage, TrackStyle type, BlockTrackBase track) {
+	public void renderSpecial(int renderStage, TrackStyle type, BlockTrackBase track, World world, int x , int y , int z) {
 		
 	}
 
-	public float getSpecialX(int renderStage, double x, BlockTrackBase track) {
+	public float getSpecialX(int renderStage, double x, BlockTrackBase track, World world, int lx , int ly , int lz) {
 		return (float) (x + 0.5F);
 	}
 
-	public float getSpecialY(int renderStage, double y, BlockTrackBase track) {
+	public float getSpecialY(int renderStage, double y, BlockTrackBase track, World world, int lx , int ly , int lz) {
 		return (float) (y + 1.5F);
 	}
 
-	public float getSpecialZ(int renderStage, double z, BlockTrackBase track) {
+	public float getSpecialZ(int renderStage, double z, BlockTrackBase track, World world, int lx , int ly , int lz) {
 		return (float) (z + 0.5F);
 	}
 
@@ -155,7 +161,7 @@ public class TrackPiece {
 		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}
 
-    public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
+    public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
 
     }
     

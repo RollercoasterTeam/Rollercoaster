@@ -71,8 +71,8 @@ public class TrackExtra {
 		
 	}
 	
-	public static void rotate(BlockTrackBase track) {
-		switch(track.direction.ordinal() - 2){
+	public static void rotate(BlockTrackBase track, TileEntityTrackBase tileEntityTrackBase) {
+		switch(tileEntityTrackBase.direction.ordinal() - 2){
         case 1:
         		GL11.glRotatef(180f, -180f, 0f, 0f);
                 break;

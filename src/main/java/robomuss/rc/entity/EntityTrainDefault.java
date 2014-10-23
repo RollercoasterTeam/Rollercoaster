@@ -75,7 +75,7 @@ public class EntityTrainDefault extends EntityTrain {
 			    if (tileentity != null && tileentity instanceof TileEntityTrackBase) {
 				    BlockTrackBase blockTrack = ((TileEntityTrackBase) tileentity).track;
 				    if (blockTrack != null && blockTrack.track_type != null) {
-					    blockTrack.track_type.moveTrain(blockTrack, this);
+					    blockTrack.track_type.moveTrain(blockTrack, this, (TileEntityTrackBase) tileentity);
 				    }
 			    }
                       /*else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
@@ -87,7 +87,7 @@ public class EntityTrainDefault extends EntityTrain {
 					    BlockTrackBase track_direction_0 = ((TileEntityTrackBase) tileentity).track;
 					    if (track_direction_0 != null && track_direction_0.track_type != null) {
 						    if (track_direction_0.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_0.track_type.moveTrain(track_direction_0, this);
+							    track_direction_0.track_type.moveTrain(track_direction_0, this, (TileEntityTrackBase) tileentity);
 						    }
 					    }
 				    }
@@ -103,7 +103,7 @@ public class EntityTrainDefault extends EntityTrain {
 					    BlockTrackBase track_direction_1 = ((TileEntityTrackBase) te_direction_1).track;
 					    if (track_direction_1 != null && track_direction_1.track_type != null) {
 						    if (track_direction_1.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_1.track_type.moveTrain(track_direction_1, this);
+							    track_direction_1.track_type.moveTrain(track_direction_1, this, (TileEntityTrackBase) tileentity);
 						    }
 					    }
 				    }
@@ -119,7 +119,7 @@ public class EntityTrainDefault extends EntityTrain {
 					    BlockTrackBase track_direction_2 = ((TileEntityTrackBase) te_direction_2).track;
 					    if (track_direction_2 != null && track_direction_2.track_type != null) {
 						    if (track_direction_2.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_2.track_type.moveTrain(track_direction_2, this);
+							    track_direction_2.track_type.moveTrain(track_direction_2, this, (TileEntityTrackBase) tileentity);
 						    }
 					    }
 				    }
@@ -135,7 +135,7 @@ public class EntityTrainDefault extends EntityTrain {
 					    BlockTrackBase track_direction_3 = ((TileEntityTrackBase) te_direction_3).track;
 					    if (track_direction_3 != null && track_direction_3.track_type != null) {
 						    if (track_direction_3.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_3.track_type.moveTrain(track_direction_3, this);
+							    track_direction_3.track_type.moveTrain(track_direction_3, this, (TileEntityTrackBase) tileentity);
 						    }
 					    }
 				    }
@@ -181,17 +181,17 @@ public class EntityTrainDefault extends EntityTrain {
 		if (tileentity != null & tileentity instanceof TileEntityTrackBase) {
 			TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
 			if (getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
-				if (te.track.direction == ForgeDirection.NORTH) {
+				if (te.direction == ForgeDirection.NORTH) {
 					this.rotationYaw = 90f;
-				} else if (te.track.direction == ForgeDirection.SOUTH) {
+				} else if (te.direction == ForgeDirection.SOUTH) {
 					this.rotationYaw = 270f;
-				} else if (te.track.direction == ForgeDirection.WEST) {
+				} else if (te.direction == ForgeDirection.WEST) {
 					this.rotationYaw = 180f;
-				} else if (te.track.direction == ForgeDirection.EAST) {
+				} else if (te.direction == ForgeDirection.EAST) {
 					this.rotationYaw = 0f;              //90?
 				}
 
-				switch (te.track.direction) {
+				switch (te.direction) {
 					case NORTH:
 						this.direction = ForgeDirection.NORTH;
 						break;

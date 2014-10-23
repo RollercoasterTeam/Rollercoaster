@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.BlockTrackBase;
 //import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
@@ -23,8 +24,8 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}
 
 	@Override
-	public void render(TrackStyle style, BlockTrackBase track) {
-		rotate(track);
+	public void render(TrackStyle style, BlockTrackBase track, World world, int x , int y , int z) {
+		rotate(track, world, x, y, z);
 
 		IModelCustom model = style.getLargeModel();
 		
@@ -33,7 +34,8 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}
 	
 	@Override
-	public float getX(double x, BlockTrackBase track) {
+	public float getX(double x, BlockTrackBase track, World world, int lx , int ly , int lz) {
+        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 //		if(te.direction == ForgeDirection.WEST) {
 //			return (float) (x - 0.5f);
 //		} else if(te.direction == ForgeDirection.EAST) {
@@ -41,7 +43,7 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 //		} else {
 //			return (float) x + 0.5f;
 //		}
-		switch (track.direction) {
+		switch (tileEntityTrackBase.direction) {
 			case WEST:  return (float) (x - 0.5F);
 			case EAST:  return (float) (x + 1.5F);
 			default:    return (float) (x + 0.5F);
@@ -49,12 +51,14 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}
 	
 	@Override
-	public float getY(double y, BlockTrackBase track) {
+	public float getY(double y, BlockTrackBase track, World world, int lx , int ly , int lz) {
+        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 		return (float) (y + 2f);
 	}
 	
 	@Override
-	public float getZ(double z, BlockTrackBase track) {
+	public float getZ(double z, BlockTrackBase track, World world, int lx , int ly , int lz) {
+        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 //		if(te.direction == ForgeDirection.SOUTH) {
 //			return (float) (z + 1.5f);
 //		} else if(te.direction == ForgeDirection.WEST) {
@@ -66,7 +70,7 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 //		} else {
 //			return (float) z;
 //		}
-		switch (track.direction) {
+		switch (tileEntityTrackBase.direction) {
 			case NORTH: return (float) (z + 1.5F);
 			case SOUTH: return (float) (z + 0.5F);
 			case WEST:  return (float) (z - 0.5F);
@@ -99,13 +103,13 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}*/
 	
 	@Override
-	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
 
-		switch (track.direction) {
+		switch (tileEntityTrackBase.direction) {
 			case NORTH:
 				switch (entity.direction) {
 					case NORTH:

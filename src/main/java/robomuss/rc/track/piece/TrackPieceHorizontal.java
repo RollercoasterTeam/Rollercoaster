@@ -4,12 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.model.ModelRMCTopperCoaster;
 //import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -24,12 +26,13 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	}
 
 	@Override
-	public void render(TrackStyle type, BlockTrackBase track) {
-		if (track.direction != null) {
-			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(track.direction);
-		} else {
-			track.direction = ForgeDirection.SOUTH;
-			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(track.direction);
+	public void render(TrackStyle type, BlockTrackBase track, World world, int x ,int y, int z) {
+        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
+		if (tileEntity != null && tileEntity.direction != null) {
+			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(tileEntity.direction);
+		} else if (tileEntity != null) {
+            tileEntity.direction = ForgeDirection.SOUTH;
+			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(tileEntity.direction);
 		}
 
 
@@ -65,7 +68,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	}
 	
 	@Override
-	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
 //		if(track.direction == ForgeDirection.SOUTH || track.direction == ForgeDirection.NORTH) {
 //			if(entity.direction.ordinal() - 2 == 0) {
 //				entity.posZ += entity.speed;
@@ -82,7 +85,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 //				entity.posX -= entity.speed;
 //			}
 //		}
-		switch (track.direction) {
+		switch (tileEntityTrackBase.direction) {
 			case NORTH:
 			case SOUTH:
 				switch (entity.direction) {

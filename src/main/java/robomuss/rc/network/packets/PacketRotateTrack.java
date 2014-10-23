@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackManager;
 
@@ -58,8 +59,9 @@ public class PacketRotateTrack extends AbstractPacket {
 	@Override
 	public void handleServerSide(EntityPlayer player) {
 		BlockTrackBase track = TrackManager.getTrackAtCoords(trackX, trackY, trackZ);
+        TileEntityTrackBase tile = TrackManager.getTrackTileAtCoords(trackX, trackY, trackZ);
 		if (this.settingDirection) {
-			track.setDirection(this.direction);
+			track.setDirection(this.direction, tile);
 		} else if (!this.settingDirection && this.rotateClockwise) {
 			track.rotate(player.getEntityWorld(), track, rotateClockwise);
 		}

@@ -29,6 +29,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	private int textY = 110;
 	private ChunkPosition blockPos;
 	private BlockTrackBase track;
+    private TileEntityTrackBase tile;
 	
 	public GuiHammerOverlay(Minecraft minecraft) {
 		super(minecraft);
@@ -54,6 +55,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 			if (TrackManager.isBlockAtCoordsTrack(blockPos)) {
 //			if (minecraft.theWorld.getBlock(blockPos.chunkPosX, blockPos.chunkPosY, blockPos.chunkPosZ) instanceof BlockTrackBase) {
 				this.track = TrackManager.getTrackAtCoords(blockPos);
+                this.tile = TrackManager.getTrackTileAtCoords(blockPos);
 //				BlockTrackBase track = (BlockTrackBase) minecraft.theWorld.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 
 				if (track.style == null) {
@@ -66,7 +68,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 
 				textList.add("Track Type: " + track.track_type.unlocalized_name);
 				textList.add("Track Style: " + track.style.name);
-				textList.add("Direction: " + track.direction.toString());
+				textList.add("Direction: " + tile.direction.toString());
 				textList.add(String.format("Coords: %d %d %d", blockPos.chunkPosX, blockPos.chunkPosY, blockPos.chunkPosZ));
 
 				if (event.isCancelable() || event.type != RenderGameOverlayEvent.ElementType.ALL) {

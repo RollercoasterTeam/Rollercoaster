@@ -53,9 +53,16 @@ public class TrackManager {
 		return isBlockAtCoordsTrack(x, y, z) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(x, y, z) : null;
 	}
 
+    public static final TileEntityTrackBase getTrackTileAtCoords(int x, int y, int z) {
+        return isBlockAtCoordsTrack(x, y, z) ? (TileEntityTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(x, y, z) : null;
+    }
+
 	public static final BlockTrackBase getTrackAtCoords(ChunkPosition position) {
 		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
 	}
+    public static final TileEntityTrackBase getTrackTileAtCoords(ChunkPosition position) {
+        return isBlockAtCoordsTrack(position) ? (TileEntityTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
+    }
 
 	public static final boolean isSloped(int track_type) {
 		if (track_type == 2 || track_type == 3 || track_type == 4) {
@@ -254,6 +261,10 @@ public class TrackManager {
 		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
 	}
 
+    private TileEntityTrackBase getTileFromChunkPosition(ChunkPosition position) {
+        return isBlockAtCoordsTrack(position) ? (TileEntityTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
+    }
+
 	private boolean isTrackInNeighborList(BlockTrackBase track) {
 		for (int i = 0; i < this.neighbors.size(); i++) {
 			ChunkPosition position = (ChunkPosition) this.neighbors.get(i);
@@ -312,7 +323,7 @@ public class TrackManager {
 		}
 	}
 
-	private void setDirection(BlockTrackBase track) {
+	private void setDirection(BlockTrackBase track, TileEntityTrackBase tileEntityTrackBase) {
 //		this.neighbors.add(new ChunkPosition(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ));
 
 		boolean flagNorth = this.isTrackInNeighborList(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ - 1);        //NORTH
@@ -332,12 +343,12 @@ public class TrackManager {
 		System.out.println(posWest.toString());
 		System.out.println(posEast.toString());
 
-		switch (track.direction) {                                                                  //direction of rotating track
+		switch (tileEntityTrackBase.direction) {                                                                  //direction of rotating track
 			case NORTH:
 				switch (getTrackType(track)) {                                                      //type of rotating track
 					case 0:                                                                         //horizontal
 						if (flagNorth) {                                                            //has neighbor to the north
-							switch (getTrackFromChunkPosition(posNorth).direction) {                //direction of north neighbor
+							switch (getTileFromChunkPosition(posNorth).direction) {                //direction of north neighbor
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {    //type of north neighbor
 										case 0:
@@ -382,7 +393,7 @@ public class TrackManager {
 						}
 
 						if (flagSouth) {                                                            //has neighbor to south
-							switch (getTrackFromChunkPosition(posSouth).direction) {
+							switch (getTileFromChunkPosition(posSouth).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
 										case 0:
@@ -427,7 +438,7 @@ public class TrackManager {
 						}
 
 						if (flagWest) {                                                             //has neighbor to west
-							switch (getTrackFromChunkPosition(posWest).direction) {
+							switch (getTileFromChunkPosition(posWest).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
 										case 0:  byteDirection = 0; break;
@@ -472,7 +483,7 @@ public class TrackManager {
 						}
 
 						if (flagEast) {                                                             //has neighbor to the east
-							switch (getTrackFromChunkPosition(posEast).direction) {
+							switch (getTileFromChunkPosition(posEast).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
 										case 0:
@@ -517,7 +528,7 @@ public class TrackManager {
 						}
 					case 1:                                                                         //corner
 						if (flagNorth) {
-							switch (getTrackFromChunkPosition(posNorth).direction) {
+							switch (getTileFromChunkPosition(posNorth).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posNorth))) {
 										case 0:  byteDirection = 1; break;
@@ -562,7 +573,7 @@ public class TrackManager {
 						}
 
 						if (flagSouth) {
-							switch (getTrackFromChunkPosition(posSouth).direction) {
+							switch (getTileFromChunkPosition(posSouth).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posSouth))) {
 										case 0:
@@ -607,7 +618,7 @@ public class TrackManager {
 						}
 
 						if (flagWest) {
-							switch (getTrackFromChunkPosition(posWest).direction) {
+							switch (getTileFromChunkPosition(posWest).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posWest))) {
 										case 0:  byteDirection = 0; break;
@@ -652,7 +663,7 @@ public class TrackManager {
 						}
 
 						if (flagEast) {
-							switch (getTrackFromChunkPosition(posEast).direction) {
+							switch (getTileFromChunkPosition(posEast).direction) {
 								case NORTH:
 									switch (getTrackType(getTrackFromChunkPosition(posEast))) {
 										case 0:

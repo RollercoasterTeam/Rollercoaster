@@ -35,8 +35,8 @@ public class ItemHammer extends Item {
 					if (teTrack != null) {
 						if (TrackManager.getTrackAtCoords(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) != null) {
 							BlockTrackBase track = TrackManager.getTrackAtCoords(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-							if (track.direction != null) {
-								if (track.direction == ForgeDirection.WEST) { //debug method...
+							if (teTrack.direction != null) {
+								if (teTrack.direction == ForgeDirection.WEST) { //debug method...
 									Minecraft.getMinecraft().thePlayer.getEntityWorld().setBlock(track.position.chunkPosX + ForgeDirection.WEST.offsetX, track.position.chunkPosY + ForgeDirection.WEST.offsetY, track.position.chunkPosZ + ForgeDirection.WEST.offsetZ, Blocks.stone);
 								}
 							}

@@ -74,15 +74,15 @@ public class ItemRenderTrack implements IItemRenderer {
 			for(int i = 0; i < track_type.special_render_stages; i++) {
 				GL11.glPushMatrix();
 				if (track_type != null && track_type.block != null) {
-					((BlockTrackBase) track_type.block).direction = ForgeDirection.SOUTH;
-					GL11.glTranslatef(track_type.getSpecialX(i, inventoryX, (BlockTrackBase) track_type.block), track_type.getSpecialY(i, inventoryY, (BlockTrackBase) track_type.block), track_type.getSpecialZ(i, inventoryZ, (BlockTrackBase) track_type.block));
+					//((BlockTrackBase) track_type.block).direction = ForgeDirection.SOUTH;
+//					GL11.glTranslatef(track_type.getSpecialX(i, inventoryX, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0), track_type.getSpecialY(i, inventoryY, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0), track_type.getSpecialZ(i, inventoryZ, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0));
 				}
 				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
 				GL11.glPushMatrix();
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block);
+				track_type.renderSpecial(i, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -91,7 +91,7 @@ public class ItemRenderTrack implements IItemRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(inventoryX, inventoryY - 2, inventoryZ);
 			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
-			track_type.render(TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block);
+			track_type.render(TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 			GL11.glPopMatrix();
 		}
 	}

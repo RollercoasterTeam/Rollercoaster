@@ -21,8 +21,8 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	}
 	
 	@Override
-	public void renderSpecial(int special_render_stage, TrackStyle style, BlockTrackBase track) {
-		rotate(track);
+	public void renderSpecial(int special_render_stage, TrackStyle style, BlockTrackBase track, World world, int x , int y , int z) {
+		rotate(track, world, x, y, z);
 //		if(renderStage == 0) {
 //			IModelCustom model = type.getExtendedModel();
 //
@@ -48,7 +48,8 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	}
 	
 	@Override
-	public float getSpecialX(int renderStage, double x, BlockTrackBase track) {
+	public float getSpecialX(int renderStage, double x, BlockTrackBase track, World world, int lx , int ly , int lz) {
+        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 		if (renderStage == 0) {
 //			switch(te.direction.ordinal() - 2) {
 //				case 0 : return (float) (x + 0.5F);
@@ -56,7 +57,7 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 //				case 2 : return (float) (x + 0.5F);
 //				default: return (float) (x + 1.5F);
 //			}
-			switch(track.direction) {
+			switch(tileEntityTrackBase.direction) {
 				case NORTH: return (float) (x + 0.5F);
 				case SOUTH: return (float) (x + 0.5F);
 				case WEST:  return (float) (x - 0.5F);
@@ -69,37 +70,38 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 //				case 3 : return (float) (x + 2.5F);
 //				default : return super.getSpecialX(renderStage, x, te);
 //			}
-			switch (track.direction) {
+			switch (tileEntityTrackBase.direction) {
 				case WEST:  return (float) (x - 1.5F);
 				case EAST:  return (float) (x + 2.5F);
-				default:    return super.getSpecialX(renderStage, x, track);
+				default:    return super.getSpecialX(renderStage, x, track, world, lx, ly, lz);
 			}
 		} else {
-			return super.getSpecialX(renderStage, x, track);
+			return super.getSpecialX(renderStage, x, track, world, lx, ly, lz);
 		}
 	}
 	
 	@Override
-	public float getSpecialY(int renderStage, double y, BlockTrackBase track) {
+	public float getSpecialY(int renderStage, double y, BlockTrackBase track, World world, int lx , int ly , int lz) {
 		if(renderStage == 1) {
 			return (float) (y + 2.5F);
 		} else {
-			return super.getSpecialY(renderStage, y + 0.5f, track);
+			return super.getSpecialY(renderStage, y + 0.5f, track, world, lx, ly, lz);
 		}
 	}
 	
 	@Override
-	public float getSpecialZ(int renderStage, double z, BlockTrackBase track) {
+	public float getSpecialZ(int renderStage, double z, BlockTrackBase track, World world, int lx , int ly , int lz) {
+        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 		if(renderStage == 1) {
 //			switch(te.direction.ordinal() - 2) {
 //				case 0 : return (float) (z + 2.5F);
 //				case 2 : return (float) (z - 1.5F);
 //				default : return super.getSpecialZ(renderStage, z, te);
 //			}
-			switch (track.direction) {
+			switch (tileEntityTrackBase.direction) {
 				case NORTH: return (float) (z + 1.5F);
 				case SOUTH: return (float) (z + 2.5F);
-				default:    return super.getSpecialZ(renderStage, z, track);
+				default:    return super.getSpecialZ(renderStage, z, track, world, lx, ly, lz);
 			}
 		} else {
 //			switch(te.direction.ordinal() - 2) {
@@ -108,7 +110,7 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 //				case 2 : return (float) (z - 0.5F);
 //				default: return (float) (z + 0.5F);
 //			}
-			switch (track.direction) {
+			switch (tileEntityTrackBase.direction) {
 				case NORTH: return (float) (z + 0.5F);
 				case SOUTH: return (float) (z + 1.5F);
 				case WEST:  return (float) (z - 0.5F);
@@ -124,13 +126,13 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	}
 	
 	@Override
-	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
 
-		switch (track.direction) {
+		switch (tileEntityTrackBase.direction) {
 			case NORTH:
 				switch (entity.direction) {
 					case NORTH:

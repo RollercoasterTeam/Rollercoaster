@@ -537,22 +537,22 @@ public abstract class EntityTrain extends Entity
             this.posY = (double)(y + 1);
         }
 
-        if (slopeFlag && track.direction == ForgeDirection.SOUTH)
+        if (slopeFlag && te.direction == ForgeDirection.SOUTH)
         {
                      this.motionX -= p_145821_6_;
         }
 
-        if (slopeFlag && track.direction == ForgeDirection.WEST)
+        if (slopeFlag && te.direction == ForgeDirection.WEST)
         {
             this.motionX += p_145821_6_;
         }
 
-        if (slopeFlag && track.direction == ForgeDirection.NORTH)
+        if (slopeFlag && te.direction == ForgeDirection.NORTH)
 	    {
 		    this.motionZ += p_145821_6_;
 	    }
 
-        if (slopeFlag && track.direction == ForgeDirection.EAST)
+        if (slopeFlag && te.direction == ForgeDirection.EAST)
         {
             this.motionZ -= p_145821_6_;
         }

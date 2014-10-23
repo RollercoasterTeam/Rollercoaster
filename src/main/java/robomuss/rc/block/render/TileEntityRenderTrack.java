@@ -54,13 +54,13 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 			if(type.special_render_stages == 0) {
 				GL11.glPushMatrix();
 				GL11.glDisable(GL11.GL_LIGHTING);
-				GL11.glTranslatef(type.getX(x, track), type.getY(y, track) - 1.5f, type.getZ(z, track));
+				GL11.glTranslatef(type.getX(x, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord), type.getY(y, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord) - 1.5f, type.getZ(z, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord));
 				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
 				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				type.render(style, track);
+				type.render(style, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -68,13 +68,13 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 			
 			for(int i = 0; i < type.special_render_stages; i++) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef(type.getSpecialX(i, x, track), type.getSpecialY(i, y, track) - 1.5f, type.getSpecialZ(i, z, track));
+				GL11.glTranslatef(type.getSpecialX(i, x, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord), type.getSpecialY(i, y, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord) - 1.5f, type.getSpecialZ(i, z, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord));
 				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
 				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				type.renderSpecial(i, style, track);
+				type.renderSpecial(i, style, track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -85,7 +85,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F,(float) z + 0.5F);
 				GL11.glPushMatrix();
-				type.rotate(track);
+				type.rotate(track, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 				track.extra.render(type);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -94,7 +94,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(track.extra.getSpecialX(i, x, track), track.extra.getSpecialY(i, y, track), track.extra.getSpecialZ(i, z, track));
 					GL11.glPushMatrix();
-					type.rotate(track);
+					type.rotate(track, teTrack.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 					track.extra.renderSpecial(i, type, track);
 					GL11.glPopMatrix();
 					GL11.glPopMatrix();

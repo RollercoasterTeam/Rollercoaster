@@ -27,6 +27,7 @@ public class TileEntityTrackBase extends TileEntity {
 
 	public BlockTrackBase track;
 	public int trackMeta;
+    public ForgeDirection direction;
 
 	public TileEntityTrackBase() {} //required to instantiate for network handler
 	public TileEntityTrackBase(World world, int trackMeta, BlockTrackBase track) {
@@ -38,8 +39,8 @@ public class TileEntityTrackBase extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		track.direction = ForgeDirection.valueOf(compound.getString("direction"));
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, track.direction.ordinal(), 2);
+		direction = ForgeDirection.valueOf(compound.getString("direction"));
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 2);
 		track.colour = compound.getInteger("colour");
 		track.converted = compound.getBoolean("converted");
 		for (int i = 0; i < TrackHandler.styles.size(); i++) {
@@ -64,14 +65,14 @@ public class TileEntityTrackBase extends TileEntity {
 //			track.converted = false;
 		}
 
-		if (track.direction == null) {
+		if (direction == null) {
 			System.out.println("track direction is null");
 //			track.direction = TrackManager.getDirectionFromPlayerFacing(Minecraft.getMinecraft().thePlayer);
 //			track.direction = ForgeDirection.getOrientation(worldObj.getBlockMetadata(track.position.chunkPosX, track.position.chunkPosY, track.position.chunkPosZ));
-			track.direction = ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
+			direction = ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
 		}
 
-		compound.setString("direction", track.direction.name());
+		compound.setString("direction", direction.name());
 		compound.setInteger("colour", track.colour);
 		compound.setString("styleName", track.style.getId());
 		compound.setBoolean("converted", track.converted);

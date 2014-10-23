@@ -2,10 +2,12 @@ package robomuss.rc.track.piece;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
 //import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -18,16 +20,16 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 	}
 	
 	@Override
-	public void render(TrackStyle type, BlockTrackBase track) {
-		rotate(track);
+	public void render(TrackStyle type, BlockTrackBase track, World world, int x , int y , int z) {
+		rotate(track, world, x, y, z);
 
 		IModelCustom model = type.getCornerModel();
 		model.renderAll();
 	}
 
 	@Override
-	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity) {
-		if(track.direction == ForgeDirection.SOUTH) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
+		if(tileEntityTrackBase.direction == ForgeDirection.SOUTH) {
 			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posX -= 1f;
 				entity.posZ += 0.5f;
@@ -41,7 +43,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = ForgeDirection.getOrientation(2 + 2);
 			}
 		}
-		if(track.direction == ForgeDirection.WEST) {
+		if(tileEntityTrackBase.direction == ForgeDirection.WEST) {
 			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posX += 1f;
 				entity.posZ += 0.5f;
@@ -55,7 +57,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = ForgeDirection.getOrientation(2 + 2);
 			}
 		}
-		if(track.direction == ForgeDirection.NORTH) {
+		if(tileEntityTrackBase.direction == ForgeDirection.NORTH) {
 			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posX += 1f;
 				entity.posZ -= 0.5f;
@@ -69,7 +71,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = ForgeDirection.getOrientation(0 + 2);
 			}
 		}
-		if(track.direction == ForgeDirection.EAST) {
+		if(tileEntityTrackBase.direction == ForgeDirection.EAST) {
 			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posX -= 1f;
 				entity.posZ -= 0.5f;
