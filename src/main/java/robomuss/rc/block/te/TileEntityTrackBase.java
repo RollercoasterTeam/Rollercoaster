@@ -27,7 +27,6 @@ public class TileEntityTrackBase extends TileEntity {
 
 	public BlockTrackBase track;
 	public int trackMeta;
-	public
 
 	public TileEntityTrackBase() {} //required to instantiate for network handler
 	public TileEntityTrackBase(World world, int trackMeta, BlockTrackBase track) {
