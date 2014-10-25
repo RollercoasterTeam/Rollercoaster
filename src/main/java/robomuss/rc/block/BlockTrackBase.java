@@ -17,6 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackBase;
+import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.ItemExtra;
@@ -63,7 +64,9 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	public TileEntity createNewTileEntity(World world, int meta) {
 
 //		System.out.println("Track TE created.");
-		return new TileEntityTrackBase(world, meta, this);
+		TileEntityTrackBase teTrack = new TileEntityTrackBase(world, meta, this);
+		this.track_type.addTileEntityToList(this.track_type, teTrack);
+		return teTrack;
 //		return new TileEntityTrackBase(new BlockTrackBase(this.track_type));
 	}
 
@@ -115,49 +118,94 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 //		super.onBlockPlacedBy(world, x, y, z, player, item);
 //		this.track_type.block = this;
 
-		if (!world.isRemote) {
-//			this.position = new ChunkPosition(x, y, z);
-//			style = TrackHandler.findTrackStyle("corkscrew");
-//			direction = TrackManager.getDirectionFromPlayerFacing(player) != null ? TrackManager.getDirectionFromPlayerFacing(player) : ForgeDirection.SOUTH;
-//			world.setBlockMetadataWithNotify(x, y, z, TrackManager.getPlayerFacing(player) - 2, 2);
-//			System.out.println(world.getBlockMetadata(x, y, z) + 2);
-//			onBlockAdded(world, x, y, z);
+		int meta = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		if (meta == 0) {
+			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		}
+
+		if (meta == 1) {
+			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		}
+
+		if (meta == 2) {
+			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		}
+
+		if (meta == 3) {
+			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
 		}
 	}
 
-	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
-//		super.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, meta);
-//		if (!world.isRemote) {
-//			this.track_type.block = this;
-//			this.position = new ChunkPosition(x, y, z);
-//			style = TrackHandler.findTrackStyle("corkscrew");
-////			direction = TrackManager.getDirectionFromPlayerFacing(Minecraft.getMinecraft().thePlayer);
-//			direction = ForgeDirection.getOrientation(meta);
-//		}
-		this.style = TrackHandler.findTrackStyle("corkscrew");
-		this.position = new ChunkPosition(x, y, z);
-//		this.direction = ForgeDirection.getOrientation(meta + 2);
-		meta = MathHelper.floor_double((double)(Minecraft.getMinecraft().thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        TileEntity entity = world.getTileEntity(x, y, z);
-        if(entity instanceof TileEntityTrackBase){
-            TileEntityTrackBase entityTrackBase = (TileEntityTrackBase) entity;
-            switch (meta) {
-                case 0: entityTrackBase.direction = ForgeDirection.SOUTH; break;
-                case 1: entityTrackBase.direction = ForgeDirection.WEST;  break;
-                case 2: entityTrackBase.direction = ForgeDirection.NORTH; break;
-                case 3: entityTrackBase.direction = ForgeDirection.EAST;  break;
-            }
-        }
-
-		System.out.println(meta);
-		return meta;
-	}
-
 //	@Override
-//	public void onBlockAdded(World world, int x, int y, int z) {
-//		super.onBlockAdded(world, x, y, z);
+//	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
+////		super.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, meta);
+////		if (!world.isRemote) {
+////			this.track_type.block = this;
+////			this.position = new ChunkPosition(x, y, z);
+////			style = TrackHandler.findTrackStyle("corkscrew");
+//////			direction = TrackManager.getDirectionFromPlayerFacing(Minecraft.getMinecraft().thePlayer);
+////			direction = ForgeDirection.getOrientation(meta);
+////		}
+//		this.style = TrackHandler.findTrackStyle("corkscrew");
+////		this.position = new ChunkPosition(x, y, z);
+////		this.direction = ForgeDirection.getOrientation(meta + 2);
+//		meta = (MathHelper.floor_double((double)(Minecraft.getMinecraft().thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2;
+////		meta = TrackManager.getPlayerFacing(Minecraft.getMinecraft().thePlayer) + 2;
+////		System.out.println(meta);
+////		ChatHandler.broadcastChatMessageToPlayers("Track Meta: " + meta);
+//
+//		TileEntityTrackBase teTrack = TrackManager.getTrackTileAtCoords(x, y, z);
+//
+//		switch (meta) {
+//			case 2: teTrack.direction = ForgeDirection.NORTH; break;
+//			case 3: teTrack.direction = ForgeDirection.SOUTH; break;
+//			case 4: teTrack.direction = ForgeDirection.WEST;  break;
+//			case 5: teTrack.direction = ForgeDirection.EAST;  break;
+//
+////                case 2: entityTrackBase.direction = ForgeDirection.SOUTH; break;
+////                case 3: entityTrackBase.direction = ForgeDirection.WEST;  break;
+////                case 4: entityTrackBase.direction = ForgeDirection.NORTH; break;
+////                case 5: entityTrackBase.direction = ForgeDirection.EAST;  break;
+//		}
+//
+//		world.setBlockMetadataWithNotify(x, y, z, teTrack.direction.ordinal(), 2);
+//
+////        TileEntity entity = world.getTileEntity(x, y, z);
+////        if(entity instanceof TileEntityTrackBase){
+////            TileEntityTrackBase entityTrackBase = (TileEntityTrackBase) entity;
+//////            System.out.println(meta);
+////	        switch (meta) {
+////	            case 2: entityTrackBase.direction = ForgeDirection.NORTH; break;
+////	            case 3: entityTrackBase.direction = ForgeDirection.SOUTH; break;
+////	            case 4: entityTrackBase.direction = ForgeDirection.WEST;  break;
+////	            case 5: entityTrackBase.direction = ForgeDirection.EAST;  break;
+////
+//////                case 2: entityTrackBase.direction = ForgeDirection.SOUTH; break;
+//////                case 3: entityTrackBase.direction = ForgeDirection.WEST;  break;
+//////                case 4: entityTrackBase.direction = ForgeDirection.NORTH; break;
+//////                case 5: entityTrackBase.direction = ForgeDirection.EAST;  break;
+////            }
+////
+////	        world.setBlockMetadataWithNotify(x, y, z, entityTrackBase.direction.ordinal(), 2);
+////        }
+//
+////		System.out.println(meta);
+//		return meta;
+////		return teTrack.direction.ordinal();
+//		return meta;
 //	}
+
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+//		int dir = world.getBlockMetadata(x, y, z);
+//
+//		switch (dir) {
+//			case 0: System.out.println(String.format("onBlockAdded: dir: %d", dir)); break;
+//			case 1: System.out.println(String.format("onBlockAdded: dir: %d", dir)); break;
+//			case 2: System.out.println(String.format("onBlockAdded: dir: %d", dir)); break;
+//			case 3: System.out.println(String.format("onBlockAdded: dir: %d", dir)); break;
+//		}
+	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {

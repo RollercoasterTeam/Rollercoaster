@@ -13,48 +13,55 @@ import robomuss.rc.block.model.ModelRMCTopperCoaster;
 //import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
+import sun.font.GlyphLayout;
 import sun.org.mozilla.javascript.internal.ast.Block;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrackPieceHorizontal extends TrackPiece implements IInventoryRenderSettings {
 	private float[] rotationOffsets = new float[] {180f, 0f, 0f, 0f};
+//	private List<TileEntityTrackBase> teList = new ArrayList<TileEntityTrackBase>();
 	public Block block;
 
 	public TrackPieceHorizontal(String unlocalized_name, int crafting_cost) {
 		super(unlocalized_name, crafting_cost);
 	}
 
+	public void addTileEntityToList(TileEntityTrackBase teTrack) {
+		if (teTrack != null) {
+			super.addTileEntityToList(this, teTrack);
+		}
+	}
+
 	@Override
-	public void render(TrackStyle type, BlockTrackBase track, World world, int x ,int y, int z) {
-        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
-		if (tileEntity != null && tileEntity.direction != null) {
-			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(tileEntity.direction);
-		} else if (tileEntity != null) {
-            tileEntity.direction = ForgeDirection.SOUTH;
-			rotationOffsets = track.track_type.getRotationOffsetsFromDirection(tileEntity.direction);
+	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x ,int y, int z) {
+		if (teTrack != null && teTrack.direction != null) {
+			rotationOffsets = this.getRotationOffsetsFromDirection(teTrack.direction);
+		} else if (teTrack != null && teTrack.direction == null) {
+			rotationOffsets = teTrack.track.track_type.getRotationOffsetsFromDirection(ForgeDirection.SOUTH);
+//			System.out.println("piece direction null");
 		}
 
-
-//		track.track_type.rotate(track);
-//		System.out.println(track.direction.toString());
-		
-		IModelCustom model = (IModelCustom) type.getStandardModel();
+		IModelCustom model = (IModelCustom) style.getStandardModel();
 
 		GL11.glPushMatrix();
 		GL11.glRotatef(rotationOffsets[0], rotationOffsets[1], rotationOffsets[2], rotationOffsets[3]);
-		if(type.name.equals("wooden_hybrid_topper")) {
-			ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + track.colour + ".png"));
+		if(style.name.equals("wooden_hybrid_topper")) {
+			ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + teTrack.track.colour + ".png"));
 
 			Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-			
+
 			model.renderPart("topper1");
 			model.renderPart("topper2");
-			
+
 			ResourceLocation textures2 = (new ResourceLocation("textures/blocks/planks_oak.png"));
 
 			Minecraft.getMinecraft().renderEngine.bindTexture(textures2);
-			
+
 			model.renderPart("top1");
 			model.renderPart("top2");
 			model.renderPart("bottom1");
@@ -68,7 +75,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	}
 	
 	@Override
-	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
 //		if(track.direction == ForgeDirection.SOUTH || track.direction == ForgeDirection.NORTH) {
 //			if(entity.direction.ordinal() - 2 == 0) {
 //				entity.posZ += entity.speed;
@@ -85,7 +92,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 //				entity.posX -= entity.speed;
 //			}
 //		}
-		switch (tileEntityTrackBase.direction) {
+		switch (teTrack.direction) {
 			case NORTH:
 			case SOUTH:
 				switch (entity.direction) {

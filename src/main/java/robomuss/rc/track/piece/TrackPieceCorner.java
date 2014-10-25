@@ -20,16 +20,16 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 	}
 	
 	@Override
-	public void render(TrackStyle type, BlockTrackBase track, World world, int x , int y , int z) {
-		rotate(track, world, x, y, z);
+	public void renderTileEntity(TrackStyle type, TileEntityTrackBase teTrack, World world, int x , int y , int z) {
+		rotate(teTrack, world, x, y, z);
 
 		IModelCustom model = type.getCornerModel();
 		model.renderAll();
 	}
 
 	@Override
-	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase tileEntityTrackBase) {
-		if(tileEntityTrackBase.direction == ForgeDirection.SOUTH) {
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
+		if(teTrack.direction == ForgeDirection.SOUTH) {
 			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posX -= 1f;
 				entity.posZ += 0.5f;
@@ -43,7 +43,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = ForgeDirection.getOrientation(2 + 2);
 			}
 		}
-		if(tileEntityTrackBase.direction == ForgeDirection.WEST) {
+		if(teTrack.direction == ForgeDirection.WEST) {
 			if(entity.direction.ordinal() - 2 == 0) {
 				entity.posX += 1f;
 				entity.posZ += 0.5f;
@@ -57,7 +57,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = ForgeDirection.getOrientation(2 + 2);
 			}
 		}
-		if(tileEntityTrackBase.direction == ForgeDirection.NORTH) {
+		if(teTrack.direction == ForgeDirection.NORTH) {
 			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posX += 1f;
 				entity.posZ -= 0.5f;
@@ -71,7 +71,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.direction = ForgeDirection.getOrientation(0 + 2);
 			}
 		}
-		if(tileEntityTrackBase.direction == ForgeDirection.EAST) {
+		if(teTrack.direction == ForgeDirection.EAST) {
 			if(entity.direction.ordinal() - 2 == 2) {
 				entity.posX -= 1f;
 				entity.posZ -= 0.5f;

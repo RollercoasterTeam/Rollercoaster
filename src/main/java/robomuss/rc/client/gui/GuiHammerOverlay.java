@@ -1,10 +1,11 @@
 package robomuss.rc.client.gui;
 
 //import robomuss.rc.block.te.TileEntityTrack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkPosition;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import robomuss.rc.RCMod;
+import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.event.RenderWorldLast;
@@ -12,13 +13,11 @@ import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import robomuss.rc.track.TrackManager;
 
-import javax.sound.midi.Track;
 import java.util.ArrayList;
 
 public class GuiHammerOverlay extends GuiIngameForge {
@@ -27,7 +26,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	private boolean showText = true;
 	private int textX = 10;
 	private int textY = 110;
-	private ChunkPosition blockPos;
+	private ChunkPosition trackPos;
 	private BlockTrackBase track;
     private TileEntityTrackBase tile;
 	
@@ -49,38 +48,46 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void eventHandler(RenderGameOverlayEvent.Text event) {
 		MovingObjectPosition viewEntityTrace = minecraft.thePlayer.rayTrace(20, 20);
-		this.blockPos = new ChunkPosition(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
-		if (blockPos != null) {
+		this.trackPos = new ChunkPosition(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
+		if (trackPos != null) {
 			clearTextList();
-			if (TrackManager.isBlockAtCoordsTrack(blockPos)) {
-//			if (minecraft.theWorld.getBlock(blockPos.chunkPosX, blockPos.chunkPosY, blockPos.chunkPosZ) instanceof BlockTrackBase) {
-				this.track = TrackManager.getTrackAtCoords(blockPos);
-                this.tile = TrackManager.getTrackTileAtCoords(blockPos);
+			if (TrackManager.isBlockAtCoordsTrack(trackPos)) {
+//			if (minecraft.theWorld.getBlock(trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ) instanceof BlockTrackBase) {
+				this.track = TrackManager.getTrackAtCoords(trackPos);
+                this.tile = TrackManager.getTrackTileAtCoords(trackPos);
 //				BlockTrackBase track = (BlockTrackBase) minecraft.theWorld.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 
-				if (track.style == null) {
-					track.style = TrackHandler.findTrackStyle("corkscrew");
+				if (tile.style == null) {
+					tile.style = TrackHandler.findTrackStyle("corkscrew");
 				}
 
 				if (track.track_type == null) {
 					track.track_type = TrackHandler.findTrackType("horizontal");
 				}
 
+//				if (tile.direction == null) {
+//					System.out.println("direction null");
+//					TrackManager.getTrackTileAtCoords(trackPos).readFromNBT(new NBTTagCompound());
+//				}
+
+				int meta = minecraft.theWorld.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord);
+
 				textList.add("Track Type: " + track.track_type.unlocalized_name);
-				textList.add("Track Style: " + track.style.name);
-				textList.add("Direction: " + tile.direction.toString());
-				textList.add(String.format("Coords: %d %d %d", blockPos.chunkPosX, blockPos.chunkPosY, blockPos.chunkPosZ));
+ 				textList.add("Track Style: " + tile.style.name);
+				textList.add("Track Direction: " + ForgeDirection.getOrientation(meta).name());
+				textList.add("Track Meta: " + meta);
+				textList.add(String.format("Player Facing: %s (%d)", TrackManager.getDirectionFromPlayerFacing(minecraft.thePlayer).name(), TrackManager.getPlayerFacing(minecraft.thePlayer)));
+				textList.add(String.format("Coords: %d %d %d", tile.xCoord, tile.yCoord, tile.zCoord));
 
 				if (event.isCancelable() || event.type != RenderGameOverlayEvent.ElementType.ALL) {
 //				if (event.isCancelable()) {
 					if (!minecraft.gameSettings.showDebugInfo && this.showText) {
-//						for (int i = 0; i < textList.size(); i++) {
-//							minecraft.fontRenderer.drawStringWithShadow(textList.get(i), textX, textY + (i * 10), 0xFFFFFF);
-//						}
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(0), textX, textY, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(1), textX, textY + 10, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(2), textX, textY + 20, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(3), textX, textY + 30, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(4), textX, textY + 40, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(5), textX, textY + 50, 0xFFFFFF);
 					}
 					return;
 				}
@@ -96,7 +103,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 		clearTextList();
 //		this.track = TrackManager.isTrack(TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ) ? TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ) : null;
 		if (TrackManager.isBlockAtCoordsTrack(event.target.blockX, event.target.blockY, event.target.blockZ)) {
-			this.track = TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ);
+//			this.track = TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ);
 		}
 		return;
 	}

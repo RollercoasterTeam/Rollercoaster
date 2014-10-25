@@ -2,12 +2,9 @@ package robomuss.rc.track;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
-import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
 import net.minecraft.block.Block;
@@ -34,6 +31,7 @@ import java.util.List;
  */
 public class TrackManager {
 	private List neighbors = new ArrayList();
+	private List<TileEntityTrackBase> teList = new ArrayList<TileEntityTrackBase>();
 
 	public TrackManager() {}
 
@@ -53,16 +51,21 @@ public class TrackManager {
 		return isBlockAtCoordsTrack(x, y, z) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(x, y, z) : null;
 	}
 
+	public static final BlockTrackBase getTrackAtCoords(ChunkPosition position) {
+		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
+	}
+
     public static final TileEntityTrackBase getTrackTileAtCoords(int x, int y, int z) {
         return isBlockAtCoordsTrack(x, y, z) ? (TileEntityTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(x, y, z) : null;
     }
 
-	public static final BlockTrackBase getTrackAtCoords(ChunkPosition position) {
-		return isBlockAtCoordsTrack(position) ? (BlockTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlock(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
-	}
     public static final TileEntityTrackBase getTrackTileAtCoords(ChunkPosition position) {
         return isBlockAtCoordsTrack(position) ? (TileEntityTrackBase) Minecraft.getMinecraft().thePlayer.getEntityWorld().getTileEntity(position.chunkPosX, position.chunkPosY, position.chunkPosZ) : null;
     }
+
+	public static final int getTrackMeta(int x, int y, int z) {
+		return Minecraft.getMinecraft().thePlayer.getEntityWorld().getBlockMetadata(x, y, z);
+	}
 
 	public static final boolean isSloped(int track_type) {
 		if (track_type == 2 || track_type == 3 || track_type == 4) {
@@ -112,11 +115,20 @@ public class TrackManager {
 		return null;
 	}
 
+	public static final TileEntityTrackBase getTileEntityFromType(TrackPiece type, int index) {
+		if (type != null) {
+			TileEntityTrackBase teTrack = type.getTileEntityFromList(index);
+			return teTrack;
+		}
+		return null;
+	}
+
 	public static final int getPlayerFacing(EntityLivingBase player) {
 		return MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 	}
 
 	public static final ForgeDirection getDirectionFromPlayerFacing(EntityLivingBase player) {
+//		System.out.println("player facing: " + getPlayerFacing(player));
 		switch (getPlayerFacing(player)) {
 			case 0: return ForgeDirection.SOUTH;
 			case 1: return ForgeDirection.WEST;

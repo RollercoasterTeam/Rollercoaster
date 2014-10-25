@@ -22,8 +22,8 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 
 	
 	@Override
-	public void renderSpecial(int renderStage, TrackStyle type, BlockTrackBase track, World world, int x , int y , int z) {
-		rotate(track, world, x, y, z);
+	public void renderSpecialTileEntity(int renderStage, TrackStyle type, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+		rotate(teTrack, world, x, y, z);
 		/*if(renderStage <= 9) {
 			GL11.glRotatef(-3f * renderStage, 0, 1, 0);
 		}
@@ -36,23 +36,21 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 	}
 	
 	@Override
-	public float getSpecialX(int renderStage, double x, BlockTrackBase track, World world, int lx , int ly , int lz) {
-        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-		if(tileEntityTrackBase.direction == ForgeDirection.WEST || tileEntityTrackBase.direction == ForgeDirection.EAST) {
+	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
+		if(teTrack.direction == ForgeDirection.WEST || teTrack.direction == ForgeDirection.EAST) {
 			return (float) (x + 0.5f + (renderStage * 0.5f));
-		}
-		else {
+		} else {
 			return (float) (x + 0.5f);
 		}
 	}
 	
 	@Override
-	public float getSpecialZ(int renderStage, double z, BlockTrackBase track, World world, int lx , int ly , int lz) {
-        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-		if(tileEntityTrackBase.direction == ForgeDirection.SOUTH || tileEntityTrackBase.direction == ForgeDirection.NORTH) {
+	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
+		if(teTrack.direction == ForgeDirection.SOUTH || teTrack.direction == ForgeDirection.NORTH) {
 			return (float) (z + 0.5f + (renderStage * 0.5f));
-		}
-		else {
+		} else {
 			return (float) (z + 0.5f);
 		}
 	}

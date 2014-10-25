@@ -19,8 +19,9 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 	}
 
 	@Override
-	public void renderSpecial(int renderStage, TrackStyle type, BlockTrackBase track, World world, int x , int y , int z) {
-		rotate(track, world, x, y, z);
+	public void renderSpecialTileEntity(int renderStage, TrackStyle type, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+		rotate(teTrack, world, x, y, z);
+
 		if(renderStage == 0) {
 			//GL11.glTranslatef((float) te.xCoord + 0.5F, (float) te.yCoord + 1.5F, (float) te.zCoord + 0.5F);
 			GL11.glRotatef(10f, 0f, 0f, -1f);
@@ -53,13 +54,13 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 
 	//TODO: double check this isn't broken
 	@Override
-	public float getSpecialX(int renderStage, double x, BlockTrackBase track, World world, int lx , int ly , int lz) {
-        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
+	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 		if(renderStage == 0) {
-			switch(tileEntityTrackBase.direction.ordinal() - 2) {
+			switch(teTrack.direction.ordinal() - 2) {
 				case 0 : return (float) (x + 1.5f);
 				case 2 : return (float) (x - 0.5f);
-				default: return super.getSpecialX(renderStage, x, track, world, lx, ly, lz);
+				default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 			}
 		}
 		else {
@@ -69,13 +70,13 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 
 	//TODO: double check this isn't broken
 	@Override
-	public float getSpecialZ(int renderStage, double z, BlockTrackBase track, World world, int lx , int ly , int lz) {
-        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
+	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
 		if(renderStage == 0) {
-			switch(tileEntityTrackBase.direction.ordinal() - 2) {
+			switch(teTrack.direction.ordinal() - 2) {
 				case 1 : return (float) (z + 1.5f);
 				case 3 : return (float) (z - 0.5f);
-				default: return super.getSpecialZ(renderStage, z, track, world, lx, ly, lz);
+				default: return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
 			}
 		}
 		else {

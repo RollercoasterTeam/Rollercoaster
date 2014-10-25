@@ -54,7 +54,6 @@ public class ItemRenderTrack implements IItemRenderer {
 		float inventoryZ = 0f;
 		
 		float inventoryScale = 1f;
-		
 		float inventoryRotation = 0f;
 		
 		if(track_type instanceof IInventoryRenderSettings) {
@@ -73,7 +72,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		if(track_type.special_render_stages != 0) {
 			for(int i = 0; i < track_type.special_render_stages; i++) {
 				GL11.glPushMatrix();
-				if (track_type != null && track_type.block != null) {
+				if (track_type.block != null) {
 					//((BlockTrackBase) track_type.block).direction = ForgeDirection.SOUTH;
 //					GL11.glTranslatef(track_type.getSpecialX(i, inventoryX, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0), track_type.getSpecialY(i, inventoryY, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0), track_type.getSpecialZ(i, inventoryZ, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0));
 				}
@@ -82,7 +81,7 @@ public class ItemRenderTrack implements IItemRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
+				track_type.renderSpecialItem(i, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
