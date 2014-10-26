@@ -49,6 +49,23 @@ public class EntityTrainDefault extends EntityTrain {
 	public boolean selfPowered = true;
 	public float speed = 0;
 	private TileEntity altTileEntity;
+	private Block blockUnder = worldObj.getBlock((int) posX - 1, (int) posY, (int) posZ);
+	private Block blockDir0  = worldObj.getBlock((int) posX - 1, (int) posY - 1, (int) posZ - 2);
+	private Block blockDir1  = worldObj.getBlock((int) posX + 1, (int) posY - 1, (int) posZ);
+	private Block blockDir2  = worldObj.getBlock((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+	private Block blockDir3  = worldObj.getBlock((int) posX - 3, (int) posY - 1, (int) posZ);
+
+	private BlockTrackBase track;
+	private BlockTrackBase trackDir0;
+	private BlockTrackBase trackDir1;
+	private BlockTrackBase trackDir2;
+	private BlockTrackBase trackDir3;
+
+	private TileEntityTrackBase teTrack;
+	private TileEntityTrackBase teDir0;
+	private TileEntityTrackBase teDir1;
+	private TileEntityTrackBase teDir2;
+	private TileEntityTrackBase teDir3;
 
 	//TODO: check that these values evaluate in the proper way!
     @Override
@@ -56,96 +73,103 @@ public class EntityTrainDefault extends EntityTrain {
         if (selfPowered) {
             speed = 0.1f;
         }
-        TileEntity tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
+
+	    if (TrackManager.isTrack(blockUnder)) {
+		    this.track = TrackManager.getTrackAtCoords((int) posX - 1, (int) posY, (int) posZ);
+		    this.teTrack = TrackManager.getTrackTileAtCoords((int) posX - 1, (int) posY, (int) posZ);
+	    }
+
+	    if (TrackManager.isTrack(blockDir0)) {
+		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX - 1, (int) posY - 1, (int) posZ - 2);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX - 1, (int) posY - 1, (int) posZ - 2);
+	    }
+
+	    if (TrackManager.isTrack(blockDir1)) {
+		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX + 1, (int) posY - 1, (int) posZ);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX + 1, (int) posY - 1, (int) posZ);
+	    }
+
+	    if (TrackManager.isTrack(blockDir2)) {
+		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+	    }
+
+	    if (TrackManager.isTrack(blockDir3)) {
+		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX - 3, (int) posY - 1, (int) posZ);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX - 3, (int) posY - 1, (int) posZ);
+	    }
 
         //altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
         if (!firstTick) {
             speed = 0.1f;
-            rotateOnPlace((getTrackTypeFromTE(tileentity).block));
+	        if (teTrack != null && teTrack.track != null) {
+		        rotateOnPlace(teTrack.track);
+	        } else if (track != null) {
+		        rotateOnPlace(track);
+	        } else {
+		        rotateOnPlace(worldObj.getBlock((int) posX - 1, (int) posY, (int) posZ));
+	        }
+
             firstTick = true;
             this.setPosition(this.posX, this.posY, this.posZ);
         }
+
 	    if (firstTick) {
-		    if (tileentity != null && tileentity instanceof TileEntityTrackBase) {
-			    TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
-			    if (te.track.extra != null) {
-				    te.track.extra.applyEffectToTrain(te.track, this);
-			    }
+		    if (teTrack != null && teTrack.extra != null) {
+			    if (teTrack.track != null) {
+				    teTrack.extra.applyEffectToTrain(teTrack.track, this);
+			    } else if (track != null) {
+				    teTrack.extra.applyEffectToTrain(track, this);
+				}
 		    }
-		    if (selfPowered || (!selfPowered && speed > 0)) {
-			    if (tileentity != null && tileentity instanceof TileEntityTrackBase) {
-				    BlockTrackBase blockTrack = ((TileEntityTrackBase) tileentity).track;
-				    if (blockTrack != null && blockTrack.track_type != null) {
-					    blockTrack.track_type.moveTrain(blockTrack, this, (TileEntityTrackBase) tileentity);
-				    }
-			    }
-                      /*else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
-					      getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
-				      }*/
-			    else {
-				    TileEntity te_direction_0 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
-				    if (te_direction_0 != null && te_direction_0 instanceof TileEntityTrackBase) {
-					    BlockTrackBase track_direction_0 = ((TileEntityTrackBase) tileentity).track;
-					    if (track_direction_0 != null && track_direction_0.track_type != null) {
-						    if (track_direction_0.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_0.track_type.moveTrain(track_direction_0, this, (TileEntityTrackBase) tileentity);
-						    }
-					    }
-				    }
-//				    TileEntity te_direction_0 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
-//				    if ((te_direction_0 != null && te_direction_0 instanceof TileEntityTrack)) {
-//					    if (((BlockTrack) te_direction_0.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
-//						    getTrackTypeFromTE(te_direction_0).moveTrain((TileEntityTrack) te_direction_0, this);
-//					    }
-//				    }
 
-				    TileEntity te_direction_1 = worldObj.getTileEntity((int) posX + 1, (int) posY - 1, (int) posZ);
-				    if (te_direction_1 != null && te_direction_1 instanceof TileEntityTrackBase) {
-					    BlockTrackBase track_direction_1 = ((TileEntityTrackBase) te_direction_1).track;
-					    if (track_direction_1 != null && track_direction_1.track_type != null) {
-						    if (track_direction_1.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_1.track_type.moveTrain(track_direction_1, this, (TileEntityTrackBase) tileentity);
+		    if (selfPowered || speed > 0) {
+			    if (teTrack != null) {
+				    if (teTrack.track != null && teTrack.track.track_type != null) {
+					    teTrack.track.track_type.moveTrain(teTrack.track, this, teTrack);
+				    } else if (track != null && track.track_type != null) {
+					    track.track_type.moveTrain(track, this, teTrack);
+				    }
+			    } else {
+				    if (teDir0 != null) {
+					    if (teDir0.track != null) {
+						    if (teDir0.track.track_type == TrackHandler.findTrackType("slope_down")) {
+							    teDir0.track.track_type.moveTrain(teDir0.track, this, teDir0);
 						    }
+					    } else if (trackDir0 != null && trackDir0.track_type == TrackHandler.findTrackType("slope_down")) {
+						    trackDir0.track_type.moveTrain(trackDir0, this, teDir0);
 					    }
 				    }
-//				    TileEntity te_direction_1 = worldObj.getTileEntity((int) posX + 1, (int) posY - 1, (int) posZ);
-//				    if ((te_direction_1 != null && te_direction_1 instanceof TileEntityTrack)) {
-//					    if (((BlockTrack) te_direction_1.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
-//						    getTrackTypeFromTE(te_direction_1).moveTrain((TileEntityTrack) te_direction_1, this);
-//					    }
-//				    }
 
-				    TileEntity te_direction_2 = worldObj.getTileEntity((int) posX + 1, (int) posY - 1, (int) posZ);
-				    if (te_direction_2 != null && te_direction_2 instanceof TileEntityTrackBase) {
-					    BlockTrackBase track_direction_2 = ((TileEntityTrackBase) te_direction_2).track;
-					    if (track_direction_2 != null && track_direction_2.track_type != null) {
-						    if (track_direction_2.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_2.track_type.moveTrain(track_direction_2, this, (TileEntityTrackBase) tileentity);
-						    }
-					    }
-				    }
-//				    TileEntity te_direction_2 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ + 2);
-//				    if ((te_direction_2 != null && te_direction_2 instanceof TileEntityTrack)) {
-//					    if (((BlockTrack) te_direction_2.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
-//						    getTrackTypeFromTE(te_direction_2).moveTrain((TileEntityTrack) te_direction_2, this);
-//					    }
-//				    }
+					if (teDir1 != null) {
+						if (teDir1.track != null) {
+							if (teDir1.track.track_type == TrackHandler.findTrackType("slope_down")) {
+								teDir1.track.track_type.moveTrain(teDir1.track, this, teDir1);
+							}
+						} else if (trackDir1 != null && trackDir1.track_type == TrackHandler.findTrackType("slope_down")) {
+							trackDir1.track_type.moveTrain(trackDir1, this, teDir1);
+						}
+					}
 
-				    TileEntity te_direction_3 = worldObj.getTileEntity((int) posX + 1, (int) posY - 1, (int) posZ);
-				    if (te_direction_3 != null && te_direction_3 instanceof TileEntityTrackBase) {
-					    BlockTrackBase track_direction_3 = ((TileEntityTrackBase) te_direction_3).track;
-					    if (track_direction_3 != null && track_direction_3.track_type != null) {
-						    if (track_direction_3.track_type == TrackHandler.findTrackType("slope_down")) {
-							    track_direction_3.track_type.moveTrain(track_direction_3, this, (TileEntityTrackBase) tileentity);
+				    if (teDir2 != null) {
+					    if (teDir2.track != null) {
+						    if (teDir2.track.track_type == TrackHandler.findTrackType("slope_down")) {
+							    teDir2.track.track_type.moveTrain(teDir2.track, this, teDir2);
 						    }
+					    } else if (trackDir2 != null && trackDir2.track_type == TrackHandler.findTrackType("slope_down")) {
+						    trackDir2.track_type.moveTrain(trackDir2, this, teDir2);
 					    }
 				    }
-//				    TileEntity te_direction_3 = worldObj.getTileEntity((int) posX - 3, (int) posY - 1, (int) posZ);
-//				    if ((te_direction_3 != null && te_direction_3 instanceof TileEntityTrack)) {
-//					    if (((BlockTrack) te_direction_3.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
-//						    getTrackTypeFromTE(te_direction_3).moveTrain((TileEntityTrack) te_direction_3, this);
-//					    }
-//				    }
+
+				    if (teDir3 != null) {
+					    if (teDir3.track != null) {
+						    if (teDir3.track.track_type == TrackHandler.findTrackType("slope_down")) {
+							    teDir3.track.track_type.moveTrain(teDir3.track, this, teDir3);
+						    }
+					    } else if (trackDir3 != null && trackDir3.track_type == TrackHandler.findTrackType("slope_down")) {
+						    trackDir3.track_type.moveTrain(trackDir3, this, teDir3);
+					    }
+				    }
 			    }
 
 			    speed -= 0.005f;
@@ -193,18 +217,10 @@ public class EntityTrainDefault extends EntityTrain {
 				}
 
 				switch (te.direction) {
-					case NORTH:
-						this.direction = ForgeDirection.NORTH;
-						break;
-					case SOUTH:
-						this.direction = ForgeDirection.SOUTH;
-						break;
-					case WEST:
-						this.direction = ForgeDirection.WEST;
-						break;
-					case EAST:
-						this.direction = ForgeDirection.EAST;
-						break;
+					case NORTH: this.direction = ForgeDirection.NORTH; break;
+					case SOUTH: this.direction = ForgeDirection.SOUTH; break;
+					case WEST:  this.direction = ForgeDirection.WEST;  break;
+					case EAST:  this.direction = ForgeDirection.EAST;  break;
 				}
 				//                this.direction = te.direction;
 				//	            this.direction = ForgeDirection.getOrientation(te.direction.ordinal()).ordinal();

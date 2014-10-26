@@ -39,25 +39,25 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	
 	@Override
 	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);                           //X coord to render sloped track at
-		if(renderStage == 0) {
-			switch(teTrack.direction) {                //N,S,W,E
-				case NORTH: return (float) (x + 0.5F);
-				case SOUTH: return (float) (x + 0.5F);
-				case WEST:  return (float) (x - 0.5F);
-				case EAST:  return (float) (x + 1.5F);
-				default:    return (float) (x - 0.5F);
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
+		if(renderStage == 0) {
+			switch (currentFacing) {
+				case 2: return (float) (x + 0.5F);
+				case 3: return (float) (x + 0.5F);
+				case 4: return (float) (x - 0.5F);
+				case 5: return (float) (x + 1.5F);
 			}
 		} else if(renderStage == 1) {
-			switch(teTrack.direction) {                //N,S,W,E
-				case WEST :                                        //WEST?
-				case EAST : return (float) (x + 0.5F);             //EAST?
-				default : return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
+			switch (currentFacing) {
+				case 4:
+				case 5: return (float) (x + 0.5F);
+				default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 			}
 		} else {
 			return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 		}
+		return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 	}
 	
 	@Override
@@ -65,27 +65,27 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 		if(renderStage == 1) {
 			return (float) (y + 1.5F);
 		} else {
-			return super.getSpecialY(renderStage, y + 0.5f, teTrack, world, lx, ly ,lz);
+			return super.getSpecialY(renderStage, y + 1.5F, teTrack, world, lx, ly ,lz);
 		}
 	}
 	
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-        if(renderStage == 1) {
-			switch(tileEntityTrackBase.direction) {                //N,S,W,E
-				case NORTH:                                        //NORTH?
-				case SOUTH: return (float) (z + 0.5F);             //SOUTH?
-				default : return super.getSpecialZ(renderStage, z, teTrack, world, lx , ly, lz);
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
+		if (renderStage == 1) {
+			switch (currentFacing) {
+				case 2:
+				case 3: return (float) (z + 0.5F);
+				default: return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
 			}
 		} else {
-			switch(tileEntityTrackBase.direction) {                //N,S,W,E
-				case NORTH: return (float) (z - 0.5F);             //NORTH?
-				case SOUTH: return (float) (z + 1.5F);             //EAST?
-				case WEST: return (float) (z + 0.5F);             //SOUTH?
-				case EAST: return (float) (z + 0.5F);
-				default: return (float) (z + 0.5F);             //WEST?
-
+			switch (currentFacing) {
+				case 2: return (float) (z - 0.5F);
+				case 3: return (float) (z + 1.5F);
+				case 4: return (float) (z + 0.5F);
+				case 5: return (float) (z + 0.5F);
+				default: return (float) (z + 0.5F);
 			}
 		}
 	}
@@ -97,8 +97,11 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
 		//if track facing north, then if train facing north, add 1F to z and y and rotate 45 degrees
-		if (teTrack.direction == ForgeDirection.NORTH) {
+
+		if (currentFacing == 2) {
 			if (entity.direction == ForgeDirection.NORTH) {
 				entity.posZ += 1f;
 				entity.rotationPitch = 45f;
@@ -111,7 +114,7 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 			}
 		}
 
-		if (teTrack.direction == ForgeDirection.WEST) {
+		if (currentFacing == 4) {
 			if (entity.direction == ForgeDirection.WEST) {
 				entity.posX += 1f;
 				entity.rotationPitch = 0f;
@@ -124,7 +127,7 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 			}
 		}
 
-		if (teTrack.direction == ForgeDirection.SOUTH) {
+		if (currentFacing == 3) {
 			if (entity.direction == ForgeDirection.SOUTH) {
 				entity.posZ -= 1f;
 				entity.rotationPitch = 45f;
@@ -137,7 +140,7 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 			}
 		}
 
-		if (teTrack.direction == ForgeDirection.EAST) {
+		if (currentFacing == 5) {
 			if (entity.direction == ForgeDirection.EAST) {
 				entity.posX += 1f;
 				entity.rotationPitch = 45f;
@@ -222,6 +225,6 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 
 	@Override
 	public boolean useIcon() {
-		return false;
+		return true;
 	}
 }

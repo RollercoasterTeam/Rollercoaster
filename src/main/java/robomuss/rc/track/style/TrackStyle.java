@@ -15,6 +15,7 @@ public class TrackStyle {
 	public IModelCustom large;
 	public IModelCustom extended;
 	public IModelCustom corner;
+	public IModelCustom standard1;
 	
 	public ArrayList<TrackPiece> whitelistedPieces;
 	
@@ -40,6 +41,10 @@ public class TrackStyle {
 
 	public IModelCustom getCornerModel() {
 		return corner;
+	}
+
+	public IModelCustom getTestModel() {
+		return standard1;
 	}
 	
 	public ArrayList<TrackPiece> getWhitelistedTrackPieces() {

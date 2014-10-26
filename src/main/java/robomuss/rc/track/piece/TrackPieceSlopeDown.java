@@ -49,31 +49,21 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	
 	@Override
 	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
 		if (renderStage == 0) {
-//			switch(te.direction.ordinal() - 2) {
-//				case 0 : return (float) (x + 0.5F);
-//				case 1 : return (float) (x - 0.5F);
-//				case 2 : return (float) (x + 0.5F);
-//				default: return (float) (x + 1.5F);
-//			}
-			switch(teTrack.direction) {
-				case NORTH: return (float) (x + 0.5F);
-				case SOUTH: return (float) (x + 0.5F);
-				case WEST:  return (float) (x - 0.5F);
-				case EAST:  return (float) (x + 1.5F);
-				default:    return (float) (x - 0.5F);
+			switch(currentFacing) {
+				case 2:  return (float) (x + 0.5F);
+				case 3:  return (float) (x + 0.5F);
+				case 4:  return (float) (x - 0.5F);
+				case 5:  return (float) (x + 1.5F);
+				default: return (float) (x - 0.5F);
 			}
 		} else if(renderStage == 1) {
-//			switch(te.direction.ordinal() - 2) {
-//				case 1 : return (float) (x - 1.5F);
-//				case 3 : return (float) (x + 2.5F);
-//				default : return super.getSpecialX(renderStage, x, te);
-//			}
-			switch (teTrack.direction) {
-				case WEST:  return (float) (x - 1.5F);
-				case EAST:  return (float) (x + 2.5F);
-				default:    return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
+			switch (currentFacing) {
+				case 2:  return (float) (x - 1.5F);
+				case 3:  return (float) (x + 2.5F);
+				default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 			}
 		} else {
 			return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
@@ -91,31 +81,21 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
 		if(renderStage == 1) {
-//			switch(te.direction.ordinal() - 2) {
-//				case 0 : return (float) (z + 2.5F);
-//				case 2 : return (float) (z - 1.5F);
-//				default : return super.getSpecialZ(renderStage, z, te);
-//			}
-			switch (teTrack.direction) {
-				case NORTH: return (float) (z + 1.5F);
-				case SOUTH: return (float) (z + 2.5F);
-				default:    return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
+			switch (currentFacing) {
+				case 2:  return (float) (z + 1.5F);
+				case 3:  return (float) (z + 2.5F);
+				default: return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
 			}
 		} else {
-//			switch(te.direction.ordinal() - 2) {
-//				case 0 : return (float) (z + 1.5F);
-//				case 1 : return (float) (z + 0.5F);
-//				case 2 : return (float) (z - 0.5F);
-//				default: return (float) (z + 0.5F);
-//			}
-			switch (teTrack.direction) {
-				case NORTH: return (float) (z + 0.5F);
-				case SOUTH: return (float) (z + 1.5F);
-				case WEST:  return (float) (z - 0.5F);
-				case EAST:  return (float) (z + 0.5F);
-				default:    return (float) (z + 0.5F);
+			switch (currentFacing) {
+				case 2:  return (float) (z + 0.5F);
+				case 3:  return (float) (z + 1.5F);
+				case 4:  return (float) (z - 0.5F);
+				case 5:  return (float) (z + 0.5F);
+				default: return (float) (z + 0.5F);
 			}
 		}
 	}
@@ -127,50 +107,36 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
 
-		switch (teTrack.direction) {
-			case NORTH:
+		switch (currentFacing) {
+			case 2:
 				switch (entity.direction) {
-					case NORTH:
-						entity.changePositionRotationSpeed(0, -2, 3, false, -45, entity.rotationYaw, true, 0.1F, false);
-						break;
-					case SOUTH:
-						entity.changePositionRotationSpeed(0, 1, -3, false, 0, entity.rotationYaw, true, 0, false);
-						break;
+					case NORTH: entity.changePositionRotationSpeed(0, -2, 3, false, -45, entity.rotationYaw, true, 0.1F, false); break;
+					case SOUTH: entity.changePositionRotationSpeed(0, 1, -3, false, 0, entity.rotationYaw, true, 0, false);      break;
 				}
 				break;
-			case SOUTH:
+			case 3:
 				switch (entity.direction) {
-					case NORTH:
-						entity.changePositionRotationSpeed(0, 1, 3, false, 0, entity.rotationYaw, true, 0.1F, false);
-						break;
-					case SOUTH:
-						entity.changePositionRotationSpeed(0, -2, -3, false, -45, entity.rotationYaw, true, 0, false);
-						break;
+					case NORTH: entity.changePositionRotationSpeed(0, 1, 3, false, 0, entity.rotationYaw, true, 0.1F, false);  break;
+					case SOUTH: entity.changePositionRotationSpeed(0, -2, -3, false, -45, entity.rotationYaw, true, 0, false); break;
 				}
 				break;
-			case WEST:
+			case 4:
 				switch (entity.direction) {
-					case WEST:
-						entity.changePositionRotationSpeed(3, -2, 0, false, -45, entity.rotationYaw, true, 0.1F, false);
-						break;
-					case EAST:
-						entity.changePositionRotationSpeed(-3, 1, 0, false, 0, entity.rotationYaw, true, 0, false);
-						break;
+					case WEST: entity.changePositionRotationSpeed(3, -2, 0, false, -45, entity.rotationYaw, true, 0.1F, false); break;
+					case EAST: entity.changePositionRotationSpeed(-3, 1, 0, false, 0, entity.rotationYaw, true, 0, false);      break;
 				}
 				break;
-			case EAST:
+			case 5:
 				switch (entity.direction) {
-					case WEST:
-						entity.changePositionRotationSpeed(3, 1, 0, false, 0, entity.rotationYaw, true, 0.1F, false);
-						break;
-					case EAST:
-						entity.changePositionRotationSpeed(-3, -2, 0, false, -45, entity.rotationYaw, true, 0, false);
-						break;
+					case WEST: entity.changePositionRotationSpeed(3, 1, 0, false, 0, entity.rotationYaw, true, 0.1F, false);  break;
+					case EAST: entity.changePositionRotationSpeed(-3, -2, 0, false, -45, entity.rotationYaw, true, 0, false); break;
 				}
 				break;
 		}

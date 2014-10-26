@@ -35,47 +35,31 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	
 	@Override
 	public float getX(double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-//		if(te.direction == ForgeDirection.WEST) {
-//			return (float) (x - 0.5f);
-//		} else if(te.direction == ForgeDirection.EAST) {
-//			return (float) (x + 1.5f);
-//		} else {
-//			return (float) x + 0.5f;
-//		}
-		switch (teTrack.direction) {
-			case WEST:  return (float) (x - 0.5F);
-			case EAST:  return (float) (x + 1.5F);
-			default:    return (float) (x + 0.5F);
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
+		switch (currentFacing) {
+			case 4:  return (float) (x - 0.5F);
+			case 5:  return (float) (x + 1.5F);
+			default: return (float) (x + 0.5F);
 		}
 	}
 	
 	@Override
 	public float getY(double y, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 //        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-		return (float) (y + 2f);
+		return (float) (y + 2F);
 	}
 	
 	@Override
 	public float getZ(double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-//		if(te.direction == ForgeDirection.SOUTH) {
-//			return (float) (z + 1.5f);
-//		} else if(te.direction == ForgeDirection.WEST) {
-//			return (float) (z + 0.5f);
-//		} else if(te.direction == ForgeDirection.NORTH) {
-//			return (float) (z - 0.5f);
-//		} else if(te.direction == ForgeDirection.EAST) {
-//			return (float) (z + 0.5f);
-//		} else {
-//			return (float) z;
-//		}
-		switch (teTrack.direction) {
-			case NORTH: return (float) (z + 1.5F);
-			case SOUTH: return (float) (z + 0.5F);
-			case WEST:  return (float) (z - 0.5F);
-			case EAST:  return (float) (z + 0.5F);
-			default:    return (float) z;
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
+		switch (currentFacing) {
+			case 2: return (float) (z + 1.5F);
+			case 3: return (float) (z + 0.5F);
+			case 4:  return (float) (z - 0.5F);
+			case 5:  return (float) (z + 0.5F);
+			default: return (float) z;
 		}
 	}
 	
@@ -104,25 +88,21 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
+		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
 
-		switch (teTrack.direction) {
-			case NORTH:
+		switch (currentFacing) {
+			case 2:
 				switch (entity.direction) {
-					case NORTH:
-						entity.posY -= 1F;
-						entity.posZ += 1F;
-						break;
-					case SOUTH:
-						entity.posY += 1F;
-						entity.posZ -= 1F;
-						break;
+					case NORTH: entity.changePositionRotationSpeed(0, -1, 1, false, 0, entity.rotationYaw, true, 0, false); break;
+					case SOUTH: entity.changePositionRotationSpeed(0, 1, -1, false, 0, entity.rotationYaw, true, 0, false); break;
 				}
 				break;
-			case SOUTH:
+			case 3:
 				switch (entity.direction) {
 					case NORTH:
 						entity.posY += 1F;
@@ -134,7 +114,7 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 						break;
 				}
 				break;
-			case WEST:
+			case 4:
 				switch (entity.direction) {
 					case WEST:
 						entity.posY -= 1F;
@@ -146,7 +126,7 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 						break;
 				}
 				break;
-			case EAST:
+			case 5:
 				switch (entity.direction) {
 					case WEST:
 						entity.posY += 1F;
@@ -229,6 +209,6 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 
 	@Override
 	public boolean useIcon() {
-		return false;
+		return true;
 	}
 }

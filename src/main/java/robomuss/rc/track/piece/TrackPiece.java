@@ -38,9 +38,19 @@ public class TrackPiece {
 	
 	public TrackPiece(String unlocalized_name, int crafting_cost) {
 		this.id = RCBlocks.last_track_id++;
-		System.out.println(this.id);
+//		System.out.println(this.id);
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
+//		if (RCMod.trackManager.isTrack(block)) {
+//			blockTrack = (BlockTrackBase) block;
+//		}
+	}
+
+	public TrackPiece(String unlocalized_name, int crafting_cost, int special_render_stages) {
+		this.id = RCBlocks.last_track_id++;
+		this.unlocalized_name = unlocalized_name;
+		this.crafting_cost = crafting_cost;
+		this.special_render_stages = special_render_stages;
 //		if (RCMod.trackManager.isTrack(block)) {
 //			blockTrack = (BlockTrackBase) block;
 //		}
@@ -63,16 +73,6 @@ public class TrackPiece {
 	public TileEntityTrackBase getTileEntityFromList(int index) {
 		return this.teList.size() > index ? this.teList.get(index) : null;
 	}
-	
-	public TrackPiece(String unlocalized_name, int crafting_cost, int special_render_stages) {
-		this.id = RCBlocks.last_track_id++;
-		this.unlocalized_name = unlocalized_name;
-		this.crafting_cost = crafting_cost;
-		this.special_render_stages = special_render_stages;
-//		if (RCMod.trackManager.isTrack(block)) {
-//			blockTrack = (BlockTrackBase) block;
-//		}
-	}
 
 	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
 
@@ -87,21 +87,33 @@ public class TrackPiece {
 	}
 	
 	public void rotate(TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+		int facing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+//		System.out.println("facing: " + facing);
+		switch (facing) {
+//			case 2: GL11.glRotatef(180f, -180f, 0f, 180f); break;
+//			case 3: GL11.glRotatef(180f, -180f, 0f, 0f);   break;
+//			case 4: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
+//			case 5: GL11.glRotatef(180f, 0f, 0f, 180f);    break;
+			case 2: GL11.glRotatef(180f, 180f, 0f, 180f); break;
+			case 3: GL11.glRotatef(180f, -180f, 0f, 180f); break;
+			case 4: GL11.glRotatef(180f, -180f, 0f, 0f); break;
+			case 5: GL11.glRotatef(180f, 0f, 0f, 180f); break;
+ 		}
 //        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
 
-		if (teTrack != null && teTrack.direction == null) {
-//            tileEntity.direction = ForgeDirection.SOUTH;
-			teTrack.direction = ForgeDirection.getOrientation(TrackManager.getTrackMeta(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
-		}
-
-		if (teTrack != null && teTrack.direction != null) {
-			switch (teTrack.direction) {
-				case NORTH: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
-				case SOUTH: GL11.glRotatef(180f, -180f, 0f, 180f); break;
-				case WEST:  GL11.glRotatef(180f, -180f, 0f, 0f);   break;
-				case EAST:  GL11.glRotatef(180f, 0f, 0f, 180f);    break;
-			}
-		}
+//		if (teTrack != null && teTrack.direction == null) {
+////            tileEntity.direction = ForgeDirection.SOUTH;
+//			teTrack.direction = ForgeDirection.getOrientation(TrackManager.getTrackMeta(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
+//		}
+//
+//		if (teTrack != null && teTrack.direction != null) {
+//			switch (teTrack.direction) {
+//				case NORTH: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
+//				case SOUTH: GL11.glRotatef(180f, -180f, 0f, 180f); break;
+//				case WEST:  GL11.glRotatef(180f, -180f, 0f, 0f);   break;
+//				case EAST:  GL11.glRotatef(180f, 0f, 0f, 180f);    break;
+//			}
+//		}
 	}
 
 	public float[] getRotationOffsetsFromDirection(ForgeDirection direction) {

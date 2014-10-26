@@ -2,7 +2,9 @@ package robomuss.rc.client.renderer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -20,6 +22,8 @@ import robomuss.rc.util.IInventoryRenderSettings;
 public class ItemRenderTrack implements IItemRenderer {
 	
 	private static RenderItem renderItem = new RenderItem();
+//	private TileEntitySpecialRenderer render;
+//	private TileEntity tileEntity;
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -56,7 +60,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		float inventoryScale = 1f;
 		float inventoryRotation = 0f;
 		
-		if(track_type instanceof IInventoryRenderSettings) {
+		if (track_type instanceof IInventoryRenderSettings) {
 			inventoryX = ((IInventoryRenderSettings) track_type).getInventoryX();
 			inventoryY = ((IInventoryRenderSettings) track_type).getInventoryY();
 			inventoryZ = ((IInventoryRenderSettings) track_type).getInventoryZ();
@@ -66,10 +70,11 @@ public class ItemRenderTrack implements IItemRenderer {
 		}
 
 		GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
-		if(type == ItemRenderType.INVENTORY) {
+		if (type == ItemRenderType.INVENTORY) {
 			GL11.glRotatef(inventoryRotation, 0, 1, 0);
 		}
-		if(track_type.special_render_stages != 0) {
+
+		if (track_type.special_render_stages != 0) {
 			for(int i = 0; i < track_type.special_render_stages; i++) {
 				GL11.glPushMatrix();
 				if (track_type.block != null) {
@@ -78,15 +83,14 @@ public class ItemRenderTrack implements IItemRenderer {
 				}
 				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
 				GL11.glPushMatrix();
-				if(track_type.inverted) {
+				if (track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
 				track_type.renderSpecialItem(i, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
-		}
-		else {
+		} else {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(inventoryX, inventoryY - 2, inventoryZ);
 			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);

@@ -1,6 +1,7 @@
 package robomuss.rc.track.piece;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
@@ -13,6 +14,7 @@ import robomuss.rc.block.model.ModelRMCTopperCoaster;
 //import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
+import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -39,17 +41,31 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 
 	@Override
 	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x ,int y, int z) {
-		if (teTrack != null && teTrack.direction != null) {
-			rotationOffsets = this.getRotationOffsetsFromDirection(teTrack.direction);
-		} else if (teTrack != null && teTrack.direction == null) {
-			rotationOffsets = teTrack.track.track_type.getRotationOffsetsFromDirection(ForgeDirection.SOUTH);
-//			System.out.println("piece direction null");
-		}
+//		if (teTrack != null && teTrack.direction != null) {
+//			rotationOffsets = this.getRotationOffsetsFromDirection(teTrack.direction);
+//		} else if (teTrack != null && teTrack.direction == null) {
+//			rotationOffsets = teTrack.track.track_type.getRotationOffsetsFromDirection(ForgeDirection.SOUTH);
+////			System.out.println("piece direction null");
+//		}
+		rotate(teTrack, world, x, y, z);
 
 		IModelCustom model = (IModelCustom) style.getStandardModel();
+		IModelCustom test  = (IModelCustom) style.getTestModel();
 
 		GL11.glPushMatrix();
-		GL11.glRotatef(rotationOffsets[0], rotationOffsets[1], rotationOffsets[2], rotationOffsets[3]);
+//		RenderHelper.enableStandardItemLighting();
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GL11.glPushMatrix();
+
+//		GL11.glRotatef(rotationOffsets[0], rotationOffsets[1], rotationOffsets[2], rotationOffsets[3]);
+		if (test != null) {
+			test.renderAll();
+		}
+
 		if(style.name.equals("wooden_hybrid_topper")) {
 			ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + teTrack.track.colour + ".png"));
 
@@ -67,8 +83,26 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 			model.renderPart("bottom1");
 			model.renderPart("bottom2");
 		} else {
-			model.renderAll();
+			if (style.name.equals("test")) {
+				style = TrackHandler.findTrackStyle("corkscrew");
+				teTrack.style = TrackHandler.findTrackStyle("corkscrew");
+//				model = style.getStandardModel();
+				test = style.getTestModel();
+//				model.renderAll();
+//				GL11.glTranslatef(-0.5f, -1.5f, -0.5f);
+				test.renderAll();
+//				GL11.glTranslatef(0.5f, 1.5f, -0.5f);
+			}
+
+//			model.renderAll();
+//			GL11.glTranslatef(-0.5f, -1.5f, -0.5f);
+			test.renderAll();
+//			GL11.glTranslatef(0.5f, 1.5f, -0.5f);
+			GL11.glDisable(GL11.GL_LIGHTING);
+//			RenderHelper.disableStandardItemLighting();
 		}
+		GL11.glPopMatrix();
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
 
 //		track.track_type.unRotate(track);
@@ -92,21 +126,21 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 //				entity.posX -= entity.speed;
 //			}
 //		}
-		switch (teTrack.direction) {
-			case NORTH:
-			case SOUTH:
-				switch (entity.direction) {
-					case NORTH: entity.posZ -= entity.speed; break;
-					case SOUTH: entity.posZ += entity.speed; break;
-				}
-				break;
-			case WEST:
-			case EAST:
-				switch (entity.direction) {
-					case WEST: entity.posX += entity.speed; break;
-					case EAST: entity.posX -= entity.speed; break;
-				}
-		}
+//		switch (teTrack.direction) {
+//			case NORTH:
+//			case SOUTH:
+//				switch (entity.direction) {
+//					case NORTH: entity.posZ -= entity.speed; break;
+//					case SOUTH: entity.posZ += entity.speed; break;
+//				}
+//				break;
+//			case WEST:
+//			case EAST:
+//				switch (entity.direction) {
+//					case WEST: entity.posX += entity.speed; break;
+//					case EAST: entity.posX -= entity.speed; break;
+//				}
+//		}
 	}
 	
 	@Override
@@ -142,6 +176,6 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 
 	@Override
 	public boolean useIcon() {
-		return false;
+		return true;
 	}
 }

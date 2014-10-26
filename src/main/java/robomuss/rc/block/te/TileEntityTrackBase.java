@@ -72,46 +72,28 @@ public class TileEntityTrackBase extends TileEntity {
 		super.readFromNBT(compound);
 
 		this.colour = compound.getInteger("colour");
-		System.out.println(this.colour);
+//		System.out.println("Colour: " + this.colour);
 
 		this.converted = compound.getBoolean("converted");
-		System.out.println(this.converted);
+//		System.out.println("Converted: " + this.converted);
 
 		for (TrackStyle style : TrackHandler.styles) {
 			if (style.getId().contains(compound.getString("styleName"))) {
 				this.style = style;
-				System.out.println(this.style.name);
+//				System.out.println("Style: " + this.style.name);
 			}
 		}
 
 		int extraID = compound.getInteger("extraID");
-		System.out.println(extraID);
+//		System.out.println("ExtraID: " + extraID);
 
 		if (extraID == -1) {
 			this.extra = null;
-			System.out.println("extra null");
+//			System.out.println("extra null");
 		} else {
 			track.extra = TrackHandler.extras.get(extraID);
-			System.out.println(this.extra.name);
+//			System.out.println("Extra: " + this.extra.name);
 		}
-////		direction = ForgeDirection.valueOf(compound.getString("direction"));
-//		System.out.println(compound.getInteger("direction"));
-//		direction = ForgeDirection.getOrientation(compound.getInteger("direction"));
-//		System.out.println(direction.ordinal());
-//
-////		ChatHandler.broadcastChatMessageToPlayers(String.format("%s, %s, %d", direction.name(), direction.toString(), direction.ordinal()));
-//
-//		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 2);
-//		track.colour = compound.getInteger("colour");
-//		track.converted = compound.getBoolean("converted");
-//		for (int i = 0; i < TrackHandler.styles.size(); i++) {
-//			if (TrackHandler.styles.get(i).getId().contains(compound.getString("styleName"))) {
-//				track.style = TrackHandler.styles.get(i);
-//			}
-//		}
-//
-//		int extraID = compound.getInteger("extraID");
-//		track.extra = extraID == -1 ? null : TrackHandler.extras.get(extraID);
 	}
 
 	@Override
@@ -136,38 +118,7 @@ public class TileEntityTrackBase extends TileEntity {
 		} else {
 			compound.setInteger("extraID", -1);
 		}
-
-//		if (track.extra != null) {
-////			System.out.println(track.extra.id);
-//		}
-//		if (!track.converted || track.style == null) {
-//			track.style = TrackHandler.findTrackStyle("corkscrew");
-//			track.converted = true;
-////			track.converted = false;
-//		}
-//
-//		if (direction == null) {
-//			compound.setInteger("direction", TrackManager.getTrackMeta(xCoord, yCoord, zCoord));
-//		} else {
-//			compound.setInteger("direction", direction.ordinal());
-//		}
-//
-////		compound.setString("direction", direction.toString());
-//
-////		compound.setInteger("direction", direction.ordinal());
-//		compound.setInteger("colour", track.colour);
-//		compound.setString("styleName", track.style.getId());
-//		compound.setBoolean("converted", track.converted);
-//		if (track.extra != null) {
-//			compound.setInteger("extraID", track.extra.id);
-//		} else {
-//			compound.setInteger("extraID", -1);
-//		}
 	}
-
-//	public void findTrack() {
-//		this.track = (BlockTrackBase) this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord);
-//	}
 
 	@Override
 	public Packet getDescriptionPacket() {

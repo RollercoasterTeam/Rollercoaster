@@ -120,6 +120,6 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 
 	@Override
 	public boolean useIcon() {
-		return false;
+		return true;
 	}
 }

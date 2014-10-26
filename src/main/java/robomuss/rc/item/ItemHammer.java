@@ -32,29 +32,23 @@ public class ItemHammer extends Item {
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
 				if (tileentity instanceof TileEntityTrackBase) {
 					TileEntityTrackBase teTrack = (TileEntityTrackBase) tileentity;
-					if (teTrack != null) {
-						if (TrackManager.getTrackAtCoords(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) != null) {
-							BlockTrackBase track = TrackManager.getTrackAtCoords(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-							if (teTrack.direction != null) {
-								if (teTrack.direction == ForgeDirection.WEST) { //debug method...
-									Minecraft.getMinecraft().thePlayer.getEntityWorld().setBlock(track.position.chunkPosX + ForgeDirection.WEST.offsetX, track.position.chunkPosY + ForgeDirection.WEST.offsetY, track.position.chunkPosZ + ForgeDirection.WEST.offsetZ, Blocks.stone);
-								}
-							}
-						}
+					int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
+					switch (currentFacing) {
+						case 2:
+							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 5, 2);
+							break;
+						case 3:
+							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 4, 2);
+							break;
+						case 4:
+							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 2, 2);
+							break;
+						case 5:
+							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 3, 2);
+							break;
 					}
 				}
-//				if(tileentity instanceof TileEntityTrack) {
-//					TileEntityTrack teTrack = (TileEntityTrack) tileentity;
-//					if (teTrack.track instanceof BlockTrack) {
-//						if (teTrack.hasSlope(teTrack.track)) {
-//							teTrack.direction = teTrack.direction.getRotation(ForgeDirection.UP);
-//							teTrack.track.updateRotation(event.world, teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-//						} else {
-//							teTrack.direction = teTrack.direction.getRotation(ForgeDirection.UP);
-//						}
-//					}
-//					event.world.markBlockForUpdate(event.x, event.y, event.z);
-//				}
 				if(tileentity instanceof TileEntityRideFence) {
 					TileEntityRideFence terf = (TileEntityRideFence) event.world.getTileEntity(event.x, event.y, event.z);
 					if(terf.direction == 3) {
@@ -88,25 +82,25 @@ public class ItemHammer extends Item {
 			}
 		},
 		new HammerMode("Change Style") {
-//			@Override
-//			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
-//				if(tileentity instanceof TileEntityTrack) {
-//					TileEntityTrack te = (TileEntityTrack) tileentity;
-//					int id = 0;
-//					for(int i = 0; i < TrackHandler.styles.size(); i++) {
-//						if(te.style != null && TrackHandler.styles.get(i).getId() == te.style.getId()) {
-//							id = i;
-//						}
-//					}
-//					if(id < TrackHandler.styles.size() - 1) {
-//						te.style = TrackHandler.styles.get(id + 1);
-//					}
-//					else {
-//						te.style = TrackHandler.styles.get(0);
-//					}
-//					event.world.markBlockForUpdate(event.x, event.y, event.z);
-//				}
-//			}
+			@Override
+			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
+				if(tileentity instanceof TileEntityTrackBase) {
+					TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
+					int id = 0;
+					for(int i = 0; i < TrackHandler.styles.size(); i++) {
+						if(te.style != null && TrackHandler.styles.get(i).getId() == te.style.getId()) {
+							id = i;
+						}
+					}
+					if(id < TrackHandler.styles.size() - 1) {
+						te.style = TrackHandler.styles.get(id + 1);
+					}
+					else {
+						te.style = TrackHandler.styles.get(0);
+					}
+					event.world.markBlockForUpdate(event.x, event.y, event.z);
+				}
+			}
 		},
 		new HammerMode("Adjustment") {
 			@Override
