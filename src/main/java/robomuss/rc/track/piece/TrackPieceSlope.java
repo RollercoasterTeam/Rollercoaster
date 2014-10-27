@@ -18,6 +18,7 @@ import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSettings {
+	public static final String partName = "horizontal_large";
 
 	public TrackPieceSlope(String unlocalized_name, int crafting_cost) {
 		super(unlocalized_name, crafting_cost);
@@ -27,10 +28,12 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	public void renderTileEntity(TrackStyle style, TileEntityTrackBase track, World world, int x , int y , int z) {
 		rotate(track, world, x, y, z);
 
-		IModelCustom model = style.getLargeModel();
+//		IModelCustom model = style.getLargeModel();
+		IModelCustom model = style.getModel();
 		
 		GL11.glRotatef(45f, 0f, 0f, 1f);
-		model.renderAll();
+//		model.renderAll();
+		model.renderPart(partName);
 	}
 	
 	@Override

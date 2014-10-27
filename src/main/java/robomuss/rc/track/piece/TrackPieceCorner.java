@@ -14,17 +14,20 @@ import robomuss.rc.util.IInventoryRenderSettings;
 
 
 public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSettings {
+	public static final String partName = "corner";
 
 	public TrackPieceCorner(String unlocalized_name, int crafting_cost) {
 		super(unlocalized_name, crafting_cost);
 	}
 	
 	@Override
-	public void renderTileEntity(TrackStyle type, TileEntityTrackBase teTrack, World world, int x , int y , int z) {
+	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x , int y , int z) {
 		rotate(teTrack, world, x, y, z);
 
-		IModelCustom model = type.getCornerModel();
-		model.renderAll();
+//		IModelCustom model = type.getCornerModel();
+		IModelCustom model = style.getModel();
+//		model.renderAll();
+		model.renderPart(partName);
 	}
 
 	@Override
@@ -68,7 +71,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 				entity.posX -= 0.5f;
 				entity.posZ += 1f;
 				entity.rotationYaw = 90f;
-				entity.direction = ForgeDirection.getOrientation(0 + 2);
+				entity.direction = ForgeDirection.getOrientation(2);
 			}
 		}
 		if(teTrack.direction == ForgeDirection.EAST) {

@@ -15,6 +15,7 @@ import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSettings {
+	public static final String[] partNames = {"horizontal_extended", "horizontal"};
 
 	public TrackPieceSlopeUp(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
@@ -24,15 +25,19 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	public void renderSpecialTileEntity(int special_render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {         //renders angled portion of slope
 		rotate(teTrack, world, x, y, z);
 		
-		IModelCustom model = style.getStandardModel();
+//		IModelCustom model = style.getStandardModel();
+		IModelCustom model = style.getModel();
+
 		if(special_render_stage == 0) {                                 //render rotated model
 			GL11.glRotatef(45f, 0f, 0f, 1f);
-			model.renderAll();
+//			model.renderAll();
+			model.renderPart(partNames[0]);
 		}
 	
 		if(special_render_stage == 1) {                                 //render flat model
 			GL11.glPushMatrix();
-			model.renderAll();
+//			model.renderAll();
+			model.renderPart(partNames[1]);
 			GL11.glPopMatrix();
 		}
 	}

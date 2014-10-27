@@ -1,12 +1,16 @@
 package robomuss.rc.block.render;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.shader.TesselatorVertexState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.BlockTrackBase;
@@ -15,9 +19,14 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.track.style.TrackStyle;
 
+import java.nio.FloatBuffer;
+
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
-	
+	private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
+	private static final Vec3 vector = Vec3.createVectorHelper(0.20000000298023224D, 1.0D, -0.699999988079071D).normalize();
+	private static final Vec3 vector1 = Vec3.createVectorHelper(-0.20000000298023224D, 1.0D, -0.699999988079071D).normalize();
+
 //	public static TileEntityRenderTrack instance = new TileEntityRenderTrack();
 	private TrackStyle style;
 	private TrackPiece type;
@@ -72,7 +81,10 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
+//				enableTrackLighting();
+//				RenderHelper.enableStandardItemLighting();
 				type.renderTileEntity(style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				GL11.glDisable(GL11.GL_LIGHT2);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -85,6 +97,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 
 				GL11.glPushMatrix();
 				GL11.glTranslatef(xTrans, yTrans, zTrans);
+				GL11.glDisable(GL11.GL_LIGHTING);
 //				GL11.glTranslatef(type.getSpecialX(i, x, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord), type.getSpecialY(i, y, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) - 1.5f, type.getSpecialZ(i, z, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
 //				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glScalef(0.125f, 0.125f, 0.125f);
@@ -92,7 +105,10 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
+//				enableTrackLighting();
+//				RenderHelper.enableStandardItemLighting();
 				type.renderSpecialTileEntity(i, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -119,6 +135,43 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				}
 			}
 		}
+	}
+
+	public static void enableTrackLighting() {
+		GL11.glEnable(GL11.GL_LIGHTING);
+//		GL11.glEnable(GL11.GL_LIGHT0);
+//		GL11.glEnable(GL11.GL_LIGHT1);
+		GL11.glEnable(GL11.GL_LIGHT2);
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
+		float f = 0.4F;
+		float f1 = 0.6F;
+		float f2 = 0.0F;
+//		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, setColorBuffer(vector.xCoord, vector.yCoord, vector.zCoord, 0.0D));
+//		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
+//		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+//		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
+//		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION, setColorBuffer(vector1.xCoord, vector1.yCoord, vector1.zCoord, 0.0D));
+//		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
+//		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+//		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
+		GL11.glLight(GL11.GL_LIGHT2, GL11.GL_POSITION, setColorBuffer(-0.5D, 1.0D, -0.5D, 0.0D));
+		GL11.glLight(GL11.GL_LIGHT2, GL11.GL_DIFFUSE, setColorBuffer(f1, f1, f1, 1.0F));
+		GL11.glLight(GL11.GL_LIGHT2, GL11.GL_AMBIENT, setColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+		GL11.glLight(GL11.GL_LIGHT2, GL11.GL_SPECULAR, setColorBuffer(f2, f2, f2, 1.0F));
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(f, f, f, 1.0F));
+	}
+
+	private static FloatBuffer setColorBuffer(double x, double y, double z, double d) {
+		return setColorBuffer((float) x, (float) y, (float) z, (float) d);
+	}
+
+	private static FloatBuffer setColorBuffer(float x, float y, float z, float d) {
+		colorBuffer.clear();
+		colorBuffer.put(x).put(y).put(z).put(d);
+		colorBuffer.flip();
+		return colorBuffer;
 	}
 
 	public void renderDebug(TileEntity te, double x, double y, double z, Tessellator tess) {
