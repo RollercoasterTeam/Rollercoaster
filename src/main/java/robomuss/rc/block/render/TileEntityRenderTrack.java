@@ -120,7 +120,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F,(float) z + 0.5F);
 				GL11.glPushMatrix();
 				type.rotate(teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-				teTrack.extra.render(type);
+				track.extra.render(type);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 				
