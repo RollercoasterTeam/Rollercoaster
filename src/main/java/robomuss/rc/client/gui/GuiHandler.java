@@ -1,5 +1,7 @@
 package robomuss.rc.client.gui;
 
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
@@ -7,8 +9,6 @@ import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.container.ContainerTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackStorage;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class GuiHandler implements IGuiHandler {
 

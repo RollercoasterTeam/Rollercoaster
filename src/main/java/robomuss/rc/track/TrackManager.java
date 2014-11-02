@@ -1,6 +1,6 @@
 package robomuss.rc.track;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -8,7 +8,6 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
-import net.minecraft.block.Block;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.piece.*;
 

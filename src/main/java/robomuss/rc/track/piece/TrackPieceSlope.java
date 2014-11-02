@@ -1,22 +1,18 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
-
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.BlockTrackBase;
-//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
+
+//import robomuss.rc.block.te.TileEntityTrack;
 
 public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "horizontal_large";

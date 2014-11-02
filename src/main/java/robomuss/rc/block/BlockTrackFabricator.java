@@ -1,5 +1,6 @@
 package robomuss.rc.block;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +13,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.multiblock.MultiblockTrackFabricator;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
 public class BlockTrackFabricator extends BlockContainer {
 

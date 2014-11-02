@@ -1,19 +1,18 @@
 package robomuss.rc.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-//import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.BlockTrackBase;
-//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
-import net.minecraft.block.Block;
+
+//import robomuss.rc.block.BlockTrack;
+//import robomuss.rc.block.te.TileEntityTrack;
 
 public class EntityTrainDefault extends EntityTrain {
 	//TODO: I may have broke this with the switch to ForgeDirection, double check.

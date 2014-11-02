@@ -1,43 +1,29 @@
 package robomuss.rc.block;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.world.BlockEvent;
-import org.lwjgl.opengl.GL11;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.chat.ChatHandler;
-import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.event.TrackPlaceEventHandler;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
-import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
-import robomuss.rc.track.extra.TrackExtra;
-import robomuss.rc.track.piece.*;
-import robomuss.rc.track.style.TrackStyle;
-import robomuss.rc.util.IPaintable;
+import robomuss.rc.track.piece.TrackPiece;
 
 public class BlockTrackBase extends BlockContainer {
 	public TrackPiece track_type;

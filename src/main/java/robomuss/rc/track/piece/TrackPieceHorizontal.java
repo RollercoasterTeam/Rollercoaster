@@ -1,28 +1,18 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
-import robomuss.rc.block.model.ModelRMCTopperCoaster;
-//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
-import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
-import sun.font.GlyphLayout;
 import sun.org.mozilla.javascript.internal.ast.Block;
 
-import java.util.ArrayList;
-import java.util.List;
+//import robomuss.rc.block.te.TileEntityTrack;
 
 public class TrackPieceHorizontal extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "horizontal";

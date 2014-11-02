@@ -5,8 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
-import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackHandler;
 

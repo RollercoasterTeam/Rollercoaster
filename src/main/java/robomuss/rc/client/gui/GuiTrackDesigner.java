@@ -1,9 +1,5 @@
 package robomuss.rc.client.gui;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
-import modforgery.forgerylib.ChatColours;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -11,11 +7,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.gui.exList.ExpandableListNode;
@@ -23,6 +17,9 @@ import robomuss.rc.client.gui.exList.ExpandableListNodeRollercoasters;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.GuiPanel;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class GuiTrackDesigner extends GuiScreen {
 

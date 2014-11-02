@@ -1,5 +1,6 @@
 package robomuss.rc.recipe;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,6 @@ import robomuss.rc.block.RCBlocks;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHandler {
 

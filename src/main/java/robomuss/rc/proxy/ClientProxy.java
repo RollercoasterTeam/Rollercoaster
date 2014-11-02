@@ -1,30 +1,18 @@
 package robomuss.rc.proxy;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import net.minecraft.client.settings.KeyBinding;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.render.TileEntityRenderConveyor;
-import robomuss.rc.block.render.TileEntityRenderFooter;
-import robomuss.rc.block.render.TileEntityRenderRideFence;
-import robomuss.rc.block.render.TileEntityRenderSupport;
-import robomuss.rc.block.render.TileEntityRenderTrack;
-import robomuss.rc.block.render.TileEntityRenderTrackFabricator;
-import robomuss.rc.block.render.TileEntityRenderWoodenSupport;
+import robomuss.rc.block.render.*;
 import robomuss.rc.block.te.*;
-import robomuss.rc.client.Keybindings;
 import robomuss.rc.client.renderer.*;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-
-import javax.swing.text.JTextComponent;
 
 public class ClientProxy extends CommonProxy {
 	

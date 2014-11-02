@@ -1,19 +1,14 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
-
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
-
-import robomuss.rc.block.BlockTrackBase;
-//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
+
+//import robomuss.rc.block.te.TileEntityTrack;
 
 public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "heartline_roll";

@@ -1,6 +1,7 @@
 package robomuss.rc.block;
 
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import robomuss.rc.RCMod;
@@ -8,8 +9,6 @@ import robomuss.rc.block.te.*;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCBlocks {
 

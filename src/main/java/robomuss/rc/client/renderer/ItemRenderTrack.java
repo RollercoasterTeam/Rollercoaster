@@ -2,22 +2,16 @@ package robomuss.rc.client.renderer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
-
-import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockTrackBase;
-//import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
+
+//import robomuss.rc.block.te.TileEntityTrack;
 
 public class ItemRenderTrack implements IItemRenderer {
 	

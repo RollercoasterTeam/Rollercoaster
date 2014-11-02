@@ -1,30 +1,21 @@
 package robomuss.rc.item;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import robomuss.rc.RCMod;
-//import robomuss.rc.block.BlockTrack;
-import robomuss.rc.block.BlockTrackBase;
-import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.*;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackManager;
-import robomuss.rc.track.piece.TrackPieceSlopeUp;
 import robomuss.rc.util.hammer.HammerMode;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+
+import java.util.List;
+
+//import robomuss.rc.block.BlockTrack;
 
 public class ItemHammer extends Item {
 

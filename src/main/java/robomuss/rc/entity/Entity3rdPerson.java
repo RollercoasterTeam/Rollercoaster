@@ -8,8 +8,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import robomuss.rc.client.Keybindings;
 import robomuss.rc.client.gui.GuiTrackDesigner;
 import robomuss.rc.event.RenderWorldLast;
 
