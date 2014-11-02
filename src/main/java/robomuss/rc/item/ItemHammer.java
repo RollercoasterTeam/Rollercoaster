@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import robomuss.rc.RCMod;
@@ -23,6 +24,7 @@ import robomuss.rc.track.piece.TrackPieceSlopeUp;
 import robomuss.rc.util.hammer.HammerMode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 
 public class ItemHammer extends Item {
 
@@ -31,30 +33,83 @@ public class ItemHammer extends Item {
 			@Override
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
 				if (tileentity instanceof TileEntityTrackBase) {
-					TileEntityTrackBase teTrack = (TileEntityTrackBase) tileentity;
-					int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+					((TileEntityTrackBase) tileentity).rotate();
+//					TileEntityTrackBase teTrack = (TileEntityTrackBase) tileentity;
+//					int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+//					BlockSnapshot snapshot;
 
-					switch (currentFacing) {
-						case 2:
-							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 5, 2);
-							break;
-						case 3:
-							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 4, 2);
-							break;
-						case 4:
-							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 2, 2);
-							break;
-						case 5:
-							teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 3, 2);
-							break;
-					}
+//					if (!teTrack.isDummy) {
+//						switch (currentFacing) {
+//							case 2:
+//								Block blockEast = teTrack.getWorldObj().getBlock(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord);
+//								int metaEast = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord);
+//								snapshot = new BlockSnapshot(teTrack.getWorldObj(), teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord, blockEast, metaEast);
+//
+//								if (!snapshot.world.isAirBlock(snapshot.x + 1, snapshot.y, snapshot.z)) {
+//
+//								}
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 5, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord, 5, 2);
+//								((TileEntityTrackBase) teTrack.getWorldObj().getTileEntity(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord)).isDummy = true;
+//								break;
+//							case 3:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 4, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord, 4, 2);
+//								((TileEntityTrackBase) teTrack.getWorldObj().getTileEntity(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord)).isDummy = true;
+//								break;
+//							case 4:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 2, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1, 2, 2);
+//								((TileEntityTrackBase) teTrack.getWorldObj().getTileEntity(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1)).isDummy = true;
+//								break;
+//							case 5:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 3, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1, 3, 2);
+//								((TileEntityTrackBase) teTrack.getWorldObj().getTileEntity(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1)).isDummy = true;
+//								break;
+//						}
+//					} else {
+//						switch (currentFacing) {
+//							case 2:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 5, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord, 5, 2);
+//								break;
+//							case 3:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 4, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord, 4, 2);
+//								break;
+//							case 4:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 2, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord + 1, teTrack.yCoord, teTrack.zCoord);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord + 1, 2, 2);
+//								break;
+//							case 5:
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord, 3, 2);
+//								teTrack.getWorldObj().setBlockToAir(teTrack.xCoord - 1, teTrack.yCoord, teTrack.zCoord);
+//								teTrack.getWorldObj().setBlock(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1, teTrack.track.track_type.block);
+//								teTrack.getWorldObj().setBlockMetadataWithNotify(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord - 1, 3, 2);
+//								break;
+//						}
+//					}
 				}
 				if(tileentity instanceof TileEntityRideFence) {
 					TileEntityRideFence terf = (TileEntityRideFence) event.world.getTileEntity(event.x, event.y, event.z);
 					if(terf.direction == 3) {
 						terf.direction = 0;
-					}
-					else {
+					} else {
 						terf.direction++;
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
@@ -63,8 +118,7 @@ public class ItemHammer extends Item {
 					TileEntityWoodenSupport tews = (TileEntityWoodenSupport) event.world.getTileEntity(event.x, event.y, event.z);
 					if(tews.direction == 3) {
 						tews.direction = 0;
-					}
-					else {
+					} else {
 						tews.direction++;
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
@@ -73,8 +127,7 @@ public class ItemHammer extends Item {
 					TileEntityConveyor tec = (TileEntityConveyor) event.world.getTileEntity(event.x, event.y, event.z);
 					if(tec.direction == 3) {
 						tec.direction = 0;
-					}
-					else {
+					} else {
 						tec.direction++;
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
@@ -94,8 +147,7 @@ public class ItemHammer extends Item {
 					}
 					if(id < TrackHandler.styles.size() - 1) {
 						te.style = TrackHandler.styles.get(id + 1);
-					}
-					else {
+					} else {
 						te.style = TrackHandler.styles.get(0);
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);

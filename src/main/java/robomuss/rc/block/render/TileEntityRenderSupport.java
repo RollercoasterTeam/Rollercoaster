@@ -34,47 +34,50 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         TileEntity east = te.getWorldObj().getTileEntity(te.xCoord + 1, te.yCoord + 1, te.zCoord);
         TileEntity south = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord - 1);
         TileEntity west = te.getWorldObj().getTileEntity(te.xCoord - 1, te.yCoord + 1, te.zCoord);
-    	
-        if(north instanceof TileEntityTrackBase) {
-        	TileEntityTrackBase track = (TileEntityTrackBase) north;
-	        BlockTrackBase block = (BlockTrackBase) track.getBlockType();
-        	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == ForgeDirection.NORTH) {
-        			connectNorth = true;
-        		}
-        	}
-        }
-        
-        if(east instanceof TileEntityTrackBase) {
-	        TileEntityTrackBase track = (TileEntityTrackBase) east;
-	        BlockTrackBase block = (BlockTrackBase) track.getBlockType();
-        	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == ForgeDirection.WEST) {
-        			connectEast = true;
-        		}
-        	}
-        }
-        
-    	if(south instanceof TileEntityTrackBase) {
-		    TileEntityTrackBase track = (TileEntityTrackBase) south;
-		    BlockTrackBase block = (BlockTrackBase) track.getBlockType();
-        	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == ForgeDirection.SOUTH) {
-        			connectSouth = true;
-        		}
-        	}
-        }
-    	
-    	if(west instanceof TileEntityTrackBase) {
-		    TileEntityTrackBase track = (TileEntityTrackBase) west;
-		    BlockTrackBase block = (BlockTrackBase) track.getBlockType();
-        	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == ForgeDirection.EAST) {
-        			connectWest = true;
-        		}
-        	}
-        }
 
+	    if(north instanceof TileEntityTrackBase) {
+		    TileEntityTrackBase teTrack = (TileEntityTrackBase) north;
+		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
+		    if(block != null && isConnectable(block.track_type)) {
+			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			    if (meta == 2) {
+				    connectNorth = true;
+			    }
+		    }
+	    }
+
+	    if(east instanceof TileEntityTrackBase) {
+		    TileEntityTrackBase teTrack = (TileEntityTrackBase) east;
+		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
+		    if(block != null && isConnectable(block.track_type)) {
+			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			    if (meta == 5) {
+				    connectEast = true;
+			    }
+		    }
+	    }
+
+	    if(south instanceof TileEntityTrackBase) {
+		    TileEntityTrackBase teTrack = (TileEntityTrackBase) south;
+		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
+		    if(block != null && isConnectable(block.track_type)) {
+			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			    if (meta == 3) {
+				    connectSouth = true;
+			    }
+		    }
+	    }
+
+	    if(west instanceof TileEntityTrackBase) {
+		    TileEntityTrackBase teTrack = (TileEntityTrackBase) west;
+		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
+		    if(block != null && isConnectable(block.track_type)) {
+			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			    if (meta == 4) {
+				    connectWest = true;
+			    }
+		    }
+	    }
     	
         GL11.glPushMatrix();
         int colour = ((TileEntitySupport) te).colour;
@@ -126,40 +129,32 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
         if(connectNorth) {
         	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
-        }
-        else if(connectEast) {
+        } else if(connectEast) {
         	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
-        }
-        else if(connectWest) {
+        } else if(connectWest) {
         	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
-        }
-        else {
+        } else {
         	GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         }
         GL11.glRotatef(180, 1, 0, 0);
         int connector_colour = 0;
         if(connectNorth) {
-        	connector_colour = ((TileEntityTrackBase) north).track.colour;
-        }
-        else if(connectEast) {
-        	connector_colour = ((TileEntityTrackBase) east).track.colour;
-        }
-        else if(connectSouth) {
-        	connector_colour = ((TileEntityTrackBase) south).track.colour;
-        }
-        else if(connectWest) {
-        	connector_colour = ((TileEntityTrackBase) west).track.colour;
+        	connector_colour = ((TileEntityTrackBase) north).colour;
+        } else if(connectEast) {
+        	connector_colour = ((TileEntityTrackBase) east).colour;
+        } else if(connectSouth) {
+        	connector_colour = ((TileEntityTrackBase) south).colour;
+        } else if(connectWest) {
+        	connector_colour = ((TileEntityTrackBase) west).colour;
         }
         ResourceLocation connector_texture = (new ResourceLocation("rc:textures/models/colour_" + connector_colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(connector_texture);
 
         if(connectNorth) {
-        	GL11.glRotatef(180f, -180f, 0f, 0f);
-        }
-        else if(connectEast) {
+	        GL11.glRotatef(180f, -180f, 0f, 0f);
+        } else if(connectEast) {
         	GL11.glRotatef(180f, 180f, 0f, 180f);
-        }
-        else if(connectWest) {
+        } else if(connectWest) {
         	GL11.glRotatef(180f, -180f, 0f, 180f);
         }
         
@@ -173,14 +168,11 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
 	private boolean isConnectable(TrackPiece track_type) {
 		if(track_type == TrackHandler.findTrackType("slope_up")) {
 			return true;
-		}
-		else if(track_type == TrackHandler.findTrackType("slope")) {
+		} else if(track_type == TrackHandler.findTrackType("slope")) {
 			return true;
-		}
-		else if(track_type == TrackHandler.findTrackType("slope_down")) {
+		} else if(track_type == TrackHandler.findTrackType("slope_down")) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

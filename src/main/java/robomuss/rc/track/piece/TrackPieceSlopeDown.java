@@ -2,6 +2,7 @@ package robomuss.rc.track.piece;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -38,17 +39,21 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 //		IModelCustom model = style.getStandardModel();
 		IModelCustom model = style.getModel();
 
-		if (special_render_stage == 0) {                 //render rotated track
-			GL11.glRotatef(45f, 0f, 0f, 1f);
+//		if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
+//			teTrack.isDummy = false;
+		if (!teTrack.isDummy) {
+			if (special_render_stage == 0) {                 //render rotated track
+				GL11.glRotatef(45f, 0f, 0f, 1f);
 //			model.renderAll();
-			model.renderPart(partNames[0]);
-		}
+				model.renderPart(partNames[0]);
+			}
 
-		if (special_render_stage == 1) {                //render flat track
-			GL11.glPushMatrix();
+			if (special_render_stage == 1) {                //render flat track
+				GL11.glPushMatrix();
 //			model.renderAll();
-			model.renderPart(partNames[1]);
-			GL11.glPopMatrix();
+				model.renderPart(partNames[1]);
+				GL11.glPopMatrix();
+			}
 		}
 	}
 	
@@ -56,18 +61,17 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		int currentFacing = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
+		currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
 		if (renderStage == 0) {
 			switch(currentFacing) {
-				case 2:  return (float) (x + 0.5F);
-				case 3:  return (float) (x + 0.5F);
 				case 4:  return (float) (x - 0.5F);
 				case 5:  return (float) (x + 1.5F);
-				default: return (float) (x - 0.5F);
+				default: return (float) (x + 0.5F);
 			}
 		} else if(renderStage == 1) {
 			switch (currentFacing) {
-				case 2:  return (float) (x - 1.5F);
-				case 3:  return (float) (x + 2.5F);
+				case 4:  return (float) (x - 1.5F);
+				case 5:  return (float) (x + 2.5F);
 				default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 			}
 		} else {
@@ -80,7 +84,7 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 		if(renderStage == 1) {
 			return (float) (y + 2.5F);
 		} else {
-			return super.getSpecialY(renderStage, y + 0.5f, teTrack, world, lx, ly, lz);
+			return super.getSpecialY(renderStage, y + 1.5f, teTrack, world, lx, ly, lz);
 		}
 	}
 	
@@ -88,17 +92,18 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
+		currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
 		if(renderStage == 1) {
 			switch (currentFacing) {
-				case 2:  return (float) (z + 1.5F);
+				case 2:  return (float) (z - 1.5F);
 				case 3:  return (float) (z + 2.5F);
 				default: return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
 			}
 		} else {
 			switch (currentFacing) {
-				case 2:  return (float) (z + 0.5F);
+				case 2:  return (float) (z - 0.5F);
 				case 3:  return (float) (z + 1.5F);
-				case 4:  return (float) (z - 0.5F);
+				case 4:  return (float) (z + 0.5F);
 				case 5:  return (float) (z + 0.5F);
 				default: return (float) (z + 0.5F);
 			}
@@ -112,36 +117,43 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
-		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+		int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+		int heading = MathHelper.floor_double((entity.rotationYaw * 4.0f / 360.0f) + 0.5D) & 3;
+		int facing = heading == 0 ? 3 : heading == 1 ? 4 : heading == 2 ? 2 : heading == 3 ? 5 : 2;
 
+		meta = meta > 11 ? meta - 10 : meta;
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
 
-		switch (currentFacing) {
+		switch (meta) {
 			case 2:
-				switch (entity.direction) {
-					case NORTH: entity.changePositionRotationSpeed(0, -2, 3, false, -45, entity.rotationYaw, true, 0.1F, false); break;
-					case SOUTH: entity.changePositionRotationSpeed(0, 1, -3, false, 0, entity.rotationYaw, true, 0, false);      break;
+				if (facing == 2) {
+					entity.changePositionRotationSpeed(0, -2, 3, false, -45, entity.rotationYaw, true, 0.1f, false);
+				} else if (facing == 3) {
+					entity.changePositionRotationSpeed(0, 1, -3, false, 0, entity.rotationYaw, true, 0, false);
 				}
 				break;
 			case 3:
-				switch (entity.direction) {
-					case NORTH: entity.changePositionRotationSpeed(0, 1, 3, false, 0, entity.rotationYaw, true, 0.1F, false);  break;
-					case SOUTH: entity.changePositionRotationSpeed(0, -2, -3, false, -45, entity.rotationYaw, true, 0, false); break;
+				if (facing == 2) {
+					entity.changePositionRotationSpeed(0, 1, 3, false, 0, entity.rotationYaw, true, 0.1f, false);
+				} else if (facing == 3) {
+					entity.changePositionRotationSpeed(0, -2, -3, false, -45, entity.rotationYaw, true, 0, false);
 				}
 				break;
 			case 4:
-				switch (entity.direction) {
-					case WEST: entity.changePositionRotationSpeed(3, -2, 0, false, -45, entity.rotationYaw, true, 0.1F, false); break;
-					case EAST: entity.changePositionRotationSpeed(-3, 1, 0, false, 0, entity.rotationYaw, true, 0, false);      break;
+				if (facing == 4) {
+					entity.changePositionRotationSpeed(3, -2, 0, false, -45, entity.rotationYaw, true, 0.1f, false);
+				} else if (facing == 5) {
+					entity.changePositionRotationSpeed(-3, 1, 0, false, 0, entity.rotationYaw, true, 0, false);
 				}
 				break;
 			case 5:
-				switch (entity.direction) {
-					case WEST: entity.changePositionRotationSpeed(3, 1, 0, false, 0, entity.rotationYaw, true, 0.1F, false);  break;
-					case EAST: entity.changePositionRotationSpeed(-3, -2, 0, false, -45, entity.rotationYaw, true, 0, false); break;
+				if (facing == 4) {
+					entity.changePositionRotationSpeed(3, 1, 0, false, 0, entity.rotationYaw, true, 0.1F, false);
+				} else if (facing == 5) {
+					entity.changePositionRotationSpeed(-3, -2, 0, false, -45, entity.rotationYaw, true, 0, false);
 				}
 				break;
 		}

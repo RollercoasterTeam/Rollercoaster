@@ -45,7 +45,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		if(style == null) {
 			style = TrackHandler.findTrackStyle("corkscrew");
 		}
-		int colour = track.colour;
+		int colour = teTrack.colour;
 		
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
 
@@ -83,8 +83,11 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				}
 //				enableTrackLighting();
 //				RenderHelper.enableStandardItemLighting();
-				type.renderTileEntity(style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-				GL11.glDisable(GL11.GL_LIGHT2);
+				if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
+//				if (!teTrack.isDummy) {
+					type.renderTileEntity(style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				}
+//				GL11.glDisable(GL11.GL_LIGHT2);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -100,36 +103,44 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glDisable(GL11.GL_LIGHTING);
 //				GL11.glTranslatef(type.getSpecialX(i, x, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord), type.getSpecialY(i, y, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) - 1.5f, type.getSpecialZ(i, z, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
 //				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
-				GL11.glScalef(0.125f, 0.125f, 0.125f);
+				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
 				if(type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
 //				enableTrackLighting();
 //				RenderHelper.enableStandardItemLighting();
-				type.renderSpecialTileEntity(i, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
+//				if (!teTrack.isDummy) {
+//					teTrack.isDummy = true;
+					type.renderSpecialTileEntity(i, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				}
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
 			
-			if(track.extra != null && track.extra.allowedTrackTypes.contains(type)) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(track.extra.texture);
+			if(teTrack.extra != null && teTrack.extra.allowedTrackTypes.contains(type)) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(teTrack.extra.texture);
 				
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F,(float) z + 0.5F);
 				GL11.glPushMatrix();
-				type.rotate(teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-				track.extra.render(type);
+				if (!teTrack.isDummy) {
+					type.rotate(teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+					teTrack.extra.render(type);
+				}
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 				
-				for(int i = 0; i < track.extra.special_render_stages; i++) {
+				for(int i = 0; i < teTrack.extra.special_render_stages; i++) {
 					GL11.glPushMatrix();
 					GL11.glTranslatef(teTrack.extra.getSpecialX(i, x, track), teTrack.extra.getSpecialY(i, y, track), teTrack.extra.getSpecialZ(i, z, track));
 					GL11.glPushMatrix();
-					type.rotate(teTrack, teTrack.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
-					teTrack.extra.renderSpecial(i, type, track);
+					if (!teTrack.isDummy) {
+						type.rotate(teTrack, teTrack.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
+						teTrack.extra.renderSpecial(i, type, track);
+					}
 					GL11.glPopMatrix();
 					GL11.glPopMatrix();
 				}

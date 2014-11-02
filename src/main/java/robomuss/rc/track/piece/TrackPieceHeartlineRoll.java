@@ -44,7 +44,7 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 //		GL11.glTranslatef(0f, -8f, 0f);
 		GL11.glScalef(1f, 1f, 1f);
 		GL11.glPushMatrix();
-		GL11.glScalef(0.5f,0.5f, 0.5f);
+//		GL11.glScalef(0.5f,0.5f, 0.5f);
 		model.renderPart(partName);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
@@ -73,7 +73,7 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 
 	@Override
 	public float getSpecialY(int renderStage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
-		return (float) (y + 0.5f);
+		return (float) (y + 1f);
 	}
 	
 	@Override

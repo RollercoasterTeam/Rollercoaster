@@ -71,21 +71,31 @@ public class TrackExtra {
 		
 	}
 	
-	public static void rotate(BlockTrackBase track, TileEntityTrackBase tileEntityTrackBase) {
-		switch(tileEntityTrackBase.direction.ordinal() - 2){
-        case 1:
-        		GL11.glRotatef(180f, -180f, 0f, 0f);
-                break;
-        case 2:
-                GL11.glRotatef(180f, 180f, 0f, 180f);
-                break;
-        case 3:
-                GL11.glRotatef(180f, 0f, 0f, 180f);
-                break;
-        default:
-        		GL11.glRotatef(180f, -180f, 0f, 180f);
-        		break;
+	public static void rotate(BlockTrackBase track, TileEntityTrackBase teTrack) {
+		if (teTrack != null) {
+			int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
+			switch (meta) {
+				case 2: GL11.glRotatef(180f, -180f, 0f, 180f); break;
+				case 3: GL11.glRotatef(180f, -180f, 0f, 0f);   break;
+				case 4: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
+				case 5: GL11.glRotatef(180f, 0f, 0f, 180f);    break;
+			}
 		}
+//		switch(tileEntityTrackBase.direction.ordinal() - 2){
+//        case 1:
+//        		GL11.glRotatef(180f, -180f, 0f, 0f);
+//                break;
+//        case 2:
+//                GL11.glRotatef(180f, 180f, 0f, 180f);
+//                break;
+//        case 3:
+//                GL11.glRotatef(180f, 0f, 0f, 180f);
+//                break;
+//        default:
+//        		GL11.glRotatef(180f, -180f, 0f, 180f);
+//        		break;
+//		}
 	}
 
 	public void applyEffectToTrain(BlockTrackBase track, EntityTrainDefault entity) {

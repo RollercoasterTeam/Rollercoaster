@@ -29,7 +29,7 @@ public class NetworkHandler {
 		RCMod.packetPipeline.sendToServer(new PacketKillAll());
 	}
 
-	public static void rotateTrack(int trackX, int trackY, int trackZ, ForgeDirection direction, boolean settingDirection, boolean rotateClockwise) {
-		RCMod.packetPipeline.sendToServer(new PacketRotateTrack(trackX, trackY, trackZ, direction, settingDirection, rotateClockwise));
+	public static void rotateTrack(int trackX, int trackY, int trackZ, int facing, boolean settingDirection, boolean rotateClockwise) {
+		RCMod.packetPipeline.sendToServer(new PacketRotateTrack(trackX, trackY, trackZ, facing, settingDirection, rotateClockwise));
 	}
 }

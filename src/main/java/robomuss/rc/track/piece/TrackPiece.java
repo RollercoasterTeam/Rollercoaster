@@ -88,6 +88,7 @@ public class TrackPiece {
 	
 	public void rotate(TileEntityTrackBase teTrack, World world, int x, int y, int z) {
 		int facing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
 //		System.out.println("facing: " + facing);
 		switch (facing) {
 //			case 2: GL11.glRotatef(180f, -180f, 0f, 180f); break;
@@ -116,40 +117,15 @@ public class TrackPiece {
 //		}
 	}
 
-	public float[] getRotationOffsetsFromDirection(ForgeDirection direction) {
-		switch (direction) {
-			case NORTH: return new float[] {180f, 180f, 0f, 180f};
-			case SOUTH: return new float[] {180f, -180f, 0f, 180f};
-			case WEST:  return new float[] {180f, -180f, 0f, 0f};
-			case EAST:  return new float[] {180f, 0f, 0f, 180f};
-			default:    return new float[] {180f, -180f, 0f, 180f};
-		}
-	}
-
-	public void unRotate(BlockTrackBase track, World world, int x, int y, int z) {
-        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
-
-		if (track != null && tileEntity.direction == null) {
-            tileEntity.direction = ForgeDirection.SOUTH;
-		}
-
-		if (track != null && tileEntity.direction != null) {
-			switch (tileEntity.direction) {
-				case NORTH:
-					GL11.glRotatef(180f, -180f, 0f, -180f);
-					break;
-				case SOUTH:
-					GL11.glRotatef(180f, 180f, 0f, -180f);
-					break;
-				case WEST:
-					GL11.glRotatef(180f, 180f, 0f, 0f);
-					break;
-				case EAST:
-					GL11.glRotatef(180f, 0f, 0f, -180f);
-					break;
-			}
-		}
-	}
+//	public float[] getRotationOffsetsFromDirection(ForgeDirection direction) {
+//		switch (direction) {
+//			case NORTH: return new float[] {180f, 180f, 0f, 180f};
+//			case SOUTH: return new float[] {180f, -180f, 0f, 180f};
+//			case WEST:  return new float[] {180f, -180f, 0f, 0f};
+//			case EAST:  return new float[] {180f, 0f, 0f, 180f};
+//			default:    return new float[] {180f, -180f, 0f, 180f};
+//		}
+//	}
 
 	public float getX(double x, TileEntityTrackBase teTrack, World world, int lx, int ly, int l) {
 		return (float) (x + 0.5F);

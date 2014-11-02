@@ -3,6 +3,7 @@ package robomuss.rc.track.piece;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -25,21 +26,24 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}
 
 	@Override
-	public void renderTileEntity(TrackStyle style, TileEntityTrackBase track, World world, int x , int y , int z) {
-		rotate(track, world, x, y, z);
+	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x , int y , int z) {
+		rotate(teTrack, world, x, y, z);
 
 //		IModelCustom model = style.getLargeModel();
 		IModelCustom model = style.getModel();
-		
-		GL11.glRotatef(45f, 0f, 0f, 1f);
+
+		if (!teTrack.isDummy) {
+			GL11.glRotatef(45f, 0f, 0f, 1f);
 //		model.renderAll();
-		model.renderPart(partName);
+			model.renderPart(partName);
+		}
 	}
 	
 	@Override
 	public float getX(double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
+		currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
 		switch (currentFacing) {
 			case 4:  return (float) (x - 0.5F);
 			case 5:  return (float) (x + 1.5F);
@@ -57,10 +61,11 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	public float getZ(double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
+		currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
 		switch (currentFacing) {
-			case 2: return (float) (z + 1.5F);
-			case 3: return (float) (z + 0.5F);
-			case 4:  return (float) (z - 0.5F);
+			case 2:  return (float) (z - 0.5F);
+			case 3:  return (float) (z + 1.5F);
+			case 4:  return (float) (z + 0.5F);
 			case 5:  return (float) (z + 0.5F);
 			default: return (float) z;
 		}
@@ -91,54 +96,42 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
-		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+		int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+		int heading = MathHelper.floor_double((entity.rotationYaw * 4.0f / 360.0f) + 0.5d) & 3;
+		int facing = heading == 0 ? 3 : heading == 1 ? 4 : heading == 2 ? 2 : heading == 3 ? 5 : 2;
 
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
 		}
 
-		switch (currentFacing) {
+		switch (meta) {
 			case 2:
-				switch (entity.direction) {
-					case NORTH: entity.changePositionRotationSpeed(0, -1, 1, false, 0, entity.rotationYaw, true, 0, false); break;
-					case SOUTH: entity.changePositionRotationSpeed(0, 1, -1, false, 0, entity.rotationYaw, true, 0, false); break;
+				if (facing == 2) {
+					entity.changePositionRotationSpeed(0, -1, 1, false, 0, entity.rotationYaw, true, 0, false);
+				} else if (facing == 3) {
+					entity.changePositionRotationSpeed(0, 1, -1, false, 0, entity.rotationYaw, true, 0, false);
 				}
 				break;
 			case 3:
-				switch (entity.direction) {
-					case NORTH:
-						entity.posY += 1F;
-						entity.posZ += 1F;
-						break;
-					case SOUTH:
-						entity.posY -= 1F;
-						entity.posZ -= 1F;
-						break;
+				if (facing == 2) {
+					entity.changePositionRotationSpeed(0, 1, 1, false, 0, entity.rotationYaw, true, 0, false);
+				} else if (facing == 3) {
+					entity.changePositionRotationSpeed(0, -1, -1, false, 0, entity.rotationYaw, true, 0, false);
 				}
 				break;
 			case 4:
-				switch (entity.direction) {
-					case WEST:
-						entity.posY -= 1F;
-						entity.posX += 1F;
-						break;
-					case EAST:
-						entity.posY += 1F;
-						entity.posX -= 1F;
-						break;
+				if (facing == 4) {
+					entity.changePositionRotationSpeed(1, -1, 0, false, 0, entity.rotationYaw, true, 0, false);
+				} else if (facing == 5) {
+					entity.changePositionRotationSpeed(-1, 1, 0, false, 0, entity.rotationYaw, true, 0, false);
 				}
 				break;
 			case 5:
-				switch (entity.direction) {
-					case WEST:
-						entity.posY += 1F;
-						entity.posX += 1F;
-						break;
-					case EAST:
-						entity.posY -= 1F;
-						entity.posX -= 1F;
-						break;
+				if (facing == 4) {
+					entity.changePositionRotationSpeed(1, 1, 0, false, 0, entity.rotationYaw, true, 0, false);
+				} else if (facing == 5) {
+					entity.changePositionRotationSpeed(-1, -1, 0, false, 0, entity.rotationYaw, true, 0, false);
 				}
 				break;
 		}

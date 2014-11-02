@@ -1,25 +1,33 @@
 package robomuss.rc.block;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.entity.EntityTrainDefault;
+import robomuss.rc.event.TrackPlaceEventHandler;
 import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemTrain;
 import robomuss.rc.item.RCItems;
@@ -31,19 +39,8 @@ import robomuss.rc.track.piece.*;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IPaintable;
 
-public class BlockTrackBase extends BlockContainer implements IPaintable {
+public class BlockTrackBase extends BlockContainer {
 	public TrackPiece track_type;
-	public TrackStyle style;
-	public TrackExtra extra;
-
-	public int colour;
-	public int meta;
-	public boolean converted;
-	public boolean dummy;
-	public boolean isBig;
-	public boolean canRotate = true;
-	public ChunkPosition position;
-//	public GuiHammerOverlay hammerOverlay;
 
 	public BlockTrackBase(TrackPiece track_type) {
 		super(Material.iron);
@@ -51,6 +48,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 		setResistance(3F);
 
 		this.track_type = track_type;
+
 //		hammerOverlay = new GuiHammerOverlay(Minecraft.getMinecraft());
 	}
 
@@ -66,6 +64,9 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 //		System.out.println("Track TE created.");
 		TileEntityTrackBase teTrack = new TileEntityTrackBase(world, meta, this);
 		this.track_type.addTileEntityToList(this.track_type, teTrack);
+		if (meta > 11) {
+			teTrack.isDummy = true;
+		}
 		return teTrack;
 //		return new TileEntityTrackBase(new BlockTrackBase(this.track_type));
 	}
@@ -73,15 +74,20 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			if (player.getHeldItem() != null) {
-				if (player.getHeldItem().getItem() == RCItems.brush) {
-					colour = player.getHeldItem().getItemDamage();
-					world.markBlockForUpdate(x, y, z);
-					return true;
-				} else if (player.getHeldItem().getItem() instanceof ItemExtra) {
-					extra = TrackHandler.extras.get(((ItemExtra) player.getHeldItem().getItem()).id);
-					world.markBlockForUpdate(x, y, z);
-					return true;
+			if (world.getTileEntity(x, y, z) instanceof TileEntityTrackBase) {
+				TileEntityTrackBase teTrack = (TileEntityTrackBase) world.getTileEntity(x, y, z);
+				if (teTrack != null) {
+					if (player.getHeldItem() != null) {
+						if (player.getHeldItem().getItem() == RCItems.brush) {
+							teTrack.colour = player.getHeldItem().getItemDamage();
+							world.markBlockForUpdate(x, y, z);
+							return true;
+						} else if (player.getHeldItem().getItem() instanceof ItemExtra) {
+							teTrack.extra = TrackHandler.extras.get(((ItemExtra) player.getHeldItem().getItem()).id);
+							world.markBlockForUpdate(x, y, z);
+							return true;
+						}
+					}
 				}
 			}
 		}
@@ -109,32 +115,41 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	}
 
 	@Override
-	public int getPaintMeta(World world, int x, int y, int z) {
-		return colour;
-	}
-
-	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
-//		super.onBlockPlacedBy(world, x, y, z, player, item);
-//		this.track_type.block = this;
+//		if (this.track_type != null && TrackManager.isSloped(TrackManager.getTrackType(this))) {
+			MovingObjectPosition viewEntityTrace = player.rayTrace(20, 20);
+			BlockEvent.PlaceEvent event = new BlockEvent.PlaceEvent(BlockSnapshot.getBlockSnapshot(world, x, y, z), world.getBlock(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ), (EntityPlayer) player);
+			MinecraftForge.EVENT_BUS.post(event);
+//		}
 
-		int meta = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		if (meta == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		int facing = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+		int meta = 0;
+
+		switch (facing) {
+			case 0: world.setBlockMetadataWithNotify(x, y, z, 3, 2); meta = 3; break;
+			case 1: world.setBlockMetadataWithNotify(x, y, z, 4, 2); meta = 4; break;
+			case 2: world.setBlockMetadataWithNotify(x, y, z, 2, 2); meta = 2; break;
+			case 3: world.setBlockMetadataWithNotify(x, y, z, 5, 2); meta = 5; break;
 		}
 
-		if (meta == 1) {
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
-
-		if (meta == 2) {
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		}
-
-		if (meta == 3) {
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+		if (TrackManager.isSloped(TrackManager.getTrackType(this))) {
+			((TileEntityTrackBase) world.getTileEntity(x, y, z)).placeDummy();
 		}
 	}
+
+	public boolean canPlaceDummyAt(World world, int x, int y, int z) {
+		if (world.isAirBlock(x, y, z)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+//	@Override
+//	public boolean onBlockEventReceived(World world, int x, int y, int z, int p_149696_5_, int p_149696_6_) {
+//		return super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
+//	}
 
 //	@Override
 //	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
@@ -210,10 +225,13 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		if (!world.isRemote) {
-			if (extra != null && extra == TrackHandler.extras.get(3)) {
-				if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
-					EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
-					world.spawnEntityInWorld(entity);
+			TileEntityTrackBase teTrack = (TileEntityTrackBase) world.getTileEntity(x, y, z);
+			if (teTrack != null) {
+				if (teTrack.extra != null && teTrack.extra == TrackHandler.extras.get(3)) {
+					if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
+						EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
+						world.spawnEntityInWorld(entity);
+					}
 				}
 			}
 		}
@@ -239,48 +257,5 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 			world.setBlockToAir(trackX, trackY, trackZ);
 			world.markBlockForUpdate(trackX, trackY, trackZ);
 		}
-	}
-
-	/**
-	 * isBig is true if the track has at least 1 dummy track, ie. slopes
-	 * @param isBig
-	 */
-	public void setBig(boolean isBig) {
-		this.isBig = isBig;
-	}
-
-	/**
-	 * Returns true if the track has at least 1 dummy track, ie. slopes
-	 * @return
-	 */
-	public boolean getBig() {
-		return isBig;
-	}
-
-	public boolean canRotate(World world, BlockTrackBase track, boolean rotateClockwise) {
-		if (!world.isRemote) {
-
-		}
-		return false;
-	}
-
-	public void rotate(World world, BlockTrackBase track, boolean rotateClockwise) {
-		if (canRotate(world, track, rotateClockwise)) {
-
-		}
-	}
-
-	public void updateRotation(World world, int x, int y, int z) {
-		if (!world.isRemote) {
-
-		}
-	}
-
-	public void setDirection(ForgeDirection direction, TileEntityTrackBase tileEntityTrackBase) {
-		tileEntityTrackBase.direction = direction != null ? direction : ForgeDirection.SOUTH;
-	}
-
-	public ForgeDirection getDirection(TileEntityTrackBase tileEntityTrackBase) {
-		return tileEntityTrackBase.direction;
 	}
 }

@@ -29,6 +29,7 @@ import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import robomuss.rc.track.TrackManager;
 
 public abstract class EntityTrain extends Entity
 {
@@ -508,7 +509,7 @@ public abstract class EntityTrain extends Entity
         }
     }
 
-    protected void func_145821_a(int x, int y, int z, double p_145821_4_, double p_145821_6_, Block block, int meta)
+    protected void func_145821_a(int x, int y, int z, double num0, double num1, Block block, int meta)
     {
         this.fallDistance = 0.0F;
         Vec3 vec3 = this.func_70489_a(this.posX, this.posY, this.posZ);
@@ -530,32 +531,37 @@ public abstract class EntityTrain extends Entity
 
 	    BlockTrackBase track = (BlockTrackBase) block;
         boolean slopeFlag = track.track_type == TrackHandler.findTrackType("slope");
-	    TileEntityTrackBase te = (TileEntityTrackBase) worldObj.getTileEntity(x, y, z);
-        
-        if (slopeFlag) 
-        {
-            this.posY = (double)(y + 1);
-        }
+	    TileEntityTrackBase teTrack = (TileEntityTrackBase) worldObj.getTileEntity(x, y, z);
+        int trackMeta = worldObj.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
-        if (slopeFlag && te.direction == ForgeDirection.SOUTH)
-        {
-                     this.motionX -= p_145821_6_;
-        }
-
-        if (slopeFlag && te.direction == ForgeDirection.WEST)
-        {
-            this.motionX += p_145821_6_;
-        }
-
-        if (slopeFlag && te.direction == ForgeDirection.NORTH)
-	    {
-		    this.motionZ += p_145821_6_;
+	    if (slopeFlag) {
+		    switch (trackMeta) { //TODO: check these!
+			    case 2: this.motionZ += num1; break;
+			    case 3: this.motionX -= num1; break;
+			    case 4: this.motionX += num1; break;
+			    case 5: this.motionZ -= num1; break;
+			    default: this.posY = (double) (y + 1);
+		    }
 	    }
-
-        if (slopeFlag && te.direction == ForgeDirection.EAST)
-        {
-            this.motionZ -= p_145821_6_;
-        }
+//        if (slopeFlag) {
+//            this.posY = (double) (y + 1);
+//        }
+//
+//        if (slopeFlag && te.direction == ForgeDirection.SOUTH) {
+//                     this.motionX -= num1;
+//        }
+//
+//        if (slopeFlag && te.direction == ForgeDirection.WEST) {
+//            this.motionX += num1;
+//        }
+//
+//        if (slopeFlag && te.direction == ForgeDirection.NORTH) {
+//		    this.motionZ += num1;
+//	    }
+//
+//        if (slopeFlag && te.direction == ForgeDirection.EAST) {
+//            this.motionZ -= num1;
+//        }
 
         int[][] aint = matrix[meta];
         double d2 = (double)(aint[1][0] - aint[0][0]);
@@ -651,7 +657,7 @@ public abstract class EntityTrain extends Entity
         this.posZ = d9 + d3 * d7;
         this.setPosition(this.posX, this.posY + (double)this.yOffset, this.posZ);
 
-        moveMinecartOnRail(x, y, z, p_145821_4_);
+        moveMinecartOnRail(x, y, z, num0);
 
         if (aint[0][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[0][0] && MathHelper.floor_double(this.posZ) - z == aint[0][2])
         {

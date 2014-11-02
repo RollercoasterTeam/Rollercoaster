@@ -24,6 +24,9 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 		rotate(teTrack, world, x, y, z);
 
 		if(renderStage == 0) {
+			GL11.glRotatef(5f, 1f, 0f, 0f);
+			GL11.glRotatef(-12f, 0f, 1f, 0f);
+			GL11.glScalef(1.05f, 1.05f, 1.05f);
 			IModelCustom model = style.getModel();
 			model.renderPart(partName);
 
@@ -69,6 +72,8 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 			if (teTrack != null && teTrack.track != null) {
 				int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 				switch (trackMeta) {
+					case 2:  return (float) (x + 0.52f);
+					case 3:  return (float) (x + 0.5f);
 					case 4:  return (float) (x + 1.5f);
 					case 5:  return (float) (x - 0.5f);
 					default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
@@ -83,6 +88,11 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 		return (float) (x + 0.5f);
 	}
 
+	@Override
+	public float getSpecialY(int renderStage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
+		return (float) (y + 1.528f);
+	}
+
 	//TODO: double check this isn't broken
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
@@ -91,7 +101,7 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 			if (teTrack != null && teTrack.track != null) {
 				int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 				switch (trackMeta) {
-					case 2:  return (float) (z + 1.5f);
+					case 2:  return (float) (z + 1f);
 					case 3:  return (float) (z - 0.5f);
 					default: return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
 				}

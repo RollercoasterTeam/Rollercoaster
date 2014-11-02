@@ -17,11 +17,12 @@ import net.minecraft.block.Block;
 
 public class EntityTrainDefault extends EntityTrain {
 	//TODO: I may have broke this with the switch to ForgeDirection, double check.
-	//North = 0
-	//South = 1
-	//West  = 2
-	//East  = 3
-	public ForgeDirection direction = ForgeDirection.NORTH;
+	//North = 2
+	//South = 3
+	//West  = 4
+	//East  = 5
+//	public ForgeDirection direction = ForgeDirection.NORTH;
+//	public int facing = 2;
 
 	public EntityTrainDefault(World world) {
 		super(world);
@@ -75,39 +76,39 @@ public class EntityTrainDefault extends EntityTrain {
         }
 
 	    if (TrackManager.isTrack(blockUnder)) {
-		    this.track = TrackManager.getTrackAtCoords((int) posX - 1, (int) posY, (int) posZ);
-		    this.teTrack = TrackManager.getTrackTileAtCoords((int) posX - 1, (int) posY, (int) posZ);
+		    this.track = TrackManager.getTrackAtCoords(this.worldObj, (int) posX - 1, (int) posY, (int) posZ);
+		    this.teTrack = TrackManager.getTrackTileAtCoords(this.worldObj, (int) posX - 1, (int) posY, (int) posZ);
 	    }
 
 	    if (TrackManager.isTrack(blockDir0)) {
-		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX - 1, (int) posY - 1, (int) posZ - 2);
-		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX - 1, (int) posY - 1, (int) posZ - 2);
+		    this.trackDir0 = TrackManager.getTrackAtCoords(this.worldObj, (int) posX - 1, (int) posY - 1, (int) posZ - 2);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords(this.worldObj, (int) posX - 1, (int) posY - 1, (int) posZ - 2);
 	    }
 
 	    if (TrackManager.isTrack(blockDir1)) {
-		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX + 1, (int) posY - 1, (int) posZ);
-		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX + 1, (int) posY - 1, (int) posZ);
+		    this.trackDir0 = TrackManager.getTrackAtCoords(this.worldObj, (int) posX + 1, (int) posY - 1, (int) posZ);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords(this.worldObj, (int) posX + 1, (int) posY - 1, (int) posZ);
 	    }
 
 	    if (TrackManager.isTrack(blockDir2)) {
-		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX - 1, (int) posY - 1, (int) posZ + 2);
-		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+		    this.trackDir0 = TrackManager.getTrackAtCoords(this.worldObj, (int) posX - 1, (int) posY - 1, (int) posZ + 2);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords(this.worldObj, (int) posX - 1, (int) posY - 1, (int) posZ + 2);
 	    }
 
 	    if (TrackManager.isTrack(blockDir3)) {
-		    this.trackDir0 = TrackManager.getTrackAtCoords((int) posX - 3, (int) posY - 1, (int) posZ);
-		    this.teDir0 = TrackManager.getTrackTileAtCoords((int) posX - 3, (int) posY - 1, (int) posZ);
+		    this.trackDir0 = TrackManager.getTrackAtCoords(this.worldObj, (int) posX - 3, (int) posY - 1, (int) posZ);
+		    this.teDir0 = TrackManager.getTrackTileAtCoords(this.worldObj, (int) posX - 3, (int) posY - 1, (int) posZ);
 	    }
 
         //altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
         if (!firstTick) {
             speed = 0.1f;
 	        if (teTrack != null && teTrack.track != null) {
-		        rotateOnPlace(teTrack.track);
-	        } else if (track != null) {
-		        rotateOnPlace(track);
+		        rotateOnPlace(teTrack);
+	        } else if (teTrack != null) {
+		        rotateOnPlace(teTrack);
 	        } else {
-		        rotateOnPlace(worldObj.getBlock((int) posX - 1, (int) posY, (int) posZ));
+		        rotateOnPlace(worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ));
 	        }
 
             firstTick = true;
@@ -196,32 +197,45 @@ public class EntityTrainDefault extends EntityTrain {
 		return TrackHandler.pieces.get(0);
 	}
 
-	private void rotateOnPlace(Block block) {
-		TileEntity tileentity = TrackManager.isTrack(block) ? TrackManager.getTileEntityFromTrack((BlockTrackBase) block) : altTileEntity;
+	private void rotateOnPlace(TileEntity te) {
+//		TileEntity tileentity = TrackManager.isTrack(block) ? TrackManager.getTileEntityFromTrack((BlockTrackBase) block) : altTileEntity;
 
 //		if (!(worldObj.getTileEntity(trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ) instanceof TileEntityTrackBase)) {
 //			TileEntity tileentity = altTileEntity;
 //		}
+		if (TrackManager.isTrack(te)) {
+//		if (tileentity != null & tileentity instanceof TileEntityTrackBase) {
+//			TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
+			if (getTrackTypeFromTE(te) == TrackHandler.findTrackType("horizontal")) {
+				int meta = this.worldObj.getBlockMetadata((int) posX, (int) posY - 1, (int) posZ);
 
-		if (tileentity != null & tileentity instanceof TileEntityTrackBase) {
-			TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
-			if (getTrackTypeFromTE(tileentity) == TrackHandler.findTrackType("horizontal")) {
-				if (te.direction == ForgeDirection.NORTH) {
-					this.rotationYaw = 90f;
-				} else if (te.direction == ForgeDirection.SOUTH) {
-					this.rotationYaw = 270f;
-				} else if (te.direction == ForgeDirection.WEST) {
-					this.rotationYaw = 180f;
-				} else if (te.direction == ForgeDirection.EAST) {
-					this.rotationYaw = 0f;              //90?
+				switch (meta) {
+					case 2: this.rotationYaw = 90f;  break;
+					case 3: this.rotationYaw = 270f; break;
+					case 4: this.rotationYaw = 180f; break;
+					case 5: this.rotationYaw = 0f;   break;
 				}
 
-				switch (te.direction) {
-					case NORTH: this.direction = ForgeDirection.NORTH; break;
-					case SOUTH: this.direction = ForgeDirection.SOUTH; break;
-					case WEST:  this.direction = ForgeDirection.WEST;  break;
-					case EAST:  this.direction = ForgeDirection.EAST;  break;
-				}
+//				this.facing = meta;
+
+
+
+//				if (te.direction == ForgeDirection.NORTH) {
+//					this.rotationYaw = 90f;
+//				} else if (te.direction == ForgeDirection.SOUTH) {
+//					this.rotationYaw = 270f;
+//				} else if (te.direction == ForgeDirection.WEST) {
+//					this.rotationYaw = 180f;
+//				} else if (te.direction == ForgeDirection.EAST) {
+//					this.rotationYaw = 0f;              //90?
+//				}
+
+//				switch (te.direction) {
+//					case NORTH: this.direction = ForgeDirection.NORTH; break;
+//					case SOUTH: this.direction = ForgeDirection.SOUTH; break;
+//					case WEST:  this.direction = ForgeDirection.WEST;  break;
+//					case EAST:  this.direction = ForgeDirection.EAST;  break;
+//				}
 				//                this.direction = te.direction;
 				//	            this.direction = ForgeDirection.getOrientation(te.direction.ordinal()).ordinal();
 			}
@@ -244,6 +258,7 @@ public class EntityTrainDefault extends EntityTrain {
 			this.posZ += posZ;
 		}
 
+		//TODO: set facing in here too!
 		if (setRotation) {
 			this.rotationPitch = rotationPitch;
 			this.rotationYaw = rotationYaw;

@@ -1,7 +1,6 @@
 package robomuss.rc.client.gui;
 
 //import robomuss.rc.block.te.TileEntityTrack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkPosition;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
@@ -28,7 +27,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	private int textY = 110;
 	private ChunkPosition trackPos;
 	private BlockTrackBase track;
-    private TileEntityTrackBase tile;
+    private TileEntityTrackBase teTrack;
 	
 	public GuiHammerOverlay(Minecraft minecraft) {
 		super(minecraft);
@@ -48,36 +47,41 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void eventHandler(RenderGameOverlayEvent.Text event) {
 		MovingObjectPosition viewEntityTrace = minecraft.thePlayer.rayTrace(20, 20);
+
+//		minecraft.theWorld.getTileEntity(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
+
 		this.trackPos = new ChunkPosition(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
 		if (trackPos != null) {
 			clearTextList();
-			if (TrackManager.isBlockAtCoordsTrack(trackPos)) {
+			if (TrackManager.isBlockAtCoordsTrack(minecraft.theWorld, trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ)) {
 //			if (minecraft.theWorld.getBlock(trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ) instanceof BlockTrackBase) {
-				this.track = TrackManager.getTrackAtCoords(trackPos);
-                this.tile = TrackManager.getTrackTileAtCoords(trackPos);
+				this.track = TrackManager.getTrackAtCoords(minecraft.theWorld, trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ);
+                this.teTrack = TrackManager.getTrackTileAtCoords(minecraft.theWorld, trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ);
 //				BlockTrackBase track = (BlockTrackBase) minecraft.theWorld.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 
-				if (tile.style == null) {
-					tile.style = TrackHandler.findTrackStyle("corkscrew");
+				if (teTrack.style == null) {
+					teTrack.style = TrackHandler.findTrackStyle("corkscrew");
 				}
 
 				if (track.track_type == null) {
 					track.track_type = TrackHandler.findTrackType("horizontal");
 				}
 
-//				if (tile.direction == null) {
+//				if (teTrack.direction == null) {
 //					System.out.println("direction null");
 //					TrackManager.getTrackTileAtCoords(trackPos).readFromNBT(new NBTTagCompound());
 //				}
 
-				int meta = minecraft.theWorld.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord);
+				int meta = minecraft.theWorld.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+
+				meta = meta > 11 ? meta - 10 : meta;
 
 				textList.add("Track Type: " + track.track_type.unlocalized_name);
- 				textList.add("Track Style: " + tile.style.name);
+ 				textList.add("Track Style: " + teTrack.style.name);
 				textList.add("Track Direction: " + ForgeDirection.getOrientation(meta).name());
 				textList.add("Track Meta: " + meta);
 				textList.add(String.format("Player Facing: %s (%d)", TrackManager.getDirectionFromPlayerFacing(minecraft.thePlayer).name(), TrackManager.getPlayerFacing(minecraft.thePlayer)));
-				textList.add(String.format("Coords: %d %d %d", tile.xCoord, tile.yCoord, tile.zCoord));
+				textList.add(String.format("Coords: %d %d %d", teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
 
 				if (event.isCancelable() || event.type != RenderGameOverlayEvent.ElementType.ALL) {
 //				if (event.isCancelable()) {
@@ -102,7 +106,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	public void eventHandler(DrawBlockHighlightEvent event) {
 		clearTextList();
 //		this.track = TrackManager.isTrack(TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ) ? TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ) : null;
-		if (TrackManager.isBlockAtCoordsTrack(event.target.blockX, event.target.blockY, event.target.blockZ)) {
+		if (TrackManager.isBlockAtCoordsTrack(minecraft.theWorld, event.target.blockX, event.target.blockY, event.target.blockZ)) {
 //			this.track = TrackManager.getTrackAtCoords(event.target.blockX, event.target.blockY, event.target.blockZ);
 		}
 		return;
