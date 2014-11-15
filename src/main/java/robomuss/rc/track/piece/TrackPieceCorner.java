@@ -1,10 +1,12 @@
 package robomuss.rc.track.piece;
 
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
@@ -20,14 +22,22 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 	public TrackPieceCorner(String unlocalized_name, int crafting_cost) {
 		super(unlocalized_name, crafting_cost);
 	}
-	
+
+	@Override
+	public void renderItem(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+		IModelCustom model = style.getModel();
+
+		GL11.glPushMatrix();
+		RenderHelper.enableGUIStandardItemLighting();
+		model.renderPart(partName);
+		GL11.glPopMatrix();
+	}
+
 	@Override
 	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x , int y , int z) {
 		rotate(teTrack, world, x, y, z);
 
-//		IModelCustom model = type.getCornerModel();
 		IModelCustom model = style.getModel();
-//		model.renderAll();
 		model.renderPart(partName);
 	}
 
@@ -76,63 +86,6 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 					break;
 			}
 		}
-//		if(teTrack.direction == ForgeDirection.SOUTH) {
-//			if(entity.direction.ordinal() - 2 == 0) {
-//				entity.posX -= 1f;
-//				entity.posZ += 0.5f;
-//				entity.rotationYaw = 180f;
-//				entity.direction = ForgeDirection.getOrientation(3 + 2);
-//			}
-//			if(entity.direction.ordinal() - 2 == 1) {
-//				entity.posX += 0.5f;
-//				entity.posZ -= 1f;
-//				entity.rotationYaw = 270f;
-//				entity.direction = ForgeDirection.getOrientation(2 + 2);
-//			}
-//		}
-//		if(teTrack.direction == ForgeDirection.WEST) {
-//			if(entity.direction.ordinal() - 2 == 0) {
-//				entity.posX += 1f;
-//				entity.posZ += 0.5f;
-//				entity.rotationYaw = 0f;
-//				entity.direction = ForgeDirection.getOrientation(1 + 2);
-//			}
-//			if(entity.direction.ordinal() - 2 == 3) {
-//				entity.posX -= 0.5f;
-//				entity.posZ -= 1f;
-//				entity.rotationYaw = 270f;
-//				entity.direction = ForgeDirection.getOrientation(2 + 2);
-//			}
-//		}
-//		if(teTrack.direction == ForgeDirection.NORTH) {
-//			if(entity.direction.ordinal() - 2 == 2) {
-//				entity.posX += 1f;
-//				entity.posZ -= 0.5f;
-//				entity.rotationYaw = 0f;
-//				entity.direction = ForgeDirection.getOrientation(1 + 2);
-//			}
-//			if(entity.direction.ordinal() - 2 == 3) {
-//				entity.posX -= 0.5f;
-//				entity.posZ += 1f;
-//				entity.rotationYaw = 90f;
-//				entity.direction = ForgeDirection.getOrientation(2);
-//			}
-//		}
-//		if(teTrack.direction == ForgeDirection.EAST) {
-//			if(entity.direction.ordinal() - 2 == 2) {
-//				entity.posX -= 1f;
-//				entity.posZ -= 0.5f;
-//				entity.rotationYaw = 180f;
-//				entity.direction = ForgeDirection.getOrientation(3 + 2);
-//			}
-//
-//			if(entity.direction.ordinal() - 2 == 1) {
-//				entity.posX += 0.4f;
-//				entity.posZ += 1f;
-//				entity.rotationYaw = 90f;
-//				entity.direction = ForgeDirection.getOrientation(0);
-//			}
-//		}
 	}
 
 	@Override
@@ -157,7 +110,7 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 
 	@Override
 	public float getInventoryScale() {
-		return 1f;
+		return 1.5f;
 	}
 
 	@Override
@@ -167,6 +120,6 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 
 	@Override
 	public boolean useIcon() {
-		return true;
+		return false;
 	}
 }

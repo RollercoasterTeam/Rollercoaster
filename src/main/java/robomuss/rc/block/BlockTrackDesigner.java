@@ -49,8 +49,7 @@ public class BlockTrackDesigner extends BlockContainer {
 	public IIcon getIcon(int face, int meta) {
 		if(face == 0 || face == 1) {
 			return other;
-		}
-		else {
+		} else {
 			return side;
 		}
 	}

@@ -1,6 +1,7 @@
 package robomuss.rc.client.renderer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -14,10 +15,7 @@ import robomuss.rc.util.IInventoryRenderSettings;
 //import robomuss.rc.block.te.TileEntityTrack;
 
 public class ItemRenderTrack implements IItemRenderer {
-	
-	private static RenderItem renderItem = new RenderItem();
-//	private TileEntitySpecialRenderer render;
-//	private TileEntity tileEntity;
+//	private static RenderItem renderItem = new RenderItem();
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -42,9 +40,7 @@ public class ItemRenderTrack implements IItemRenderer {
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_0.png"));
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-		
-//		TileEntityTrack te = new TileEntityTrack();
-//		TileEntityTrack te = TrackManager.getTrackAtCoords()
+
 		TrackPiece track_type = TrackHandler.findTrackType(item.getItem());
 		
 		float inventoryX = 0f;
@@ -71,10 +67,6 @@ public class ItemRenderTrack implements IItemRenderer {
 		if (track_type.special_render_stages != 0) {
 			for(int i = 0; i < track_type.special_render_stages; i++) {
 				GL11.glPushMatrix();
-				if (track_type.block != null) {
-					//((BlockTrackBase) track_type.block).direction = ForgeDirection.SOUTH;
-//					GL11.glTranslatef(track_type.getSpecialX(i, inventoryX, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0), track_type.getSpecialY(i, inventoryY, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0), track_type.getSpecialZ(i, inventoryZ, (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0));
-				}
 				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
 				GL11.glPushMatrix();
 				if (track_type.inverted) {
@@ -86,9 +78,23 @@ public class ItemRenderTrack implements IItemRenderer {
 			}
 		} else {
 			GL11.glPushMatrix();
-			GL11.glTranslatef(inventoryX, inventoryY - 2, inventoryZ);
-			GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
-			track_type.render(TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
+			GL11.glTranslatef(inventoryX, inventoryY, inventoryZ);
+			GL11.glRotatef(180, 1, 0, 0);
+			if (type == ItemRenderType.EQUIPPED) {
+				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
+				GL11.glRotatef(45, 0, 1, 0);
+				GL11.glRotatef(20, 0, 0, 1);
+				GL11.glTranslatef(7, -10, 0);
+			} else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
+				GL11.glRotatef(45, 0, -1, 0);
+				GL11.glRotatef(30, 0, 0, -1);
+				GL11.glTranslatef(0, -5, -7);
+			} else if (type == ItemRenderType.INVENTORY) {
+				GL11.glScalef(1, 1, 1);
+				GL11.glTranslatef(0, 2, 0);
+			}
+			track_type.renderItem(TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 			GL11.glPopMatrix();
 		}
 	}

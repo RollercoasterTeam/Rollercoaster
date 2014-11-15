@@ -12,6 +12,7 @@ import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
+import robomuss.rc.block.BlockConveyor;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.event.RenderWorldLast;
@@ -93,6 +94,18 @@ public class GuiHammerOverlay extends GuiIngameForge {
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(3), textX, textY + 30, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(4), textX, textY + 40, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(5), textX, textY + 50, 0xFFFFFF);
+					}
+					return;
+				}
+			} else if (minecraft.theWorld.getBlock(trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ) instanceof BlockConveyor) {
+				clearTextList();
+				textList.add(String.format("Metadata: %d", minecraft.theWorld.getBlockMetadata(trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ)));
+				textList.add(String.format("Player Facing: %s (%d)", TrackManager.getDirectionFromPlayerFacing(minecraft.thePlayer).name(), TrackManager.getPlayerFacing(minecraft.thePlayer)));
+
+				if (event.isCancelable() || event.type != RenderGameOverlayEvent.ElementType.ALL) {
+					if (!minecraft.gameSettings.showDebugInfo && this.showText) {
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(0), textX, textY, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(1), textX, textY + 10, 0xFFFFFF);
 					}
 					return;
 				}

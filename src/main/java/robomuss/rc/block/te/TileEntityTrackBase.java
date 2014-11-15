@@ -30,7 +30,6 @@ public class TileEntityTrackBase extends TileEntity {
 
 	public boolean converted = false;
 	public boolean isDummy = false;
-//	public boolean isDummy;
 	public TrackExtra extra;
 	public int colour = 0;
 	public TrackStyle style;
@@ -220,9 +219,7 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 5, 2);
 						snapshot.world.setBlockToAir(this.xCoord, this.yCoord, this.zCoord - 1);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 5, 2);
-//					((TileEntityTrackBase) snapshot.getTileEntity()).isDummy = true;
 						((TileEntityTrackBase) snapshot.world.getTileEntity(snapshot.x, snapshot.y, snapshot.z)).isDummy = true;
 					}
 				} else if (currentFacing == 3) {   //S->W
@@ -237,9 +234,7 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 4, 2);
 						snapshot.world.setBlockToAir(this.xCoord, this.yCoord, this.zCoord + 1);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 4, 2);
-//					((TileEntityTrackBase) snapshot.getTileEntity()).isDummy = true;
 						((TileEntityTrackBase) snapshot.world.getTileEntity(snapshot.x, snapshot.y, snapshot.z)).isDummy = true;
 					}
 				} else if (currentFacing == 4) {   //W->N
@@ -254,9 +249,7 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 2, 2);
 						snapshot.world.setBlockToAir(this.xCoord - 1, this.yCoord, this.zCoord);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 2, 2);
-//					((TileEntityTrackBase) snapshot.getTileEntity()).isDummy = true;
 						((TileEntityTrackBase) snapshot.world.getTileEntity(snapshot.x, snapshot.y, snapshot.z)).isDummy = true;
 					}
 				} else if (currentFacing == 5) {   //E->S
@@ -271,23 +264,16 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 3, 2);
 						snapshot.world.setBlockToAir(this.xCoord + 1, this.yCoord, this.zCoord);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 3, 2);
-//					((TileEntityTrackBase) snapshot.getTileEntity()).isDummy = true;
 						((TileEntityTrackBase) snapshot.world.getTileEntity(snapshot.x, snapshot.y, snapshot.z)).isDummy = true;
 					}
 				}
 			} else {
 				currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
-//			System.out.println("dummy");
 				if (currentFacing == 2) {   //N->E
 					Block blockWest = this.getWorldObj().getBlock(this.xCoord - 1, this.yCoord, this.zCoord);
 					int metaWest = this.getWorldObj().getBlockMetadata(this.xCoord - 1, this.yCoord, this.zCoord);
 					snapshot = new BlockSnapshot(this.worldObj, this.xCoord - 1, this.yCoord, this.zCoord, blockWest, metaWest);
-
-//				Block blockSouth = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord + 1);
-//				int metaSouth = this.getWorldObj().getBlockMetadata(this.xCoord, this.yCoord, this.zCoord + 1);
-//				snapshot = new BlockSnapshot(this.worldObj, this.xCoord, this.yCoord, this.zCoord + 1, blockSouth, metaSouth);
 
 					if (!snapshot.world.isAirBlock(snapshot.x, snapshot.y, snapshot.z)) {
 						this.unRotate();
@@ -296,17 +282,12 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 5, 2);
 						snapshot.world.setBlockToAir(this.xCoord, this.yCoord, this.zCoord + 1);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 5, 2);
 					}
 				} else if (currentFacing == 3) {   //S->W
 					Block blockEast = this.getWorldObj().getBlock(this.xCoord + 1, this.yCoord, this.zCoord);
 					int metaEast = this.getWorldObj().getBlockMetadata(this.xCoord + 1, this.yCoord, this.zCoord);
 					snapshot = new BlockSnapshot(this.worldObj, this.xCoord + 1, this.yCoord, this.zCoord, blockEast, metaEast);
-
-//				Block blockNorth = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord - 1);
-//				int metaNorth = this.getWorldObj().getBlockMetadata(this.xCoord, this.yCoord, this.zCoord - 1);
-//				snapshot = new BlockSnapshot(this.worldObj, this.xCoord, this.yCoord, this.zCoord - 1, blockNorth, metaNorth);
 
 					if (!snapshot.world.isAirBlock(snapshot.x, snapshot.y, snapshot.z)) {
 						this.unRotate();
@@ -315,17 +296,12 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 4, 2);
 						snapshot.world.setBlockToAir(this.xCoord, this.yCoord, this.zCoord - 1);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 4, 2);
 					}
 				} else if (currentFacing == 4) {   //W->N
 					Block blockSouth = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord + 1);
 					int metaSouth = this.getWorldObj().getBlockMetadata(this.xCoord, this.yCoord, this.zCoord + 1);
 					snapshot = new BlockSnapshot(this.worldObj, this.xCoord, this.yCoord, this.zCoord + 1, blockSouth, metaSouth);
-
-//				Block blockEast = this.getWorldObj().getBlock(this.xCoord + 1, this.yCoord, this.zCoord);
-//				int metaEast = this.getWorldObj().getBlockMetadata(this.xCoord + 1, this.yCoord, this.zCoord);
-//				snapshot = new BlockSnapshot(this.worldObj, this.xCoord + 1, this.yCoord, this.zCoord, blockEast, metaEast);
 
 					if (!snapshot.world.isAirBlock(snapshot.x, snapshot.y, snapshot.z)) {
 						this.unRotate();
@@ -334,17 +310,12 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 2, 2);
 						snapshot.world.setBlockToAir(this.xCoord + 1, this.yCoord, this.zCoord);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 2, 2);
 					}
 				} else if (currentFacing == 5) {   //E->S
 					Block blockNorth = this.getWorldObj().getBlock(this.xCoord, this.yCoord, this.zCoord - 1);
 					int metaNorth = this.getWorldObj().getBlockMetadata(this.xCoord, this.yCoord, this.zCoord - 1);
 					snapshot = new BlockSnapshot(this.worldObj, this.xCoord, this.yCoord, this.zCoord - 1, blockNorth, metaNorth);
-
-//				Block blockWest = this.getWorldObj().getBlock(this.xCoord - 1, this.yCoord, this.zCoord);
-//				int metaWest = this.getWorldObj().getBlockMetadata(this.xCoord - 1, this.yCoord, this.zCoord);
-//				snapshot = new BlockSnapshot(this.worldObj, this.xCoord - 1, this.yCoord, this.zCoord, blockWest, metaWest);
 
 					if (!snapshot.world.isAirBlock(snapshot.x, snapshot.y, snapshot.z)) {
 						this.unRotate();
@@ -353,33 +324,21 @@ public class TileEntityTrackBase extends TileEntity {
 						snapshot.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 3, 2);
 						snapshot.world.setBlockToAir(this.xCoord - 1, this.yCoord, this.zCoord);
 						snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track.track_type.block);
-//					snapshot.world.setBlock(snapshot.x, snapshot.y, snapshot.z, this.track);
 						snapshot.world.setBlockMetadataWithNotify(snapshot.x, snapshot.y, snapshot.z, 3, 2);
 					}
 				}
 			}
 		} else {
-			if (currentFacing == 2) {
-				this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 5, 2);
-			} else if (currentFacing == 3) {
-				this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 4, 2);
-			} else if (currentFacing == 4) {
-				this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 2, 2);
-			} else if (currentFacing == 5) {
-				this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 3, 2);
+			switch (currentFacing) {
+				case 2: this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 5, 2); break;
+				case 3: this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 4, 2); break;
+				case 4: this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 2, 2); break;
+				case 5: this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 3, 2); break;
 			}
 		}
 	}
 
-	public void unRotate() {
-		int currentFacing = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
-
-//		if (!this.isDummy) {
-//			if (currentFacing == 2) {
-//				this.getWorldObj().setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 4, 2);
-//			}
-//		}
-	}
+	public void unRotate() {}
 
 	/*@Optional.Method(modid = "PneumaticCraft")
 	@Override

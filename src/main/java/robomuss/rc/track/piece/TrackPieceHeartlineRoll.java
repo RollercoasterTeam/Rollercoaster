@@ -1,9 +1,11 @@
 package robomuss.rc.track.piece;
 
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
+import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -15,6 +17,16 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 
 	public TrackPieceHeartlineRoll(String unlocalized_name, int crafting_cost, int special_render_stages) {
 		super(unlocalized_name, crafting_cost, special_render_stages);
+	}
+
+	@Override
+	public void renderItem(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+		IModelCustom model = style.getModel();
+
+		GL11.glPushMatrix();
+		RenderHelper.enableGUIStandardItemLighting();
+		model.renderPart(partName);
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -122,13 +134,12 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 	}
 	
 	@Override
-	public boolean useIcon() {
-		return true;
-	}
-
-
-	@Override
 	public float getInventoryRotation() {
 		return 0;
+	}
+
+	@Override
+	public boolean useIcon() {
+		return true;
 	}
 }

@@ -18,36 +18,35 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	public TrackPieceSlopeDown(String unlocalized_name, int crafting_cost, int i) {
 		super(unlocalized_name, crafting_cost, i);
 	}
-	
+
 	@Override
-	public void renderSpecialTileEntity(int special_render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+	public void renderSpecialItem(int renderStage, TrackStyle style, BlockTrackBase track, World world, int x, int y, int z) {
+		IModelCustom model = style.getModel();
+		if (renderStage == 0) {
+			GL11.glRotatef(45, 0, 0, 1);
+			model.renderPart(partNames[0]);
+		}
+
+		if (renderStage == 1) {
+			GL11.glPushMatrix();
+			model.renderPart(partNames[1]);
+			GL11.glPopMatrix();
+		}
+	}
+
+	@Override
+	public void renderSpecialTileEntity(int renderStage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
 		rotate(teTrack, world, x, y, z);
-//		if(renderStage == 0) {
-//			IModelCustom model = type.getExtendedModel();
-//
-//			GL11.glRotatef(45f, 0f, 0f, 1f);
-//			model.renderAll();
-//		}
-//		else if(renderStage == 1) {
-//			IModelCustom model = type.getStandardModel();
-//
-//			model.renderAll();
-//		}
-//		IModelCustom model = style.getStandardModel();
 		IModelCustom model = style.getModel();
 
-//		if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
-//			teTrack.isDummy = false;
 		if (!teTrack.isDummy) {
-			if (special_render_stage == 0) {                 //render rotated track
+			if (renderStage == 0) {                 //render rotated track
 				GL11.glRotatef(45f, 0f, 0f, 1f);
-//			model.renderAll();
 				model.renderPart(partNames[0]);
 			}
 
-			if (special_render_stage == 1) {                //render flat track
+			if (renderStage == 1) {                //render flat track
 				GL11.glPushMatrix();
-//			model.renderAll();
 				model.renderPart(partNames[1]);
 				GL11.glPopMatrix();
 			}
@@ -235,6 +234,6 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 
 	@Override
 	public boolean useIcon() {
-		return true;
+		return false;
 	}
 }

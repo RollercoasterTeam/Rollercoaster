@@ -37,6 +37,10 @@ public class GuiTrackFabricator extends GuiContainer {
         this.te = te;
     }
 
+	public TileEntityTrackFabricator getTileEntity() {
+		return this.te;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {

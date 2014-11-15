@@ -8,9 +8,8 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class SlotTrackStorage extends Slot {
-
-	public SlotTrackStorage(IInventory par1iInventory, int id, int x, int y) {
-		super(par1iInventory, id, x, y);
+	public SlotTrackStorage(IInventory iInventory, int id, int x, int y) {
+		super(iInventory, id, x, y);
 	}
 
 	@Override

@@ -75,7 +75,7 @@ public class TrackPiece {
 
 	}
 
-	public void render(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+	public void renderItem(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
 
 	}
 
@@ -86,43 +86,13 @@ public class TrackPiece {
 	public void rotate(TileEntityTrackBase teTrack, World world, int x, int y, int z) {
 		int facing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 
-//		System.out.println("facing: " + facing);
 		switch (facing) {
-//			case 2: GL11.glRotatef(180f, -180f, 0f, 180f); break;
-//			case 3: GL11.glRotatef(180f, -180f, 0f, 0f);   break;
-//			case 4: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
-//			case 5: GL11.glRotatef(180f, 0f, 0f, 180f);    break;
 			case 2: GL11.glRotatef(180f, 180f, 0f, 180f); break;
 			case 3: GL11.glRotatef(180f, -180f, 0f, 180f); break;
 			case 4: GL11.glRotatef(180f, -180f, 0f, 0f); break;
 			case 5: GL11.glRotatef(180f, 0f, 0f, 180f); break;
  		}
-//        TileEntityTrackBase tileEntity = (TileEntityTrackBase) world.getTileEntity(x, y, z);
-
-//		if (teTrack != null && teTrack.direction == null) {
-////            tileEntity.direction = ForgeDirection.SOUTH;
-//			teTrack.direction = ForgeDirection.getOrientation(TrackManager.getTrackMeta(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
-//		}
-//
-//		if (teTrack != null && teTrack.direction != null) {
-//			switch (teTrack.direction) {
-//				case NORTH: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
-//				case SOUTH: GL11.glRotatef(180f, -180f, 0f, 180f); break;
-//				case WEST:  GL11.glRotatef(180f, -180f, 0f, 0f);   break;
-//				case EAST:  GL11.glRotatef(180f, 0f, 0f, 180f);    break;
-//			}
-//		}
 	}
-
-//	public float[] getRotationOffsetsFromDirection(ForgeDirection direction) {
-//		switch (direction) {
-//			case NORTH: return new float[] {180f, 180f, 0f, 180f};
-//			case SOUTH: return new float[] {180f, -180f, 0f, 180f};
-//			case WEST:  return new float[] {180f, -180f, 0f, 0f};
-//			case EAST:  return new float[] {180f, 0f, 0f, 180f};
-//			default:    return new float[] {180f, -180f, 0f, 180f};
-//		}
-//	}
 
 	public float getX(double x, TileEntityTrackBase teTrack, World world, int lx, int ly, int l) {
 		return (float) (x + 0.5F);

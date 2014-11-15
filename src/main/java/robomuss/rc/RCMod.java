@@ -24,6 +24,7 @@ import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.event.BlockClickedEvent;
 import robomuss.rc.event.CraftingEvent;
+import robomuss.rc.event.RCGuiOpenEvent;
 import robomuss.rc.event.TrackPlaceEventHandler;
 import robomuss.rc.exception.TrackStyleModelNotFoundException;
 import robomuss.rc.item.RCItems;
@@ -107,9 +108,9 @@ public class RCMod {
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
 		FMLCommonHandler.instance().bus().register(new ChatHandler());
-//		FMLCommonHandler.instance().bus().register(new TrackPlaceEventHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
 		MinecraftForge.EVENT_BUS.register(new TrackPlaceEventHandler());
+//		MinecraftForge.EVENT_BUS.register(new RCGuiOpenEvent());
         packetPipeline.initalize();
         proxy.initRenderers();
 		proxy.initNetwork();

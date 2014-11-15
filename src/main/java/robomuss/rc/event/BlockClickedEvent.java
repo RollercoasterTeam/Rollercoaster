@@ -1,18 +1,26 @@
 package robomuss.rc.event;
 
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import robomuss.rc.item.ItemHammer;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.IPaintable;
+import net.minecraft.block.Block;
 
-public class BlockClickedEvent {
+public class BlockClickedEvent extends Event {
 	
 	@SubscribeEvent
 	public void onBlockClicked(PlayerInteractEvent event) {

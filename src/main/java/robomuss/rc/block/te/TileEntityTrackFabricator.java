@@ -1,5 +1,6 @@
 package robomuss.rc.block.te;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -10,14 +11,33 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
+import robomuss.rc.RCMod;
+import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 
 public class TileEntityTrackFabricator extends TileEntity implements IInventory {
-
 	public ItemStack[] contents = new ItemStack[2];
-//	public int direction;
 	public ForgeDirection direction;
+	public static MultiBlockTrackFabricator multiBlockTrackFabricator = new MultiBlockTrackFabricator();
+
+	public boolean testStruct(EntityPlayer player) {
+//		System.out.println("testing structure");
+		multiBlockTrackFabricator.registerStructure();
+		if (multiBlockTrackFabricator.isStructureFormed(this)) {
+//			System.out.println("test successful");
+			return this.openGui(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player);
+		} else {
+//			System.out.println("test failed");
+			return false;
+		}
+	}
+
+	public boolean openGui(World world, int x, int y, int z, EntityPlayer player) {
+		player.openGui(RCMod.instance, 1, world, x, y, z);
+		return true;
+	}
 
 	@Override
 	public int getSizeInventory() {

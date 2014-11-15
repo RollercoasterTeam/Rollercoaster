@@ -56,8 +56,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 		entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
 		if (entity3rdPerson != null) {
-			Minecraft.getMinecraft().theWorld
-					.spawnEntityInWorld(entity3rdPerson);
+			Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
 
 			entity3rdPerson.setLocationAndAngles(x, y, z, 0, 50);
 
@@ -100,8 +99,7 @@ public class GuiTrackDesigner extends GuiScreen {
 					}
 				}
 			}
-			buttonList.add(new GuiButton(i, 20, 40 + (i * 40), 100, 20, node
-					.getName()));
+			buttonList.add(new GuiButton(i, 20, 40 + (i * 40), 100, 20, node.getName()));
 		}
 	}
 

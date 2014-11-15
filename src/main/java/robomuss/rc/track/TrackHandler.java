@@ -50,12 +50,8 @@ public class TrackHandler {
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), null, 0, TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), null, 0, TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), null, 0, TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtraStation("station", new ModelStation(), new Object[] {
-			"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
-		}, 6, TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {
-			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
-		}, 1, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtraStation("station", new ModelStation(), new Object[] {"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)}, 6, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot}, 1, TrackHandler.findTrackType("horizontal")));
 	}
 
 	public static TrackPiece findTrackType(Item item) {

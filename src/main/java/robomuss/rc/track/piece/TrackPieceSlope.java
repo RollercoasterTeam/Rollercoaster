@@ -1,5 +1,6 @@
 package robomuss.rc.track.piece;
 
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -22,15 +23,23 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 	}
 
 	@Override
+	public void renderItem(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+		IModelCustom model = style.getModel();
+
+		GL11.glPushMatrix();
+		RenderHelper.enableGUIStandardItemLighting();
+		model.renderPart(partName);
+		GL11.glPopMatrix();
+	}
+
+	@Override
 	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x , int y , int z) {
 		rotate(teTrack, world, x, y, z);
 
-//		IModelCustom model = style.getLargeModel();
 		IModelCustom model = style.getModel();
 
 		if (!teTrack.isDummy) {
 			GL11.glRotatef(45f, 0f, 0f, 1f);
-//		model.renderAll();
 			model.renderPart(partName);
 		}
 	}
@@ -201,6 +210,6 @@ public class TrackPieceSlope extends TrackPiece implements IInventoryRenderSetti
 
 	@Override
 	public boolean useIcon() {
-		return true;
+		return false;
 	}
 }

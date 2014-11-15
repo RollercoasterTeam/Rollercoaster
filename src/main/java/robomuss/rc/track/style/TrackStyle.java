@@ -6,7 +6,6 @@ import robomuss.rc.track.piece.TrackPiece;
 import java.util.ArrayList;
 
 public class TrackStyle {
-	
 	public String name;
 	
 //	public IModelCustom standard;

@@ -21,29 +21,36 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	}
 
 	@Override
-	public void renderSpecialTileEntity(int special_render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {         //renders angled portion of slope
-		rotate(teTrack, world, x, y, z);
-		
-//		IModelCustom model = style.getStandardModel();
+	public void renderSpecialItem(int renderStage, TrackStyle style, BlockTrackBase track, World world, int x, int y, int z) {
 		IModelCustom model = style.getModel();
 
-//		if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
-//			teTrack.isDummy = false;
+		if (renderStage == 0) {                                 //render rotated model
+			GL11.glRotatef(45f, 0f, 0f, 1f);
+			model.renderPart(partNames[0]);
+		}
+
+		if (renderStage == 1) {                                 //render flat model
+			GL11.glPushMatrix();
+			model.renderPart(partNames[1]);
+			GL11.glPopMatrix();
+		}
+	}
+
+	@Override
+	public void renderSpecialTileEntity(int renderStage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+		rotate(teTrack, world, x, y, z);
+		
+		IModelCustom model = style.getModel();
+
 		if (!teTrack.isDummy) {
-			if (special_render_stage == 0) {                                 //render rotated model
+			if (renderStage == 0) {                                 //render rotated model
 				GL11.glRotatef(45f, 0f, 0f, 1f);
-				if (!teTrack.isDummy) {
-//			model.renderAll();
-					model.renderPart(partNames[0]);
-				}
+				model.renderPart(partNames[0]);
 			}
 
-			if (special_render_stage == 1) {                                 //render flat model
+			if (renderStage == 1) {                                 //render flat model
 				GL11.glPushMatrix();
-//			model.renderAll();
-				if (!teTrack.isDummy) {
-					model.renderPart(partNames[1]);
-				}
+				model.renderPart(partNames[1]);
 				GL11.glPopMatrix();
 			}
 		}
@@ -67,8 +74,6 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 				case 5: return (float) (x + 0.5F);
 				default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 			}
-		} else {
-			return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 		}
 		return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
 	}
@@ -272,6 +277,6 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 
 	@Override
 	public boolean useIcon() {
-		return true;
+		return false;
 	}
 }

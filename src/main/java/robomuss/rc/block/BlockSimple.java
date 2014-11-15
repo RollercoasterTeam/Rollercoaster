@@ -44,4 +44,8 @@ public class BlockSimple extends Block {
         	return super.shouldSideBeRendered(iba, x, y, z, side);
         }
     }
+
+	public static void getBlockVariant() {
+		System.out.println("block variant");
+	}
 }
