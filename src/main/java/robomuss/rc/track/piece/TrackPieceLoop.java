@@ -44,11 +44,12 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 			}
 		}
 	}
-	
+
+	//TODO: double check this isn't broken
 	@Override
 	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
 		if(renderStage == 0) {
-			switch(te.direction) {
+			switch(te.direction.ordinal() - 2) {
 				case 0 : return (float) (x + 1.5f);
 				case 2 : return (float) (x - 0.5f);
 				default: return super.getSpecialX(renderStage, x, te);
@@ -58,11 +59,12 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 			return (float) (x + 0.5f);
 		}
 	}
-	
+
+	//TODO: double check this isn't broken
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
 		if(renderStage == 0) {
-			switch(te.direction) {
+			switch(te.direction.ordinal() - 2) {
 				case 1 : return (float) (z + 1.5f);
 				case 3 : return (float) (z - 0.5f);
 				default: return super.getSpecialZ(renderStage, z, te);

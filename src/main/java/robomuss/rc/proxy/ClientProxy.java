@@ -1,10 +1,32 @@
 package robomuss.rc.proxy;
 
+<<<<<<< HEAD
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import robomuss.rc.block.render.*;
 import robomuss.rc.block.te.*;
+=======
+import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
+import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.render.TileEntityRenderConveyor;
+import robomuss.rc.block.render.TileEntityRenderFooter;
+import robomuss.rc.block.render.TileEntityRenderRideFence;
+import robomuss.rc.block.render.TileEntityRenderSupport;
+import robomuss.rc.block.render.TileEntityRenderTrack;
+import robomuss.rc.block.render.TileEntityRenderTrackFabricator;
+import robomuss.rc.block.render.TileEntityRenderWoodenSupport;
+import robomuss.rc.block.te.TileEntityConveyor;
+import robomuss.rc.block.te.TileEntityFooter;
+import robomuss.rc.block.te.TileEntityRideFence;
+import robomuss.rc.block.te.TileEntitySupport;
+import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.block.te.TileEntityWoodenSupport;
+>>>>>>> master
 import robomuss.rc.client.Keybindings;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
@@ -29,6 +51,8 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFooter.class, new TileEntityRenderFooter());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrackFabricator.class, new TileEntityRenderTrackFabricator());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConveyor.class, new TileEntityRenderConveyor());
 		
         RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
 

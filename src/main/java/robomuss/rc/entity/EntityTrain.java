@@ -15,8 +15,13 @@ import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+import net.minecraftforge.common.IMinecartCollisionHandler;
+import net.minecraftforge.common.util.ForgeDirection;
+>>>>>>> master
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
@@ -504,22 +509,22 @@ public abstract class EntityTrain extends Entity
             this.posY = (double)(y + 1);
         }
 
-        if (slopeFlag && te.direction == 0)
+        if (slopeFlag && te.direction == ForgeDirection.SOUTH)
         {
-            this.motionX -= p_145821_6_;
+                     this.motionX -= p_145821_6_;
         }
 
-        if (slopeFlag && te.direction == 1)
+        if (slopeFlag && te.direction == ForgeDirection.WEST)
         {
             this.motionX += p_145821_6_;
         }
 
-        if (slopeFlag && te.direction == 2)
-        {
-            this.motionZ += p_145821_6_;
-        }
+        if (slopeFlag && te.direction == ForgeDirection.NORTH)
+	    {
+		    this.motionZ += p_145821_6_;
+	    }
 
-        if (slopeFlag && te.direction == 3)
+        if (slopeFlag && te.direction == ForgeDirection.EAST)
         {
             this.motionZ -= p_145821_6_;
         }

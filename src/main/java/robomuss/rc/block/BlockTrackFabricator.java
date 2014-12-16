@@ -11,6 +11,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
+<<<<<<< HEAD
+=======
+import robomuss.rc.multiblock.MultiblockTrackFabricator;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+>>>>>>> master
 
 public class BlockTrackFabricator extends BlockContainer {
 
@@ -23,8 +28,10 @@ public class BlockTrackFabricator extends BlockContainer {
 	@Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
-			FMLNetworkHandler.openGui(player, RCMod.instance, 1, world, x, y, z);
-			return true;
+			if(MultiblockTrackFabricator.isMultiBlockStructure(world, x, y, z)) {
+				FMLNetworkHandler.openGui(player, RCMod.instance, 1, world, x, y, z);
+				return true;
+			}
 		}
 		return false;
 	}

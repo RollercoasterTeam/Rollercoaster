@@ -35,17 +35,18 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	@Override
 	public float getSpecialX(int renderStage, double x, TileEntityTrack te) {
 		if(renderStage == 0) {
-			switch(te.direction) {
-				case 0 : return (float) (x + 0.5F);
-				case 1 : return (float) (x - 0.5F);
-				case 2 : return (float) (x + 0.5F);
-				default: return (float) (x + 1.5F);
+			switch(te.direction.ordinal() - 2) {                //N,S,W,E
+				case 0 : return (float) (x + 0.5F);             //NORTH?
+				case 1 : return (float) (x + 0.5F);             //EAST?
+				case 2 : return (float) (x + 1.5F);             //SOUTH?
+				default: return (float) (x - 0.5F);             //WEST?
+
 			}
 		}
 		else if(renderStage == 1) {
-			switch(te.direction) {
-				case 1 : return (float) (x + 0.5F);
-				case 3 : return (float) (x + 0.5F);
+			switch(te.direction.ordinal() - 2) {                //N,S,W,E
+				case 2 :                                        //WEST?
+				case 3 : return (float) (x + 0.5F);             //EAST?
 				default : return super.getSpecialX(renderStage, x, te);
 			}
 		}
@@ -67,19 +68,20 @@ public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSet
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
 		if(renderStage == 1) {
-			switch(te.direction) {
-				case 0 : return (float) (z + 0.5F);
-				case 2 : return (float) (z + 0.5F);
+			switch(te.direction.ordinal() - 2) {                //N,S,W,E
+				case 0 :                                        //NORTH?
+				case 1 : return (float) (z + 0.5F);             //SOUTH?
 				default : return super.getSpecialZ(renderStage, z, te);
 			}
 		}
 		else {
-			switch(te.direction) {
-			case 0 : return (float) (z + 1.5F);
-			case 1 : return (float) (z + 0.5F);
-			case 2 : return (float) (z - 0.5F);
-			default: return (float) (z + 0.5F);
-		}
+			switch(te.direction.ordinal() - 2) {                //N,S,W,E
+				case 0 : return (float) (z + 1.5F);             //NORTH?
+				case 1 : return (float) (z - 0.5F);             //EAST?
+				case 2 : return (float) (z + 0.5F);             //SOUTH?
+				default: return (float) (z + 0.5F);             //WEST?
+
+			}
 		}
 	}
 	

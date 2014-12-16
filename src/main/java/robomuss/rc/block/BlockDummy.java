@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
@@ -152,12 +153,12 @@ public class BlockDummy extends BlockContainer {
 //		this.slopeDirection = direction;
 //	}
 
-	public void setParentSlope(TileEntityTrack te, BlockTrack track) {
-		this.slopeLocX = te.xCoord;
-		this.slopeLocY = te.yCoord;
-		this.slopeLocZ = te.zCoord;
-		this.slopeDirection = te.direction;
-		this.teSlope = te;
+	public void setParentSlope(TileEntityTrack teTrack, BlockTrack track) {
+		this.slopeLocX = teTrack.xCoord;
+		this.slopeLocY = teTrack.yCoord;
+		this.slopeLocZ = teTrack.zCoord;
+		this.slopeDirection = teTrack.direction.ordinal();
+		this.teSlope = teTrack;
 		this.blockSlope = track;
 //		System.out.printf("Parent slope set: %d, %d, %d, %b, %b", slopeLocX, slopeLocY, slopeLocZ, teSlope != null, blockSlope != null);
 //		System.out.println();
@@ -167,7 +168,14 @@ public class BlockDummy extends BlockContainer {
 		return blockSlope;
 	}
 
-	public BlockPos slopeLoc(){
+
+	public BlockPos slopeLoc() {
 		return new BlockPos(slopeLocX, slopeLocY, slopeLocZ);
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+		return null;
+
 	}
 }

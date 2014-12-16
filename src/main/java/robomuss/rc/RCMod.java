@@ -14,6 +14,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.RCBlocks;
+<<<<<<< HEAD
+=======
+import robomuss.rc.chat.ChatHandler;
+import robomuss.rc.client.gui.GuiHammerOverlay;
+>>>>>>> master
 import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.event.CraftingEvent;
@@ -95,8 +100,13 @@ public class RCMod {
 		new RecipeHandler();
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
+<<<<<<< HEAD
         //TODO forge
 		//MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
+=======
+		FMLCommonHandler.instance().bus().register(new ChatHandler());
+		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
+>>>>>>> master
         packetPipeline.initalise();
         proxy.initRenderers();
 		proxy.initNetwork();

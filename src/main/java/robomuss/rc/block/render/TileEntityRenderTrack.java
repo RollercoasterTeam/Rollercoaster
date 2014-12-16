@@ -15,15 +15,22 @@ import robomuss.rc.track.style.TrackStyle;
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	
 	public static TileEntityRenderTrack instance = new TileEntityRenderTrack();
-	private TrackStyle type;
+	private TrackStyle style;
 	
 	int animation;
 
 	@Override
+<<<<<<< HEAD
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale, int t) {
 		type = ((TileEntityTrack) te).type;
 		if(type == null) {
 			type = TrackHandler.findTrackStyle("corkscrew");
+=======
+	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
+		style = ((TileEntityTrack) te).style;
+		if(style == null) {
+			style = TrackHandler.findTrackStyle("corkscrew");
+>>>>>>> master
 		}
 		int colour = ((TileEntityTrack) te).colour;
 		
@@ -45,7 +52,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.render(type, (TileEntityTrack) te);
+				track_type.render(style, (TileEntityTrack) te);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -59,7 +66,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				if(track_type.inverted) {
 					GL11.glRotatef(180, 1, 0, 0);
 				}
-				track_type.renderSpecial(i, type, (TileEntityTrack) te);
+				track_type.renderSpecial(i, style, (TileEntityTrack) te);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}

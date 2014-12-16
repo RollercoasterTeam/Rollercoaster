@@ -5,6 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+<<<<<<< HEAD
+=======
+
+import net.minecraftforge.common.util.ForgeDirection;
+>>>>>>> master
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.BlockTrack;
@@ -39,9 +44,9 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	TileEntityTrack track = (TileEntityTrack) north;
         	BlockTrack block = (BlockTrack) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == 2) {
-        			connectNorth = true;
-        		}
+        		if(track.direction == ForgeDirection.NORTH) {
+					connectNorth = true;
+				}
         	}
         }
         
@@ -49,7 +54,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	TileEntityTrack track = (TileEntityTrack) east;
         	BlockTrack block = (BlockTrack) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == 1) {
+        		if(track.direction == ForgeDirection.WEST) {
         			connectEast = true;
         		}
         	}
@@ -59,7 +64,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	TileEntityTrack track = (TileEntityTrack) south;
         	BlockTrack block = (BlockTrack) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == 0) {
+        		if(track.direction == ForgeDirection.SOUTH) {
         			connectSouth = true;
         		}
         	}
@@ -69,7 +74,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         	TileEntityTrack track = (TileEntityTrack) west;
         	BlockTrack block = (BlockTrack) track.getBlockType();
         	if(block != null && isConnectable(block.track_type)) {
-        		if(track.direction == 3) {
+        		if(track.direction == ForgeDirection.EAST) {
         			connectWest = true;
         		}
         	}

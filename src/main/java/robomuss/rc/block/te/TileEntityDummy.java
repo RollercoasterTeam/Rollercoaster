@@ -1,10 +1,12 @@
 package robomuss.rc.block.te;
 
+<<<<<<< HEAD
 import net.minecraft.block.state.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+=======
+>>>>>>> master
 import robomuss.rc.track.style.TrackStyle;
-import sun.org.mozilla.javascript.internal.ast.Block;
 
 public class TileEntityDummy extends TileEntityTrack {
 	TrackStyle type;
@@ -15,6 +17,6 @@ public class TileEntityDummy extends TileEntityTrack {
 	public int zCoord = getPos().getZ();
 
 	public TileEntityDummy() {
-		this.type = super.type;
+		this.type = super.style;
 	}
 }
