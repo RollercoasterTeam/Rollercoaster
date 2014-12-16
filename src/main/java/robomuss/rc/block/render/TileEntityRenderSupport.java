@@ -13,7 +13,6 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
-    
     public ModelSupport model;
 
     public TileEntityRenderSupport() {
@@ -21,74 +20,50 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float var8) {
+    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) {
     	boolean connectNorth = false;
     	boolean connectEast = false;
     	boolean connectSouth = false;
     	boolean connectWest = false;
     	
         TileEntity north = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord + 1);
-        TileEntity east = te.getWorldObj().getTileEntity(te.xCoord + 1, te.yCoord + 1, te.zCoord);
-        TileEntity south = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord - 1);
-        TileEntity west = te.getWorldObj().getTileEntity(te.xCoord - 1, te.yCoord + 1, te.zCoord);
+		TileEntity south = te.getWorldObj().getTileEntity(te.xCoord, te.yCoord + 1, te.zCoord - 1);
+		TileEntity west = te.getWorldObj().getTileEntity(te.xCoord - 1, te.yCoord + 1, te.zCoord);
+		TileEntity east = te.getWorldObj().getTileEntity(te.xCoord + 1, te.yCoord + 1, te.zCoord);
 
-	    if(north instanceof TileEntityTrackBase) {
-		    TileEntityTrackBase teTrack = (TileEntityTrackBase) north;
-		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
-		    if(block != null && isConnectable(block.track_type)) {
-			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-			    if (meta == 2) {
-				    connectNorth = true;
-			    }
-		    }
-	    }
+	    TileEntityTrackBase trackNorth = north instanceof TileEntityTrackBase ? (TileEntityTrackBase) north : null;
+	    TileEntityTrackBase trackSouth = south instanceof TileEntityTrackBase ? (TileEntityTrackBase) south : null;
+	    TileEntityTrackBase trackWest  = west  instanceof TileEntityTrackBase ? (TileEntityTrackBase) west  : null;
+	    TileEntityTrackBase trackEast  = east  instanceof TileEntityTrackBase ? (TileEntityTrackBase) east  : null;
 
-	    if(east instanceof TileEntityTrackBase) {
-		    TileEntityTrackBase teTrack = (TileEntityTrackBase) east;
-		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
-		    if(block != null && isConnectable(block.track_type)) {
-			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-			    if (meta == 5) {
-				    connectEast = true;
-			    }
-		    }
-	    }
+	    BlockTrackBase blockNorth = trackNorth != null ? (BlockTrackBase) trackNorth.getBlockType() : null;
+	    BlockTrackBase blockSouth = trackSouth != null ? (BlockTrackBase) trackSouth.getBlockType() : null;
+	    BlockTrackBase blockWest  = trackWest  != null ? (BlockTrackBase) trackWest.getBlockType()  : null;
+	    BlockTrackBase blockEast  = trackEast  != null ? (BlockTrackBase) trackEast.getBlockType()  : null;
 
-	    if(south instanceof TileEntityTrackBase) {
-		    TileEntityTrackBase teTrack = (TileEntityTrackBase) south;
-		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
-		    if(block != null && isConnectable(block.track_type)) {
-			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-			    if (meta == 3) {
-				    connectSouth = true;
-			    }
-		    }
-	    }
+	    int metaNorth = blockNorth != null ? trackNorth.getWorldObj().getBlockMetadata(trackNorth.xCoord, trackNorth.yCoord, trackNorth.zCoord) : -1;
+	    int metaSouth = blockSouth != null ? trackSouth.getWorldObj().getBlockMetadata(trackSouth.xCoord, trackSouth.yCoord, trackSouth.zCoord) : -1;
+	    int metaWest  = blockWest  != null ? trackWest.getWorldObj().getBlockMetadata(trackWest.xCoord, trackWest.yCoord, trackWest.zCoord)     : -1;
+	    int metaEast  = blockEast  != null ? trackEast.getWorldObj().getBlockMetadata(trackEast.xCoord, trackEast.yCoord, trackEast.zCoord)     : -1;
 
-	    if(west instanceof TileEntityTrackBase) {
-		    TileEntityTrackBase teTrack = (TileEntityTrackBase) west;
-		    BlockTrackBase block = (BlockTrackBase) teTrack.getBlockType();
-		    if(block != null && isConnectable(block.track_type)) {
-			    int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-			    if (meta == 4) {
-				    connectWest = true;
-			    }
-		    }
-	    }
-    	
+	    connectNorth = (blockNorth != null && isConnectable(blockNorth.track_type)) && metaNorth == 2;
+	    connectSouth = (blockSouth != null && isConnectable(blockSouth.track_type)) && metaSouth == 3;
+	    connectWest  = (blockWest  != null && isConnectable(blockWest.track_type))  && metaWest  == 4;
+	    connectEast  = (blockEast  != null && isConnectable(blockEast.track_type))  && metaEast  == 5;
+
         GL11.glPushMatrix();
         int colour = ((TileEntitySupport) te).colour;
-        GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+        GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
         GL11.glRotatef(180, 1, 0, 0);
         ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
-        this.model.middle.render(0.0625F);
-        this.model.middle2.render(0.0625F);  
+        this.model.middle.render(0.0625f);
+        this.model.middle2.render(0.0625f);
         
-        if(((TileEntitySupport) te).flange) {
-        	this.model.flange1.render(0.0625F);
-            this.model.flange2.render(0.0625F);  
+        if (((TileEntitySupport) te).flange) {
+        	this.model.flange1.render(0.0625f);
+            this.model.flange2.render(0.0625f);
         }
 
         GL11.glPopMatrix();
@@ -124,26 +99,18 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         }*/
         
         GL11.glPushMatrix();
-        if(connectNorth) {
-        	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
-        } else if(connectEast) {
-        	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
-        } else if(connectWest) {
-        	GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
+
+        if(connectNorth || connectEast || connectWest) {
+        	GL11.glTranslatef((float) x + 0.5f, (float) y + 0.5f, (float) z + 0.5f);
         } else {
-        	GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+        	GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
         }
+
         GL11.glRotatef(180, 1, 0, 0);
         int connector_colour = 0;
-        if(connectNorth) {
-        	connector_colour = ((TileEntityTrackBase) north).colour;
-        } else if(connectEast) {
-        	connector_colour = ((TileEntityTrackBase) east).colour;
-        } else if(connectSouth) {
-        	connector_colour = ((TileEntityTrackBase) south).colour;
-        } else if(connectWest) {
-        	connector_colour = ((TileEntityTrackBase) west).colour;
-        }
+
+	    connector_colour = (connectNorth ? trackNorth.colour : (connectSouth ? trackSouth.colour : (connectWest ? trackWest.colour : (connectEast ? trackEast.colour : 0))));
+
         ResourceLocation connector_texture = (new ResourceLocation("rc:textures/models/colour_" + connector_colour + ".png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(connector_texture);
 
@@ -156,7 +123,7 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
         }
         
         if(connectNorth || connectEast || connectSouth || connectWest) {
-        	this.model.connector.render(0.0625F);
+        	this.model.connector.render(0.0625f);
         }
         
         GL11.glPopMatrix();

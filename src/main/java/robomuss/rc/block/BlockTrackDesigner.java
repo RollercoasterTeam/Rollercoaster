@@ -23,13 +23,8 @@ public class BlockTrackDesigner extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		//if(!world.isRemote) {
-			FMLNetworkHandler.openGui(player, RCMod.instance, 0, world, x, y, z);
-			return true;
-		///}
-		//else {
-			//return false;
-		//}
+		FMLNetworkHandler.openGui(player, RCMod.instance, 0, world, x, y, z);
+		return true;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -55,7 +50,7 @@ public class BlockTrackDesigner extends BlockContainer {
 	}
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityTrackDesigner();
     }
 }

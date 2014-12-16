@@ -10,6 +10,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -19,29 +20,30 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.chat.ChatHandler;
+import robomuss.rc.chat.command.RCCommandItemAnimation;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
-import robomuss.rc.entity.RCEntitys;
-import robomuss.rc.event.BlockClickedEvent;
-import robomuss.rc.event.CraftingEvent;
-import robomuss.rc.event.RCGuiOpenEvent;
-import robomuss.rc.event.TrackPlaceEventHandler;
+import robomuss.rc.entity.RCEntities;
+import robomuss.rc.event.*;
 import robomuss.rc.exception.TrackStyleModelNotFoundException;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.json.JSONHandler;
 import robomuss.rc.network.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
+import robomuss.rc.track.SupportManager;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
+import robomuss.rc.util.RCOptions;
 
+import java.io.File;
 import java.io.IOException;
 
 @Mod(modid = RCMod.MODID, name = RCMod.NAME, version = RCMod.VERSION)
 public class RCMod {
 	
 	public static final String MODID = "rc";
-	public static final String NAME = "Rollercoaster Mod";
+	public static final String NAME = "Roller Coaster Mod";
 	public static final String VERSION = "v1.4_beta2";
 
 	@Instance
@@ -55,7 +57,10 @@ public class RCMod {
     public static final PacketPipeline packetPipeline = new PacketPipeline();
 
 	public static TrackManager trackManager;
-	
+	public static SupportManager supportManager;
+
+	public static RCOptions rcOptions = new RCOptions(Minecraft.getMinecraft(), new File("options.txt"));
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		JSONHandler.loadTrackStyles();
@@ -100,17 +105,22 @@ public class RCMod {
 		};
 
 		TrackHandler.registerTracks();
-		
+
+		supportManager = new SupportManager();
+
 		RCItems.init();
 		RCBlocks.init();
-        RCEntitys.init();
+        RCEntities.init();
 		new RecipeHandler();
 		new GuiHandler();
+//		ClientCommandHandler.instance.registerCommand(new RCCommandItemAnimation());
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
 		FMLCommonHandler.instance().bus().register(new ChatHandler());
+		FMLCommonHandler.instance().bus().register(new RCTickHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
-		MinecraftForge.EVENT_BUS.register(new TrackPlaceEventHandler());
+		MinecraftForge.EVENT_BUS.register(new BlockPlacedEvent());
 //		MinecraftForge.EVENT_BUS.register(new RCGuiOpenEvent());
+		MinecraftForge.EVENT_BUS.register(new RCItemTooltipEvent());
         packetPipeline.initalize();
         proxy.initRenderers();
 		proxy.initNetwork();
@@ -118,8 +128,13 @@ public class RCMod {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		this.trackManager = new TrackManager();
+		trackManager = new TrackManager();
         packetPipeline.postInitialise();
         MinecraftForge.EVENT_BUS.register(new GuiHammerOverlay(Minecraft.getMinecraft()));
+	}
+
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event) {
+		event.registerServerCommand(new RCCommandItemAnimation());
 	}
 }

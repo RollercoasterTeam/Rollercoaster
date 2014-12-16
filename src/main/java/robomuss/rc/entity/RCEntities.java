@@ -6,7 +6,7 @@ import robomuss.rc.RCMod;
 /**
  * Created by Mark on 25/08/2014.
  */
-public class RCEntitys {
+public class RCEntities {
 	
     public static void init() {
         int entityID = EntityRegistry.findGlobalUniqueEntityId();

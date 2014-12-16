@@ -1,6 +1,7 @@
 package robomuss.rc.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -26,10 +27,13 @@ public class GuiTrackStorage extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
-		 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		 this.mc.getTextureManager().bindTexture(trackStorageGuiTextures);
-	     int k = (this.width - this.xSize) / 2;
-	     int l = (this.height - this.ySize) / 2;
-	     this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+	    GL11.glPushMatrix();
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderHelper.enableGUIStandardItemLighting();
+	    this.mc.getTextureManager().bindTexture(trackStorageGuiTextures);
+	    int k = (this.width - this.xSize) / 2;
+	    int l = (this.height - this.ySize) / 2;
+	    this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+		GL11.glPopMatrix();
 	}
 }

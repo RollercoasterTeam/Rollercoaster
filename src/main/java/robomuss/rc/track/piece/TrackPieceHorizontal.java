@@ -1,10 +1,10 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
@@ -20,8 +20,8 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	private float[] rotationOffsets = new float[] {180f, 0f, 0f, 0f};
 	public Block block;
 
-	public TrackPieceHorizontal(String unlocalized_name, int crafting_cost) {
-		super(unlocalized_name, crafting_cost);
+	public TrackPieceHorizontal(String unlocalized_name, int crafting_cost, int render_stage) {
+		super(unlocalized_name, crafting_cost, render_stage);
 	}
 
 	public void addTileEntityToList(TileEntityTrackBase teTrack) {
@@ -31,17 +31,43 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	}
 
 	@Override
-	public void renderItem(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+	public void renderItem(int render_stage, IItemRenderer.ItemRenderType render_type, TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
 		IModelCustom model = style.getModel();
 
-		GL11.glPushMatrix();
-		RenderHelper.enableGUIStandardItemLighting();
+		GL11.glTranslatef(getInventoryX(), getInventoryY(), getInventoryZ());
+		GL11.glScalef(0.625f, 0.625f, 0.625f);
+		if (render_type == IItemRenderer.ItemRenderType.EQUIPPED) {
+			GL11.glPushMatrix();
+			GL11.glScalef(2.4f, 2.4f, 2.4f);
+			GL11.glTranslatef(2.5f, -2.6f, 0);
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		} else if (render_type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON) {
+			GL11.glPushMatrix();
+			GL11.glScalef(2, 2, 2);
+			GL11.glRotatef(180, 0, 1, 0);
+			GL11.glTranslatef(1, -5.5f, 0);
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		} else if (render_type == IItemRenderer.ItemRenderType.INVENTORY) {
+			GL11.glPushMatrix();
+			GL11.glScalef(1.55f, 1.55f, 1.55f);
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		} else if (render_type == IItemRenderer.ItemRenderType.ENTITY) {
+			GL11.glPushMatrix();
+			GL11.glScalef(1.5f, 1.5f, 1.5f);
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		}
+	}
+
+	public void render(int render_stage, IModelCustom model) {
 		model.renderPart(partName);
-		GL11.glPopMatrix();
 	}
 
 	@Override
-	public void renderTileEntity(TrackStyle style, TileEntityTrackBase teTrack, World world, int x ,int y, int z) {
+	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x ,int y, int z) {
 		rotate(teTrack, world, x, y, z);
 
 		IModelCustom model = style.getModel();
@@ -73,7 +99,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
 		if (teTrack != null) {
-			int trackMeta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 			int heading = MathHelper.floor_double((entity.rotationYaw * 4.0f / 360.0f) + 0.5d) & 3;
 			int facing = heading == 0 ? 3 : heading == 1 ? 4 : heading == 2 ? 2 : heading == 3 ? 5 : 2;
 
@@ -84,7 +110,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 				case 3: facing = 5; break;
 			}
 
-			switch (trackMeta) {
+			switch (meta) {
 
 			}
 		}
@@ -92,7 +118,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 	
 	@Override
 	public AxisAlignedBB getBlockBounds(IBlockAccess iba, int x, int y, int z) {
-		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4F, 1);
+		return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.4f, 1);
 	}
 
 	//TODO: fix item rendering!!!
@@ -113,7 +139,7 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 
 	@Override
 	public float getInventoryScale() {
-		return 1.5f;
+		return 1f;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package robomuss.rc.track.piece;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
@@ -15,12 +16,12 @@ import robomuss.rc.util.IInventoryRenderSettings;
 public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "heartline_roll";
 
-	public TrackPieceHeartlineRoll(String unlocalized_name, int crafting_cost, int special_render_stages) {
-		super(unlocalized_name, crafting_cost, special_render_stages);
+	public TrackPieceHeartlineRoll(String unlocalized_name, int crafting_cost, int render_stage) {
+		super(unlocalized_name, crafting_cost, render_stage);
 	}
 
 	@Override
-	public void renderItem(TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+	public void renderItem(int render_stage, IItemRenderer.ItemRenderType render_type, TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
 		IModelCustom model = style.getModel();
 
 		GL11.glPushMatrix();
@@ -29,16 +30,18 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 		GL11.glPopMatrix();
 	}
 
+	public void render(int render_stage, IModelCustom model) {}
+
 	@Override
-	public void renderSpecialTileEntity(int renderStage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
 		rotate(teTrack, world, x, y, z);
-		/*if(renderStage <= 9) {
-			GL11.glRotatef(-3f * renderStage, 0, 1, 0);
+		/*if(render_stage <= 9) {
+			GL11.glRotatef(-3f * render_stage, 0, 1, 0);
 		}
 		else {
-			GL11.glRotatef(3f * renderStage, 0, 1, 0);
+			GL11.glRotatef(3f * render_stage, 0, 1, 0);
 		}*/
-//		GL11.glRotatef(20f * renderStage, 1, 0, 0);
+//		GL11.glRotatef(20f * render_stage, 1, 0, 0);
 //		IModelCustom model = type.getStandardModel();
 		IModelCustom model = style.getModel();
 //		model.renderAll();
@@ -58,17 +61,12 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 	}
 	
 	@Override
-	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-//		if(teTrack.direction == ForgeDirection.WEST || teTrack.direction == ForgeDirection.EAST) {
-//			return (float) (x + 0.5f + (renderStage * 0.5f));
-//		} else {
-//			return (float) (x + 0.5f);
-//		}
+	public float getX(int render_stage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		if (teTrack != null && teTrack.track != null) {
-			int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-			if (trackMeta == 4 || trackMeta == 5) {
-//				return (float) (x + 0.5f + (renderStage * 0.5f));
+			int meta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+//			meta = meta >= 11 ? meta - 10 : meta;
+
+			if (meta == 4 || meta == 5) {
 				return (float) (x + 0.5f);
 			} else {
 				return (float) (x + 0.5f);
@@ -79,22 +77,17 @@ public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRen
 	}
 
 	@Override
-	public float getSpecialY(int renderStage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
+	public float getY(int render_stage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
 		return (float) (y + 1f);
 	}
 	
 	@Override
-	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-//        TileEntityTrackBase tileEntityTrackBase = (TileEntityTrackBase) world.getTileEntity(lx, ly, lz);
-//		if(teTrack.direction == ForgeDirection.SOUTH || teTrack.direction == ForgeDirection.NORTH) {
-//			return (float) (z + 0.5f + (renderStage * 0.5f));
-//		} else {
-//			return (float) (z + 0.5f);
-//		}
+	public float getZ(int render_stage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		if (teTrack != null && teTrack.track != null) {
-			int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-			if (trackMeta == 2 || trackMeta == 3) {
-//				return (float) (z + 0.5f + (renderStage * 0.5f));
+			int meta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+//			meta = meta >= 11 ? meta - 10 : meta;
+
+			if (meta == 2 || meta == 3) {
 				return (float) (z + 0.5f);
 			} else {
 				return (float) (z + 0.5f);

@@ -3,6 +3,7 @@ package robomuss.rc.network.packets;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.AbstractPacket;
@@ -34,7 +35,10 @@ public class PacketChangePaintColour extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-    	player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(RCItems.brush, 1, meta));
+        if (player.getHeldItem() != null) {
+            if (player.getHeldItem().getItem() != Items.water_bucket) {
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(RCItems.brush, 1, meta));
+            }
+        }
     }
-
 }

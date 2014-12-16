@@ -7,11 +7,11 @@ import net.minecraft.block.material.Material;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.*;
 import robomuss.rc.item.ItemBlockPath;
+import robomuss.rc.item.ItemBlockTrack;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class RCBlocks {
-
 	public static int last_track_id;
 	public static Block support, woodenSupport, footer;
 	public static Block path;
@@ -24,7 +24,8 @@ public class RCBlocks {
 	public static void init() {
 		for(TrackPiece track: TrackHandler.pieces) {
 			track.block = new BlockTrackBase(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
-			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
+//			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
+			GameRegistry.registerBlock(track.block, ItemBlockTrack.class, track.unlocalized_name + "_track");
 		}
 
         GameRegistry.registerTileEntity(TileEntityTrackBase.class, "te_track");
@@ -94,5 +95,4 @@ public class RCBlocks {
 		
 		GameRegistry.registerTileEntity(TileEntityConveyor.class, "te_conveyor");
 	}
-
 }

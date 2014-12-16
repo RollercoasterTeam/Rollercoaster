@@ -2,14 +2,18 @@ package robomuss.rc.proxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
+import robomuss.rc.RCMod;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.render.*;
 import robomuss.rc.block.te.*;
+import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.client.renderer.*;
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
+import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -48,6 +52,8 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.track_fabricator), new ItemRenderTrackFabricator());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.conveyor), new ItemRenderConveyor());
 
+		MinecraftForgeClient.registerItemRenderer(RCItems.balloon, new ItemRenderBalloon(Minecraft.getMinecraft().thePlayer));
+
         for(TrackPiece track : TrackHandler.pieces) {
 	        //TODO: fix item rendering!!!
         	boolean useIcon = true;
@@ -58,16 +64,15 @@ public class ClientProxy extends CommonProxy {
 				MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
         	}
         }
+
+//		FMLCommonHandler.instance().bus().register(new RCTickHandler(Minecraft.getMinecraft()));
 	}
 
-//    @Override
-//    public void registerKeybindings()
-//    {
-//        Keybindings.init();
-//        ClientRegistry.registerKeyBinding(Keybindings.lookLeft);
-//        ClientRegistry.registerKeyBinding(Keybindings.lookRight);
-//        ClientRegistry.registerKeyBinding(Keybindings.down);
-//        ClientRegistry.registerKeyBinding(Keybindings.up);
-//
-//    }
+    @Override
+    public void registerKeybindings() {
+	    TrackDesignerKeyBindings.registerBlankKeys();
+	    TrackDesignerKeyBindings.init();
+	    RCMod.rcOptions.loadRCOptions();
+//	    Minecraft.getMinecraft().gameSettings.loadOptions();
+    }
 }

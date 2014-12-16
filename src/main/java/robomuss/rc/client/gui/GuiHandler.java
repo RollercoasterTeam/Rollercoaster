@@ -7,11 +7,11 @@ import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.container.ContainerTrackStorage;
+import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class GuiHandler implements IGuiHandler {
-
 	public GuiHandler() {
 		 NetworkRegistry.INSTANCE.registerGuiHandler(RCMod.instance, this);
 	}
@@ -32,7 +32,9 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if(ID == 0) {
-			return new GuiTrackDesigner(player, world, x, y, z);
+			TileEntityTrackDesigner te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
+			te.guiTrackDesigner = new GuiTrackDesigner(player, world, x, y, z);
+			return te.guiTrackDesigner;
 		}
 		if(ID == 1) {
 			TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);

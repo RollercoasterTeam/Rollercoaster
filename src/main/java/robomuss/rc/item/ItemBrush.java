@@ -12,7 +12,6 @@ import robomuss.rc.util.ColourUtil;
 import java.util.List;
 
 public class ItemBrush extends Item {
-	
 	public ItemBrush() {
 		setHasSubtypes(true);
 	}

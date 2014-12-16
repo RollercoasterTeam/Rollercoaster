@@ -16,9 +16,9 @@ public class MultiBlockTrackFabricator extends MultiBlockManager {
 
 	public void registerStructure() {
 		if (!hasStructureBeenRegistered) {
-			structure.addLayer(0, RCBlocks.track_fabricator, new Object[]{"#O#", "O#O", "#F#", '#', RCBlocks.track_fabricator_casing, 'F', RCBlocks.track_fabricator, 'O', RCBlocks.track_fabricator_output});
-			structure.addLayer(1, null, new Object[]{"#G#", "G G", "#G#", '#', RCBlocks.track_fabricator_casing, 'G', RCBlocks.track_fabricator_glass});
-			structure.addLayer(2, null, new Object[]{"###", "###", "###", '#', RCBlocks.track_fabricator_casing});
+			structure.addLayer(0, RCBlocks.track_fabricator, "#O#", "O#O", "#F#", '#', RCBlocks.track_fabricator_casing, 'F', RCBlocks.track_fabricator, 'O', RCBlocks.track_fabricator_output);
+			structure.addLayer(1, null, "#G#", "G G", "#G#", '#', RCBlocks.track_fabricator_casing, 'G', RCBlocks.track_fabricator_glass);
+			structure.addLayer(2, null, "###", "###", "###", '#', RCBlocks.track_fabricator_casing);
 
 			List<Block> aliasList = new ArrayList<Block>();
 			aliasList.add(RCBlocks.track_fabricator_casing);

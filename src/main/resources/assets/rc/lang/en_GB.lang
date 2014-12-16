@@ -43,6 +43,7 @@ tile.track_designer.name=Track Designer (WIP)
 tile.conveyor.name=Conveyor
 
 item.hammer.name=Track Maintenance Tool
+item.balloon=Balloon
 
 item.empty_brush.name=Paint Brush
 item.brush_0.name=Paint Brush (White)
@@ -94,7 +95,14 @@ item.airLauncher_extra.name=Pneumatic Launch Mechanism
 entity.entityTrain.name=Rollercoaster Train
 
 key.categories.rc.trackdesigner=Track Designer
+key.trackdesigner.conflicts=Conflicts between the Track Designer key bindings and vanilla/other mod key bindings is okay, and will still function properly (conflicts between multiple keys in the category won't however). Leave keys in the Track Designer category as NONE for the default key binding layout.
 key.trackdesigner.up=Up
 key.trackdesigner.down=Down
 key.trackdesigner.lookleft=Look Left
 key.trackdesigner.lookright=Look Right
+key.trackdesigner.forward=Forward
+key.trackdesigner.backward=Backward
+key.trackdesigner.left=Left
+key.trackdesigner.right=Right
+
+commands.track.item.animation.usage=/itemanimation OR /itemanimation <boolean> OR /itemanimation <int>;

@@ -1,9 +1,12 @@
 package robomuss.rc.track.piece;
 
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
@@ -14,38 +17,84 @@ import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderSettings {
 	public static final String[] partNames = {"horizontal_extended", "horizontal"};
+	private ChunkPosition partnerPos;
+	public BlockTrackBase lonelyTrack;
 
-	public TrackPieceSlopeDown(String unlocalized_name, int crafting_cost, int i) {
-		super(unlocalized_name, crafting_cost, i);
+	public TrackPieceSlopeDown(String unlocalized_name, int crafting_cost, int render_stage) {
+		super(unlocalized_name, crafting_cost, render_stage);
+	}
+
+	public void setPartnerPos(ChunkPosition partnerPos) {
+		this.partnerPos = partnerPos;
+	}
+
+	public ChunkPosition getPartnerPos() {
+		return this.partnerPos;
 	}
 
 	@Override
-	public void renderSpecialItem(int renderStage, TrackStyle style, BlockTrackBase track, World world, int x, int y, int z) {
+	public void renderItem(int render_stage, IItemRenderer.ItemRenderType renderType, TrackStyle style, BlockTrackBase track, World world, int x, int y, int z) {
 		IModelCustom model = style.getModel();
-		if (renderStage == 0) {
-			GL11.glRotatef(45, 0, 0, 1);
-			model.renderPart(partNames[0]);
-		}
 
-		if (renderStage == 1) {
+		GL11.glTranslatef(getInventoryX(), getInventoryY(), getInventoryZ());
+		GL11.glRotatef(180, 0, 0, 1);
+		GL11.glScalef(0.625f, 0.625f, 0.625f);
+		if (renderType == IItemRenderer.ItemRenderType.EQUIPPED) {
 			GL11.glPushMatrix();
-			model.renderPart(partNames[1]);
+			GL11.glRotatef(45, 0, 1, 0);
+			GL11.glRotatef(26, 0, 0, 1);
+			GL11.glTranslatef(-9, -13.5f, 0);
+			GL11.glScalef(getInventoryScale(), getInventoryScale(), getInventoryScale());
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		} else if (renderType == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON) {
+			GL11.glPushMatrix();
+			GL11.glRotatef(135, 0, 1, 0);
+			GL11.glRotatef(16, 0, 0, 1);
+			GL11.glScalef(0.7f, 0.7f, 0.7f);
+			GL11.glTranslatef(-30, -23.8f, 2);
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		} else if (renderType == IItemRenderer.ItemRenderType.INVENTORY) {
+			GL11.glPushMatrix();
+			RenderHelper.enableGUIStandardItemLighting();
+			GL11.glTranslatef(3, 0, 0.5f);
+			GL11.glRotatef(180, 0, 1, 0);
+			GL11.glScalef(0.7f, 0.7f, 0.7f);
+			this.render(render_stage, model);
+			GL11.glPopMatrix();
+		} else if (renderType == IItemRenderer.ItemRenderType.ENTITY) {
+			GL11.glPushMatrix();
+			this.render(render_stage, model);
 			GL11.glPopMatrix();
 		}
 	}
 
+	public void render(int render_stage, IModelCustom model) {
+		if (render_stage == 0) {
+			GL11.glRotatef(45, 0, 0, -1);
+		}
+
+		if (render_stage == 1) {
+			GL11.glTranslatef(17f, -9f, 0f);
+		}
+
+		model.renderPart(partNames[render_stage]);
+	}
+
 	@Override
-	public void renderSpecialTileEntity(int renderStage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
 		rotate(teTrack, world, x, y, z);
 		IModelCustom model = style.getModel();
 
 		if (!teTrack.isDummy) {
-			if (renderStage == 0) {                 //render rotated track
+			if (render_stage == 0) {                 //render rotated track
+				GL11.glTranslatef(0, 16, 0);
 				GL11.glRotatef(45f, 0f, 0f, 1f);
 				model.renderPart(partNames[0]);
 			}
 
-			if (renderStage == 1) {                //render flat track
+			if (render_stage == 1) {                //render flat track
 				GL11.glPushMatrix();
 				model.renderPart(partNames[1]);
 				GL11.glPopMatrix();
@@ -54,46 +103,46 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	}
 	
 	@Override
-	public float getSpecialX(int renderStage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+	public float getX(int render_stage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		int currentFacing = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-
 		currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
-		if (renderStage == 0) {
+
+		if (render_stage == 0) {
 			switch(currentFacing) {
 				case 4:  return (float) (x - 0.5F);
 				case 5:  return (float) (x + 1.5F);
 				default: return (float) (x + 0.5F);
 			}
-		} else if(renderStage == 1) {
+		} else if(render_stage == 1) {
 			switch (currentFacing) {
 				case 4:  return (float) (x - 1.5F);
 				case 5:  return (float) (x + 2.5F);
-				default: return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
+				default: return super.getX(render_stage, x, teTrack, world, lx, ly, lz);
 			}
 		} else {
-			return super.getSpecialX(renderStage, x, teTrack, world, lx, ly, lz);
+			return super.getX(render_stage, x, teTrack, world, lx, ly, lz);
 		}
 	}
 	
 	@Override
-	public float getSpecialY(int renderStage, double y, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-		if(renderStage == 1) {
+	public float getY(int render_stage, double y, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+		if(render_stage == 1) {
 			return (float) (y + 2.5F);
 		} else {
-			return super.getSpecialY(renderStage, y + 1.5f, teTrack, world, lx, ly, lz);
+			return super.getY(render_stage, y + 1.5f, teTrack, world, lx, ly, lz);
 		}
 	}
 	
 	@Override
-	public float getSpecialZ(int renderStage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+	public float getZ(int render_stage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
 		int currentFacing = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-
 		currentFacing = currentFacing > 11 ? currentFacing - 10 : currentFacing;
-		if(renderStage == 1) {
+
+		if(render_stage == 1) {
 			switch (currentFacing) {
 				case 2:  return (float) (z - 1.5F);
 				case 3:  return (float) (z + 2.5F);
-				default: return super.getSpecialZ(renderStage, z, teTrack, world, lx, ly, lz);
+				default: return super.getZ(render_stage, z, teTrack, world, lx, ly, lz);
 			}
 		} else {
 			switch (currentFacing) {
@@ -114,10 +163,10 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 	@Override
 	public void moveTrain(BlockTrackBase track, EntityTrainDefault entity, TileEntityTrackBase teTrack) {
 		int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+		meta = meta > 11 ? meta - 10 : meta;
 		int heading = MathHelper.floor_double((entity.rotationYaw * 4.0f / 360.0f) + 0.5D) & 3;
 		int facing = heading == 0 ? 3 : heading == 1 ? 4 : heading == 2 ? 2 : heading == 3 ? 5 : 2;
 
-		meta = meta > 11 ? meta - 10 : meta;
 		if(entity.riddenByEntity != null && entity.riddenByEntity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity.riddenByEntity;
 			player.swingProgressInt = 90;
@@ -153,58 +202,6 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 				}
 				break;
 		}
-//		if(te.direction == ForgeDirection.SOUTH) {
-//			if(entity.direction.ordinal() - 2 == 0) {
-//				entity.posY += 1f;
-//				entity.posZ += 3f;
-//				entity.rotationPitch = 0f;
-//				entity.speed += 0.1f;
-//			}
-//			if(entity.direction.ordinal() - 2 == 2) {
-//				entity.posY -= 2f;
-//				entity.posZ -= 3f;
-//				entity.rotationPitch = -45f;
-//			}
-//		}
-//		if(te.direction == ForgeDirection.WEST) {
-//			if(entity.direction.ordinal() - 2 == 1) {
-//				entity.posY -= 2f;
-//				entity.posX += 3f;
-//				entity.rotationPitch = -45f;
-//				entity.speed += 0.1f;
-//			}
-//			if(entity.direction.ordinal() - 2 == 3) {
-//				entity.posY += 1f;
-//				entity.posX -= 3f;
-//				entity.rotationPitch = 0f;
-//			}
-//		}
-//		if(te.direction == ForgeDirection.NORTH) {
-//			if(entity.direction.ordinal() - 2 == 0) {
-//				entity.posY -= 2f;
-//				entity.posZ += 3f;
-//				entity.rotationPitch = -45f;
-//				entity.speed += 0.1f;
-//			}
-//			if(entity.direction.ordinal() - 2 == 2) {
-//				entity.posY += 1f;
-//				entity.posZ -= 3f;
-//				entity.rotationPitch = 0f;
-//			}
-//		}
-//		if(te.direction == ForgeDirection.EAST) {
-//			if(entity.direction.ordinal() - 2 == 1) {
-//				entity.posY += 1f;
-//				entity.posX += 3f;
-//				entity.rotationPitch = 0f;
-//				entity.speed += 0.1f;
-//			}
-//			if(entity.direction.ordinal() - 2 == 3) {
-//				entity.posY -= 2f;
-//				entity.posX -= 3f;
-//				entity.rotationPitch = -45f;
-//			}
-//		}
 	}
 
 	@Override
@@ -224,7 +221,7 @@ public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderS
 
 	@Override
 	public float getInventoryScale() {
-		return 1f;
+		return 1.55f;
 	}
 
 	@Override

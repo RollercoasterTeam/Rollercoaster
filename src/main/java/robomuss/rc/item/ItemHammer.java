@@ -18,78 +18,76 @@ import java.util.List;
 //import robomuss.rc.block.BlockTrack;
 
 public class ItemHammer extends Item {
-
 	public static HammerMode[] modes = {
 		new HammerMode("Rotate") {
 			@Override
 			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
 				if (tileentity instanceof TileEntityTrackBase) {
-					((TileEntityTrackBase) tileentity).rotate();
+					if (event.entityPlayer.isSneaking()) {
+						((TileEntityTrackBase) tileentity).rotate(true);
+					} else {
+						((TileEntityTrackBase) tileentity).rotate(false);
+					}
 				}
-				if(tileentity instanceof TileEntityRideFence) {
+
+				if (tileentity instanceof TileEntityRideFence) {
 					TileEntityRideFence terf = (TileEntityRideFence) event.world.getTileEntity(event.x, event.y, event.z);
-					if(terf.direction == 3) {
-						terf.direction = 0;
-					} else {
-						terf.direction++;
-					}
+					terf.direction = terf.direction == 3 ? 0 : terf.direction + 1;
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}
-				if(tileentity instanceof TileEntityWoodenSupport) {
+
+				if (tileentity instanceof TileEntityWoodenSupport) {
 					TileEntityWoodenSupport tews = (TileEntityWoodenSupport) event.world.getTileEntity(event.x, event.y, event.z);
-					if(tews.direction == 3) {
-						tews.direction = 0;
-					} else {
-						tews.direction++;
-					}
+					tews.direction = tews.direction == 3 ? 0 : tews.direction + 1;
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}
-				if(tileentity instanceof TileEntityConveyor) {
+
+				if (tileentity instanceof TileEntityConveyor) {
 					TileEntityConveyor tec = (TileEntityConveyor) event.world.getTileEntity(event.x, event.y, event.z);
-					if(tec.direction == 3) {
-						tec.direction = 0;
-					} else {
-						tec.direction++;
-					}
+					tec.direction = tec.direction == 3 ? 0 : tec.direction + 1;
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}
 			}
 		},
-		new HammerMode("Change Style") {
-			@Override
-			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
-				if(tileentity instanceof TileEntityTrackBase) {
-					TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
-					int id = 0;
-					for(int i = 0; i < TrackHandler.styles.size(); i++) {
-						if(te.style != null && TrackHandler.styles.get(i).getId() == te.style.getId()) {
-							id = i;
+			new HammerMode("Change Style") {
+				@Override
+				public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
+					if (tileentity instanceof TileEntityTrackBase) {
+						TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
+						int id = 0;
+
+						for (int i = 0; i < TrackHandler.styles.size(); i++) {
+							if (te.style != null && TrackHandler.styles.get(i).getId().equals(te.style.getId())) {
+								id = i;
+							}
 						}
+
+						if (id < TrackHandler.styles.size() - 1) {
+							te.style = TrackHandler.styles.get(id + 1);
+						} else {
+							te.style = TrackHandler.styles.get(0);
+						}
+
+						event.world.markBlockForUpdate(event.x, event.y, event.z);
 					}
-					if(id < TrackHandler.styles.size() - 1) {
-						te.style = TrackHandler.styles.get(id + 1);
-					} else {
-						te.style = TrackHandler.styles.get(0);
+				}
+			},
+			new HammerMode("Adjustment") {
+				@Override
+				public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
+					if (tileentity instanceof TileEntityFooter) {
+						TileEntityFooter te = (TileEntityFooter) tileentity;
+						te.forceConnection = !te.forceConnection;
+						event.world.markBlockForUpdate(event.x, event.y, event.z);
 					}
-					event.world.markBlockForUpdate(event.x, event.y, event.z);
+
+					if (tileentity instanceof TileEntitySupport) {
+						TileEntitySupport te = (TileEntitySupport) tileentity;
+						te.flange = !te.flange;
+						event.world.markBlockForUpdate(event.x, event.y, event.z);
+					}
 				}
 			}
-		},
-		new HammerMode("Adjustment") {
-			@Override
-			public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
-				if(tileentity instanceof TileEntityFooter) {
-					TileEntityFooter te = (TileEntityFooter) tileentity;
-					te.forceConnection = te.forceConnection ? false : true;
-					event.world.markBlockForUpdate(event.x, event.y, event.z);
-				}
-				if(tileentity instanceof TileEntitySupport) {
-					TileEntitySupport te = (TileEntitySupport) tileentity;
-					te.flange = te.flange ? false : true;
-					event.world.markBlockForUpdate(event.x, event.y, event.z);
-				}
-			};
-		}
 	};
 	
 	public ItemHammer() {
@@ -113,14 +111,14 @@ public class ItemHammer extends Item {
 	}
 	
 	@Override
-    public ItemStack getContainerItem(ItemStack itemStack) {
-        ItemStack copiedStack = itemStack.copy();
+	public ItemStack getContainerItem(ItemStack itemStack) {
+		ItemStack copiedStack = itemStack.copy();
 
-        copiedStack.setItemDamage(copiedStack.getItemDamage() + 1);
-        copiedStack.stackSize = 1;
+		copiedStack.setItemDamage(copiedStack.getItemDamage() + 1);
+		copiedStack.stackSize = 1;
 
-        return copiedStack;
-    }
+		return copiedStack;
+	}
 	
 	@Override
 	public boolean hasContainerItem(ItemStack stack) {
@@ -133,14 +131,15 @@ public class ItemHammer extends Item {
 		stack.stackTagCompound.setInteger("mode", 0);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean val) {
-		if(stack.stackTagCompound == null) {
+		if (stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setInteger("mode", 0);
 		}
+
 		list.add(modes[stack.stackTagCompound.getInteger("mode")].name + " Mode");
 	}
 }

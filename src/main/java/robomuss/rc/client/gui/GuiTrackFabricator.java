@@ -95,12 +95,10 @@ public class GuiTrackFabricator extends GuiContainer {
 			if(Integer.parseInt(textField.getText()) == 0) {
 				amount = 1;
 				textField.setText("" + amount);
-			}
-			else if(Integer.parseInt(textField.getText()) > 64) {
+			} else if(Integer.parseInt(textField.getText()) > 64) {
 				amount = 64;
 				textField.setText("" + amount);
-			}
-			else {
+			} else {
 				amount = Integer.parseInt(textField.getText());
 			}
 		}

@@ -5,42 +5,45 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import robomuss.rc.RCMod;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.gui.exList.ExpandableListNode;
 import robomuss.rc.client.gui.exList.ExpandableListNodeRollercoasters;
+import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.GuiPanel;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GuiTrackDesigner extends GuiScreen {
-
 	private TileEntityTrackDesigner te;
 
-	public static Entity3rdPerson entity3rdPerson;
+//	private final GuiRCControls GUI_RC_CONTROLS = new GuiRCControls(this, RCMod.rcOptions);
+//	private final GuiRCKeyBindingList GUI_RC_KEY_BINDING_LIST = new GuiRCKeyBindingList(GUI_RC_CONTROLS, Minecraft.getMinecraft());
+
+	private static final String CONTROLS = "Controls";
+	private static final String HELP = "Help";
+	private static final String EXIT = "Exit";
+
+	private static final String[] BUTTON_NAMES = {CONTROLS, HELP, EXIT};
+	private static final int[] BUTTON_IDS = {99, 100, 101};
+
+	public EntityPlayer player;
+	public Entity3rdPerson entity3rdPerson;
 	private int thirdPersonView = 0;
 
 	private static final GuiPanel NEW_COASTER_PANEL = new GuiPanel("newCoaster", "Create Rollercoaster", 128, 148);
 	private int selectedSlot = 0;
 	private boolean showHelp = false;
+	private boolean shouldDeleteEntity = false;
 	private ArrayList<Block> blocks = new ArrayList<Block>();
-
-	public static int keyForward = 17; // W
-	public static int keyBackward = 31; // S
-	public static int keyLeft = 30; // A
-	public static int keyRight = 32; // D
-	public static int keyLookLeft = 16; // Q
-	public static int keyLookRight = 18; // E
-	public static int keyUp = 201; // PgUp
-	public static int keyDown = 209; // PgDn
 
 	private ExpandableListNode[] nodes = {
 			new ExpandableListNodeRollercoasters("Rollercoasters", null, null),
@@ -50,11 +53,19 @@ public class GuiTrackDesigner extends GuiScreen {
 
 	private double posX, posY, posZ;
 
-	public GuiTrackDesigner(EntityPlayer player, World world, int x, int y,
-			int z) {
+	public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
+		this.mc = Minecraft.getMinecraft();
+
 		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
 
-		entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld);
+		if (!TrackDesignerKeyBindings.haveKeyBindsBeenInitialized) {
+			TrackDesignerKeyBindings.init();
+		}
+
+		this.player = player;
+
+		entity3rdPerson = new Entity3rdPerson(Minecraft.getMinecraft().theWorld, TrackDesignerKeyBindings.getRCKeyBinds(), this);
+
 		if (entity3rdPerson != null) {
 			Minecraft.getMinecraft().theWorld.spawnEntityInWorld(entity3rdPerson);
 
@@ -79,6 +90,10 @@ public class GuiTrackDesigner extends GuiScreen {
 		blocks.add(RCBlocks.support);
 	}
 
+	public TileEntityTrackDesigner getTrackDesigner() {
+		return this.te;
+	}
+
 	int val = -1;
 
 	@SuppressWarnings("unchecked")
@@ -86,7 +101,13 @@ public class GuiTrackDesigner extends GuiScreen {
 	public void initGui() {
 		buttonList.clear();
 
-		buttonList.add(new GuiButton(100, this.width - 40, 10, 30, 20, "Help"));
+		int offset = 9;
+		for (int i = BUTTON_IDS.length - 1; i > -1; i--) {
+			int width = mc.fontRenderer.getStringWidth(BUTTON_NAMES[i]) + 9;
+			width = width < 30 ? 30 : width;
+			offset += width + 1;
+			buttonList.add(new GuiButton(BUTTON_IDS[i], this.width - offset, 10, width, 20, BUTTON_NAMES[i]));
+		}
 
 		for (int i = 0; i < nodes.length; i++) {
 			ExpandableListNode node = nodes[i];
@@ -94,8 +115,7 @@ public class GuiTrackDesigner extends GuiScreen {
 				if (node.getChildren() != null) {
 					for (int j = 0; j < node.getChildren().length; j++) {
 						ExpandableListNode child = node.getChildren()[i];
-						buttonList.add(new GuiButton(i + ((j + 1) * 10), 140,
-								40 + (i * 40), 100, 20, child.getName()));
+						buttonList.add(new GuiButton(i + ((j + 1) * 10), 140, 40 + (i * 40), 100, 20, child.getName()));
 					}
 				}
 			}
@@ -103,19 +123,30 @@ public class GuiTrackDesigner extends GuiScreen {
 		}
 	}
 
+	public List<GuiButton> getButtonList() {
+		return this.buttonList;
+	}
+
 	@Override
 	public void drawScreen(int x, int y, float f) {
 		if (showHelp) {
-			String controls1 = "Use W A S D to move around";
+			String kForward  = TrackDesignerKeyBindings.forward.getKeyNameUpper();
+			String kLeft     = TrackDesignerKeyBindings.left.getKeyNameUpper();
+			String kBackward = TrackDesignerKeyBindings.backward.getKeyNameUpper();
+			String kRight    = TrackDesignerKeyBindings.right.getKeyNameUpper();
+			String kUp       = TrackDesignerKeyBindings.up.getKeyNameUpper();
+			String kDown     = TrackDesignerKeyBindings.down.getKeyNameUpper();
+			String kLLeft    = TrackDesignerKeyBindings.lookLeft.getKeyNameUpper();
+			String kLRight   = TrackDesignerKeyBindings.lookRight.getKeyNameUpper();
+
+			String controls1 = String.format("Use %s %s %s %s to move around", kForward, kLeft, kBackward, kRight);
+			String controls2 = String.format("Use %s and %s to move up and down", kUp, kDown);
+			String controls3 = String.format("Use %s and %s to rotate left and right", kLLeft, kLRight);
+			String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";                                         //TODO: change this to use whatever forward and backward are set to!
+
 			drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
-
-			String controls2 = "Use " + Keyboard.getKeyName(keyUp).toUpperCase() + " and " + Keyboard.getKeyName(keyDown).toUpperCase() + " to move up and down";
 			drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
-
-			String controls3 = "Use " + Keyboard.getKeyName(keyLookLeft).toUpperCase() + " and " + Keyboard.getKeyName(keyLookRight).toUpperCase() + " to rotate left and right";
 			drawString(fontRendererObj, controls3, this.width / 2 - (fontRendererObj.getStringWidth(controls3) / 2), this.height / 2 + 60, 0xFFFFFF);
-
-			String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";
 			drawString(fontRendererObj, controls4, this.width / 2 - (fontRendererObj.getStringWidth(controls4) / 2), this.height / 2 + 80, 0xFFFFFF);
 		}
 
@@ -123,38 +154,52 @@ public class GuiTrackDesigner extends GuiScreen {
 		int cornerX = (width - NEW_COASTER_PANEL.width) / 2;
 		int cornerY = 40;
 
-		mc.renderEngine.bindTexture(NEW_COASTER_PANEL.texture);
-		drawTexturedModalRect(cornerX, cornerY, 0, 0, NEW_COASTER_PANEL.width, NEW_COASTER_PANEL.height);
-
-		drawString(fontRendererObj, NEW_COASTER_PANEL.displayName, cornerX + ((NEW_COASTER_PANEL.width / 2) - (fontRendererObj.getStringWidth(NEW_COASTER_PANEL.displayName) / 2)), cornerY + 10, 16777215);
+//		mc.renderEngine.bindTexture(NEW_COASTER_PANEL.texture);
+//		drawTexturedModalRect(cornerX, cornerY, 0, 0, NEW_COASTER_PANEL.width, NEW_COASTER_PANEL.height);
+//		drawString(fontRendererObj, NEW_COASTER_PANEL.displayName, cornerX + ((NEW_COASTER_PANEL.width / 2) - (fontRendererObj.getStringWidth(NEW_COASTER_PANEL.displayName) / 2)), cornerY + 10, 16777215);
 		
 		// Changes the slot based on the mouse wheel
 		int dxWheel = Mouse.getDWheel();
 		if (dxWheel != 0) {
 			if (dxWheel > 0) {
-				if (selectedSlot != 9) {
-					selectedSlot += 1;
-				} else {
-					selectedSlot = 0;
-				}
+				selectedSlot = selectedSlot != 9 ? selectedSlot++ : 0;
+//				if (selectedSlot != 9) {
+//					selectedSlot += 1;
+//				} else {
+//					selectedSlot = 0;
+//				}
 			}
 			if (dxWheel < 0) {
-				if (selectedSlot != 0) {
-					selectedSlot -= 1;
-				} else {
-					selectedSlot = 9;
-				}
+				selectedSlot = selectedSlot != 0 ? selectedSlot-- : 9;
+//				if (selectedSlot != 0) {
+//					selectedSlot -= 1;
+//				} else {
+//					selectedSlot = 9;
+//				}
 			}
 		}
-
 		super.drawScreen(x, y, f);
 	}
 
 	@Override
 	public void actionPerformed(GuiButton button) {
+		if (button.id == 99) {
+			shouldDeleteEntity = false;
+			this.mc.displayGuiScreen(new GuiRCControls(this, RCMod.rcOptions));
+		}
+
 		if (button.id == 100) {
 			this.showHelp = !this.showHelp;
+			if (!TrackDesignerKeyBindings.haveKeyBindsBeenInitialized) {
+				TrackDesignerKeyBindings.init();
+			}
 		}
+
+		if (button.id == 101) {
+			shouldDeleteEntity = true;
+			this.player.closeScreen();
+		}
+
 		if (button.id > 0) {
 			val = button.id;
 			initGui();
@@ -164,12 +209,19 @@ public class GuiTrackDesigner extends GuiScreen {
 	@Override
 	public void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
-		Rectangle mouse = new Rectangle(x, y, 1, 1);
-		Rectangle bounds = new Rectangle(10, 10, 100, 20);
-		if (!mouse.intersects(bounds)) {
-			MovingObjectPosition pos = entity3rdPerson.rayTraceMouse();
-			// NetworkHandler.placeTrackStartPoint(te, pos);
+//		Rectangle mouse = new Rectangle(x, y, 1, 1);
+//		Rectangle bounds = new Rectangle(10, 10, 100, 20);
+
+		if (entity3rdPerson != null) {
+			if (!((GuiButton) this.buttonList.get(button)).func_146115_a()) {
+				entity3rdPerson.rayTraceMouse();
+			}
 		}
+
+//		if (!mouse.intersects(bounds)) {
+//			MovingObjectPosition pos = entity3rdPerson.rayTraceMouse();
+//			// NetworkHandler.placeTrackStartPoint(te, pos);
+//		}
 	}
 
 	public boolean doesGuiPauseGame() {
@@ -179,11 +231,15 @@ public class GuiTrackDesigner extends GuiScreen {
 	@Override
 	public void onGuiClosed() {
 		// super.onGuiClosed();
-		Keyboard.enableRepeatEvents(false);
-		Minecraft.getMinecraft().renderViewEntity = Minecraft.getMinecraft().thePlayer;
-		Minecraft.getMinecraft().gameSettings.thirdPersonView = thirdPersonView;
-		Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
-		entity3rdPerson = null;
+//		if (!(this.mc.currentScreen instanceof GuiRCControls)) {
+		if (shouldDeleteEntity) {
+			Keyboard.enableRepeatEvents(false);
+			Minecraft.getMinecraft().renderViewEntity = Minecraft.getMinecraft().thePlayer;
+			Minecraft.getMinecraft().gameSettings.thirdPersonView = thirdPersonView;
+			Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
+			entity3rdPerson = null;
+//			TrackDesignerKeyBindings.unBindDesignerKeys();
+		}
 		// super.mc.displayGuiScreen((GuiScreen)null);
 		// super.mc.setIngameFocus();
 	}
@@ -192,13 +248,8 @@ public class GuiTrackDesigner extends GuiScreen {
 	public void keyTyped(char key, int value) {
 		super.keyTyped(key, value);
 
-		if ((value == keyForward || value == keyLeft || value == keyRight
-				|| value == keyLeft || value == keyLookLeft
-				|| value == keyLookRight || value == keyUp || value == keyDown || value == keyBackward)
-				&& entity3rdPerson != null) {
-			this.entity3rdPerson.onUpdate();
-		} else if (value >= 2 && value < 12) {
-			this.selectedSlot = value - 2;
+		if (value != Keyboard.KEY_ESCAPE) {
+			entity3rdPerson.onUpdate();
 		}
 	}
 }
