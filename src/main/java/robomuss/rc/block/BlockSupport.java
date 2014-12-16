@@ -3,12 +3,14 @@ package robomuss.rc.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.util.IPaintable;
@@ -16,8 +18,8 @@ import robomuss.rc.util.IPaintable;
 public class BlockSupport extends BlockContainer implements IPaintable {
 	public BlockSupport() {
         super(Material.iron);
-        setHardness(1F);
-		setResistance(3F);
+        setHardness(1f);
+		setResistance(3f);
     }
 
     @Override
@@ -32,11 +34,11 @@ public class BlockSupport extends BlockContainer implements IPaintable {
 
     @Override
     public int getRenderType() {
-        return 110;
+	    return 110;
     }
     
     @Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (player.getHeldItem() != null) {
 			Item heldItem = player.getHeldItem().getItem();
 
@@ -46,52 +48,24 @@ public class BlockSupport extends BlockContainer implements IPaintable {
 		}
 
 	    return false;
-
-
-
-//	    if(!world.isRemote) {
-//			if(player.getHeldItem() != null) {
-//				if(player.getHeldItem().getItem() == RCItems.brush) {
-//					TileEntitySupport tes = (TileEntitySupport) world.getTileEntity(x, y, z);
-//					tes.colour = player.getHeldItem().getItemDamage();
-//					world.markBlockForUpdate(x, y, z);
-//					return true;
-//				} else if (player.getHeldItem().getItem() == Item.getItemFromBlock(RCBlocks.support)) {
-//					return true;
-//				}
-//			}
-//		}
-//
-//	    if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.water_bucket) {
-//		    TileEntitySupport teSupport = (TileEntitySupport) world.getTileEntity(x, y, z);
-//
-//		    if (teSupport.footer != null) {
-//			    teSupport.footer.clearSupportStackColors();
-//		    }
-//
-//		    if (!player.capabilities.isCreativeMode) {
-//			    player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
-//		    }
-//
-//		    return true;
-//	    }
-//
-//	    return false;
 	}
     
     @Override
-	public int getPaintMeta(World world, int x, int y, int z) {
-		return ((TileEntitySupport) world.getTileEntity(x, y, z)).colour;
+	public int getPaintMeta(World world, BlockPos pos) {
+		return ((TileEntitySupport) world.getTileEntity(pos)).colour;
 	}
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-    	TileEntity above = world.getTileEntity(x, y + 1, z);
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+    	TileEntity above = world.getTileEntity(pos.up());
+
     	if (!(above instanceof TileEntitySupport)) {
     		int gap = 1;
-    		for(int currentY = y; currentY > 0; currentY--) {
-    			if(world.getTileEntity(x, currentY, z) instanceof TileEntitySupport) {
-    				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(x, currentY, z);
+
+		    //TODO: make sure this doesn't infinite loop!
+    		for(BlockPos currentPos = pos; currentPos.getY() > BlockPos.ORIGIN.getY(); currentPos.down()) {
+    			if(world.getTileEntity(currentPos) instanceof TileEntitySupport) {
+    				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(currentPos.down());
 
 				    if(gap == 2) {
     					te.flange = true;
@@ -101,26 +75,28 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     					gap++;
     				}
 
-    				world.markBlockForUpdate(x, currentY, z);
+    				world.markBlockForUpdate(currentPos.down());
     			}
     		}
     	}
     }
 
 	@Override
-	public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side) {
-		ForgeDirection direction = ForgeDirection.getOrientation(side).getOpposite();
-		Block block = world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side) {
+		EnumFacing direction = side.getOpposite();
+		Block block = world.getBlockState(pos.offset(direction)).getBlock();
 		return block instanceof BlockSupport || block instanceof BlockFooter;
 	}
     
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int side) {
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
     	int gap = 1;
 
-    	for(int currentY = y - 1; currentY > 0; currentY--) {
-    		if(world.getTileEntity(x, currentY, z) instanceof TileEntitySupport) {
-    			TileEntitySupport te = (TileEntitySupport) world.getTileEntity(x, currentY, z);
+	    //TODO: check that this doesn't infinite loop!
+	    for (BlockPos currentPos = pos.offset(EnumFacing.DOWN); currentPos.getY() > BlockPos.ORIGIN.getY(); currentPos.down()) {
+//    	for(int currentY = y - 1; currentY > 0; currentY--) {
+    		if(world.getTileEntity(currentPos) instanceof TileEntitySupport) {
+    			TileEntitySupport te = (TileEntitySupport) world.getTileEntity(currentPos);
 
 			    if(gap == 2) {
     				te.flange = true;
@@ -130,20 +106,8 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     				gap++;
     			}
 
-    			world.markBlockForUpdate(x, currentY, z);
+    			world.markBlockForUpdate(currentPos);
     		}
     	}
     }
-
-//	@Override
-//	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-//		if (world.getTileEntity(x, y, z) instanceof TileEntitySupport) {
-//			int[] footerLoc = new int[] {
-//					RCMod.supportManager.getFooterFromSupport((TileEntitySupport) world.getTileEntity(x, y, z)).xCoord,
-//					RCMod.supportManager.getFooterFromSupport((TileEntitySupport) world.getTileEntity(x, y, z)).yCoord,
-//					RCMod.supportManager.getFooterFromSupport((TileEntitySupport) world.getTileEntity(x, y, z)).zCoord
-//			};
-//			RCMod.supportManager.breakFooter(world, footerLoc[0], footerLoc[1], footerLoc[2]);
-//		}
-//	}
 }

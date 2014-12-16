@@ -1,16 +1,15 @@
 package robomuss.rc.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
 
 public class BlockRailings extends BlockPane {
-
-	public BlockRailings(String par1) {
-		super("rc:" + par1, "rc:" + par1, Material.iron, true);
-		setHardness(1F);
-		setResistance(3F);
+	public BlockRailings(String string) {
+		super(Material.iron, true);
+		setHardness(1f);
+		setResistance(3f);
 	}
 
 	@Override
