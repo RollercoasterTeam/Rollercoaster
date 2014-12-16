@@ -1,6 +1,7 @@
 package robomuss.rc.proxy;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -9,9 +10,16 @@ import robomuss.rc.block.te.*;
 =======
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.settings.KeyBinding;
+=======
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.client.Minecraft;
+>>>>>>> master
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
+import robomuss.rc.RCMod;
 import robomuss.rc.block.RCBlocks;
+<<<<<<< HEAD
 import robomuss.rc.block.render.TileEntityRenderConveyor;
 import robomuss.rc.block.render.TileEntityRenderFooter;
 import robomuss.rc.block.render.TileEntityRenderRideFence;
@@ -28,8 +36,15 @@ import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 >>>>>>> master
 import robomuss.rc.client.Keybindings;
+=======
+import robomuss.rc.block.render.*;
+import robomuss.rc.block.te.*;
+import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
+import robomuss.rc.client.renderer.*;
+>>>>>>> master
 import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
+import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
@@ -39,9 +54,11 @@ public class ClientProxy extends CommonProxy {
 	@SuppressWarnings("unused")
 	@Override
 	public void initRenderers() {
+		/** TRACK PIECES */
 		for(TrackPiece track : TrackHandler.pieces) {
-			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrack.class, new TileEntityRenderTrack());
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrackBase.class, new TileEntityRenderTrack());
 		}
+<<<<<<< HEAD
         
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRideFence.class, new TileEntityRenderRideFence());
 		
@@ -70,26 +87,59 @@ public class ClientProxy extends CommonProxy {
 //        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_square), new ItemRenderFence());
 //        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
 //
+=======
+
+		/** BLOCKS */
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRideFence.class, new TileEntityRenderRideFence());                   //FENCE
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupport.class, new TileEntityRenderSupport());                       //SUPPORT
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWoodenSupport.class, new TileEntityRenderWoodenSupport());           //WOOD SUPPORT
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFooter.class, new TileEntityRenderFooter());                         //FOOTER
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrackFabricator.class, new TileEntityRenderTrackFabricator());       //TRACK FABRICATOR
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConveyor.class, new TileEntityRenderConveyor());                     //CONVEYOR
+
+		/** TRAIN */
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
+
+		/** ITEMS */
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence), new ItemRenderFence());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_corner), new ItemRenderFence());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_triangle), new ItemRenderFence());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_square), new ItemRenderFence());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
+
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.support), new ItemRenderSupport());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.woodenSupport), new ItemRenderWoodenSupport());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.footer), new ItemRenderFooter());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.track_fabricator), new ItemRenderTrackFabricator());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.conveyor), new ItemRenderConveyor());
+
+		MinecraftForgeClient.registerItemRenderer(RCItems.balloon, new ItemRenderBalloon(Minecraft.getMinecraft().thePlayer));
+
+>>>>>>> master
         for(TrackPiece track : TrackHandler.pieces) {
-        	boolean useIcon = false;
+	        //TODO: fix item rendering!!!
+        	boolean useIcon = true;
         	if(track instanceof IInventoryRenderSettings) {
         		useIcon = ((IInventoryRenderSettings) track).useIcon();
         	}
         	if(!useIcon) {
+<<<<<<< HEAD
                 //TODO forge
         		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
+=======
+				MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
+>>>>>>> master
         	}
         }
+
+//		FMLCommonHandler.instance().bus().register(new RCTickHandler(Minecraft.getMinecraft()));
 	}
 
     @Override
-    public void registerKeybindings()
-    {
-        Keybindings.init();
-        ClientRegistry.registerKeyBinding(Keybindings.lookLeft);
-        ClientRegistry.registerKeyBinding(Keybindings.lookRight);
-        ClientRegistry.registerKeyBinding(Keybindings.down);
-        ClientRegistry.registerKeyBinding(Keybindings.up);
-
+    public void registerKeybindings() {
+	    TrackDesignerKeyBindings.registerBlankKeys();
+	    TrackDesignerKeyBindings.init();
+	    RCMod.rcOptions.loadRCOptions();
+//	    Minecraft.getMinecraft().gameSettings.loadOptions();
     }
 }

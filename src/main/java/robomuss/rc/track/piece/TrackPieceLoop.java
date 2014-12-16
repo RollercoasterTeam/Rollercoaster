@@ -1,49 +1,53 @@
 package robomuss.rc.track.piece;
 
+<<<<<<< HEAD
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.te.TileEntityTrack;
+=======
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
+import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.block.te.TileEntityTrackBase;
+>>>>>>> master
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettings {
+	public static final String partName = "loop";
 
-	public TrackPieceLoop(String unlocalized_name, int crafting_cost, int special_render_stages) {
-		super(unlocalized_name, crafting_cost, special_render_stages);
+	public TrackPieceLoop(String unlocalized_name, int crafting_cost, int render_stage) {
+		super(unlocalized_name, crafting_cost, render_stage);
 	}
 
 	@Override
-	public void renderSpecial(int renderStage, TrackStyle type, TileEntityTrack te) {
-		rotate(te);
-		if(renderStage == 0) {
-			//GL11.glTranslatef((float) te.xCoord + 0.5F, (float) te.yCoord + 1.5F, (float) te.zCoord + 0.5F);
-			GL11.glRotatef(10f, 0f, 0f, -1f);
-			for(int i = 0; i < 19; i++) {
-				GL11.glRotatef(10f, 0f, 0f, 1f);
-				if(i == 10) {
-					GL11.glRotatef(20f, 0f, 1f, 0f);
-				}
-				IModelCustom model = type.getStandardModel();
-				model.renderAll();
-				GL11.glRotatef(0f, 0f, 0f, 0f);
-				GL11.glTranslatef(0f, 0f, 0f);
-			}
-		}
-		if(renderStage == 1) {
-			//GL11.glTranslatef((float) te.xCoord + 0.5F, (float) te.yCoord + 1.5F, (float) te.zCoord + 1.5f);
-			GL11.glRotatef(10f, 0f, 0f, 1f);
-			for(int i = 0; i < 19; i++) {
-				GL11.glRotatef(-10f, 0f, 0f, 1f);
-				if(i == 10) {
-					GL11.glRotatef(20f, 0f, 1f, 0f);
-				}
-				IModelCustom model = type.getStandardModel();
-				model.renderAll();
-				GL11.glRotatef(0f, 0f, 0f, 0f);
-				GL11.glTranslatef(0f, 0f, 0f);
-			}
+	public void renderItem(int render_stage, IItemRenderer.ItemRenderType render_type, TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+		IModelCustom model = style.getModel();
+
+		GL11.glPushMatrix();
+		RenderHelper.enableGUIStandardItemLighting();
+		model.renderPart(partName);
+		GL11.glPopMatrix();
+	}
+
+	public void render(int render_stage, IModelCustom model) {}
+
+	@Override
+	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
+		rotate(teTrack, world, x, y, z);
+
+		if(render_stage == 0) {
+			GL11.glRotatef(5f, 1f, 0f, 0f);
+			GL11.glRotatef(-12f, 0f, 1f, 0f);
+			GL11.glScalef(1.05f, 1.05f, 1.05f);
+			IModelCustom model = style.getModel();
+			model.renderPart(partName);
 		}
 	}
+<<<<<<< HEAD
 
 	//TODO: double check this isn't broken
 	@Override
@@ -53,13 +57,28 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 				case 0 : return (float) (x + 1.5f);
 				case 2 : return (float) (x - 0.5f);
 				default: return super.getSpecialX(renderStage, x, te);
+=======
+	
+	//TODO: double check this isn't broken
+	@Override
+	public float getX(int render_stage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+		if(render_stage == 0) {
+			if (teTrack != null && teTrack.track != null) {
+				int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				switch (trackMeta) {
+					case 2:  return (float) (x + 0.52f);
+					case 3:  return (float) (x + 0.5f);
+					case 4:  return (float) (x + 1.5f);
+					case 5:  return (float) (x - 0.5f);
+					default: return super.getX(render_stage, x, teTrack, world, lx, ly, lz);
+				}
+>>>>>>> master
 			}
 		}
-		else {
-			return (float) (x + 0.5f);
-		}
+		return (float) (x + 0.5f);
 	}
 
+<<<<<<< HEAD
 	//TODO: double check this isn't broken
 	@Override
 	public float getSpecialZ(int renderStage, double z, TileEntityTrack te) {
@@ -68,11 +87,27 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 				case 1 : return (float) (z + 1.5f);
 				case 3 : return (float) (z - 0.5f);
 				default: return super.getSpecialZ(renderStage, z, te);
+=======
+	@Override
+	public float getY(int render_stage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
+		return (float) (y + 1.528f);
+	}
+
+	//TODO: double check this isn't broken
+	@Override
+	public float getZ(int render_stage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
+		if(render_stage == 0) {
+			if (teTrack != null && teTrack.track != null) {
+				int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				switch (trackMeta) {
+					case 2:  return (float) (z + 1f);
+					case 3:  return (float) (z - 0.5f);
+					default: return super.getZ(render_stage, z, teTrack, world, lx, ly, lz);
+				}
+>>>>>>> master
 			}
 		}
-		else {
-			return (float) (z + 0.5f);
-		}
+		return (float) (z + 0.5f);
 	}
 
 	@Override
@@ -96,12 +131,12 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 	}
 	
 	@Override
-	public boolean useIcon() {
-		return true;
+	public float getInventoryRotation() {
+		return 0;
 	}
 
 	@Override
-	public float getInventoryRotation() {
-		return 0;
+	public boolean useIcon() {
+		return true;
 	}
 }

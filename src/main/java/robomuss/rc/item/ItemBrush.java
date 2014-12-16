@@ -1,5 +1,11 @@
 package robomuss.rc.item;
 
+<<<<<<< HEAD
+=======
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+>>>>>>> master
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,7 +16,6 @@ import robomuss.rc.util.ColourUtil;
 import java.util.List;
 
 public class ItemBrush extends Item {
-	
 	public ItemBrush() {
 		setHasSubtypes(true);
 	}

@@ -1,5 +1,12 @@
 package robomuss.rc.network;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -10,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
+<<<<<<< HEAD
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
@@ -17,6 +25,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+>>>>>>> master
 import robomuss.rc.network.packets.*;
 
 import java.util.*;
@@ -113,7 +123,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     }
 
     // Method to call from FMLInitializationEvent
-    public void initalise() {
+    public void initalize() {
         this.channels = NetworkRegistry.INSTANCE.newChannel("rc", this);
         registerPackets();
     }
@@ -124,6 +134,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
         registerPacket(PacketTrackDesignerButtonClick.class);
         registerPacket(PacketChangePaintColour.class);
         registerPacket(PacketKillAll.class);
+//	    registerPacket(PacketRotateTrack.class);
     }
 
     // Method to call from FMLPostInitializationEvent

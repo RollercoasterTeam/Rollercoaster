@@ -1,5 +1,8 @@
 package robomuss.rc.block;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -22,14 +25,12 @@ public class BlockTrackStorage extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			FMLNetworkHandler
-					.openGui(player, RCMod.instance, 2, world, x, y, z);
+			FMLNetworkHandler.openGui(player, RCMod.instance, 2, world, x, y, z);
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	@Override

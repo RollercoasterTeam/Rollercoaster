@@ -4,6 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+<<<<<<< HEAD
+=======
+import net.minecraftforge.client.IItemRenderer;
+>>>>>>> master
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.*;

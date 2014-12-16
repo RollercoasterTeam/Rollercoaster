@@ -7,8 +7,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+<<<<<<< HEAD
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+=======
+import net.minecraft.world.IBlockAccess;
+>>>>>>> master
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.item.RCItems;
@@ -87,5 +91,22 @@ public class BlockRideFence extends BlockContainer implements IPaintable {
 	@Override
 	public Item getItemDropped(int i, Random random, int j) {
 		return super.getItemDropped(i, random, j);
+	}
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
+		TileEntity te = iba.getTileEntity(x, y, z);
+		if(te.getBlockType() == RCBlocks.ride_fence_gate) {
+			TileEntityRideFence terf = (TileEntityRideFence) te;
+			if(terf.open) {
+				setBlockBounds(0, 0, 0, 0, 0, 0);
+			}
+			else {
+				setBlockBounds(0, 0, 0, 1, 1, 1);
+			}
+		}
+		else {
+			setBlockBounds(0, 0, 0, 1, 1, 1);
+		}
 	}
 }

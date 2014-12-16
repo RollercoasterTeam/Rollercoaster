@@ -14,6 +14,12 @@ import robomuss.rc.track.style.TrackStyle;
 
 import java.util.ArrayList;
 
+<<<<<<< HEAD
+=======
+//import robomuss.rc.block.BlockTrack;
+//import robomuss.rc.block.BlockTrack2;
+
+>>>>>>> master
 public class TrackHandler {
 
 	public static ArrayList<TrackPiece> pieces = new ArrayList<TrackPiece>();
@@ -34,26 +40,21 @@ public class TrackHandler {
 	}
 	
 	public static void addTrackPieces() {
-		pieces.add(new TrackPieceHorizontal("horizontal", 3));
+		pieces.add(new TrackPieceHorizontal("horizontal", 3, 1));
 		pieces.add(new TrackPieceSlopeUp("slope_up", 3, 2));
-		pieces.add(new TrackPieceSlope("slope", 3));
+		pieces.add(new TrackPieceSlope("slope", 3, 1));
 		pieces.add(new TrackPieceSlopeDown("slope_down", 3, 2));
-		pieces.add(new TrackPieceCorner("curve", 3));
-		pieces.add(new TrackPieceLoop("loop", 10, 2));
-		pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 19));
-//		pieces.add(new TrackDummy("dummy", 0));
+		pieces.add(new TrackPieceCorner("curve", 3, 1));
+		pieces.add(new TrackPieceLoop("loop", 10, 1));
+		pieces.add(new TrackPieceHeartlineRoll("heartline_roll", 12, 1));
 	}
 	
 	public static void addTrackExtras() {
 		extras.add(new TrackExtra("brakes", new ModelBrakes(), null, 0, TrackHandler.findTrackType("horizontal")));
 		extras.add(new TrackExtraChain("chain", new ModelChain(), null, 0, TrackHandler.findTrackType("horizontal"), TrackHandler.findTrackType("slope_up"), TrackHandler.findTrackType("slope"), TrackHandler.findTrackType("slope_down")));
 		extras.add(new TrackExtra("tires", new ModelTires(), null, 0, TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtraStation("station", new ModelStation(), new Object[] {
-			"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)
-		}, 6, TrackHandler.findTrackType("horizontal")));
-		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {
-			"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot
-		}, 1, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtraStation("station", new ModelStation(), new Object[] {"XXX", "   ", "XXX", 'X', new ItemStack(Blocks.stained_hardened_clay, 1, 8)}, 6, TrackHandler.findTrackType("horizontal")));
+		extras.add(new TrackExtraAirLauncher("airLauncher", new ModelAirLauncher(), new Object[] {"XXX", "YYY", 'X', Items.redstone, 'Y', Items.iron_ingot}, 1, TrackHandler.findTrackType("horizontal")));
 	}
 
 	public static TrackPiece findTrackType(Item item) {

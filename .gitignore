@@ -22,5 +22,9 @@ gradle/
 
 *.iml
 *.ipr
+<<<<<<< HEAD
 *.iws
 .idea
+=======
+*.iws
+>>>>>>> master

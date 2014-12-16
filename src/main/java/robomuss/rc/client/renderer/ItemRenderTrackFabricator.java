@@ -26,11 +26,12 @@ public class ItemRenderTrackFabricator implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float) 0 + 0.5F, (float) 0 + 1.4F, (float) 0 + 0.5F);
+        GL11.glTranslatef((float) 0 + 0.5F, (float) 0 + 1.5F, (float) 0 + 0.5F);
         GL11.glRotatef(180, 1, 0, 0);
         if(type == ItemRenderType.INVENTORY) {
-        	GL11.glRotatef(lastRot, 0, 1, 0);
-            lastRot += 0.1F;
+			GL11.glTranslatef(0, 0.1f, 0);
+	        GL11.glRotatef(lastRot, 0, 1, 0);
+	        lastRot += 0.1F;
         }
         	
         ResourceLocation textures = (new ResourceLocation("rc:textures/models/track_fabricator.png"));

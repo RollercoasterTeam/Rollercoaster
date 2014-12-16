@@ -1,6 +1,11 @@
 package robomuss.rc.client.gui;
 
+<<<<<<< HEAD
 
+=======
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+>>>>>>> master
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -9,11 +14,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.container.ContainerTrackStorage;
+import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class GuiHandler implements IGuiHandler {
-
 	public GuiHandler() {
 		 NetworkRegistry.INSTANCE.registerGuiHandler(RCMod.instance, this);
 	}
@@ -34,7 +39,9 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if(ID == 0) {
-			return new GuiTrackDesigner(player, world, x, y, z);
+			TileEntityTrackDesigner te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
+			te.guiTrackDesigner = new GuiTrackDesigner(player, world, x, y, z);
+			return te.guiTrackDesigner;
 		}
 		if(ID == 1) {
 			TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(new BlockPos(x, y, z));

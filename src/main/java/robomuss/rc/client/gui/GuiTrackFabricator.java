@@ -1,6 +1,11 @@
 package robomuss.rc.client.gui;
 
+<<<<<<< HEAD
 
+=======
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+>>>>>>> master
 import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -11,8 +16,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+>>>>>>> master
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 import robomuss.rc.block.container.ContainerTrackFabricator;
@@ -21,7 +29,10 @@ import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
 
 import java.awt.event.KeyEvent;
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+>>>>>>> master
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
@@ -38,6 +49,10 @@ public class GuiTrackFabricator extends GuiContainer {
         super(new ContainerTrackFabricator(par1InventoryPlayer, player, te, par2World, par3, par4, par5));
         this.te = te;
     }
+
+	public TileEntityTrackFabricator getTileEntity() {
+		return this.te;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -101,12 +116,10 @@ public class GuiTrackFabricator extends GuiContainer {
 			if(Integer.parseInt(textField.getText()) == 0) {
 				amount = 1;
 				textField.setText("" + amount);
-			}
-			else if(Integer.parseInt(textField.getText()) > 64) {
+			} else if(Integer.parseInt(textField.getText()) > 64) {
 				amount = 64;
 				textField.setText("" + amount);
-			}
-			else {
+			} else {
 				amount = Integer.parseInt(textField.getText());
 			}
 		}
