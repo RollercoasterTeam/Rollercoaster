@@ -18,11 +18,10 @@ TODO
 -Refinements to track placement mechanics [shade] (in-progress)
 -Ride Control Panel [shade]
 
-1.5 features
-JSON Track style system
-API for track pieces
-Stalls
-Refined track placement mechanics
+-JSON Track style system [team]
+-API for track pieces [unassigned]
+-Stalls [robo]
+-Refined track placement mechanics [shade]
 
-Minecraft 1.8 update[modmuss50]
+-Minecraft 1.8 update [modmuss50]
 
