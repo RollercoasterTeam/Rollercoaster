@@ -5,24 +5,31 @@ import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+<<<<<<< HEAD
 import net.minecraft.util.MathHelper;
+=======
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+>>>>>>> FETCH_HEAD
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityConveyor;
 
 public class BlockConveyor extends BlockContainer {
-    
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public BlockConveyor() {
         super(Material.iron);
-        setHardness(1F);
-		setResistance(3F);
+        setHardness(1f);
+		setResistance(3f);
 		setBlockBounds(0, 0, 0, 1, 0.25f, 1);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World var1, int var2) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityConveyor();
     }
 
@@ -37,57 +44,41 @@ public class BlockConveyor extends BlockContainer {
     }
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing()), 2);
 	}
 
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		return RCBlocks.track_fabricator_casing.getIcon(side, meta);
-	}
+	private boolean rotateToNeighbor(World world, BlockPos pos) {
+		IBlockState state = world.getBlockState(pos);
+		IBlockState northState = world.getBlockState(pos.north());
+		IBlockState southState = world.getBlockState(pos.south());
+		IBlockState westState  = world.getBlockState(pos.west());
+		IBlockState eastState  = world.getBlockState(pos.east());
 
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
-		int facing = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-		if (rotateToNeighbor(world, x, y, z)) {
-			switch (facing) {
-				case 0: world.setBlockMetadataWithNotify(x, y, z, 3, 2); break;
-				case 1: world.setBlockMetadataWithNotify(x, y, z, 4, 2); break;
-				case 2: world.setBlockMetadataWithNotify(x, y, z, 2, 2); break;
-				case 3: world.setBlockMetadataWithNotify(x, y, z, 5, 2); break;
-			}
-		}
-	}
-
-	private boolean rotateToNeighbor(World world, int x, int y, int z) {
-//		Block[] neighbors = new Block[4];
-		ArrayList<Block> neighbors = new ArrayList<Block>();
-		neighbors.add(world.getBlock(x, y, z - 1));
-		neighbors.add(world.getBlock(x, y, z + 1));
-		neighbors.add(world.getBlock(x - 1, y, z));
-		neighbors.add(world.getBlock(x + 1, y, z));
-
-		int index = -1;
-
-		for (Block block : neighbors) {
-			if (block instanceof BlockSimple && block.getMaterial() == Material.iron) {
-				index = neighbors.indexOf(block);
-			} else if (block instanceof BlockConveyor) {
-				index = neighbors.indexOf(block);
-			}
+		if (northState.getBlock() instanceof BlockSimple && northState.getBlock().getMaterial() == Material.iron) {
+			world.setBlockState(pos, state.withProperty(FACING, EnumFacing.SOUTH));
+		} else if (northState.getBlock() instanceof BlockConveyor) {
+			world.setBlockState(pos, state.withProperty(FACING, northState.getValue(FACING)));
 		}
 
-		if (index == -1) {
-			return true;
-		} else {
-			switch (index) {
-				case 0: world.setBlockMetadataWithNotify(x, y, z, 3, 2); break;
-				case 1: world.setBlockMetadataWithNotify(x, y, z, 2, 2); break;
-				case 2: world.setBlockMetadataWithNotify(x, y, z, 5, 2); break;
-				case 3: world.setBlockMetadataWithNotify(x, y, z, 4, 2); break;
-			}
-			return false;
+		if (southState.getBlock() instanceof BlockSimple && southState.getBlock().getMaterial() == Material.iron) {
+			world.setBlockState(pos, state.withProperty(FACING, EnumFacing.NORTH));
+		} else if (southState.getBlock() instanceof BlockConveyor) {
+			world.setBlockState(pos, state.withProperty(FACING, southState.getValue(FACING)));
 		}
+
+		if (westState.getBlock() instanceof BlockSimple && westState.getBlock().getMaterial() == Material.iron) {
+			world.setBlockState(pos, state.withProperty(FACING, EnumFacing.EAST));
+		} else if (westState.getBlock() instanceof BlockConveyor) {
+			world.setBlockState(pos, state.withProperty(FACING, westState.getValue(FACING)));
+		}
+
+		if (eastState.getBlock() instanceof BlockSimple && eastState.getBlock().getMaterial() == Material.iron) {
+			world.setBlockState(pos, state.withProperty(FACING, EnumFacing.WEST));
+		} else if (eastState.getBlock() instanceof BlockConveyor) {
+			world.setBlockState(pos, state.withProperty(FACING, eastState.getValue(FACING)));
+		}
+
+		return true;
 	}
 }

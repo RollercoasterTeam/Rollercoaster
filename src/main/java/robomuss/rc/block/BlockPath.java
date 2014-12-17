@@ -1,7 +1,15 @@
 package robomuss.rc.block;
 
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+>>>>>>> FETCH_HEAD
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,19 +21,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockPath extends Block {
-
 	public int paths = 10;
 	
 	public BlockPath() {
 		super(Material.carpet);
-		setBlockBounds(0, 0, 0, 1, 0.05F, 1);
-		setHardness(1F);
-		setResistance(3F);
+		setBlockBounds(0, 0, 0, 1, 0.05f, 1);
+		setHardness(1f);
+		setResistance(3f);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean isBlockNormalCube() {
+	public boolean isNormalCube(IBlockAccess iba, BlockPos pos) {
 		return false;
 	}
 	
@@ -42,37 +49,15 @@ public class BlockPath extends Block {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	
-	private IIcon[] icons;
-	
+
+	//TODO: make a damage property?
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register) {
-		icons = new IIcon[paths];
-		
-		for(int i = 0; i < paths; i++) {
-			icons[i] = register.registerIcon("rc:path_" + i);
-		}
+	public int damageDropped(IBlockState state) {
+		return 0;
 	}
-	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		return icons[meta];
-	}
-	
-	@Override
-	public int damageDropped(int dmg) {
-		return dmg;
-	}
-	
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-	
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_) {
-		return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
+	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state) {
+		return AxisAlignedBB.fromBounds(0, 0, 0, 0, 0, 0);
 	}
 }

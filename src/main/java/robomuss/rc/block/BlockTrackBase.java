@@ -1,10 +1,19 @@
 package robomuss.rc.block;
 
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.IBlockState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+>>>>>>> FETCH_HEAD
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,17 +21,18 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+>>>>>>> FETCH_HEAD
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
@@ -35,24 +45,26 @@ import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IPaintable;
 
 public class BlockTrackBase extends BlockContainer implements IPaintable {
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyBool DUMMY = PropertyBool.create("dummy");
 	public TrackPiece track_type;
 
 	public BlockTrackBase(TrackPiece track_type) {
 		super(Material.iron);
-		setHardness(1F);
-		setResistance(3F);
+		setHardness(1f);
+		setResistance(3f);
 //		setLightOpacity(128);   //TODO: experiment with the results of this
 		this.track_type = track_type;
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
 		return new ItemStack(GameRegistry.findItem(RCMod.MODID, this.track_type.unlocalized_name + "_track"));
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess iba, int x, int y, int z) {
-		AxisAlignedBB bounds = track_type.getBlockBounds(iba, x, y, z);
+	public void setBlockBoundsBasedOnState(IBlockAccess iba, BlockPos pos) {
+		AxisAlignedBB bounds = track_type.getBlockBounds(iba, pos);
 		this.setBlockBounds((float) bounds.minX, (float) bounds.minY, (float) bounds.minZ, (float) bounds.maxX, (float) bounds.maxY, (float) bounds.maxZ);
 	}
 
@@ -61,8 +73,8 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
-		return this.getCollisionBoundingBoxFromPool(world, x, y, z);
+	public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
+		return this.getCollisionBoundingBox(world, pos, world.getBlockState(pos));
 	}
 
 	/**
@@ -70,59 +82,60 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	 * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
 	 */
 	@Override
-	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity) {
+	public void addCollisionBoxesToList(World world, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity entity) {
 		if (TrackManager.isSloped(TrackManager.getTrackType(this))) {
-			setSlopedBounds(world, x, y, z, mask, list, entity);
+			setSlopedBounds(world, pos, state, mask, list, entity);
 		} else {
-			setTrackBounds(world, x, y, z, mask, list, entity);
+			setTrackBounds(world, pos, state, mask, list, entity);
 		}
 	}
 
-	public void setSlopedBounds(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity) {
+	public void setSlopedBounds(World world, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity entity) {
 		if (this.track_type == TrackHandler.findTrackType("slope_up")) {
-			if (!((TileEntityTrackBase) world.getTileEntity(x, y, z)).isDummy) {
+			if (!((TileEntityTrackBase) world.getTileEntity(pos)).isDummy) {
 				this.setBlockBounds(0f, 0f, 0f, 1f, 0.4f, 1f);
-				super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+				super.addCollisionBoxesToList(world, pos, state, mask, list, entity);
 			} else {
-				setDummyBounds(world, x, y, z, mask, list, entity);
+				setDummyBounds(world, pos, state, mask, list, entity);
 			}
 		} else if (this.track_type == TrackHandler.findTrackType("slope")) {
-			if (((TileEntityTrackBase) world.getTileEntity(x, y, z)).isDummy) {
-				setDummyBounds(world, x, y, z, mask, list, entity);
+			if (((TileEntityTrackBase) world.getTileEntity(pos)).isDummy) {
+				setDummyBounds(world, pos, state, mask, list, entity);
 			}
 		} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
-			if (((TileEntityTrackBase) world.getTileEntity(x, y, z)).isDummy) {
-				setDummyBounds(world, x, y, z, mask, list, entity);
+			if (((TileEntityTrackBase) world.getTileEntity(pos)).isDummy) {
+				setDummyBounds(world, pos, state, mask, list, entity);
 				//TODO: figure out how the dummies for slope_down will work...
 			}
 		}
 	}
 
-	public void setDummyBounds(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity) {
-		int meta = world.getBlockMetadata(x, y, z);
-		meta = meta > 11 ? meta - 10 : meta;                //meta data for dummy tracks is bound to 12-15
-
-		if (meta == 2) {
-			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-			this.setBlockBounds(0f, 0.5f, 0f, 1f, 1f, 0.5f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-		} else if (meta == 3) {
-			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-			this.setBlockBounds(0f, 0.5f, 0.5f, 1f, 1f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-		} else if (meta == 4) {
-			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-			this.setBlockBounds(0f, 0.5f, 0f, 0.5f, 1f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-		} else if (meta == 5) {
-			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-			this.setBlockBounds(0.5f, 0.5f, 0f, 1f, 1f, 1f);
-			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
-		}
+	public void setDummyBounds(World world, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity entity) {
+		IBlockState dummyState = world.getBlockState(pos);
+//		int meta = world.getBlockMetadata(x, y, z);
+//		meta = meta > 11 ? meta - 10 : meta;                //meta data for dummy tracks is bound to 12-15
+//
+//		if (meta == 2) {
+//			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//			this.setBlockBounds(0f, 0.5f, 0f, 1f, 1f, 0.5f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//		} else if (meta == 3) {
+//			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//			this.setBlockBounds(0f, 0.5f, 0.5f, 1f, 1f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//		} else if (meta == 4) {
+//			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//			this.setBlockBounds(0f, 0.5f, 0f, 0.5f, 1f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//		} else if (meta == 5) {
+//			this.setBlockBounds(0f, 0f, 0f, 1f, 0.5f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//			this.setBlockBounds(0.5f, 0.5f, 0f, 1f, 1f, 1f);
+//			super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+//		}
 	}
 
 	public void setTrackBounds(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity) {
@@ -375,7 +388,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	}
 
 	@Override
-	public int getPaintMeta(World world, int x, int y, int z) {
-		return ((TileEntityTrackBase) world.getTileEntity(x, y, z)).colour;
+	public int getPaintMeta(World world, BlockPos pos) {
+		return ((TileEntityTrackBase) world.getTileEntity(pos)).colour;
 	}
 }
