@@ -1,9 +1,6 @@
 package robomuss.rc.block.te;
 
-<<<<<<< HEAD
 import net.minecraft.block.properties.PropertyDirection;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -17,10 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
-<<<<<<< HEAD
 import net.minecraftforge.fml.common.registry.LanguageRegistry;
-=======
->>>>>>> origin/One8PortTake2
 import robomuss.rc.RCMod;
 import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 

@@ -1,14 +1,9 @@
 package robomuss.rc.block;
 
-<<<<<<< HEAD
-=======
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
->>>>>>> FETCH_HEAD
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockRailings extends BlockPane {
 	public BlockRailings(String string) {

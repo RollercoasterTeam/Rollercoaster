@@ -5,15 +5,9 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-<<<<<<< HEAD
 import robomuss.rc.block.BlockWoodenSupport;
-=======
-
->>>>>>> origin/One8PortTake2
 import robomuss.rc.block.model.ModelWoodenSupport;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
 
 public class TileEntityRenderWoodenSupport extends TileEntitySpecialRenderer {
 	public ModelWoodenSupport model = new ModelWoodenSupport();

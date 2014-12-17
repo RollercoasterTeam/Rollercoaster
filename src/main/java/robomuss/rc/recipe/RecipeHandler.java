@@ -1,13 +1,9 @@
 package robomuss.rc.recipe;
 
-<<<<<<< HEAD
 import net.minecraftforge.fml.common.registry.GameRegistry;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.item.RCItems;

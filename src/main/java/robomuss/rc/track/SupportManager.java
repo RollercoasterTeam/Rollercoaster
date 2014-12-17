@@ -1,14 +1,10 @@
 package robomuss.rc.track;
 
-<<<<<<< HEAD
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
-=======
 import java.util.ArrayList;
 import java.util.List;
-
->>>>>>> origin/One8PortTake2
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.RCBlocks;

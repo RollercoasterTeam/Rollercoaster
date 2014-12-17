@@ -1,15 +1,10 @@
 package robomuss.rc.client.gui;
 
-<<<<<<< HEAD
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.container.ContainerTrackStorage;

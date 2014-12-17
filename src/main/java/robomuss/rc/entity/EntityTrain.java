@@ -1,13 +1,9 @@
 package robomuss.rc.entity;
 
-<<<<<<< HEAD
 import net.minecraft.util.*;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-=======
 import java.util.List;
-
->>>>>>> origin/One8PortTake2
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
@@ -23,226 +19,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IMinecartCollisionHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 
-<<<<<<< HEAD
-import java.util.List;
-
-public abstract class EntityTrain extends Entity {
-	private boolean isInReverse;
-	private String  entityName;
-	/**
-	 * Minecart rotational logic matrix
-	 */
-	private static final int[][][] matrix = new int[][][] {
-			{{0, 0, -1}, {0, 0, 1}},
-			{{-1, 0, 0}, {1, 0, 0}},
-			{{-1, -1, 0}, {1, 0, 0}},
-			{{-1, 0, 0}, {1, -1, 0}},
-			{{0, 0, -1}, {0, -1, 1}},
-			{{0, -1, -1}, {0, 0, 1}},
-			{{0, 0, 1}, {1, 0, 0}},
-			{{0, 0, 1}, {-1, 0, 0}},
-			{{0, 0, -1}, {-1, 0, 0}},
-			{{0, 0, -1}, {1, 0, 0}}
-	};
-	/**
-	 * appears to be the progress of the turn
-	 */
-	private int    turnProgress;
-	private double minecartX;
-	private double minecartY;
-	private double minecartZ;
-	private double minecartYaw;
-	private double minecartPitch;
-	@SideOnly(Side.CLIENT)
-	private double velocityX;
-	@SideOnly(Side.CLIENT)
-	private double velocityY;
-	@SideOnly(Side.CLIENT)
-	private double velocityZ;
-
-	/* Forge: Minecart Compatibility Layer Integration. */
-	public static  float                     defaultMaxSpeedAirLateral  = 0.4f;
-	public static  float                     defaultMaxSpeedAirVertical = -1f;
-	public static  double                    defaultDragAir             = 0.94999998807907104D;
-	protected      boolean                   canUseRail                 = true;
-	protected      boolean                   canBePushed                = true;
-	private static IMinecartCollisionHandler collisionHandler           = null;
-
-	/* Instance versions of the above physics properties */
-	private   float  currentSpeedRail    = getMaxCartSpeedOnRail();
-	protected float  maxSpeedAirLateral  = defaultMaxSpeedAirLateral;
-	protected float  maxSpeedAirVertical = defaultMaxSpeedAirVertical;
-	protected double dragAir             = defaultDragAir;
-
-	public EntityTrain(World world) {
-		super(world);
-		this.preventEntitySpawning = true;
-		this.setSize(0.98F, 0.7F);
-	}
-
-	@Override
-	public double getYOffset() {
-		return this.height / 2.0F;
-	}
-
-	/**
-	 * Creates a new minecart of the specified type in the specified location in the given world. par0World - world to
-	 * create the minecart in, double par1,par3,par5 represent x,y,z respectively. int par7 specifies the type: 1 for
-	 * MinecartChest, 2 for MinecartFurnace, 3 for MinecartTNT, 4 for MinecartMobSpawner, 5 for MinecartHopper and 0 for
-	 * a standard empty minecart
-	 */
-	public static EntityTrainDefault createMinecart(World world, double x, double y, double z, int type) {
-		return new EntityTrainDefault(world, x, y, z);
-	}
-
-	/**
-	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-	 * prevent them from trampling crops
-	 */
-	protected boolean canTriggerWalking() {
-		return false;
-	}
-
-	protected void entityInit() {
-		this.dataWatcher.addObject(17, new Integer(0));
-		this.dataWatcher.addObject(18, new Integer(1));
-		this.dataWatcher.addObject(19, new Float(0.0F));
-		this.dataWatcher.addObject(20, new Integer(0));
-		this.dataWatcher.addObject(21, new Integer(6));
-		this.dataWatcher.addObject(22, Byte.valueOf((byte) 0));
-	}
-
-	/**
-	 * Returns a boundingBox used to collide the entity with other entities and blocks. This enables the entity to be
-	 * pushable on contact, like boats or minecarts.
-	 */
-	public AxisAlignedBB getCollisionBox(Entity entity) {
-		if (getCollisionHandler() != null) {
-			//TODO
-			//return getCollisionHandler().getCollisionBox(this, p_70114_1_);
-			return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
-		}
-
-		return entity.canBePushed() ? entity.getBoundingBox() : null;
-	}
-
-	/**
-	 * returns the bounding box for this entity
-	 */
-	public AxisAlignedBB getBoundingBox() {
-		if (getCollisionHandler() != null) {
-			//TODO
-			//return getCollisionHandler().getBoundingBox(this);
-			return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
-		}
-		return null;
-	}
-
-	/**
-	 * Returns true if this entity should push and be pushed by other entities when colliding.
-	 */
-	public boolean canBePushed() {
-		return canBePushed;
-	}
-
-	public EntityTrain(World world, double prevPosX, double prevPosY, double prevPosZ) {
-		this(world);
-		this.setPosition(prevPosX, prevPosY, prevPosZ);
-		this.motionX = 0.0D;
-		this.motionY = 0.0D;
-		this.motionZ = 0.0D;
-		this.prevPosX = prevPosX;
-		this.prevPosY = prevPosY;
-		this.prevPosZ = prevPosZ;
-	}
-
-	/**
-	 * Returns the Y offset from the entity's position for any entity riding this one.
-	 */
-	public double getMountedYOffset() {
-		return (double) this.height * 0.0D - 0.30000001192092896D;
-	}
-
-	/**
-	 * Called when the entity is attacked.
-	 */
-	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
-		if (!this.worldObj.isRemote && !this.isDead) {
-			if (this.isEntityInvulnerable(null)) {
-				return false;
-			} else {
-				this.setRollingDirection(-this.getRollingDirection());
-				this.setRollingAmplitude(10);
-				this.setBeenAttacked();
-				this.setDamage(this.getDamage() + amount * 10.0F);
-				boolean flag = dmgSrc.getEntity() instanceof EntityPlayer && ((EntityPlayer) dmgSrc.getEntity()).capabilities.isCreativeMode;
-
-				if (flag || this.getDamage() > 40.0F) {
-					if (this.riddenByEntity != null) {
-						this.riddenByEntity.mountEntity(this);
-					}
-
-					if (flag && !this.hasCustomInventoryName()) {
-						this.setDead();
-					} else {
-						this.killMinecart(dmgSrc);
-					}
-				}
-
-				return true;
-			}
-		} else {
-			return true;
-		}
-	}
-
-	public void killMinecart(DamageSource dmgSrc) {
-		this.setDead();
-		ItemStack itemstack = new ItemStack(RCItems.train, 1);
-
-		if (this.entityName != null) {
-			itemstack.setStackDisplayName(this.entityName);
-		}
-
-		this.entityDropItem(itemstack, 0.0F);
-	}
-
-	/**
-	 * Setups the entity to do the hurt animation. Only used by packets in multiplayer.
-	 */
-	@SideOnly(Side.CLIENT)
-	public void performHurtAnimation() {
-		this.setRollingDirection(-this.getRollingDirection());
-		this.setRollingAmplitude(10);
-		this.setDamage(this.getDamage() + this.getDamage() * 10.0F);
-	}
-
-	/**
-	 * Returns true if other Entities should be prevented from moving through this Entity.
-	 */
-	public boolean canBeCollidedWith() {
-		return !this.isDead;
-	}
-
-	/**
-	 * Will get destroyed next tick.
-	 */
-	public void setDead() {
-		super.setDead();
-	}
-
-	/**
-	 * Called to update the entity's position/logic.
-	 */
-	public void onUpdate() {
-=======
 public abstract class EntityTrain extends Entity
 {
     private boolean isInReverse;
@@ -293,7 +74,7 @@ public abstract class EntityTrain extends Entity
         super(world);
         this.preventEntitySpawning = true;
         this.setSize(0.98F, 0.7F);
-        this.yOffset = this.height / 2.0F;
+//        this.yOffset = this.height / 2.0F;
     }
 
     /**
@@ -336,9 +117,9 @@ public abstract class EntityTrain extends Entity
         {
         	//TODO
             //return getCollisionHandler().getCollisionBox(this, p_70114_1_);
-        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+        	return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
         }
-        return entity.canBePushed() ? entity.boundingBox : null;
+        return entity.canBePushed() ? entity.getBoundingBox() : null;
     }
 
     /**
@@ -350,7 +131,7 @@ public abstract class EntityTrain extends Entity
         {
         	//TODO
             //return getCollisionHandler().getBoundingBox(this);
-        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+        	return AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
         }
         return null;
     }
@@ -390,7 +171,7 @@ public abstract class EntityTrain extends Entity
     {
         if (!this.worldObj.isRemote && !this.isDead)
         {
-            if (this.isEntityInvulnerable())
+            if (this.isEntityInvulnerable(dmgSrc))
             {
                 return false;
             }
@@ -473,7 +254,6 @@ public abstract class EntityTrain extends Entity
      */
     public void onUpdate()
     {
->>>>>>> origin/One8PortTake2
 //    	System.out.println("Updating");
 		if (this.getRollingAmplitude() > 0) {                               //decrement rolling amplitude
 			this.setRollingAmplitude(this.getRollingAmplitude() - 1);

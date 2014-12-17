@@ -1,18 +1,9 @@
 package robomuss.rc.track.piece;
 
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.client.IItemRenderer;
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/One8PortTake2
-import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;

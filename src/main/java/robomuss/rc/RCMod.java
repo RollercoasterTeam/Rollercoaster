@@ -1,8 +1,7 @@
 package robomuss.rc;
 
-import java.io.File;
-import java.io.IOException;
-
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -23,11 +22,7 @@ import robomuss.rc.chat.command.RCCommandItemAnimation;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntities;
-import robomuss.rc.event.BlockClickedEvent;
-import robomuss.rc.event.BlockPlacedEvent;
-import robomuss.rc.event.CraftingEvent;
-import robomuss.rc.event.RCItemTooltipEvent;
-import robomuss.rc.event.RCTickHandler;
+import robomuss.rc.event.*;
 import robomuss.rc.exception.TrackStyleModelNotFoundException;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.json.JSONHandler;
@@ -39,8 +34,8 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
 import robomuss.rc.util.RCOptions;
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
+import java.io.File;
+import java.io.IOException;
 
 @Mod(modid = RCMod.MODID, name = RCMod.NAME, version = RCMod.VERSION)
 public class RCMod {

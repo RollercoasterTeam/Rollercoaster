@@ -1,11 +1,5 @@
 package robomuss.rc.block.te;
 
-<<<<<<< HEAD
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -13,13 +7,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-<<<<<<< HEAD
-import robomuss.rc.block.BlockPath;
-=======
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
->>>>>>> origin/One8PortTake2
 import robomuss.rc.block.BlockSupport;
 
 public class TileEntitySupport extends TileEntity {

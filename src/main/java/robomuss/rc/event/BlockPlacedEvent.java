@@ -1,15 +1,11 @@
 package robomuss.rc.event;
 
-<<<<<<< HEAD
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockFooter;
 import robomuss.rc.block.BlockSupport;

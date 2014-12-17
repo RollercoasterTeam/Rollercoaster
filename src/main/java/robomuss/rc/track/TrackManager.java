@@ -1,25 +1,15 @@
 package robomuss.rc.track;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-<<<<<<< HEAD
 import net.minecraft.util.BlockPos;
-=======
-import net.minecraft.util.MathHelper;
->>>>>>> origin/One8PortTake2
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.track.piece.TrackPiece;
-import robomuss.rc.track.piece.TrackPieceCorner;
-import robomuss.rc.track.piece.TrackPieceHorizontal;
-import robomuss.rc.track.piece.TrackPieceSlope;
-import robomuss.rc.track.piece.TrackPieceSlopeDown;
-import robomuss.rc.track.piece.TrackPieceSlopeUp;
+import robomuss.rc.track.piece.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /** TRACK MANAGER START
  *

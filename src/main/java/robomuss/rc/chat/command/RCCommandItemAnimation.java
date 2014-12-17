@@ -1,12 +1,7 @@
 package robomuss.rc.chat.command;
 
-<<<<<<< HEAD
-import net.minecraft.command.CommandException;
-=======
 import java.util.ArrayList;
 import java.util.List;
-
->>>>>>> origin/One8PortTake2
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;

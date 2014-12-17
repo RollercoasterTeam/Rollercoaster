@@ -1,33 +1,5 @@
 package robomuss.rc.json;
 
-<<<<<<< HEAD
-import com.google.gson.*;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraft.util.ResourceLocation;
-=======
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLLog;
-
->>>>>>> origin/One8PortTake2
-import org.apache.commons.io.FileUtils;
-
-import robomuss.rc.exception.TrackStyleModelNotFoundException;
-import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.piece.TrackPiece;
-import robomuss.rc.track.style.TrackStyle;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-
 public class JSONHandler {
 	//TODO: temporarily disabled until we get the rendering sorted out
 //

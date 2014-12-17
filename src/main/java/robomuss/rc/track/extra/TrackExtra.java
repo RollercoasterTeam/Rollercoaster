@@ -1,20 +1,18 @@
 package robomuss.rc.track.extra;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.piece.TrackPiece;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TrackExtra {
 	public int id;

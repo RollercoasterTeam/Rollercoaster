@@ -1,11 +1,5 @@
 package robomuss.rc.block;
 
-<<<<<<< HEAD
-=======
-import java.util.ArrayList;
-
-import net.minecraft.block.Block;
->>>>>>> origin/One8PortTake2
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -13,12 +7,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-<<<<<<< HEAD
-import net.minecraft.util.MathHelper;
-=======
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
->>>>>>> FETCH_HEAD
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityConveyor;
 

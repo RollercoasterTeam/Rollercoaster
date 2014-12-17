@@ -1,23 +1,10 @@
 package robomuss.rc.block;
 
-
-<<<<<<< HEAD
 import net.minecraftforge.fml.common.registry.GameRegistry;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import robomuss.rc.RCMod;
-import robomuss.rc.block.te.TileEntityConveyor;
-import robomuss.rc.block.te.TileEntityFooter;
-import robomuss.rc.block.te.TileEntityRideFence;
-import robomuss.rc.block.te.TileEntitySupport;
-import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.block.te.TileEntityTrackDesigner;
-import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.block.te.TileEntityTrackStorage;
-import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.block.te.*;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.item.ItemBlockTrack;
 import robomuss.rc.track.TrackHandler;
@@ -28,13 +15,13 @@ public class RCBlocks {
 	public static Block support, woodenSupport, footer;
 	public static Block path;
 	public static Block railings, picket;
-	public static Block ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, ride_fence_gate; 
+	public static Block ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, ride_fence_gate;
 	public static Block track_designer, track_fabricator, track_storage;
 	public static Block track_fabricator_casing, track_fabricator_glass, track_fabricator_output;
 	public static Block conveyor;
 
 	public static void init() {
-		for(TrackPiece track: TrackHandler.pieces) {
+		for (TrackPiece track : TrackHandler.pieces) {
 			track.block = new BlockTrackBase(track).setUnlocalizedName(track.unlocalized_name + "_track").setCreativeTab(RCMod.track);
 			GameRegistry.registerBlock(track.block, ItemBlockTrack.class, track.unlocalized_name + "_track");
 		}

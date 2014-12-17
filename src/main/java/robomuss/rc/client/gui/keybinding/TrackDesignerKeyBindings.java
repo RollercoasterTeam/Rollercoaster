@@ -1,7 +1,6 @@
 package robomuss.rc.client.gui.keybinding;
 
 import org.lwjgl.input.Keyboard;
-
 import robomuss.rc.RCMod;
 import robomuss.rc.util.OSUtil;
 

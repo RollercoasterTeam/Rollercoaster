@@ -2,11 +2,8 @@ package robomuss.rc.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-<<<<<<< HEAD
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
-=======
->>>>>>> origin/One8PortTake2
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,11 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-<<<<<<< HEAD
-=======
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
->>>>>>> origin/One8PortTake2
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 
 public class BlockTrackFabricator extends BlockContainer {

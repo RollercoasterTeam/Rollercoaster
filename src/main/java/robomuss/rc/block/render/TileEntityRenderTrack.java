@@ -1,21 +1,12 @@
 package robomuss.rc.block.render;
 
-import java.nio.FloatBuffer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-<<<<<<< HEAD
-import net.minecraft.util.Vec3i;
-=======
-
->>>>>>> origin/One8PortTake2
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.TrackHandler;
@@ -23,6 +14,8 @@ import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.track.piece.TrackPieceHeartlineRoll;
 import robomuss.rc.track.piece.TrackPieceLoop;
 import robomuss.rc.track.style.TrackStyle;
+
+import java.nio.FloatBuffer;
 
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {

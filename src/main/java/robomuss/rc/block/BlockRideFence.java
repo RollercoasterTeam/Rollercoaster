@@ -1,7 +1,5 @@
 package robomuss.rc.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -17,6 +15,8 @@ import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.util.IPaintable;
+
+import java.util.Random;
 
 public class BlockRideFence extends BlockContainer implements IPaintable {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);

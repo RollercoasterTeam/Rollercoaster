@@ -1,27 +1,16 @@
 package robomuss.rc.client.gui;
 
-//import robomuss.rc.block.te.TileEntityTrack;
-
-<<<<<<< HEAD
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-=======
 import java.util.ArrayList;
-
->>>>>>> origin/One8PortTake2
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-<<<<<<< HEAD
-=======
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
->>>>>>> origin/One8PortTake2
 import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockConveyor;
 import robomuss.rc.block.BlockFooter;
@@ -30,7 +19,6 @@ import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.event.RenderWorldLast;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
 

@@ -1,8 +1,5 @@
 package robomuss.rc.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -10,11 +7,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-
 import robomuss.rc.RCMod;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
@@ -24,14 +19,10 @@ import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.GuiPanel;
-
-<<<<<<< HEAD
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-=======
->>>>>>> origin/One8PortTake2
 public class GuiTrackDesigner extends GuiScreen {
 	private TileEntityTrackDesigner te;
 
