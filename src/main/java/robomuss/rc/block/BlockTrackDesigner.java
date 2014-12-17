@@ -1,52 +1,30 @@
 package robomuss.rc.block;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 
 public class BlockTrackDesigner extends BlockContainer {
-
 	public BlockTrackDesigner() {
 		super(Material.rock);
-		setHardness(1F);
-		setResistance(3F);
+		setHardness(1f);
+		setResistance(3f);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		FMLNetworkHandler.openGui(player, RCMod.instance, 0, world, x, y, z);
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+		FMLNetworkHandler.openGui(player, RCMod.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public IIcon other;
-	@SideOnly(Side.CLIENT)
-	public IIcon side;
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister icon) {
-		other = icon.registerIcon("rc:track_designer_other");
-		side = icon.registerIcon("rc:track_designer_side");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int face, int meta) {
-		if(face == 0 || face == 1) {
-			return other;
-		} else {
-			return side;
-		}
 	}
 
     @Override

@@ -3,6 +3,8 @@ package robomuss.rc.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
@@ -11,21 +13,21 @@ import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.TrackHandler;
 
 public class ItemTrain extends Item {
-
-	public ItemTrain() {
-
-	}
-
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+	public ItemTrain() {}
+	
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
-			if(world.getBlock(x, y, z) instanceof BlockTrackBase) {
-				BlockTrackBase block = (BlockTrackBase) world.getBlock(x, y, z);
+			if(world.getBlockState(pos).getBlock() instanceof BlockTrackBase) {
+				BlockTrackBase block = (BlockTrackBase) world.getBlockState(pos).getBlock();
 				if(block.track_type == TrackHandler.findTrackType("horizontal")) {
-					if(((TileEntityTrackBase) world.getTileEntity(x, y, z)).extra == TrackHandler.extras.get(3)) {
-						EntityTrainDefault entity = spawnCart(world, x, y, z);
+					if(((TileEntityTrackBase) world.getTileEntity(pos)).extra == TrackHandler.extras.get(3)) {
+						EntityTrainDefault entity = spawnCart(world, pos);
+
 						if(stack.hasDisplayName()) {
 							entity.setMinecartName(stack.getDisplayName());
 						}
+
 						entity.selfPowered = true;
 						world.spawnEntityInWorld(entity);
 						--stack.stackSize;
@@ -34,10 +36,11 @@ public class ItemTrain extends Item {
 				}
 			}
 		}
+
 		return false;
 	}
 	
-	public static EntityTrainDefault spawnCart(World world, int x, int y, int z) {
-		return EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
+	public static EntityTrainDefault spawnCart(World world, BlockPos pos) {
+		return EntityTrain.createMinecart(world, pos.getX(), pos.getY(), pos.getZ(), 0);
 	}
 }

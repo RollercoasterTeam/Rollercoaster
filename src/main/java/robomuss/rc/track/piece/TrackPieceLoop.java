@@ -1,9 +1,10 @@
 package robomuss.rc.track.piece;
 
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
@@ -17,68 +18,45 @@ public class TrackPieceLoop extends TrackPiece implements IInventoryRenderSettin
 		super(unlocalized_name, crafting_cost, render_stage);
 	}
 
-	@Override
-	public void renderItem(int render_stage, IItemRenderer.ItemRenderType render_type, TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
-		IModelCustom model = style.getModel();
+//	@Override
+//	public void renderItem(int render_stage, IItemRenderer.ItemRenderType render_type, TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
+//		IModelCustom model = style.getModel();
+//
+//		GL11.glPushMatrix();
+//		RenderHelper.enableGUIStandardItemLighting();
+//		model.renderPart(partName);
+//		GL11.glPopMatrix();
+//	}
 
-		GL11.glPushMatrix();
-		RenderHelper.enableGUIStandardItemLighting();
-		model.renderPart(partName);
-		GL11.glPopMatrix();
+	@Override
+	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, BlockPos pos) {
+//		rotate(teTrack, world, x, y, z);
+//
+//		if(render_stage == 0) {
+//			GL11.glRotatef(5f, 1f, 0f, 0f);
+//			GL11.glRotatef(-12f, 0f, 1f, 0f);
+//			GL11.glScalef(1.05f, 1.05f, 1.05f);
+//			IModelCustom model = style.getModel();
+//			model.renderPart(partName);
+//		}
 	}
 
-	public void render(int render_stage, IModelCustom model) {}
-
 	@Override
-	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, int x, int y, int z) {
-		rotate(teTrack, world, x, y, z);
-
-		if(render_stage == 0) {
-			GL11.glRotatef(5f, 1f, 0f, 0f);
-			GL11.glRotatef(-12f, 0f, 1f, 0f);
-			GL11.glScalef(1.05f, 1.05f, 1.05f);
-			IModelCustom model = style.getModel();
-			model.renderPart(partName);
-		}
-	}
-	
-	//TODO: double check this isn't broken
-	@Override
-	public float getX(int render_stage, double x, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-		if(render_stage == 0) {
+	public BlockPos getRenderPos(int render_stage, double x, double y, double z, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
+		if (render_stage == 0) {
 			if (teTrack != null && teTrack.track != null) {
-				int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-				switch (trackMeta) {
-					case 2:  return (float) (x + 0.52f);
-					case 3:  return (float) (x + 0.5f);
-					case 4:  return (float) (x + 1.5f);
-					case 5:  return (float) (x - 0.5f);
-					default: return super.getX(render_stage, x, teTrack, world, lx, ly, lz);
+				EnumFacing trackFacing = (EnumFacing) world.getBlockState(teTrack.getPos()).getValue(BlockTrackBase.FACING);
+
+				switch (trackFacing) {
+					case NORTH: return new BlockPos(x + 0.52f, y + 1.528f, z + 1);
+					case SOUTH: return new BlockPos(x + 0.5f,  y + 1.528f, z - 0.5f);
+					case WEST:  return new BlockPos(x + 1.5f,  y + 1.528f, z + 0.5f);
+					case EAST:  return new BlockPos(x - 0.5f,  y + 1.528f, z + 0.5f);
 				}
 			}
 		}
-		return (float) (x + 0.5f);
-	}
 
-	@Override
-	public float getY(int render_stage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
-		return (float) (y + 1.528f);
-	}
-
-	//TODO: double check this isn't broken
-	@Override
-	public float getZ(int render_stage, double z, TileEntityTrackBase teTrack, World world, int lx , int ly , int lz) {
-		if(render_stage == 0) {
-			if (teTrack != null && teTrack.track != null) {
-				int trackMeta = world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-				switch (trackMeta) {
-					case 2:  return (float) (z + 1f);
-					case 3:  return (float) (z - 0.5f);
-					default: return super.getZ(render_stage, z, teTrack, world, lx, ly, lz);
-				}
-			}
-		}
-		return (float) (z + 0.5f);
+		return new BlockPos(x + 0.5f, y + 1.528f, z + 0.5f);
 	}
 
 	@Override

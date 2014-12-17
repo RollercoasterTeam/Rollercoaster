@@ -1,7 +1,6 @@
 package robomuss.rc.util;
 
 public class OSUtil {
-
     private static String OS = System.getProperty("os.name").toLowerCase();
 
     public static boolean isWindows() {

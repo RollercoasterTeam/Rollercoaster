@@ -61,7 +61,7 @@ public class RCMod {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException, TrackStyleModelNotFoundException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		JSONHandler.loadTrackStyles();
+//		JSONHandler.loadTrackStyles();
         proxy.registerKeybindings();
 	}
 	

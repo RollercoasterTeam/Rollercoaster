@@ -3,7 +3,6 @@ package robomuss.rc.util;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiPanel {
-
 	public String name;
 	public String displayName;
 	

@@ -1,16 +1,12 @@
 package robomuss.rc.client.gui;
 
-import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiControls;
-import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -19,7 +15,6 @@ import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 
 import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiRCKeyBindingList extends GuiListExtended {
@@ -49,7 +44,7 @@ public class GuiRCKeyBindingList extends GuiListExtended {
 				this.entries[i++] = new GuiRCKeyBindingList.RCCategoryEntry(category);
 			}
 
-			int width = mc.fontRenderer.getStringWidth(I18n.format(keyBinding.getRCKeyDescription(), new Object[0]));
+			int width = mc.fontRendererObj.getStringWidth(I18n.format(keyBinding.getRCKeyDescription(), new Object[0]));
 
 			if (width > this.horizontal_space) {
 				this.horizontal_space = width;
@@ -86,12 +81,17 @@ public class GuiRCKeyBindingList extends GuiListExtended {
 
 		public RCCategoryEntry(String displayString) {
 			this.displayString = I18n.format(displayString, new Object[0]);
-			this.displayStringWidth = GuiRCKeyBindingList.this.mc.fontRenderer.getStringWidth(this.displayString);
+			this.displayStringWidth = GuiRCKeyBindingList.this.mc.fontRendererObj.getStringWidth(this.displayString);
 		}
 
 		@Override
-		public void drawEntry(int a, int x, int y, int width, int height, Tessellator tessellator, int btnWidth, int btnHeight, boolean flag) {
-			GuiRCKeyBindingList.this.mc.fontRenderer.drawString(this.displayString, GuiRCKeyBindingList.this.mc.currentScreen.width / 2 - this.displayStringWidth / 2, y + height - GuiRCKeyBindingList.this.mc.fontRenderer.FONT_HEIGHT - 1, 16777215);
+		public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+
+		}
+
+		@Override
+		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+			GuiRCKeyBindingList.this.mc.fontRendererObj.drawString(this.displayString, GuiRCKeyBindingList.this.mc.currentScreen.width / 2 - this.displayStringWidth / 2, y + height - GuiRCKeyBindingList.this.mc.fontRendererObj.FONT_HEIGHT - 1, 16777215);
 		}
 
 		@Override
@@ -117,13 +117,19 @@ public class GuiRCKeyBindingList extends GuiListExtended {
 			this.btnReset = new GuiButton(0, 0, 0, 50, 18, I18n.format("controls.reset", new Object[0]));
 		}
 
-		public void drawEntry(int a, int x, int y, int width, int height, Tessellator tessellator, int btnWidth, int btnHeight, boolean flag) {
+		@Override
+		public void setSelected(int x, int y, int index) {
+
+		}
+
+		@Override
+		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
 			boolean flag1 = GuiRCKeyBindingList.this.controls.buttonID == this.rcKeyBinding;
-			GuiRCKeyBindingList.this.mc.fontRenderer.drawString(this.rcKeyDescription, x + 90 - GuiRCKeyBindingList.this.horizontal_space, y + height / 2 - GuiRCKeyBindingList.this.mc.fontRenderer.FONT_HEIGHT / 2, 16777215);
+			GuiRCKeyBindingList.this.mc.fontRendererObj.drawString(this.rcKeyDescription, x + 90 - GuiRCKeyBindingList.this.horizontal_space, y + height / 2 - GuiRCKeyBindingList.this.mc.fontRendererObj.FONT_HEIGHT / 2, 16777215);
 			this.btnReset.xPosition = x + 190;
 			this.btnReset.yPosition = y;
 			this.btnReset.enabled = this.rcKeyBinding.getRCKeyCode() != Keyboard.KEY_NONE;
-			this.btnReset.drawButton(GuiRCKeyBindingList.this.mc, btnWidth, btnHeight);
+			this.btnReset.drawButton(GuiRCKeyBindingList.this.mc, mouseX, mouseY);
 			this.btnChangeRCKeyBinding.xPosition = x + 105;
 			this.btnChangeRCKeyBinding.yPosition = y;
 			this.btnChangeRCKeyBinding.displayString = this.rcKeyBinding.getKeyNameUpper();
@@ -148,7 +154,8 @@ public class GuiRCKeyBindingList extends GuiListExtended {
 			} else if (flag2) {
 				this.btnChangeRCKeyBinding.displayString = EnumChatFormatting.RED + this.btnChangeRCKeyBinding.displayString;
 			}
-			this.btnChangeRCKeyBinding.drawButton(GuiRCKeyBindingList.this.mc, btnWidth, btnHeight);
+
+			this.btnChangeRCKeyBinding.drawButton(GuiRCKeyBindingList.this.mc, mouseX, mouseY);
 		}
 
 		public boolean mousePressed(int a, int x, int y, int b, int c, int d) {

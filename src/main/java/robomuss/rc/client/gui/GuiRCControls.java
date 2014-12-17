@@ -1,7 +1,7 @@
 package robomuss.rc.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,9 +10,10 @@ import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.util.RCOptions;
 
+import java.io.IOException;
+
 @SideOnly(Side.CLIENT)
 public class GuiRCControls extends GuiScreen {
-	private static final RCOptions.RCOptionsEnum[] rcOptionsEnums = new RCOptions.RCOptionsEnum[] {RCOptions.RCOptionsEnum.INVERT_MOUSE, RCOptions.RCOptionsEnum.SENSITIVITY, RCOptions.RCOptionsEnum.TOUCHSCREEN};
 	private GuiScreen parentScreen;
 	protected String CONTROLS = "Controls";
 	private RCOptions options;
@@ -31,17 +32,6 @@ public class GuiRCControls extends GuiScreen {
 		this.buttonList.add(new GuiButton(200, this.width / 2 - 155, this.height - 29, 150, 20, I18n.format("gui.done", new Object[0])));
 		this.buttonList.add(this.button = new GuiButton(201, this.width / 2 - 155 + 160, this.height - 29, 150, 20, I18n.format("controls.resetAll", new Object[0])));
 		this.CONTROLS = I18n.format("controls.title", new Object[0]);
-		int i = 0;
-		RCOptions.RCOptionsEnum[] rcOptionEnums = rcOptionsEnums;
-		int j = rcOptionEnums.length;
-
-//		for (int k = 0; k < j; k++) {
-//			RCOptions.RCOptionsEnum rcOptionsEnum = rcOptionEnums[k];
-//
-//			if (!rcOptionsEnum.getEnumFloat()) {
-//				this.buttonList.add(new GuiRCOptionButton(rcOptionsEnum.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, 18 + 24 * (i >> 1), rcOptionsEnum, this.options.getRCKeyBinding(rcOptionsEnum)));
-//			}
-//		}
 	}
 
 	protected void actionPerformed(GuiButton button) {
@@ -62,19 +52,25 @@ public class GuiRCControls extends GuiScreen {
 		}
 	}
 
+	@Override
 	protected void mouseClicked(int x, int y, int code) {
 		if (this.buttonID != null) {
 			this.options.setRCOptionKeyBinding(this.buttonID, -100 + code, true);
 			this.buttonID = null;
 			RCKeyBinding.resetRCKeyBindingArrayAndHash();
-		} else if (code != 0 || !this.rcKeyBindingList.func_148179_a(x, y, code)) {
-			super.mouseClicked(x, y, code);
+		} else if (code != 0 || !this.rcKeyBindingList.mouseClicked(x, y, code)) {
+			try {
+				super.mouseClicked(x, y, code);
+			} catch (IOException exception) {
+				;
+			}
 		}
 	}
 
-	protected void mouseMovedOrUp(int x, int y, int code) {
-		if (code != 0 || !this.rcKeyBindingList.func_148181_b(x, y, code)) {
-			super.mouseMovedOrUp(x, y, code);
+	@Override
+	protected void mouseReleased(int x, int y, int code) {
+		if (code != 0 || !this.rcKeyBindingList.mouseReleased(x, y, code)) {
+			super.mouseReleased(x, y, code);
 		}
 	}
 
@@ -90,7 +86,11 @@ public class GuiRCControls extends GuiScreen {
 			this.time = Minecraft.getSystemTime();
 			RCKeyBinding.resetRCKeyBindingArrayAndHash();
 		} else {
-			super.keyTyped(key, code);
+			try {
+				super.keyTyped(key, code);
+			} catch (IOException exception) {
+				;
+			}
 		}
 	}
 
@@ -109,6 +109,7 @@ public class GuiRCControls extends GuiScreen {
 				break;
 			}
 		}
+
 		this.button.enabled = !flag;
 		super.drawScreen(x, y, value);
 	}

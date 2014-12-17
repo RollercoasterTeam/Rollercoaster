@@ -5,44 +5,40 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import robomuss.rc.client.gui.GuiTrackDesigner;
 
 public class TileEntityTrackDesigner extends TileEntity {
 	public GuiTrackDesigner guiTrackDesigner;
-//	public GuiRCKeyBindingList guiRCKeyBindingList;
-//	public GuiRCControls guiRCControls;
-	public int currentPosX;
-	public int currentPosY;
-	public int currentPosZ;
-	public int direction;
+	BlockPos currentPos;
+	EnumFacing facing;
 	
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(this.pos, 1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
+		readFromNBT(packet.getNbtCompound());
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		
-		currentPosX = compound.getInteger("currentPosX");
-		currentPosY = compound.getInteger("currentPosY");
-		currentPosZ = compound.getInteger("currentPosZ");
+
+		currentPos = new BlockPos(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		
-		compound.setInteger("currentPosX", currentPosX);
-		compound.setInteger("currentPosY", currentPosY);
-		compound.setInteger("currentPosZ", currentPosZ);
+
+		compound.setInteger("x", currentPos.getX());
+		compound.setInteger("y", currentPos.getY());
+		compound.setInteger("z", currentPos.getZ());
 	}
 }

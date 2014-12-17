@@ -1,12 +1,10 @@
 package robomuss.rc.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import robomuss.rc.util.ColourUtil;
 
 import java.util.List;
@@ -28,23 +26,5 @@ public class ItemBrush extends Item {
 		for(int i = 0; i < ColourUtil.numColours; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
-	}
-	
-	private IIcon[] icons;
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister register) {
-		icons = new IIcon[ColourUtil.numColours];
-		
-		for(int i = 0; i < ColourUtil.numColours; i++) {
-			icons[i] = register.registerIcon("rc:brush_" + i);
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int dmg) {
-		return icons[dmg];
 	}
 }

@@ -1,6 +1,6 @@
 package robomuss.rc.item;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -16,7 +16,7 @@ public class RCItems {
 	
 	public static void init() {
 		for(TrackExtra extra: TrackHandler.extras) {
-			extra.source = new ItemExtra(extra.id).setUnlocalizedName(extra.name + "_extra").setTextureName("rc:extras/" + extra.name).setCreativeTab(RCMod.tools);
+			extra.source = new ItemExtra(extra.id).setUnlocalizedName(extra.name + "_extra").setCreativeTab(RCMod.tools);
 			GameRegistry.registerItem(extra.source, extra.name + "_extra");
 		}
 
@@ -26,16 +26,16 @@ public class RCItems {
 //			GameRegistry.registerItem(balloon, "balloon_" + color.unlocalized_name);
 //		}
 		
-		hammer = new ItemHammer().setUnlocalizedName("hammer").setTextureName("rc:hammer").setCreativeTab(RCMod.tools);
+		hammer = new ItemHammer().setUnlocalizedName("hammer").setCreativeTab(RCMod.tools);
 		paint = new ItemPaint().setUnlocalizedName("paint").setCreativeTab(RCMod.tools);
-		empty_brush = new Item().setUnlocalizedName("empty_brush").setTextureName("rc:brush").setCreativeTab(RCMod.tools);
+		empty_brush = new Item().setUnlocalizedName("empty_brush").setCreativeTab(RCMod.tools);
 		brush = new ItemBrush().setUnlocalizedName("brush").setCreativeTab(RCMod.tools);
-		ticket = new Item().setUnlocalizedName("ticket").setTextureName("rc:ticket").setCreativeTab(RCMod.other).setMaxStackSize(1);
-		pass = new Item().setUnlocalizedName("pass").setTextureName("rc:pass").setCreativeTab(RCMod.other).setMaxStackSize(1);
-		key = new Item().setUnlocalizedName("key").setTextureName("rc:key").setCreativeTab(RCMod.other).setMaxStackSize(1);
-		train = new ItemTrain().setUnlocalizedName("train").setTextureName("rc:train").setCreativeTab(RCMod.track);
-		hat_1 = (ItemArmor) new ItemArmor(ArmorMaterial.CHAIN, 0, 0).setUnlocalizedName("hat_1").setTextureName("rc:hat_1").setCreativeTab(RCMod.other).setMaxStackSize(1);
-		balloon = new ItemBalloon().setUnlocalizedName("balloon").setTextureName("rc:balloon").setCreativeTab(RCMod.other);
+		ticket = new Item().setUnlocalizedName("ticket").setCreativeTab(RCMod.other).setMaxStackSize(1);
+		pass = new Item().setUnlocalizedName("pass").setCreativeTab(RCMod.other).setMaxStackSize(1);
+		key = new Item().setUnlocalizedName("key").setCreativeTab(RCMod.other).setMaxStackSize(1);
+		train = new ItemTrain().setUnlocalizedName("train").setCreativeTab(RCMod.track);
+		hat_1 = (ItemArmor) new ItemArmor(ArmorMaterial.CHAIN, 0, 0).setUnlocalizedName("hat_1").setCreativeTab(RCMod.other).setMaxStackSize(1);
+		balloon = new ItemBalloon().setUnlocalizedName("balloon").setCreativeTab(RCMod.other);
 
 		GameRegistry.registerItem(hammer, "hammer");
 		GameRegistry.registerItem(paint, "paint");

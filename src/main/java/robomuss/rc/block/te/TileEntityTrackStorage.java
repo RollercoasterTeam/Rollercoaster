@@ -7,12 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityTrackStorage extends TileEntity implements IInventory {
-
 	public ItemStack[] contents = new ItemStack[27];
 
 	@Override
@@ -57,12 +57,12 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public String getInventoryName() {
+	public String getName() {
 		return "Track Storage";
 	}
 
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 		return true;
 	}
 
@@ -77,14 +77,10 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void openInventory() {
-
-	}
+	public void openInventory(EntityPlayer player) {}
 
 	@Override
-	public void closeInventory() {
-
-	}
+	public void closeInventory(EntityPlayer player) {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -94,6 +90,26 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+
 	}
 
 	@Override
@@ -125,9 +141,9 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 			}
 		}
 	}
-	
+
 	@Override
-	public boolean canUpdate() {
-		return false;
+	public IChatComponent getDisplayName() {
+		return null;
 	}
 }

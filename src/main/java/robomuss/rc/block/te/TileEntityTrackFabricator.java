@@ -1,6 +1,6 @@
 package robomuss.rc.block.te;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -11,32 +11,27 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 
 public class TileEntityTrackFabricator extends TileEntity implements IInventory {
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public ItemStack[] contents = new ItemStack[2];
-	public ForgeDirection direction;
+
 	public static MultiBlockTrackFabricator multiBlockTrackFabricator = new MultiBlockTrackFabricator();
 
 	public boolean testStruct(EntityPlayer player) {
-//		System.out.println("testing structure");
 		multiBlockTrackFabricator.registerStructure();
 		if (multiBlockTrackFabricator.isStructureFormed(this)) {
-//			System.out.println("test successful");
-			return this.openGui(this.worldObj, this.xCoord, this.yCoord, this.zCoord, player);
+			player.openGui(RCMod.instance, 1, this.worldObj, this.pos.getX(), this.pos.getY(), this.pos.getZ());
+			return true;
 		} else {
-//			System.out.println("test failed");
 			return false;
 		}
-	}
-
-	public boolean openGui(World world, int x, int y, int z, EntityPlayer player) {
-		player.openGui(RCMod.instance, 1, world, x, y, z);
-		return true;
 	}
 
 	@Override
@@ -60,6 +55,7 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 				itemstack = itemstack.splitStack(count);
 			}
 		}
+
 		return itemstack;
 	}
 
@@ -81,16 +77,6 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 	}
 
 	@Override
-	public String getInventoryName() {
-		return "Track Fabricator";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return true;
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
@@ -101,10 +87,10 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 	}
 
 	@Override
-	public void openInventory() {}
+	public void openInventory(EntityPlayer player) {}
 
 	@Override
-	public void closeInventory() {}
+	public void closeInventory(EntityPlayer player) {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
@@ -112,20 +98,38 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 	}
 
 	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {}
+
+	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagList nbttaglist = new NBTTagList();
+
 		for (int i = 0; i < contents.length; i++) {
 			if (contents[i] != null) {
-				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-				nbttagcompound1.setByte("Slot", (byte) i);
-				contents[i].writeToNBT(nbttagcompound1);
-				nbttaglist.appendTag(nbttagcompound1);
+				NBTTagCompound compound1 = new NBTTagCompound();
+				compound1.setByte("Slot", (byte) i);
+				contents[i].writeToNBT(compound1);
+				nbttaglist.appendTag(compound1);
 			}
 		}
+
 		compound.setTag("Items", nbttaglist);
-		
-		compound.setString("direction", direction.name());
 	}
 
 	@Override
@@ -133,26 +137,41 @@ public class TileEntityTrackFabricator extends TileEntity implements IInventory 
 		super.readFromNBT(compound);
 		NBTTagList nbttaglist = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		contents = new ItemStack[getSizeInventory()];
+
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			int j = nbttagcompound1.getByte("Slot") & 0xff;
+
 			if (j >= 0 && j < contents.length) {
 				contents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		
-		direction = ForgeDirection.valueOf(compound.getString("direction"));
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		this.writeToNBT(nbtTag);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, nbtTag);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
+		readFromNBT(packet.getNbtCompound());
+	}
+
+	@Override
+	public String getName() {
+		return LanguageRegistry.instance().getStringLocalization("tile.track_fabricator.name");
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return true;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return null;
 	}
 }

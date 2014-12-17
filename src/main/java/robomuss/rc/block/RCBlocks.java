@@ -1,7 +1,7 @@
 package robomuss.rc.block;
 
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import robomuss.rc.RCMod;
@@ -23,37 +23,36 @@ public class RCBlocks {
 
 	public static void init() {
 		for(TrackPiece track: TrackHandler.pieces) {
-			track.block = new BlockTrackBase(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
-//			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
+			track.block = new BlockTrackBase(track).setUnlocalizedName(track.unlocalized_name + "_track").setCreativeTab(RCMod.track);
 			GameRegistry.registerBlock(track.block, ItemBlockTrack.class, track.unlocalized_name + "_track");
 		}
 
         GameRegistry.registerTileEntity(TileEntityTrackBase.class, "te_track");
 
-		support = new BlockSupport().setBlockName("support").setBlockTextureName("rc:support").setCreativeTab(RCMod.track);
-		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
-		woodenSupport = new BlockWoodenSupport().setBlockName("wooden_support").setBlockTextureName("rc:wooden_support").setCreativeTab(RCMod.track);
+		support = new BlockSupport().setUnlocalizedName("support").setCreativeTab(RCMod.track);
+		footer = new BlockFooter().setUnlocalizedName("footer").setCreativeTab(RCMod.track);
+		woodenSupport = new BlockWoodenSupport().setUnlocalizedName("wooden_support").setCreativeTab(RCMod.track);
 		
-        path = new BlockPath().setBlockName("path").setCreativeTab(RCMod.decor);
+        path = new BlockPath().setUnlocalizedName("path").setCreativeTab(RCMod.decor);
 	
-        railings = new BlockRailings("railings").setBlockName("railings").setCreativeTab(RCMod.decor);
-		picket = new BlockRailings("picket").setBlockName("picket").setCreativeTab(RCMod.decor);
+        railings = new BlockRailings("railings").setUnlocalizedName("railings").setCreativeTab(RCMod.decor);
+		picket = new BlockRailings("picket").setUnlocalizedName("picket").setCreativeTab(RCMod.decor);
 		
-		ride_fence = new BlockRideFence().setBlockName("ride_fence").setBlockTextureName("rc:ride_fence").setCreativeTab(RCMod.decor);
-		ride_fence_corner = new BlockRideFence().setBlockName("ride_fence_corner").setBlockTextureName("rc:ride_fence_corner").setCreativeTab(RCMod.decor);
-		ride_fence_triangle = new BlockRideFence().setBlockName("ride_fence_triangle").setBlockTextureName("rc:ride_fence_triangle").setCreativeTab(RCMod.decor);
-		ride_fence_square = new BlockRideFence().setBlockName("ride_fence_square").setBlockTextureName("rc:ride_fence_square").setCreativeTab(RCMod.decor);
-		ride_fence_gate = new BlockRideFence().setBlockName("ride_fence_gate").setBlockTextureName("rc:ride_fence_gate").setCreativeTab(RCMod.decor);
+		ride_fence = new BlockRideFence().setUnlocalizedName("ride_fence").setCreativeTab(RCMod.decor);
+		ride_fence_corner = new BlockRideFence().setUnlocalizedName("ride_fence_corner").setCreativeTab(RCMod.decor);
+		ride_fence_triangle = new BlockRideFence().setUnlocalizedName("ride_fence_triangle").setCreativeTab(RCMod.decor);
+		ride_fence_square = new BlockRideFence().setUnlocalizedName("ride_fence_square").setCreativeTab(RCMod.decor);
+		ride_fence_gate = new BlockRideFence().setUnlocalizedName("ride_fence_gate").setCreativeTab(RCMod.decor);
         
-		track_designer = new BlockTrackDesigner().setBlockName("track_designer").setBlockTextureName("rc:track_designer").setCreativeTab(RCMod.track);
-        track_fabricator = new BlockTrackFabricator().setBlockName("track_fabricator").setCreativeTab(RCMod.track);
-        track_storage = new BlockTrackStorage().setBlockName("track_storage").setCreativeTab(RCMod.track);
+		track_designer = new BlockTrackDesigner().setUnlocalizedName("track_designer").setCreativeTab(RCMod.track);
+        track_fabricator = new BlockTrackFabricator().setUnlocalizedName("track_fabricator").setCreativeTab(RCMod.track);
+        track_storage = new BlockTrackStorage().setUnlocalizedName("track_storage").setCreativeTab(RCMod.track);
 
-		track_fabricator_casing = new BlockSimple(Material.iron).setBlockName("track_fabricator_casing").setBlockTextureName("rc:track_fabricator_casing").setCreativeTab(RCMod.track);
-		track_fabricator_glass = new BlockSimple(Material.glass).setBlockName("track_fabricator_glass").setBlockTextureName("rc:track_fabricator_glass").setCreativeTab(RCMod.track);
-		track_fabricator_output = new BlockSimple(Material.iron).setBlockName("track_fabricator_output").setBlockTextureName("rc:track_fabricator_output").setCreativeTab(RCMod.track);
+		track_fabricator_casing = new BlockSimple(Material.iron).setUnlocalizedName("track_fabricator_casing").setCreativeTab(RCMod.track);
+		track_fabricator_glass = new BlockSimple(Material.glass).setUnlocalizedName("track_fabricator_glass").setCreativeTab(RCMod.track);
+		track_fabricator_output = new BlockSimple(Material.iron).setUnlocalizedName("track_fabricator_output").setCreativeTab(RCMod.track);
 		
-		conveyor = new BlockConveyor().setBlockName("conveyor").setBlockTextureName("rc:conveyor").setCreativeTab(RCMod.track);
+		conveyor = new BlockConveyor().setUnlocalizedName("conveyor").setCreativeTab(RCMod.track);
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");
@@ -74,8 +73,6 @@ public class RCBlocks {
         GameRegistry.registerBlock(track_fabricator, "track_fabricator");
         GameRegistry.registerBlock(track_storage, "track_storage");
 
-//		GameRegistry.registerBlock(dummy, "dummy");
-		
 		GameRegistry.registerBlock(track_fabricator_casing, "track_fabricator_casing");
 		GameRegistry.registerBlock(track_fabricator_glass, "track_fabricator_glass");
 		GameRegistry.registerBlock(track_fabricator_output, "track_fabricator_output");

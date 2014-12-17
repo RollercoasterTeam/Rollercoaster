@@ -1,6 +1,5 @@
 package robomuss.rc.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -15,6 +14,7 @@ import robomuss.rc.block.te.TileEntityConveyor;
 
 public class BlockConveyor extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
 	public BlockConveyor() {
         super(Material.iron);
         setHardness(1f);

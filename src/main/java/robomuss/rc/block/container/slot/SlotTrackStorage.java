@@ -19,6 +19,7 @@ public class SlotTrackStorage extends Slot {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

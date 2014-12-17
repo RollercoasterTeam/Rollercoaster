@@ -1,7 +1,11 @@
 package robomuss.rc.block.te;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
@@ -44,9 +47,6 @@ public class TileEntityTrackBase extends TileEntity {
 		this.worldObj = world;
 		this.trackMeta = trackMeta;
 		this.track = track;
-//		this.isDummy = false;
-//		this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-//		this.markDirty();
 	}
 
 	public void setListTypeAndIndex(TrackPiece type, int index) {
@@ -75,7 +75,7 @@ public class TileEntityTrackBase extends TileEntity {
 		this.colour = compound.getInteger("colour");
 		this.converted = compound.getBoolean("converted");
 		this.isDummy = compound.getBoolean("dummy");
-		this.worldObj = super.getWorldObj();
+		this.worldObj = super.getWorld();
 
 		for (TrackStyle style : TrackHandler.styles) {
 			if (style.getId().contains(compound.getString("styleName"))) {
@@ -85,9 +85,6 @@ public class TileEntityTrackBase extends TileEntity {
 
 		int extraID = compound.getInteger("extraID");
 		this.extra = extraID == -1 ? null : TrackHandler.extras.get(extraID);
-		int[] trackLoc = compound.getIntArray("trackLoc");
-		this.track = (BlockTrackBase) this.worldObj.getBlock(trackLoc[0], trackLoc[1], trackLoc[2]);
-		this.trackMeta = compound.getInteger("trackMeta");
 	}
 
 	@Override
@@ -104,131 +101,77 @@ public class TileEntityTrackBase extends TileEntity {
 		compound.setBoolean("converted", this.converted);
 		compound.setBoolean("dummy", this.isDummy);
 		compound.setInteger("extraID", this.extra != null ? this.extra.id : -1);
-		compound.setIntArray("trackLoc", new int[]{this.xCoord, this.yCoord, this.zCoord});
-		compound.setInteger("trackMeta", this.trackMeta);
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound compound = new NBTTagCompound();
 		this.writeToNBT(compound);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, compound);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		if (this.getWorldObj().getBlockMetadata(this.xCoord, this.yCoord, this.zCoord) > 11) {
+		if (this.getBlockMetadata() > 11) {
 			this.isDummy = true;
 		}
 
-		readFromNBT(packet.func_148857_g());
+		readFromNBT(packet.getNbtCompound());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		Block block = this.getWorldObj().getBlock(xCoord, yCoord, zCoord);
+		Block block = this.getWorld().getBlockState(this.getPos()).getBlock();
 		TrackPiece type = TrackHandler.findTrackTypeFull(block.getUnlocalizedName());
 
-		if (type != null) {
-			return type.getRenderBoundingBox(this.getWorldObj(), xCoord, yCoord, zCoord);
-		} else {
-			return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
-		}
-	}
-
-	@Override
-	public boolean canUpdate() {
-		return false;
+		return type != null ? type.getRenderBoundingBox(this.getWorld(), this.getPos()) : AxisAlignedBB.fromBounds(0, 0, 0, 1, 1, 1);
 	}
 
 	public void placeDummy() {
-		if (!this.worldObj.isRemote) {
-			this.track = (BlockTrackBase) this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord);
-			this.trackMeta = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+		if (!this.getWorld().isRemote) {
+			this.track = (BlockTrackBase) this.getWorld().getBlockState(this.getPos()).getBlock();
+//			this.trackMeta = this.getBlockMetadata();
+			EnumFacing facing = (EnumFacing) this.getWorld().getBlockState(this.getPos()).getValue(BlockTrackBase.FACING);
 
-			switch (this.trackMeta) {
-				case 2: /* North */
-					this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord - 1, this.track.track_type.block);
-					this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord - 1, trackMeta + 10, 2);
-					((TileEntityTrackBase) this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord - 1)).isDummy = true;
-					break;
-				case 3: /* South */
-					this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord + 1, this.track.track_type.block);
-					this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord + 1, trackMeta + 10, 2);
-					((TileEntityTrackBase) this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord + 1)).isDummy = true;
-					break;
-				case 4: /* West */
-					this.worldObj.setBlock(this.xCoord - 1, this.yCoord, this.zCoord, this.track.track_type.block);
-					this.worldObj.setBlockMetadataWithNotify(this.xCoord - 1, this.yCoord, this.zCoord, trackMeta + 10, 2);
-					((TileEntityTrackBase) this.worldObj.getTileEntity(this.xCoord - 1, this.yCoord, this.zCoord)).isDummy = true;
-					break;
-				case 5: /* East */
-					this.worldObj.setBlock(this.xCoord + 1, this.yCoord, this.zCoord, this.track.track_type.block);
-					this.worldObj.setBlockMetadataWithNotify(this.xCoord + 1, this.yCoord, this.zCoord, trackMeta + 10, 2);
-					((TileEntityTrackBase) this.worldObj.getTileEntity(this.xCoord + 1, this.yCoord, this.zCoord)).isDummy = true;
-					break;
+			switch (facing) {
+				case NORTH: this.getWorld().setBlockState(this.getPos().north(), this.track.track_type.block.getDefaultState().withProperty(BlockTrackBase.FACING, EnumFacing.NORTH)); break;
+				case SOUTH: this.getWorld().setBlockState(this.getPos().south(), this.track.track_type.block.getDefaultState().withProperty(BlockTrackBase.FACING, EnumFacing.SOUTH)); break;
+				case WEST:  this.getWorld().setBlockState(this.getPos().west(),  this.track.track_type.block.getDefaultState().withProperty(BlockTrackBase.FACING, EnumFacing.WEST));  break;
+				case EAST:  this.getWorld().setBlockState(this.getPos().east(),  this.track.track_type.block.getDefaultState().withProperty(BlockTrackBase.FACING, EnumFacing.EAST));  break;
 			}
 		}
 	}
 
-	private void reorient(boolean counterClockwise, int currentFacing) {
-		int nextFacing = 0;
-
-		switch (currentFacing) {
-			case 2: nextFacing = counterClockwise ? 4 : 5; break;
-			case 3: nextFacing = counterClockwise ? 5 : 4; break;
-			case 4: nextFacing = counterClockwise ? 3 : 2; break;
-			case 5: nextFacing = counterClockwise ? 2 : 3; break;
-		}
-
-		this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, nextFacing, 2);
+	private void reorient(boolean counterClockwise, EnumFacing facing) {
+		EnumFacing nextFacing = counterClockwise ? facing.rotateYCCW() : facing.rotateY();
+		this.getWorld().setBlockState(this.getPos(), this.getWorld().getBlockState(this.getPos()).withProperty(BlockTrackBase.FACING, nextFacing).withProperty(BlockTrackBase.DUMMY, false), 2);
 	}
 
-	private void reorientDummies(boolean counterClockwise, int currentFacing) {
-		int nextFacing = 0;
-		boolean isDummy = currentFacing >= 11;
-		currentFacing = isDummy ? currentFacing - 10 : currentFacing;
+	private void reorientDummies(boolean counterClockwise, EnumFacing currentFacing) {
+		isDummy = (Boolean) this.getWorld().getBlockState(this.pos).getValue(BlockTrackBase.DUMMY);
+		EnumFacing nextFacing = counterClockwise ? currentFacing.rotateYCCW() : currentFacing.rotateY();
 
-		switch (currentFacing) {
-			case 2: nextFacing = counterClockwise ? 4 : 5; break;
-			case 3: nextFacing = counterClockwise ? 5 : 4; break;
-			case 4: nextFacing = counterClockwise ? 3 : 2; break;
-			case 5: nextFacing = counterClockwise ? 2 : 3; break;
-		}
+		BlockPos currentPartner = isDummy ? this.getPos().offset(currentFacing.getOpposite()) : this.getPos().offset(currentFacing);
+		BlockPos destPartner    = isDummy ? this.getPos().offset(nextFacing.getOpposite())    : this.getPos().offset(nextFacing);
 
-		int offsetX = isDummy ? ForgeDirection.getOrientation(nextFacing).getOpposite().offsetX : ForgeDirection.getOrientation(nextFacing).offsetX;
-		int offsetY = isDummy ? ForgeDirection.getOrientation(nextFacing).getOpposite().offsetY : ForgeDirection.getOrientation(nextFacing).offsetY;
-		int offsetZ = isDummy ? ForgeDirection.getOrientation(nextFacing).getOpposite().offsetZ : ForgeDirection.getOrientation(nextFacing).offsetZ;
+		IBlockState stateReplaced = this.getWorld().getBlockState(destPartner);
+		BlockSnapshot snapReplaced = new BlockSnapshot(this.getWorld(), destPartner, stateReplaced);
 
-		int currentOffsetX = isDummy ? ForgeDirection.getOrientation(currentFacing).getOpposite().offsetX : ForgeDirection.getOrientation(currentFacing).offsetX;
-		int currentOffsetY = isDummy ? ForgeDirection.getOrientation(currentFacing).getOpposite().offsetY : ForgeDirection.getOrientation(currentFacing).offsetY;
-		int currentOffsetZ = isDummy ? ForgeDirection.getOrientation(currentFacing).getOpposite().offsetZ : ForgeDirection.getOrientation(currentFacing).offsetZ;
-
-		Block blockReplaced = this.worldObj.getBlock(this.xCoord + offsetX, this.yCoord + offsetY, this.zCoord + offsetZ);
-		int metaReplaced = this.worldObj.getBlockMetadata(this.xCoord + offsetX, this.yCoord + offsetY, this.zCoord + offsetZ);
-		BlockSnapshot snapshotReplaced = new BlockSnapshot(this.worldObj, this.xCoord + offsetX, this.yCoord + offsetY, this.zCoord + offsetZ, blockReplaced, metaReplaced);
-
-		if (!snapshotReplaced.world.isAirBlock(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z) && !(snapshotReplaced.world.getBlock(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z) instanceof BlockLiquid)) {
-			snapshotReplaced.restore();
+		if (!snapReplaced.world.isAirBlock(snapReplaced.pos) && !(snapReplaced.world.getBlockState(snapReplaced.pos).getBlock() instanceof BlockLiquid)) {
+			snapReplaced.restore();
 		} else {
-			if (!isDummy) {
-				snapshotReplaced.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, nextFacing, 2);
-				snapshotReplaced.world.setBlockToAir(this.xCoord + currentOffsetX, this.yCoord + currentOffsetY, this.zCoord + currentOffsetZ);
-				snapshotReplaced.world.setBlock(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z, this.track.track_type.block);
-				snapshotReplaced.world.setBlockMetadataWithNotify(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z, nextFacing + 10, 2);
-				((TileEntityTrackBase) snapshotReplaced.world.getTileEntity(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z)).isDummy = true;
-			} else {
-				snapshotReplaced.world.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, nextFacing + 10, 2);
-				snapshotReplaced.world.setBlockToAir(this.xCoord + currentOffsetX, this.yCoord + currentOffsetY, this.zCoord + currentOffsetZ);
-				snapshotReplaced.world.setBlock(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z, this.track.track_type.block);
-				snapshotReplaced.world.setBlockMetadataWithNotify(snapshotReplaced.x, snapshotReplaced.y, snapshotReplaced.z, nextFacing, 2);
-			}
+			IBlockState destPartnerState = snapReplaced.world.getBlockState(currentPartner).withProperty(BlockTrackBase.FACING, nextFacing).withProperty(BlockTrackBase.DUMMY, !isDummy);
+			IBlockState destSelfState    = snapReplaced.world.getBlockState(this.pos).withProperty(BlockTrackBase.FACING, nextFacing).withProperty(BlockTrackBase.DUMMY, isDummy);
+
+			snapReplaced.world.setBlockState(this.pos, destSelfState, 2);
+			snapReplaced.world.setBlockToAir(currentPartner);
+			snapReplaced.world.setBlockState(destPartner, destPartnerState, 2);
 		}
 	}
 
 	public void rotate(boolean counterClockwise) {
-		int currentFacing = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+		EnumFacing currentFacing = (EnumFacing) this.worldObj.getBlockState(this.pos).getValue(BlockTrackBase.FACING);
 
 		if (TrackManager.isSloped(TrackManager.getTrackType(this.track))) {
 			this.reorientDummies(counterClockwise, currentFacing);
@@ -241,8 +184,8 @@ public class TileEntityTrackBase extends TileEntity {
 	 * returns the height in blocks of the hill starting or ending at the passed-in coordinates.
 	 * if track at coordinates is not a slope up or slope down, will return -1.
 	 */
-	public int getHeightOfHill(int x, int y, int z) {
-		Block block = this.worldObj.getBlock(x, y, z);
+	public int getHeightOfHill(BlockPos inputPos) {
+		Block block = this.worldObj.getBlockState(inputPos).getBlock();
 
 		if (!(block instanceof BlockTrackBase)) {
 			return -1;
@@ -250,7 +193,7 @@ public class TileEntityTrackBase extends TileEntity {
 			if (((BlockTrackBase) block).track_type != TrackHandler.findTrackType("slope_up") && ((BlockTrackBase) block).track_type != TrackHandler.findTrackType("slope_down")) {
 				return -1;
 			} else {
-				int meta = this.getWorldObj().getBlockMetadata(x, y, z);
+				int meta = this.getBlockMetadata();
 				boolean isDummy = meta > 11;
 				meta = isDummy ? meta - 10 : meta;
 
@@ -260,6 +203,7 @@ public class TileEntityTrackBase extends TileEntity {
 		return -1;
 	}
 
+	//TODO: the pneumaticcraft code will have to be updated to 1.8!
 	/*@Optional.Method(modid = "PneumaticCraft")
 	@Override
 	public IAirHandler getAirHandler() {

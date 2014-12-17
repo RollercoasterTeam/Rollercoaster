@@ -1,7 +1,8 @@
 package robomuss.rc.proxy;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -37,7 +38,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConveyor.class, new TileEntityRenderConveyor());                     //CONVEYOR
 
 		/** TRAIN */
-        RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain(Minecraft.getMinecraft().getRenderManager()));
 
 		/** ITEMS */
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence), new ItemRenderFence());

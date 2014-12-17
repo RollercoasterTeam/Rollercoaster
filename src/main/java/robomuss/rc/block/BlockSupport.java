@@ -61,23 +61,25 @@ public class BlockSupport extends BlockContainer implements IPaintable {
 
     	if (!(above instanceof TileEntitySupport)) {
     		int gap = 1;
+			BlockPos currentPos = pos;
 
-		    //TODO: make sure this doesn't infinite loop!
-    		for(BlockPos currentPos = pos; currentPos.getY() > BlockPos.ORIGIN.getY(); currentPos.down()) {
-    			if(world.getTileEntity(currentPos) instanceof TileEntitySupport) {
-    				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(currentPos.down());
+		    while (currentPos.getY() > BlockPos.ORIGIN.getY()) {
+			    currentPos = currentPos.down();
 
-				    if(gap == 2) {
-    					te.flange = true;
-    					gap = 0;
-    				} else {
-    					te.flange = false;
-    					gap++;
-    				}
+			    if (world.getTileEntity(currentPos) instanceof TileEntitySupport) {
+				    TileEntitySupport teSupport = (TileEntitySupport) world.getTileEntity(currentPos);
 
-    				world.markBlockForUpdate(currentPos.down());
-    			}
-    		}
+				    if (gap == 2) {
+					    teSupport.flange = true;
+					    gap = 0;
+				    } else {
+					    teSupport.flange = false;
+					    gap++;
+				    }
+
+				    world.markBlockForUpdate(currentPos);
+			    }
+		    }
     	}
     }
 
@@ -91,23 +93,22 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
     	int gap = 1;
+	    BlockPos currentPos = pos;
 
-	    //TODO: check that this doesn't infinite loop!
-	    for (BlockPos currentPos = pos.offset(EnumFacing.DOWN); currentPos.getY() > BlockPos.ORIGIN.getY(); currentPos.down()) {
-//    	for(int currentY = y - 1; currentY > 0; currentY--) {
-    		if(world.getTileEntity(currentPos) instanceof TileEntitySupport) {
-    			TileEntitySupport te = (TileEntitySupport) world.getTileEntity(currentPos);
+	    while (currentPos.getY() > BlockPos.ORIGIN.getY()) {
+		    if (world.getTileEntity(currentPos) instanceof TileEntitySupport) {
+			    TileEntitySupport teSupport = (TileEntitySupport) world.getTileEntity(currentPos);
 
-			    if(gap == 2) {
-    				te.flange = true;
-    				gap = 0;
-    			} else {
-    				te.flange = false;
-    				gap++;
-    			}
+			    if (gap == 2) {
+				    teSupport.flange = true;
+				    gap = 0;
+			    } else {
+				    teSupport.flange = false;
+				    gap++;
+			    }
+		    }
 
-    			world.markBlockForUpdate(currentPos);
-    		}
-    	}
+		    currentPos = currentPos.down();
+	    }
     }
 }

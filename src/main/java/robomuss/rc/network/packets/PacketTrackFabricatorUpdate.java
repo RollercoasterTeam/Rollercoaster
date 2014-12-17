@@ -6,55 +6,45 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackHandler;
 
 public class PacketTrackFabricatorUpdate extends AbstractPacket {
-
-    public PacketTrackFabricatorUpdate() {
-    }
-
-    private int x, y, z;
+    private BlockPos pos;
     private int amount, current_track;
 
-    public PacketTrackFabricatorUpdate(int x, int y, int z, int amount, int current_track) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public PacketTrackFabricatorUpdate() {}
+
+    public PacketTrackFabricatorUpdate(BlockPos pos, int amount, int current_track) {
+        this.pos = pos;
         this.amount = amount;
         this.current_track = current_track;
     }
 
     @Override
     public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
-        buffer.writeInt(this.x);
-        buffer.writeInt(this.y);
-        buffer.writeInt(this.z);
+        buffer.writeLong(pos.toLong());
         buffer.writeInt(amount);
         buffer.writeInt(current_track);
     }
 
     @Override
     public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
-        this.x = buffer.readInt();
-        this.y = buffer.readInt();
-        this.z = buffer.readInt();
+        this.pos = BlockPos.fromLong(buffer.readLong());
         this.amount = buffer.readInt();
         this.current_track = buffer.readInt();
 
     }
 
     @Override
-    public void handleClientSide(EntityPlayer player) {
-
-    }
+    public void handleClientSide(EntityPlayer player) {}
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-        World world = player.worldObj;
-        TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
+        TileEntityTrackFabricator te = (TileEntityTrackFabricator) player.getEntityWorld().getTileEntity(pos);
         int cost = TrackHandler.pieces.get(current_track).crafting_cost * amount;
         if(te.contents[0] != null) {
         	if(te.contents[0].getItem() == Items.iron_ingot) {

@@ -1,7 +1,7 @@
 package robomuss.rc.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -20,11 +20,11 @@ import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiTrackFabricator extends GuiContainer {
-	
 	private TileEntityTrackFabricator te;
 	private int current_track;
 	private int amount = 1;
@@ -32,8 +32,8 @@ public class GuiTrackFabricator extends GuiContainer {
 
     private static final ResourceLocation trackFabricatorGuiTextures = new ResourceLocation("rc", "textures/gui/track_fabricator.png");
     
-    public GuiTrackFabricator(InventoryPlayer par1InventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World par2World, int par3, int par4, int par5) {
-        super(new ContainerTrackFabricator(par1InventoryPlayer, player, te, par2World, par3, par4, par5));
+    public GuiTrackFabricator(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World world, int x, int y, int z) {
+        super(new ContainerTrackFabricator(inventoryPlayer, player, te, world, x, y, z));
         this.te = te;
     }
 
@@ -57,7 +57,7 @@ public class GuiTrackFabricator extends GuiContainer {
 		
 		buttonList.add(new GuiButton(4, k + 126, l + 20, 40, 20, "Craft"));
 		
-		textField = new GuiTextField(fontRendererObj, k + 127, l + 49, 38, 18);
+		textField = new GuiTextField(0, fontRendererObj, k + 127, l + 49, 38, 18);
 		textField.setFocused(false);
 		textField.setMaxStringLength(2);
 		textField.setText("" + amount);
@@ -81,7 +81,12 @@ public class GuiTrackFabricator extends GuiContainer {
     
     @Override
 	public void keyTyped(char c, int i) {
-		super.keyTyped(c, i);
+		try {
+			super.keyTyped(c, i);
+		} catch (IOException exception) {
+			;
+		}
+
 		if(Character.toString(c).matches("[0-9]") || c == (char) KeyEvent.VK_BACK_SPACE) {
 			textField.textboxKeyTyped(c, i);
 		}
@@ -89,8 +94,14 @@ public class GuiTrackFabricator extends GuiContainer {
 	
 	@Override
 	public void mouseClicked(int i, int j, int k) {
-		super.mouseClicked(i, j, k);
+		try {
+			super.mouseClicked(i, j, k);
+		} catch (IOException exception) {
+			;
+		}
+
 		textField.mouseClicked(i, j, k);
+
 		if(!textField.isFocused()) {
 			if(Integer.parseInt(textField.getText()) == 0) {
 				amount = 1;
@@ -113,9 +124,11 @@ public class GuiTrackFabricator extends GuiContainer {
 	    int l = (this.height - this.ySize) / 2;
 		Rectangle box = new Rectangle(k + 26, l + 18, 52, 52);
 		Rectangle mouse = new Rectangle(x, y, 1, 1);
+
 		if(mouse.intersects(box)) {
 			String name = TrackHandler.pieces.get(current_track).block.getLocalizedName();
 			int num = TrackHandler.pieces.get(current_track).crafting_cost * amount;
+
 			if(isShiftKeyDown()) {
 				drawHoveringText(Arrays.asList(new Object[]{
 						name, 
@@ -123,8 +136,7 @@ public class GuiTrackFabricator extends GuiContainer {
 						"========================",
 						"Try SHIFT-clicking the + & -"
 						}), x, y, fontRendererObj);
-			}
-			else {
+			} else {
 				drawHoveringText(Arrays.asList(new Object[]{name, num + " Iron Ingots (" + TrackHandler.pieces.get(current_track).crafting_cost + " per track)", "Hold SHIFT for more info"}), x, y, fontRendererObj);
 			}
 		}
@@ -137,27 +149,21 @@ public class GuiTrackFabricator extends GuiContainer {
 		if(id == 0) {
 			current_track = current_track == 0 ? TrackHandler.pieces.size() - 1 : current_track - 1;
 		}
+
 		if(id == 1) {
 			current_track = current_track < TrackHandler.pieces.size() - 1 ? current_track + 1 : 0;
 		}
+
 		if(id == 2) {
-			if(isShiftKeyDown()) {
-				amount = 1;
-			}
-			else {
-				amount += amount == 1 ? 0 : -1;
-			}
+			amount = isShiftKeyDown() ? 1 : (amount == 1 ? 0 : -1);
 			textField.setText("" + amount);
 		}
+
 		if(id == 3) {
-			if(isShiftKeyDown()) {
-				amount = 64;
-			}
-			else {
-				amount += amount < 64 ? 1 : 0;
-			}
+			amount = isShiftKeyDown() ? (amount < 64 ? (amount + 1) : amount) : 64;
 			textField.setText("" + amount);
 		}
+
 		if(id == 4) {
 			NetworkHandler.updateTrackFabricatorTE(te, current_track, amount);
 		}

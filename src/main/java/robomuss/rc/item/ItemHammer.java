@@ -1,7 +1,9 @@
 package robomuss.rc.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,13 +11,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import robomuss.rc.block.BlockConveyor;
+import robomuss.rc.block.BlockRideFence;
+import robomuss.rc.block.BlockWoodenSupport;
 import robomuss.rc.block.te.*;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.hammer.HammerMode;
 
 import java.util.List;
-
-//import robomuss.rc.block.BlockTrack;
 
 public class ItemHammer extends Item {
 	public static HammerMode[] modes = {
@@ -31,63 +34,64 @@ public class ItemHammer extends Item {
 				}
 
 				if (tileentity instanceof TileEntityRideFence) {
-					TileEntityRideFence terf = (TileEntityRideFence) event.world.getTileEntity(event.x, event.y, event.z);
-					terf.direction = terf.direction == 3 ? 0 : terf.direction + 1;
-					event.world.markBlockForUpdate(event.x, event.y, event.z);
+					IBlockState state = event.world.getBlockState(event.pos);
+					EnumFacing facing = (EnumFacing) state.getValue(BlockRideFence.FACING);
+					event.world.setBlockState(event.pos, state.withProperty(BlockRideFence.FACING, facing.rotateAround(facing.getAxis())));
+					event.world.markBlockForUpdate(event.pos);
 				}
 
 				if (tileentity instanceof TileEntityWoodenSupport) {
-					TileEntityWoodenSupport tews = (TileEntityWoodenSupport) event.world.getTileEntity(event.x, event.y, event.z);
-					tews.direction = tews.direction == 3 ? 0 : tews.direction + 1;
-					event.world.markBlockForUpdate(event.x, event.y, event.z);
+					IBlockState state = event.world.getBlockState(event.pos);
+					EnumFacing facing = (EnumFacing) state.getValue(BlockWoodenSupport.FACING);
+					event.world.setBlockState(event.pos, state.withProperty(BlockWoodenSupport.FACING, facing.rotateAround(facing.getAxis())));
+					event.world.markBlockForUpdate(event.pos);
 				}
 
 				if (tileentity instanceof TileEntityConveyor) {
-					TileEntityConveyor tec = (TileEntityConveyor) event.world.getTileEntity(event.x, event.y, event.z);
-					tec.direction = tec.direction == 3 ? 0 : tec.direction + 1;
-					event.world.markBlockForUpdate(event.x, event.y, event.z);
+					IBlockState state = event.world.getBlockState(event.pos);
+					EnumFacing facing = (EnumFacing) state.getValue(BlockConveyor.FACING);
+					event.world.setBlockState(event.pos, state.withProperty(BlockConveyor.FACING, facing.rotateAround(facing.getAxis())));
+					event.world.markBlockForUpdate(event.pos);
 				}
 			}
-		},
-			new HammerMode("Change Style") {
-				@Override
-				public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
-					if (tileentity instanceof TileEntityTrackBase) {
-						TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
-						int id = 0;
+		}, new HammerMode("Change Style") {
+		@Override
+		public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
+			if (tileentity instanceof TileEntityTrackBase) {
+				TileEntityTrackBase te = (TileEntityTrackBase) tileentity;
+				int id = 0;
 
-						for (int i = 0; i < TrackHandler.styles.size(); i++) {
-							if (te.style != null && TrackHandler.styles.get(i).getId().equals(te.style.getId())) {
-								id = i;
-							}
-						}
-
-						if (id < TrackHandler.styles.size() - 1) {
-							te.style = TrackHandler.styles.get(id + 1);
-						} else {
-							te.style = TrackHandler.styles.get(0);
-						}
-
-						event.world.markBlockForUpdate(event.x, event.y, event.z);
+				for (int i = 0; i < TrackHandler.styles.size(); i++) {
+					if (te.style != null && TrackHandler.styles.get(i).getId().equals(te.style.getId())) {
+						id = i;
 					}
 				}
-			},
-			new HammerMode("Adjustment") {
-				@Override
-				public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
-					if (tileentity instanceof TileEntityFooter) {
-						TileEntityFooter te = (TileEntityFooter) tileentity;
-						te.forceConnection = !te.forceConnection;
-						event.world.markBlockForUpdate(event.x, event.y, event.z);
-					}
 
-					if (tileentity instanceof TileEntitySupport) {
-						TileEntitySupport te = (TileEntitySupport) tileentity;
-						te.flange = !te.flange;
-						event.world.markBlockForUpdate(event.x, event.y, event.z);
-					}
+				if (id < TrackHandler.styles.size() - 1) {
+					te.style = TrackHandler.styles.get(id + 1);
+				} else {
+					te.style = TrackHandler.styles.get(0);
 				}
+
+				event.world.markBlockForUpdate(event.pos);
 			}
+		}
+	}, new HammerMode("Adjustment") {
+		@Override
+		public void onRightClick(TileEntity tileentity, PlayerInteractEvent event) {
+			if (tileentity instanceof TileEntityFooter) {
+				TileEntityFooter te = (TileEntityFooter) tileentity;
+				te.forceConnection = !te.forceConnection;
+				event.world.markBlockForUpdate(event.pos);
+			}
+
+			if (tileentity instanceof TileEntitySupport) {
+				TileEntitySupport te = (TileEntitySupport) tileentity;
+				te.flange = !te.flange;
+				event.world.markBlockForUpdate(event.pos);
+			}
+		}
+	}
 	};
 	
 	public ItemHammer() {
@@ -98,11 +102,6 @@ public class ItemHammer extends Item {
 	@SideOnly(Side.CLIENT)
 	public boolean isFull3D() {
 		return true;
-	}
-
-	@Override
-	public boolean doesContainerItemLeaveCraftingGrid(ItemStack itemStack) {
-		return false;
 	}
 
 	@Override
@@ -127,19 +126,19 @@ public class ItemHammer extends Item {
 	
 	@Override
 	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
-		stack.stackTagCompound = new NBTTagCompound();
-		stack.stackTagCompound.setInteger("mode", 0);
+		stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setInteger("mode", 0);
 	}
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean val) {
-		if (stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setInteger("mode", 0);
+		if (stack.getTagCompound() == null) {
+			stack.setTagCompound(new NBTTagCompound());
+			stack.getTagCompound().setInteger("mode", 0);
 		}
 
-		list.add(modes[stack.stackTagCompound.getInteger("mode")].name + " Mode");
+		list.add(modes[stack.getTagCompound().getInteger("mode")].name + " Mode");
 	}
 }

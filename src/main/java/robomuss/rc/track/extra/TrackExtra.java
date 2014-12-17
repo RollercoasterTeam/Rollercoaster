@@ -2,6 +2,7 @@ package robomuss.rc.track.extra;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
@@ -67,18 +68,16 @@ public class TrackExtra {
 	
 	public static void rotate(BlockTrackBase track, TileEntityTrackBase teTrack) {
 		if (teTrack != null) {
-			int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			EnumFacing facing = (EnumFacing) teTrack.getWorld().getBlockState(teTrack.getPos()).getValue(BlockTrackBase.FACING);
 
-			switch (meta) {
-				case 2: GL11.glRotatef(180f, -180f, 0f, 180f); break;
-				case 3: GL11.glRotatef(180f, -180f, 0f, 0f);   break;
-				case 4: GL11.glRotatef(180f, 180f, 0f, 180f);  break;
-				case 5: GL11.glRotatef(180f, 0f, 0f, 180f);    break;
+			switch (facing) {
+				case NORTH: GL11.glRotatef(180f, -180f, 0f, 180f); break;
+				case SOUTH: GL11.glRotatef(180f, -180f, 0f, 0f);   break;
+				case WEST:  GL11.glRotatef(180f, 180f, 0f, 180f);  break;
+				case EAST:  GL11.glRotatef(180f, 0f, 0f, 180f);    break;
 			}
 		}
 	}
 
-	public void applyEffectToTrain(BlockTrackBase track, EntityTrainDefault entity) {
-		
-	}
+	public void applyEffectToTrain(BlockTrackBase track, EntityTrainDefault entity) {}
 }

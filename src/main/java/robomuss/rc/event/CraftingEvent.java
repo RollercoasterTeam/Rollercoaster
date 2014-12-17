@@ -2,7 +2,6 @@ package robomuss.rc.event;
 
 
 public class CraftingEvent {
-	
 	/*@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent event) {
 		if(!event.player.worldObj.isRemote) {

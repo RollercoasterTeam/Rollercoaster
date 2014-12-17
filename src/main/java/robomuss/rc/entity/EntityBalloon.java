@@ -36,8 +36,7 @@ public class EntityBalloon extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound) {
 		this.isCurrentlyHeld = compound.getBoolean("held");
-//		this.holder = !this.isCurrentlyHeld ? null : this.worldObj.getPlayerEntityByName(compound.getString("holder"));
-		this.holder = this.worldObj.func_152378_a(UUID.fromString(compound.getString("holder")));
+		this.holder = compound.hasKey("holder") ? this.worldObj.getPlayerEntityByUUID(UUID.fromString(compound.getString("holder"))) : null;
 		this.entityName = compound.getString("name");
 		this.colorIndex = compound.getInteger("colorIndex");
 		this.posX = compound.getDouble("posX");
@@ -54,7 +53,11 @@ public class EntityBalloon extends Entity {
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound compound) {
 		compound.setBoolean("held", this.isCurrentlyHeld);
-		compound.setString("holder", this.isCurrentlyHeld ? (this.holder != null ? this.holder.getCommandSenderName() : null) : null);
+
+		if (this.isCurrentlyHeld) {
+			compound.setString("holder", this.holder.getName());
+		}
+
 		compound.setString("name", this.entityName);
 		compound.setInteger("colorIndex", this.colorIndex);
 		compound.setDouble("posX", this.posX);

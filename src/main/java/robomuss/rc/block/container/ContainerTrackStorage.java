@@ -5,25 +5,26 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import robomuss.rc.block.container.slot.SlotTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class ContainerTrackStorage extends Container {
 
-	public ContainerTrackStorage(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackStorage te, World world, int x, int y, int z) {
+	public ContainerTrackStorage(InventoryPlayer inventory, EntityPlayer player, TileEntityTrackStorage te, World world, int x, int y, int z) {
 		for(int storageRows = 0; storageRows < 27; storageRows++) {
 			this.addSlotToContainer(new SlotTrackStorage(te, storageRows, 8 + (storageRows % 9) * 18, 18 + 18 + (18 * ((storageRows / 9) - 1))));
 		}
 
 		for (int inventoryRows = 0; inventoryRows < 3; ++inventoryRows) {
 			for (int inventoryColumns = 0; inventoryColumns < 9; ++inventoryColumns) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, inventoryColumns + inventoryRows * 9 + 9, 8 + inventoryColumns * 18, 84 + inventoryRows * 18));
+				this.addSlotToContainer(new Slot(inventory, inventoryColumns + inventoryRows * 9 + 9, 8 + inventoryColumns * 18, 84 + inventoryRows * 18));
 			}
 		}
 
 		for (int hotbarSlots = 0; hotbarSlots < 9; ++hotbarSlots) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, hotbarSlots, 8 + hotbarSlots * 18, 142));
+			this.addSlotToContainer(new Slot(inventory, hotbarSlots, 8 + hotbarSlots * 18, 142));
 		}
 
 	}

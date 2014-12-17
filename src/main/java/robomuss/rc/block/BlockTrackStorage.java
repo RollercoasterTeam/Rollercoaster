@@ -1,81 +1,55 @@
 package robomuss.rc.block;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class BlockTrackStorage extends BlockContainer {
-
 	public BlockTrackStorage() {
 		super(Material.iron);
-		setHardness(1F);
-		setResistance(3F);
+		setHardness(1f);
+		setResistance(3f);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			FMLNetworkHandler.openGui(player, RCMod.instance, 2, world, x, y, z);
+			FMLNetworkHandler.openGui(player, RCMod.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 		return true;
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
+	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityTrackStorage();
-	}
-
-	@SideOnly(Side.CLIENT)
-	private IIcon side;
-	@SideOnly(Side.CLIENT)
-	private IIcon top;
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister register) {
-		side = register.registerIcon("rc:track_storage_side");
-		top = register.registerIcon("rc:track_storage_top");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int face, int meta) {
-		if (face == 0 || face == 1) {
-			return top;
-		} else {
-			return side;
-		}
 	}
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(x, y, z);
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		TileEntityTrackStorage te = (TileEntityTrackStorage) world.getTileEntity(pos);
 
 		if (te != null) {
-			for (int i1 = 0; i1 < te.getSizeInventory(); ++i1) {
-				ItemStack itemstack = te.getStackInSlot(i1);
+			for (int i = 0; i < te.getSizeInventory(); ++i) {
+				ItemStack itemstack = te.getStackInSlot(i);
 
 				if (itemstack != null) {
-					float f = world.rand.nextFloat() * 0.8F + 0.1F;
-					float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+					float f = world.rand.nextFloat()  * 0.8f + 0.1f;
+					float f1 = world.rand.nextFloat() * 0.8f + 0.1f;
 					EntityItem entityitem;
 
-					for (float f2 = world.rand.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; world
-							.spawnEntityInWorld(entityitem)) {
+					for (float f2 = world.rand.nextFloat() * 0.8f + 0.1f; itemstack.stackSize > 0; world.spawnEntityInWorld(entityitem)) {
 						int j1 = world.rand.nextInt(21) + 10;
 
 						if (j1 > itemstack.stackSize) {
@@ -83,34 +57,26 @@ public class BlockTrackStorage extends BlockContainer {
 						}
 
 						itemstack.stackSize -= j1;
-						entityitem = new EntityItem(world,
-								(double) ((float) x + f),
-								(double) ((float) y + f1),
-								(double) ((float) z + f2),
-								new ItemStack(itemstack.getItem(), j1,
-										itemstack.getItemDamage()));
-						float f3 = 0.05F;
-						entityitem.motionX = (double) ((float) world.rand
-								.nextGaussian() * f3);
-						entityitem.motionY = (double) ((float) world.rand
-								.nextGaussian() * f3 + 0.2F);
-						entityitem.motionZ = (double) ((float) world.rand
-								.nextGaussian() * f3);
+						entityitem = new EntityItem(world, (double) ((float) pos.getX() + f), (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+						float f3 = 0.05f;
+
+						entityitem.motionX = (double) ((float) world.rand.nextGaussian() * f3);
+						entityitem.motionY = (double) ((float) world.rand.nextGaussian() * f3 + 0.2F);
+						entityitem.motionZ = (double) ((float) world.rand.nextGaussian() * f3);
 
 						if (itemstack.hasTagCompound()) {
-							entityitem.getEntityItem().setTagCompound(
-									(NBTTagCompound) itemstack.getTagCompound()
-											.copy());
+							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
 						}
 					}
 				}
 			}
 
-			world.func_147453_f(x, y, z,
-					block);
+			//TODO: figure out if this is the proper method for the commented func
+			world.updateComparatorOutputLevel(pos, world.getBlockState(pos).getBlock());
+//			world.func_147453_f(pos, block);
 		}
 
-		super.breakBlock(world, x, y, z,
-				block, meta);
+		super.breakBlock(world, pos, state);
 	}
 }

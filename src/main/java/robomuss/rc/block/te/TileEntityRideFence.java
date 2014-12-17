@@ -8,8 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 
 
 public class TileEntityRideFence extends TileEntity {
-	
-	public int direction;
 	public int colour;
 	public boolean open = false;
 	
@@ -17,19 +15,18 @@ public class TileEntityRideFence extends TileEntity {
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+		return new S35PacketUpdateTileEntity(this.getPos(), 1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
+		readFromNBT(packet.getNbtCompound());
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		
-		direction = compound.getInteger("direction");
+
 		colour = compound.getInteger("colour");
 		open = compound.getBoolean("open");
 	}
@@ -37,14 +34,8 @@ public class TileEntityRideFence extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		
-		compound.setInteger("direction", direction);
+
 		compound.setInteger("colour", colour);
 		compound.setBoolean("open", open);
-	}
-	
-	@Override
-	public boolean canUpdate() {
-		return false;
 	}
 }

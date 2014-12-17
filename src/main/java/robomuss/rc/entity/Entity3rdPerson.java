@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -16,10 +18,6 @@ import robomuss.rc.event.RenderWorldLast;
 
 import java.util.List;
 
-
-/**
- * Created by Mark on 17/08/2014.
- */
 public class Entity3rdPerson extends EntityLivingBase {
 
     public EntityLivingBase player = this;
@@ -42,11 +40,10 @@ public class Entity3rdPerson extends EntityLivingBase {
     public void onUpdate() {
 		TrackDesignerKeyBindings.init();
 
-        Vec3 look = this.getLook(1.0F).normalize();
-
-        Vec3 worldUp = Vec3.createVectorHelper(0, 1, 0);
-        Vec3 side = worldUp.crossProduct(look).normalize();
-        Vec3 forward = side.crossProduct(worldUp).normalize();
+	    Vec3 look = this.getLook(1.0F).normalize();
+	    Vec3 worldUp = new Vec3(0, 1, 0);
+	    Vec3 side = worldUp.crossProduct(look).normalize();
+	    Vec3 forward = side.crossProduct(worldUp).normalize();
 
         motionX = 0;
         motionY = 0;
@@ -57,14 +54,17 @@ public class Entity3rdPerson extends EntityLivingBase {
 				motionX = side.xCoord * 0.5;
 				motionZ = side.zCoord * 0.5;
 			}
+
 		    if (Keyboard.isKeyDown(TrackDesignerKeyBindings.right.getRCKeyCode())) {
 				motionX = side.xCoord * -0.5;
 		        motionZ = side.zCoord * -0.5;
 		    }
+
 			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.forward.getRCKeyCode())) {
 				motionX = forward.xCoord * 0.5;
 			    motionZ = forward.zCoord * 0.5;
 		    }
+
 			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.backward.getRCKeyCode())) {
 				motionX = forward.xCoord * -0.5;
 			    motionZ = forward.zCoord * -0.5;
@@ -103,6 +103,7 @@ public class Entity3rdPerson extends EntityLivingBase {
 	    } else if (Keyboard.isKeyDown(TrackDesignerKeyBindings.lookRight.getRCKeyCode())) {
 		    setAngles(10, 0);
 	    }
+
         super.onUpdate();
     }
 
@@ -112,7 +113,7 @@ public class Entity3rdPerson extends EntityLivingBase {
 		boolean hovering = false;
 
 		for (GuiButton button : buttons) {
-			if (!button.func_146115_a()) {
+			if (!button.isMouseOver()) {
 				hovering = false;
 			} else {
 				hovering = true;
@@ -128,24 +129,20 @@ public class Entity3rdPerson extends EntityLivingBase {
     }
 
     @Override
-    public void setCurrentItemOrArmor(int i, ItemStack itemstack) {
+    public void setCurrentItemOrArmor(int i, ItemStack itemstack) {}
 
-    }
+	@Override
+	public ItemStack[] getInventory() {
+		return new ItemStack[0];
+	}
 
-    @Override
-    public ItemStack[] getLastActiveItems() {
-        return null;
-    }
-
-    public MovingObjectPosition rayTraceMouse() {
+	public MovingObjectPosition rayTraceMouse() {
         double distance = 1000;
 
-        Vec3 localPos = this.getPosition(1.0F);
+        Vec3 localPos = this.getPositionVector();
         Vec3 look = this.getLook(1.0F).normalize();
 
-        localPos.xCoord += RenderWorldLast.diffX;
-        localPos.yCoord += RenderWorldLast.diffY;
-        localPos.zCoord += RenderWorldLast.diffZ;
+	    localPos.addVector(RenderWorldLast.diffX, RenderWorldLast.diffY, RenderWorldLast.diffZ);
 
         Vec3 vec32 = localPos.addVector(look.xCoord * distance, look.yCoord * distance, look.zCoord * distance);
 
@@ -155,7 +152,12 @@ public class Entity3rdPerson extends EntityLivingBase {
     }
 
     @Override
-    public ItemStack getEquipmentInSlot(int var1) {
+    public ItemStack getEquipmentInSlot(int slot) {
         return null;
     }
+
+	@Override
+	public ItemStack getCurrentArmor(int slot) {
+		return null;
+	}
 }

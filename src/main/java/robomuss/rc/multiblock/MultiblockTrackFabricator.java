@@ -2,8 +2,10 @@ package robomuss.rc.multiblock;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import robomuss.rc.block.BlockTrackFabricator;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 
@@ -35,27 +37,27 @@ public class MultiBlockTrackFabricator extends MultiBlockManager {
 	public boolean isStructureFormed(TileEntity tileEntity) {
 		if (tileEntity instanceof TileEntityTrackFabricator) {
 			TileEntityTrackFabricator teFab = (TileEntityTrackFabricator) tileEntity;
-			return checkStructure(teFab.getWorldObj(), teFab.xCoord, teFab.yCoord, teFab.zCoord, teFab.direction);
+			EnumFacing facing = (EnumFacing) tileEntity.getWorld().getBlockState(teFab.getPos()).getValue(BlockTrackFabricator.FACING);
+			return checkStructure(teFab.getWorld(), teFab.getPos(), facing);
 		} else {
 			return false;
 		}
 	}
 
-	private static boolean checkStructure(World world, int x, int y, int z, ForgeDirection direction) {
+	private static boolean checkStructure(World world, BlockPos pos, EnumFacing facing) {
 		//NORTH: -Z, SOUTH: +Z, WEST: -X, EAST: +X
 		int offsetX = 0;
 		int offsetY = 0;
 		int offsetZ = 0;
 
-		structure.setMasterPos(x, y, z);
+		structure.setMasterPos(pos);
 
 		for (int layer = 0; layer < structure.getLayers().size(); layer++) {
 			for (int row = 0; row < structure.getLayer(layer).layerWidth; row++) {
 				for (int column = 0; column < structure.getLayer(layer).layerDepth; column++) {
+//					offsetY = layer;
 
-					offsetY = layer;
-
-					switch (direction) {
+					switch (facing) {
 						case NORTH:
 							switch (row) {
 								case 0: offsetZ = -2; break;
@@ -106,7 +108,8 @@ public class MultiBlockTrackFabricator extends MultiBlockManager {
 							break;
 					}
 
-					Block foundBlock = world.getBlock(x + offsetX, y + offsetY, z + offsetZ);
+					BlockPos offsetPos = new BlockPos(pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ);
+					Block foundBlock = world.getBlockState(offsetPos).getBlock();
 					Block templateBlock = structure.getLayer(layer).getBlock(row, column);
 
 					boolean foundEqualsTemplate = foundBlock.getUnlocalizedName().equalsIgnoreCase(templateBlock.getUnlocalizedName());
@@ -150,6 +153,7 @@ public class MultiBlockTrackFabricator extends MultiBlockManager {
 				}
 			}
 		}
+
 		return true;
 	}
 }

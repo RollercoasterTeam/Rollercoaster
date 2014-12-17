@@ -1,6 +1,7 @@
 package robomuss.rc.event;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.BlockSnapshot;
@@ -45,41 +46,42 @@ public class BlockPlacedEvent {
 
 	@SubscribeEvent
 	public void blockDestroyed(BlockEvent.BreakEvent event) {
-		if (event.world.getTileEntity(event.x, event.y, event.z) instanceof TileEntityTrackBase) {
-			TileEntityTrackBase teTrack = (TileEntityTrackBase) event.world.getTileEntity(event.x, event.y, event.z);
-			int meta = event.world.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+		if (event.world.getTileEntity(event.pos) instanceof TileEntityTrackBase) {
+			TileEntityTrackBase teTrack = (TileEntityTrackBase) event.world.getTileEntity(event.pos);
+			EnumFacing facing = (EnumFacing) event.world.getBlockState(teTrack.getPos()).getValue(BlockTrackBase.FACING);
+			boolean isDummy = (Boolean) event.world.getBlockState(teTrack.getPos()).getValue(BlockTrackBase.DUMMY);
 
 			if (TrackManager.isSloped(TrackManager.getTrackType(teTrack.track))) {
-				if (meta > 11) {
-					switch (meta - 10) {
-						case 2: event.world.setBlockToAir(event.x, event.y, event.z + 1); break;
-						case 3: event.world.setBlockToAir(event.x, event.y, event.z - 1); break;
-						case 4: event.world.setBlockToAir(event.x + 1, event.y, event.z); break;
-						case 5: event.world.setBlockToAir(event.x - 1, event.y, event.z); break;
+				if (isDummy) {
+					switch (facing) {
+						case NORTH: event.world.setBlockToAir(event.pos.south()); break;
+						case SOUTH: event.world.setBlockToAir(event.pos.north()); break;
+						case WEST:  event.world.setBlockToAir(event.pos.east());  break;
+						case EAST:  event.world.setBlockToAir(event.pos.west());  break;
 					}
 				} else {
-					switch (meta) {
-						case 2: event.world.setBlockToAir(event.x, event.y, event.z - 1); break;
-						case 3: event.world.setBlockToAir(event.x, event.y, event.z + 1); break;
-						case 4: event.world.setBlockToAir(event.x - 1, event.y, event.z); break;
-						case 5: event.world.setBlockToAir(event.x + 1, event.y, event.z); break;
+					switch (facing) {
+						case NORTH: event.world.setBlockToAir(event.pos.north()); break;
+						case SOUTH: event.world.setBlockToAir(event.pos.south()); break;
+						case WEST:  event.world.setBlockToAir(event.pos.west());  break;
+						case EAST:  event.world.setBlockToAir(event.pos.east());  break;
 					}
 				}
 			}
 
-			event.world.setBlockToAir(event.x, event.y, event.z);
-		} else if (event.world.getTileEntity(event.x, event.y, event.z) instanceof TileEntitySupport) {
-			TileEntitySupport teSupport = (TileEntitySupport) event.world.getTileEntity(event.x, event.y, event.z);
+			event.world.setBlockToAir(event.pos);
+		} else if (event.world.getTileEntity(event.pos) instanceof TileEntitySupport) {
+			TileEntitySupport teSupport = (TileEntitySupport) event.world.getTileEntity(event.pos);
 
-			if (!(event.world.getTileEntity(event.x, event.y - 1, event.z) instanceof TileEntityFooter)) {
+			if (!(event.world.getTileEntity(event.pos.down()) instanceof TileEntityFooter)) {
 				if (RCMod.supportManager.getSupportIndex(teSupport) != -1) {
 					RCMod.supportManager.removeSupportFromStack(RCMod.supportManager.getFooterFromSupport(teSupport), RCMod.supportManager.getSupportIndex(teSupport));
 				}
 			} else {
-				RCMod.supportManager.removeSupportFromStack((TileEntityFooter) event.world.getTileEntity(event.x, event.y - 1, event.z), -1); //-1 tells the SupportManager to break the entire stack
+				RCMod.supportManager.removeSupportFromStack((TileEntityFooter) event.world.getTileEntity(event.pos.down()), -1); //-1 tells the SupportManager to break the entire stack
 			}
-		} else if (event.world.getTileEntity(event.x, event.y, event.z) instanceof TileEntityFooter) {
-			RCMod.supportManager.breakFooter(event.world, event.x, event.y, event.z);
+		} else if (event.world.getTileEntity(event.pos) instanceof TileEntityFooter) {
+			RCMod.supportManager.breakFooter(event.world, event.pos);
 		}
 	}
 }

@@ -3,6 +3,7 @@ package robomuss.rc.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,6 +19,8 @@ import robomuss.rc.util.IPaintable;
 import java.util.Random;
 
 public class BlockRideFence extends BlockContainer implements IPaintable {
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
 	public BlockRideFence() {
 		super(Material.iron);
 		setHardness(1f);

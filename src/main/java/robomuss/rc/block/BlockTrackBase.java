@@ -1,7 +1,8 @@
 package robomuss.rc.block;
 
-
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -39,14 +40,63 @@ import java.util.List;
 public class BlockTrackBase extends BlockContainer implements IPaintable {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	public static final PropertyBool DUMMY = PropertyBool.create("dummy");
+
 	public TrackPiece track_type;
 
 	public BlockTrackBase(TrackPiece track_type) {
 		super(Material.iron);
 		setHardness(1f);
 		setResistance(3f);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DUMMY, false));
 //		setLightOpacity(128);   //TODO: experiment with the results of this
 		this.track_type = track_type;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		boolean isDummy = meta >= 11;
+		EnumFacing facing = EnumFacing.getFront(isDummy ? meta - 10 : meta);
+
+		if (facing.getAxis() == EnumFacing.Axis.Y) {
+			facing = EnumFacing.NORTH;
+		}
+
+		return this.getDefaultState().withProperty(FACING, facing).withProperty(DUMMY, isDummy);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		EnumFacing facing = (EnumFacing) state.getValue(FACING);
+		boolean isDummy = (Boolean) state.getValue(DUMMY);
+
+		return facing.getIndex() + (isDummy ? 10 : 0);
+	}
+
+	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, new IProperty[] {FACING, DUMMY});
+	}
+
+	private void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
+		if (!world.isRemote) {
+			Block blockNorth = world.getBlockState(pos.north()).getBlock();
+			Block blockSouth = world.getBlockState(pos.south()).getBlock();
+			Block blockWest = world.getBlockState(pos.west()).getBlock();
+			Block blockEast = world.getBlockState(pos.east()).getBlock();
+			EnumFacing facing = (EnumFacing) state.getValue(FACING);
+
+			if (facing == EnumFacing.NORTH && !(blockNorth instanceof BlockTrackBase) && (blockSouth instanceof BlockTrackBase)) {
+				facing = EnumFacing.SOUTH;
+			} else if (facing == EnumFacing.SOUTH && !(blockSouth instanceof BlockTrackBase) && (blockNorth instanceof BlockTrackBase)) {
+				facing = EnumFacing.NORTH;
+			} else if (facing == EnumFacing.WEST && !(blockWest instanceof BlockTrackBase) && (blockEast instanceof BlockTrackBase)) {
+				facing = EnumFacing.EAST;
+			} else if (facing == EnumFacing.EAST && !(blockEast instanceof BlockTrackBase) && (blockWest instanceof BlockTrackBase)) {
+				facing = EnumFacing.WEST;
+			}
+
+			world.setBlockState(pos, state.withProperty(FACING, facing), 2);
+		}
 	}
 
 	@Override
@@ -130,20 +180,21 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 //		}
 	}
 
-	public void setTrackBounds(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity) {
-		AxisAlignedBB bounds = track_type.getBlockBounds(world, x, y, z);
+	public void setTrackBounds(World world, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity entity) {
+		AxisAlignedBB bounds = track_type.getBlockBounds(world, pos);
 		this.setBlockBounds((float) bounds.minX, (float) bounds.minY, (float) bounds.minZ, (float) bounds.maxX, (float) bounds.maxY, (float) bounds.maxZ);
-		super.addCollisionBoxesToList(world, x, y, z, mask, list, entity);
+		super.addCollisionBoxesToList(world, pos, state, mask, list, entity);
 	}
 
-	public void setBottomBounds(IBlockAccess iba, int x, int y, int z) {
+	public void setBottomBounds(IBlockAccess iba, BlockPos pos) {
 		if (TrackManager.isSloped(TrackManager.getTrackType(this))) {
-			this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f);    //bottom-half
+			this.setBlockBounds(0, 0, 0, 1, 0.5f, 1);    //bottom-half
 		}
 	}
 
-	public void setTopBounds(IBlockAccess iba, int x, int y, int z) {
-		int meta = iba.getBlockMetadata(x, y, z);
+	public void setTopBounds(IBlockAccess iba, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity entity) {
+//		int meta = iba.getBlockMetadata(x, y, z);
+		EnumFacing facing = (EnumFacing) state.getValue(FACING);
 
 		/* minY == 0 is bottom of block, maxY == 1 is top of block */
 		float mnY = 0.5f;   //half-Y
@@ -153,93 +204,47 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 		float mnZ = 0.0f;   //south-Z
 		float mxZ = 0.5f;   //half-Z
 
-		if (meta == 2) {
-			if (this.track_type == TrackHandler.findTrackType("slope_up")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0f, 1f, 1f, 0.5f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0f, 1f, 1f, 0.5f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0f, 1f, 1f, 0.5f);
+		if (this.track_type == TrackHandler.findTrackType("slope_up")) {
+			if (!((TileEntityTrackBase) iba.getTileEntity(pos)).isDummy) {
+				return;
+			} else {
+				switch (facing) {
+					case NORTH: this.setBlockBounds(0, 0.5f, 0, 1, 1, 0.5f); break;
+					case SOUTH: this.setBlockBounds(0, 0.5f, 0.5f, 1, 1, 1); break;
+					case WEST:  this.setBlockBounds(0, 0.5f, 0, 0.5f, 1, 1); break;
+					case EAST:  this.setBlockBounds(0.5f, 0.5f, 0, 1, 1, 1); break;
 				}
 			}
-		} else if (meta == 3) {
-			if (this.track_type == TrackHandler.findTrackType("slope_up")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0.5f, 1f, 1f, 1f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0.5f, 1f, 1f, 1f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0.5f, 1f, 1f, 1f);
+		} else if (this.track_type == TrackHandler.findTrackType("slope")) {
+			if (!((TileEntityTrackBase) iba.getTileEntity(pos)).isDummy) {
+				return;
+			} else {
+				switch (facing) {
+					case NORTH: this.setBlockBounds(0, 0.5f, 0, 1, 1, 0.5f); break;
+					case SOUTH: this.setBlockBounds(0, 0.5f, 0.5f, 1, 1, 1); break;
+					case WEST:  this.setBlockBounds(0, 0.5f, 0, 0.5f, 1, 1); break;
+					case EAST:  this.setBlockBounds(0.5f, 0.5f, 0, 1, 1, 1); break;
 				}
 			}
-		} else if (meta == 4) {
-			if (this.track_type == TrackHandler.findTrackType("slope_up")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0f, 0.5f, 1f, 1f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0f, 0.5f, 1f, 1f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0f, 0.5f, 0f, 0.5f, 1f, 1f);
-				}
-			}
-		} else if (meta == 5) {
-			if (this.track_type == TrackHandler.findTrackType("slope_up")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0.5f, 0.5f, 0f, 1f, 1f, 1f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0.5f, 0.5f, 0f, 1f, 1f, 1f);
-				}
-			} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
-				if (!((TileEntityTrackBase) iba.getTileEntity(x, y, z)).isDummy) {
-					return;
-				} else {
-					this.setBlockBounds(0.5f, 0.5f, 0f, 1f, 1f, 1f);
+		} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
+			if (!((TileEntityTrackBase) iba.getTileEntity(pos)).isDummy) {
+				return;
+			} else {
+				switch (facing) {
+					case NORTH: this.setBlockBounds(0, 0.5f, 0, 1, 1, 0.5f); break;
+					case SOUTH: this.setBlockBounds(0, 0.5f, 0.5f, 1, 1, 1); break;
+					case WEST:  this.setBlockBounds(0, 0.5f, 0, 0.5f, 1, 1); break;
+					case EAST:  this.setBlockBounds(0.5f, 0.5f, 0, 1, 1, 1); break;
 				}
 			}
 		}
 	}
 
+	//TODO: revisit "isDummy" stuff, now that meta data is more obscure
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		TileEntityTrackBase teTrack = new TileEntityTrackBase(world, meta, this);
-		this.track_type.addTileEntityToList(this.track_type, teTrack);
+//		this.track_type.addTileEntityToList(this.track_type, teTrack);
 
 		if (meta >= 11) {
 			teTrack.isDummy = true;
@@ -249,7 +254,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (player.getHeldItem() != null) {
 			Item heldItem = player.getHeldItem().getItem();
 
@@ -259,41 +264,6 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 		}
 
 		return false;
-
-
-
-//		if (!world.isRemote) {
-//			if (world.getTileEntity(x, y, z) instanceof TileEntityTrackBase) {
-//				TileEntityTrackBase teTrack = (TileEntityTrackBase) world.getTileEntity(x, y, z);
-//
-//				if (teTrack != null) {
-//					if (player.getHeldItem() != null) {
-//						if (player.getHeldItem().getItem() == RCItems.brush) {
-//							teTrack.colour = player.getHeldItem().getItemDamage();
-//							world.markBlockForUpdate(x, y, z);
-//							return true;
-//						} else if (player.getHeldItem().getItem() instanceof ItemExtra) {
-//							teTrack.extra = TrackHandler.extras.get(((ItemExtra) player.getHeldItem().getItem()).id);
-//							world.markBlockForUpdate(x, y, z);
-//							return true;
-//						}
-//					}
-//				}
-//			}
-//		}
-//
-//		if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.water_bucket) {
-//			TileEntityTrackBase teTrack = (TileEntityTrackBase) world.getTileEntity(x, y, z);
-//			teTrack.colour = ColourUtil.WHITE.ordinal();
-//
-//			if (!player.capabilities.isCreativeMode) {
-//				player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
-//			}
-//
-//			return true;
-//		}
-//
-//		return false;
 	}
 
 	@Override
@@ -307,63 +277,51 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
+	public int damageDropped(IBlockState state) {
+		return 0;
+	}
+
+	@Override
+	public boolean isBlockSolid(IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return false;
 	}
 
 	@Override
-	public int damageDropped(int dmg) {
-		return dmg;
-	}
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack item) {
+		EnumFacing facing = player.getHorizontalFacing();
 
-	@Override
-	public boolean isBlockSolid(IBlockAccess iba, int neighborX, int neighborY, int neighborZ, int side) {
-		return false;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
-		MovingObjectPosition viewEntityTrace = player.rayTrace(20, 20);
-		int viewX = viewEntityTrace.blockX;
-		int viewY = viewEntityTrace.blockY;
-		int viewZ = viewEntityTrace.blockZ;
-		BlockEvent.PlaceEvent event = new BlockEvent.PlaceEvent(BlockSnapshot.getBlockSnapshot(world, x, y, z), world.getBlock(viewX, viewY, viewZ), (EntityPlayer) player);
+		BlockEvent.PlaceEvent event = new BlockEvent.PlaceEvent(BlockSnapshot.getBlockSnapshot(world, pos), world.getBlockState(pos), (EntityPlayer) player);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		int facing = MathHelper.floor_double((double)(player.rotationYaw * 4.0f / 360.0f) + 0.5d) & 3;
-
-		switch (facing) {
-			case 0: world.setBlockMetadataWithNotify(x, y, z, 3, 2); break;
-			case 1: world.setBlockMetadataWithNotify(x, y, z, 4, 2); break;
-			case 2: world.setBlockMetadataWithNotify(x, y, z, 2, 2); break;
-			case 3: world.setBlockMetadataWithNotify(x, y, z, 5, 2); break;
-		}
+		world.setBlockState(pos, state.withProperty(FACING, facing));
 
 		if (TrackManager.isSloped(TrackManager.getTrackType(this))) {
-			((TileEntityTrackBase) world.getTileEntity(x, y, z)).placeDummy();
+			((TileEntityTrackBase) world.getTileEntity(pos)).placeDummy();
 		}
 	}
 
-	public boolean canPlaceDummyAt(World world, int x, int y, int z) {
-		if (world.isAirBlock(x, y, z)) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean canPlaceDummyAt(World world, BlockPos pos) {
+		return world.isAirBlock(pos);
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {}
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+	@SideOnly(Side.CLIENT)
+	public IBlockState getStateForEntityRender(IBlockState state) {
+		return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!world.isRemote) {
-			TileEntityTrackBase teTrack = (TileEntityTrackBase) world.getTileEntity(x, y, z);
+			TileEntityTrackBase teTrack = (TileEntityTrackBase) world.getTileEntity(pos);
 
 			if (teTrack != null) {
 				if (teTrack.extra != null && teTrack.extra == TrackHandler.extras.get(3)) {
-					if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
-						EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
+					if (world.isBlockIndirectlyGettingPowered(pos) >= 7) {
+						EntityTrainDefault entity = ItemTrain.spawnCart(world, pos);
 						world.spawnEntityInWorld(entity);
 					}
 				}
@@ -372,10 +330,10 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	}
 
 	@Override
-	public void onBlockHarvested(World world, int trackX, int trackY, int trackZ, int meta, EntityPlayer player) {
+	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
 		if (!world.isRemote) {
-			world.setBlockToAir(trackX, trackY, trackZ);
-			world.markBlockForUpdate(trackX, trackY, trackZ);
+			world.setBlockToAir(pos);
+			world.markBlockForUpdate(pos);
 		}
 	}
 

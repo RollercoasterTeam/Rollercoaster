@@ -1,12 +1,13 @@
 package robomuss.rc.network;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.FMLEmbeddedChannel;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
+import net.minecraftforge.fml.common.network.FMLOutboundHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -66,8 +67,9 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     // In line encoding of the packet, including discriminator setting
     @Override
     protected void encode(ChannelHandlerContext ctx, AbstractPacket msg, List<Object> out) throws Exception {
-        ByteBuf buffer = Unpooled.buffer();
+        PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
         Class<? extends AbstractPacket> clazz = msg.getClass();
+
         if (!this.packets.contains(msg.getClass())) {
             throw new NullPointerException("No Packet Registered for: " + msg.getClass().getCanonicalName());
         }
@@ -75,7 +77,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
         byte discriminator = (byte) this.packets.indexOf(clazz);
         buffer.writeByte(discriminator);
         msg.encodeInto(ctx, buffer);
-        FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(), ctx.channel().attr(NetworkRegistry.FML_CHANNEL).get());
+        FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer, ctx.channel().attr(NetworkRegistry.FML_CHANNEL).get());
         out.add(proxyPacket);
     }
 
@@ -186,11 +188,11 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
      * Send this message to everyone within a certain range of a point.
      * <p/>
      * Adapted from CPW's code in
-     * cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper
+     * net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper
      *
      * @param message The message to send
      * @param point   The
-     *                {@link cpw.mods.fml.common.network.NetworkRegistry.TargetPoint}
+     *                {@link net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint}
      *                around which to send
      */
     public void sendToAllAround(AbstractPacket message, NetworkRegistry.TargetPoint point) {

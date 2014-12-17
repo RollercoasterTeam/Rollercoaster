@@ -6,7 +6,6 @@ import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TrackExtraStation extends TrackExtra {
-
 	public TrackExtraStation(String name, ModelBase model, Object[] recipe, int amount, TrackPiece... allowedTrackTypes) {
 		super(name, model, recipe, amount, allowedTrackTypes);
 	}

@@ -10,8 +10,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSimple extends Block {
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
 	public BlockSimple(Material material) {
 		super(material);
 		setHardness(1f);
@@ -36,7 +34,7 @@ public class BlockSimple extends Block {
 	            return false;
 	        }
 	
-	        return block == this ? false : super.shouldSideBeRendered(iba, pos, side);
+	        return block != this && super.shouldSideBeRendered(iba, pos, side);
         }
         else {
         	return super.shouldSideBeRendered(iba, pos, side);

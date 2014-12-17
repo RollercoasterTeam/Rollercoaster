@@ -8,10 +8,10 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TrackExtraChain extends TrackExtra {
-
 	public TrackExtraChain(String name, ModelBase model, Object[] recipe, int amount, TrackPiece... allowedTrackTypes) {
 		super(name, model, recipe, amount, 2, allowedTrackTypes);
 	}
+
 	@Override
 	public void render(TrackPiece track) {
 		if(track == TrackHandler.findTrackType("horizontal")) {

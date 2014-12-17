@@ -1,10 +1,6 @@
 package robomuss.rc.exception;
 
 public class TrackStyleModelNotFoundException extends Exception {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4796791161139031846L;
 
 	private String modelType;

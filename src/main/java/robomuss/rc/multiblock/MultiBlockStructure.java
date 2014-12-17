@@ -2,7 +2,7 @@ package robomuss.rc.multiblock;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.ChunkPosition;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,10 +11,10 @@ import java.util.List;
 public class MultiBlockStructure {
 	private List layers = new ArrayList();
 	private String structureID;
-	private ChunkPosition masterPos;
-	private char masterChar;
-	private Block masterBlock;
-	private int masterIndex;
+	private BlockPos masterPos;
+	private char     masterChar;
+	private Block    masterBlock;
+	private int      masterIndex;
 
 	public MultiBlockStructure() {}
 
@@ -43,10 +43,14 @@ public class MultiBlockStructure {
 	}
 
 	public void setMasterPos(int x, int y, int z) {
-		this.masterPos = new ChunkPosition(x, y, z);
+		this.masterPos = new BlockPos(x, y, z);
 	}
 
-	public ChunkPosition getMasterPos() {
+	public void setMasterPos(BlockPos masterPos) {
+		this.masterPos = masterPos;
+	}
+
+	public BlockPos getMasterPos() {
 		return this.masterPos;
 	}
 

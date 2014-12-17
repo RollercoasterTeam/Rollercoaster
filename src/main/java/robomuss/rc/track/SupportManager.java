@@ -1,5 +1,8 @@
 package robomuss.rc.track;
 
+import net.minecraft.block.BlockPortal;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.RCBlocks;
@@ -49,17 +52,17 @@ public class SupportManager {
 		}
 	}
 
-	public void placeFooter(World world, int x, int y, int z) {
-		if (world.isAirBlock(x, y, z)) {
-			world.setBlock(x, y, z, RCBlocks.footer);
-			this.addFooter((TileEntityFooter) world.getTileEntity(x, y, z));
+	public void placeFooter(World world, BlockPos pos) {
+		if (world.isAirBlock(pos)) {
+			world.setBlockState(pos, RCBlocks.footer.getDefaultState());
+			this.addFooter((TileEntityFooter) world.getTileEntity(pos));
 		}
 	}
 
-	public void breakFooter(World world, int x, int y, int z) {
-		if (world.getTileEntity(x, y, z) instanceof TileEntityFooter) {
-			this.removeFooter((TileEntityFooter) world.getTileEntity(x, y, z));
-			world.setBlockToAir(x, y, z);
+	public void breakFooter(World world, BlockPos pos) {
+		if (world.getTileEntity(pos) instanceof TileEntityFooter) {
+			this.removeFooter((TileEntityFooter) world.getTileEntity(pos));
+			world.setBlockToAir(pos);
 		}
 	}
 
@@ -71,13 +74,11 @@ public class SupportManager {
 		List<TileEntitySupport> supports = new ArrayList<TileEntitySupport>();
 
 		if (getFooterIndex(footer) != -1) {
-			int currentX = footer.xCoord;
-			int currentY = footer.yCoord;
-			int currentZ = footer.zCoord;
+			BlockPos currentPos = footer.getPos();
 
-			while (footer.getWorldObj().getTileEntity(currentX, currentY + 1, currentZ) instanceof TileEntitySupport) {
-				supports.add((TileEntitySupport) footer.getWorldObj().getTileEntity(currentX, currentY + 1, currentZ));
-				currentY++;
+			while (footer.getWorld().getTileEntity(currentPos.up()) instanceof TileEntitySupport) {
+				supports.add((TileEntitySupport) footer.getWorld().getTileEntity(currentPos.up()));
+				currentPos = currentPos.up();
 			}
 		}
 
@@ -85,20 +86,17 @@ public class SupportManager {
 	}
 
 	public TileEntityFooter getFooterFromSupport(TileEntitySupport support) {
-		int currentX = support.xCoord;
-		int currentY = support.yCoord;
-		int currentZ = support.zCoord;
+		BlockPos currentPos = support.getPos();
 		TileEntityFooter footer = null;
 
-		do {
-			currentY--;
-
-			if (support.getWorldObj().getTileEntity(currentX, currentY, currentZ) instanceof TileEntityFooter) {
-				footer = (TileEntityFooter) support.getWorldObj().getTileEntity(currentX, currentY, currentZ);
+		while (support.getWorld().getTileEntity(currentPos.down()) instanceof TileEntitySupport || support.getWorld().getTileEntity(currentPos.down()) instanceof TileEntityFooter) {
+			if (support.getWorld().getTileEntity(currentPos.down()) instanceof TileEntityFooter) {
+				footer = (TileEntityFooter) support.getWorld().getTileEntity(currentPos.down());
 				break;
 			}
 
-		} while (support.getWorldObj().getTileEntity(currentX, currentY, currentZ) instanceof TileEntitySupport);
+			currentPos = currentPos.down();
+		}
 
 		return footer;
 	}
@@ -109,9 +107,7 @@ public class SupportManager {
 
 	public boolean addSupportToStack(TileEntityFooter footer) {
 		if (getFooterIndex(footer) != -1) {
-			int currentX = footer.xCoord;
-			int currentY = footer.yCoord;
-			int currentZ = footer.zCoord;
+			BlockPos currentPos = footer.getPos();
 			List<TileEntitySupport> supports = getSupportStack(footer);
 
 			if (supports != null) {
@@ -119,37 +115,37 @@ public class SupportManager {
 					TileEntitySupport topSupport = supports.size() > 0 ? supports.get(supports.size() - 1) : supports.get(0);
 
 					if (topSupport != null) {
-						if (topSupport.getWorldObj().isAirBlock(topSupport.xCoord, topSupport.yCoord + 1, topSupport.zCoord)) {
-							topSupport.getWorldObj().setBlock(topSupport.xCoord, topSupport.yCoord + 1, topSupport.zCoord, RCBlocks.support);
-							TileEntitySupport teSupport = (TileEntitySupport) topSupport.getWorldObj().getTileEntity(topSupport.xCoord, topSupport.yCoord + 1, topSupport.zCoord);
+						if (topSupport.getWorld().isAirBlock(topSupport.getPos().up())) {
+							topSupport.getWorld().setBlockState(topSupport.getPos().up(), RCBlocks.support.getDefaultState());
+							TileEntitySupport teSupport = (TileEntitySupport) topSupport.getWorld().getTileEntity(topSupport.getPos().up());
 							teSupport.colour = topSupport.colour;
 							return true;
-						} else if (topSupport.getWorldObj().getBlock(topSupport.xCoord, topSupport.yCoord + 1, topSupport.zCoord) instanceof BlockSupport) {
-							TileEntitySupport teSupport = (TileEntitySupport) topSupport.getWorldObj().getTileEntity(topSupport.xCoord, topSupport.yCoord + 1, topSupport.zCoord);
+						} else if (topSupport.getWorld().getBlockState(topSupport.getPos().up()).getBlock() instanceof BlockSupport) {
+							TileEntitySupport teSupport = (TileEntitySupport) topSupport.getWorld().getTileEntity(topSupport.getPos().up());
 							teSupport.colour = topSupport.colour;
 							return true;
 						}
 					} else {
-						if (footer.getWorldObj().isAirBlock(currentX, currentY + 1, currentZ)) {
-							footer.getWorldObj().setBlock(currentX, currentY + 1, currentZ, RCBlocks.support);
-							TileEntitySupport teSupport = (TileEntitySupport) footer.getWorldObj().getTileEntity(currentX, currentY + 1, currentZ);
+						if (footer.getWorld().isAirBlock(currentPos.up())) {
+							footer.getWorld().setBlockState(currentPos.up(), RCBlocks.support.getDefaultState());
+							TileEntitySupport teSupport = (TileEntitySupport) footer.getWorld().getTileEntity(currentPos);
 							teSupport.colour = footer.colour;
 							return true;
-						} else if (footer.getWorldObj().getBlock(currentX, currentY + 1, currentZ) instanceof BlockSupport) {
-							TileEntitySupport teSupport = (TileEntitySupport) footer.getWorldObj().getTileEntity(currentX, currentY + 1, currentZ);
+						} else if (footer.getWorld().getBlockState(currentPos) instanceof BlockSupport) {
+							TileEntitySupport teSupport = (TileEntitySupport) footer.getWorld().getTileEntity(currentPos);
 							teSupport.colour = footer.colour;
 							return true;
 						}
 					}
 				} else { /* supports.isEmpty() */
-					if (footer.getWorldObj().isAirBlock(currentX, currentY + 1, currentZ)) {
-						footer.getWorldObj().setBlock(currentX, currentY + 1, currentZ, RCBlocks.support);
-						TileEntitySupport teSupport = (TileEntitySupport) footer.getWorldObj().getTileEntity(currentX, currentY + 1, currentZ);
+					if (footer.getWorld().isAirBlock(currentPos.up())) {
+						footer.getWorld().setBlockState(currentPos.up(), RCBlocks.support.getDefaultState());
+						TileEntitySupport teSupport = (TileEntitySupport) footer.getWorld().getTileEntity(currentPos.up());
 						teSupport.colour = footer.colour;
 						supports.add(0, teSupport);
 						return true;
-					} else if (footer.getWorldObj().getBlock(currentX, currentY + 1, currentZ) instanceof BlockSupport) {
-						TileEntitySupport teSupport = (TileEntitySupport) footer.getWorldObj().getTileEntity(currentX, currentY + 1, currentZ);
+					} else if (footer.getWorld().getBlockState(currentPos.up()).getBlock() instanceof BlockSupport) {
+						TileEntitySupport teSupport = (TileEntitySupport) footer.getWorld().getTileEntity(currentPos.up());
 						supports.add(0, teSupport);
 						return true;
 					}
@@ -167,20 +163,18 @@ public class SupportManager {
 	public boolean removeSupportFromStack(TileEntityFooter footer, int supportIndex) {
 		if (getFooterIndex(footer) != -1) {
 			if (supportIndex == -1) {
-				int currentX = footer.xCoord;
-				int currentY = footer.yCoord;
-				int currentZ = footer.zCoord;
+				BlockPos currentPos = footer.getPos();
 				List<TileEntitySupport> supports = getSupportStack(footer);
 
 				if (supports != null) {
 					if (!supports.isEmpty()) {
-						int topSupportY = supports.size() > 0 ? supports.get(supports.size() - 1).yCoord : supports.get(0).yCoord;
+						BlockPos topPos = supports.size() > 0 ? supports.get(supports.size() - 1).getPos() : supports.get(0).getPos();
 
-						while (currentY < topSupportY) {
-							currentY++;
+						while (!(currentPos.up().equals(topPos))) {
+							currentPos = currentPos.up();
 
-							if (!footer.getWorldObj().isAirBlock(currentX, currentY, currentZ) && (footer.getWorldObj().getBlock(currentX, currentY, currentZ) instanceof BlockSupport)) {
-								footer.getWorldObj().setBlockToAir(currentX, currentY, currentZ);
+							if (!footer.getWorld().isAirBlock(currentPos) && (footer.getWorld().getBlockState(currentPos).getBlock() instanceof BlockSupport)) {
+								footer.getWorld().setBlockToAir(currentPos);
 							}
 						}
 
@@ -194,16 +188,14 @@ public class SupportManager {
 					if (!supports.isEmpty()) {
 						if (supportIndex >= 0 && supportIndex < supports.size()) {
 							if (supports.get(supportIndex) != null) {
-								int currentX = supports.get(supportIndex).xCoord;
-								int currentY = supports.get(supportIndex).yCoord;
-								int currentZ = supports.get(supportIndex).zCoord;
-								int topSupportY = supports.size() > 0 ? supports.get(supports.size() - 1).yCoord : supports.get(0).yCoord;
+								BlockPos currentPos = supports.get(supportIndex).getPos();
+								BlockPos topPos = supports.size() > 0 ? supports.get(supports.size() - 1).getPos() : supports.get(0).getPos();
 
-								while (currentY < topSupportY) {
-									currentY++;
+								while (!(currentPos.up().equals(topPos))) {
+									currentPos = currentPos.up();
 
-									if (!footer.getWorldObj().isAirBlock(currentX, currentY, currentZ) && (footer.getWorldObj().getBlock(currentX, currentY, currentZ) instanceof BlockSupport)) {
-										footer.getWorldObj().setBlockToAir(currentX, currentY, currentZ);
+									if (!footer.getWorld().isAirBlock(currentPos) && (footer.getWorld().getBlockState(currentPos).getBlock() instanceof BlockSupport)) {
+										footer.getWorld().setBlockToAir(currentPos);
 									}
 								}
 
@@ -228,20 +220,18 @@ public class SupportManager {
 
 	public void paintSupportStack(TileEntityFooter footer, ColourUtil color) {
 		if (getFooterIndex(footer) != -1) {
-			int currentX = footer.xCoord;
-			int currentY = footer.yCoord;
-			int currentZ = footer.zCoord;
+			BlockPos currentPos = footer.getPos();
 			List<TileEntitySupport> supports = getSupportStack(footer);
 
 			if (supports != null) {
 				if (!supports.isEmpty()) {
-					int topSupportY = supports.size() > 0 ? supports.get(supports.size() - 1).yCoord : supports.get(0).yCoord;
+					BlockPos topPos = supports.size() > 0 ? supports.get(supports.size() - 1).getPos() : supports.get(0).getPos();
 
-					while (currentY < topSupportY) {
-						currentY++;
+					while (!(currentPos.up().equals(topPos))) {
+						currentPos = currentPos.up();
 
-						if (footer.getWorldObj().getTileEntity(currentX, currentY, currentZ) instanceof TileEntitySupport) {
-							TileEntitySupport teSupport = (TileEntitySupport) footer.getWorldObj().getTileEntity(currentX, currentY, currentZ);
+						if (footer.getWorld().getTileEntity(currentPos) instanceof TileEntitySupport) {
+							TileEntitySupport teSupport = (TileEntitySupport) footer.getWorld().getTileEntity(currentPos);
 							teSupport.colour = color.ordinal();
 							NetworkHandler.changePaintColour(teSupport.colour);
 						}

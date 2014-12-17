@@ -1,8 +1,6 @@
 package robomuss.rc.track.style;
 
-import net.minecraftforge.client.model.IModelCustom;
 import robomuss.rc.track.piece.TrackPiece;
-
 import java.util.ArrayList;
 
 public class TrackStyle {
@@ -13,7 +11,7 @@ public class TrackStyle {
 //	public IModelCustom extended;
 //	public IModelCustom corner;
 //	public IModelCustom standard1;
-	public IModelCustom model;
+//	public IModelCustom model;
 	
 	public ArrayList<TrackPiece> whitelistedPieces;
 	
@@ -25,9 +23,9 @@ public class TrackStyle {
 		this.name = name;
 	}
 
-	public IModelCustom getModel() {
-		return model;
-	}
+//	public IModelCustom getModel() {
+//		return model;
+//	}
  	
 //	public IModelCustom getStandardModel() {
 //		return standard;

@@ -1,11 +1,8 @@
 package robomuss.rc.entity;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import robomuss.rc.RCMod;
 
-/**
- * Created by Mark on 25/08/2014.
- */
 public class RCEntities {
 	
     public static void init() {

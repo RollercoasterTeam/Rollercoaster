@@ -2,11 +2,10 @@ package robomuss.rc.block.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import robomuss.rc.block.container.slot.SlotTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
@@ -15,7 +14,7 @@ public class ContainerTrackFabricator extends Container {
 	private SlotTrackFabricator input;
 	private SlotTrackFabricator output;
 
-	public ContainerTrackFabricator(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World world, int x, int y, int z) {
+	public ContainerTrackFabricator(InventoryPlayer inventory, EntityPlayer player, TileEntityTrackFabricator te, World world, int x, int y, int z) {
 		input = new SlotTrackFabricator(te, 0, 8, 18, false);
 		output = new SlotTrackFabricator(te, 1, 8, 54, true);
 
@@ -24,12 +23,12 @@ public class ContainerTrackFabricator extends Container {
 
 		for (int slotRow = 0; slotRow < 3; ++slotRow) {
 			for (int slotColumn = 0; slotColumn < 9; ++slotColumn) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, slotColumn + slotRow * 9 + 9, 8 + slotColumn * 18, 84 + slotRow * 18));
+				this.addSlotToContainer(new Slot(inventory, slotColumn + slotRow * 9 + 9, 8 + slotColumn * 18, 84 + slotRow * 18));
 			}
 		}
 
 		for (int slotHotbar = 0; slotHotbar < 9; ++slotHotbar) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, slotHotbar, 8 + slotHotbar * 18, 142));
+			this.addSlotToContainer(new Slot(inventory, slotHotbar, 8 + slotHotbar * 18, 142));
 		}
 	}
 
@@ -54,6 +53,7 @@ public class ContainerTrackFabricator extends Container {
 				if (!this.mergeItemStack(fromStack, 2, 38, true)) {                                             //if can't merge to any slot in player's inventory
 					return null;
 				}
+
 				fromSlot.onSlotChange(fromStack, toStack);                                                      //TODO
 			} else if (slotID != 0) {                                                                           //if clicked slot is not the input slot
 				if (input.isItemValid(fromStack)) {
@@ -64,10 +64,6 @@ public class ContainerTrackFabricator extends Container {
 					if (!this.mergeItemStack(fromStack, 29, 38, false)) {                                       //if can't merge from input to player's hotbar
 						return null;
 					}
-
-//					if (input != null && !this.mergeItemStack(fromStack, 1, 1, false)) {
-//						return null;
-//					}
 				} else if (slotID >= 29 && slotID < 38) {                                                       //if clicked slot is in hotbar
 					if (!this.mergeItemStack(fromStack, 2, 29, false)) {                                        //if can't merge to the rest of the player's inventory
 						return null;

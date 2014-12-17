@@ -39,9 +39,9 @@ public class GuiUtils {
 		par5EntityLivingBase.rotationPitch = -((float) Math.atan((double) (par4 / 40.0F))) * 20.0F;
 		par5EntityLivingBase.rotationYawHead = par5EntityLivingBase.rotationYaw;
 		par5EntityLivingBase.prevRotationYawHead = par5EntityLivingBase.rotationYaw;
-		GL11.glTranslatef(0.0F, par5EntityLivingBase.yOffset, 0.0F);
-		RenderManager.instance.playerViewY = 180.0F;
-		RenderManager.instance.renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+		GL11.glTranslatef(0.0F, par5EntityLivingBase.getPosition().getY(), 0.0F);
+		Minecraft.getMinecraft().getRenderManager().playerViewX = 180.0F;
+		Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 		par5EntityLivingBase.renderYawOffset = f2;
 		par5EntityLivingBase.rotationYaw = f3;
 		par5EntityLivingBase.rotationPitch = f4;
@@ -56,24 +56,24 @@ public class GuiUtils {
 	}
 	
 	public static void renderBlockIntoGui(Block block, int x, int y, float scale, FontRenderer fontRenderer, Minecraft mc) {
-		RenderItem itemRenderer = new RenderItem();
+//		RenderItem itemRenderer = new RenderItem();
 		GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glScalef(scale, scale, scale);
         GL11.glTranslated(-x /2, -y /2, 0);
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.getTextureManager(), new ItemStack(block), x, y);
+//		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.getTextureManager(), new ItemStack(block), x, y);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glPopMatrix();
 	}
 	
 	public static void renderItemIntoGui(Item item, int x, int y, float scale, FontRenderer fontRenderer, Minecraft mc) {
-		RenderItem itemRenderer = new RenderItem();
+//		RenderItem itemRenderer = new RenderItem();
 		GL11.glPushMatrix();
 		GL11.glScalef(scale, scale, scale);
         GL11.glTranslated(-x /2, -y /2, 0);
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.getTextureManager(), new ItemStack(item), x, y);
+//		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.getTextureManager(), new ItemStack(item), x, y);
 		GL11.glPopMatrix();
 	}
 }

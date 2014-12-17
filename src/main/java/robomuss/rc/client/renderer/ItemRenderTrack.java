@@ -67,7 +67,7 @@ public class ItemRenderTrack implements IItemRenderer {
 					GL11.glRotatef(180, 1, 0, 0);                               //flips model if it is inverted
 				}
 
-				track_type.renderItem(i, render_type, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
+//				track_type.renderItem(i, render_type, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
 			}
@@ -92,7 +92,7 @@ public class ItemRenderTrack implements IItemRenderer {
 				RenderHelper.enableGUIStandardItemLighting();
 			}
 
-			track_type.renderItem(track_type.render_stage, render_type, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
+//			track_type.renderItem(track_type.render_stage, render_type, TrackHandler.findTrackStyle("corkscrew"), (BlockTrackBase) track_type.block, Minecraft.getMinecraft().thePlayer.worldObj, 0, 0, 0);
 			GL11.glPopMatrix();
 		}
 	}

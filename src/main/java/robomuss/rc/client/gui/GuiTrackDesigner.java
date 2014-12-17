@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -19,6 +20,7 @@ import robomuss.rc.entity.Entity3rdPerson;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.GuiPanel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class GuiTrackDesigner extends GuiScreen {
 	public GuiTrackDesigner(EntityPlayer player, World world, int x, int y, int z) {
 		this.mc = Minecraft.getMinecraft();
 
-		te = (TileEntityTrackDesigner) world.getTileEntity(x, y, z);
+		te = (TileEntityTrackDesigner) world.getTileEntity(new BlockPos(x, y, z));
 
 		if (!TrackDesignerKeyBindings.haveKeyBindsBeenInitialized) {
 			TrackDesignerKeyBindings.init();
@@ -71,7 +73,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 			entity3rdPerson.setLocationAndAngles(x, y, z, 0, 50);
 
-			Minecraft.getMinecraft().renderViewEntity = entity3rdPerson;
+			Minecraft.getMinecraft().setRenderViewEntity(entity3rdPerson);
 			thirdPersonView = Minecraft.getMinecraft().gameSettings.thirdPersonView;
 			Minecraft.getMinecraft().gameSettings.thirdPersonView = 8;
 
@@ -103,7 +105,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 		int offset = 9;
 		for (int i = BUTTON_IDS.length - 1; i > -1; i--) {
-			int width = mc.fontRenderer.getStringWidth(BUTTON_NAMES[i]) + 9;
+			int width = mc.fontRendererObj.getStringWidth(BUTTON_NAMES[i]) + 9;
 			width = width < 30 ? 30 : width;
 			offset += width + 1;
 			buttonList.add(new GuiButton(BUTTON_IDS[i], this.width - offset, 10, width, 20, BUTTON_NAMES[i]));
@@ -111,6 +113,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 		for (int i = 0; i < nodes.length; i++) {
 			ExpandableListNode node = nodes[i];
+
 			if (val == i) {
 				if (node.getChildren() != null) {
 					for (int j = 0; j < node.getChildren().length; j++) {
@@ -119,6 +122,7 @@ public class GuiTrackDesigner extends GuiScreen {
 					}
 				}
 			}
+
 			buttonList.add(new GuiButton(i, 20, 40 + (i * 40), 100, 20, node.getName()));
 		}
 	}
@@ -142,7 +146,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			String controls1 = String.format("Use %s %s %s %s to move around", kForward, kLeft, kBackward, kRight);
 			String controls2 = String.format("Use %s and %s to move up and down", kUp, kDown);
 			String controls3 = String.format("Use %s and %s to rotate left and right", kLLeft, kLRight);
-			String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";                                         //TODO: change this to use whatever forward and backward are set to!
+			String controls4 = String.format("Use SHIFT-%S and SHIFT-%s to rotate up and down", kForward, kBackward); //TODO: allow these to be rebound separately?
 
 			drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
 			drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
@@ -160,24 +164,16 @@ public class GuiTrackDesigner extends GuiScreen {
 		
 		// Changes the slot based on the mouse wheel
 		int dxWheel = Mouse.getDWheel();
+
 		if (dxWheel != 0) {
 			if (dxWheel > 0) {
 				selectedSlot = selectedSlot != 9 ? selectedSlot++ : 0;
-//				if (selectedSlot != 9) {
-//					selectedSlot += 1;
-//				} else {
-//					selectedSlot = 0;
-//				}
 			}
 			if (dxWheel < 0) {
 				selectedSlot = selectedSlot != 0 ? selectedSlot-- : 9;
-//				if (selectedSlot != 0) {
-//					selectedSlot -= 1;
-//				} else {
-//					selectedSlot = 9;
-//				}
 			}
 		}
+
 		super.drawScreen(x, y, f);
 	}
 
@@ -208,12 +204,16 @@ public class GuiTrackDesigner extends GuiScreen {
 
 	@Override
 	public void mouseClicked(int x, int y, int button) {
-		super.mouseClicked(x, y, button);
+		try {
+			super.mouseClicked(x, y, button);
+		} catch (IOException exception) {
+			;
+		}
 //		Rectangle mouse = new Rectangle(x, y, 1, 1);
 //		Rectangle bounds = new Rectangle(10, 10, 100, 20);
 
 		if (entity3rdPerson != null) {
-			if (!((GuiButton) this.buttonList.get(button)).func_146115_a()) {
+			if (!((GuiButton) this.buttonList.get(button)).isMouseOver()) {
 				entity3rdPerson.rayTraceMouse();
 			}
 		}
@@ -234,7 +234,7 @@ public class GuiTrackDesigner extends GuiScreen {
 //		if (!(this.mc.currentScreen instanceof GuiRCControls)) {
 		if (shouldDeleteEntity) {
 			Keyboard.enableRepeatEvents(false);
-			Minecraft.getMinecraft().renderViewEntity = Minecraft.getMinecraft().thePlayer;
+			Minecraft.getMinecraft().setRenderViewEntity(Minecraft.getMinecraft().thePlayer);
 			Minecraft.getMinecraft().gameSettings.thirdPersonView = thirdPersonView;
 			Minecraft.getMinecraft().theWorld.removeEntity(entity3rdPerson);
 			entity3rdPerson = null;
@@ -246,7 +246,11 @@ public class GuiTrackDesigner extends GuiScreen {
 
 	@Override
 	public void keyTyped(char key, int value) {
-		super.keyTyped(key, value);
+		try {
+			super.keyTyped(key, value);
+		} catch (IOException exception) {
+			;
+		}
 
 		if (value != Keyboard.KEY_ESCAPE) {
 			entity3rdPerson.onUpdate();

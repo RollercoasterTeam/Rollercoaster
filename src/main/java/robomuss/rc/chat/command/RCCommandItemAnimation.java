@@ -1,7 +1,9 @@
 package robomuss.rc.chat.command;
 
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.event.RCTickHandler;
@@ -17,7 +19,7 @@ public class RCCommandItemAnimation implements ICommand {
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "trackitemanimation";
 	}
 
@@ -27,12 +29,12 @@ public class RCCommandItemAnimation implements ICommand {
 	}
 
 	@Override
-	public List getCommandAliases() {
+	public List getAliases() {
 		return this.aliases;
 	}
 
 	@Override
-	public void processCommand(ICommandSender commandSender, String[] input) {
+	public void execute(ICommandSender commandSender, String[] input) {
 		String enabled = "ItemBlockTrack animation is now enabled";
 		String disabled = "ItemBlockTrack animation is now disabled";
 
@@ -51,13 +53,13 @@ public class RCCommandItemAnimation implements ICommand {
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender commandSender) {
-		ChatHandler.broadcastChatMessageToPlayers(commandSender.getCommandSenderName());
+	public boolean canCommandSenderUse(ICommandSender commandSender) {
+		ChatHandler.broadcastChatMessageToPlayers(commandSender.getCommandSenderEntity().getName());
 		return true;
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender commandSender, String[] options) {
+	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return null;
 	}
 

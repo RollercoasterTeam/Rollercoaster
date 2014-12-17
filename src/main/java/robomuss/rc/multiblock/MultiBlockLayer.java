@@ -47,6 +47,7 @@ public class MultiBlockLayer {
 				return this.aliasList;
 			}
 		}
+
 		return null;
 	}
 
@@ -56,6 +57,7 @@ public class MultiBlockLayer {
 				return this.aliasList.size() - 1;
 			}
 		}
+
 		return 0;
 	}
 
@@ -67,8 +69,10 @@ public class MultiBlockLayer {
 					aliases.add(block1);
 				}
 			}
+
 			return aliases;
 		}
+
 		return null;
 	}
 
@@ -80,6 +84,7 @@ public class MultiBlockLayer {
 				}
 			}
 		}
+
 		return null;
 	}
 

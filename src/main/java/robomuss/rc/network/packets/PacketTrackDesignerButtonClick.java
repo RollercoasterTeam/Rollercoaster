@@ -2,29 +2,30 @@ package robomuss.rc.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
+import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackHandler;
 
 public class PacketTrackDesignerButtonClick extends AbstractPacket {
+    private BlockPos pos;
 
-    public PacketTrackDesignerButtonClick() {
-    	
-    }
-
-    private int x, y, z;
     private int id;
     private MovingObjectPosition movingObjectPosition;
-    private int Xx, Xy, Xz;
     private int selectedSlot;
 
-    public PacketTrackDesignerButtonClick(int x, int y, int z, int id, MovingObjectPosition xHair, int selection) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        
+    public PacketTrackDesignerButtonClick() {}
+
+    public PacketTrackDesignerButtonClick(BlockPos pos, int id, MovingObjectPosition xHair, int selection) {
+        this.pos = pos;
+
         this.id = id;
         this.movingObjectPosition = xHair;
 
@@ -33,30 +34,22 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
     @Override
     public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
-        buffer.writeInt(this.x);
-        buffer.writeInt(this.y);
-        buffer.writeInt(this.z);
-        
+        buffer.writeLong(pos.toLong());
+        buffer.writeLong(movingObjectPosition.getBlockPos().toLong());
+        buffer.writeFloat((float) movingObjectPosition.hitVec.xCoord);
+        buffer.writeFloat((float) movingObjectPosition.hitVec.yCoord);
+        buffer.writeFloat((float) movingObjectPosition.hitVec.zCoord);
         buffer.writeInt(this.id);
-
-        buffer.writeInt(movingObjectPosition.blockX);
-        buffer.writeInt(movingObjectPosition.blockY);
-        buffer.writeInt(movingObjectPosition.blockZ);
-
         buffer.writeInt(selectedSlot);
     }
 
     @Override
     public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) {
-        this.x = buffer.readInt();
-        this.y = buffer.readInt();
-        this.z = buffer.readInt();
-        
+        this.pos = BlockPos.fromLong(buffer.readLong());
+        BlockPos tempPos = BlockPos.fromLong(buffer.readLong());
+        EnumFacing tempFacing = EnumFacing.getFacingFromVector(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
+        this.movingObjectPosition = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.BLOCK, new Vec3(tempPos.getX(), tempPos.getY(), tempPos.getZ()), tempFacing, tempPos);
         this.id = buffer.readInt();
-
-        this.Xx = buffer.readInt();
-        this.Xy = buffer.readInt();
-        this.Xz = buffer.readInt();
         this.selectedSlot = buffer.readInt();
     }
 
@@ -66,7 +59,9 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-        if(player.worldObj.getBlock(Xx, Xy + 1, Xz) == Blocks.air)
-    	player.worldObj.setBlock(Xx, Xy + 1, Xz, TrackHandler.pieces.get(selectedSlot).block, 0 , 2);
+        if (player.getEntityWorld().isAirBlock(movingObjectPosition.getBlockPos().up())) {
+            IBlockState state = TrackHandler.pieces.get(selectedSlot).block.getDefaultState();
+            player.getEntityWorld().setBlockState(movingObjectPosition.getBlockPos().up(), state.withProperty(BlockTrackBase.FACING, EnumFacing.NORTH));
+        }
     }
 }

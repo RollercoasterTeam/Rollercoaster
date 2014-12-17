@@ -1,14 +1,12 @@
 package robomuss.rc.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -17,9 +15,6 @@ import robomuss.rc.util.ColourUtil;
 import java.util.List;
 
 public class ItemBalloon extends Item {
-	@SideOnly(Side.CLIENT)
-	private IIcon icon;
-
 	public ItemBalloon() {
 		setHasSubtypes(true);
 	}
@@ -55,17 +50,6 @@ public class ItemBalloon extends Item {
 		for (int i = 0; i < ColourUtil.numColours; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister register) {
-		super.registerIcons(register);
-		this.icon = register.registerIcon(this.getIconString() + "_overlay");
-	}
-
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int dmg, int pass) {
-        return pass > 0 ? this.icon : super.getIconFromDamageForRenderPass(dmg, pass);
 	}
 
 	@Override

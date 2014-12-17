@@ -4,10 +4,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-/**
- * ModelBalloon - shadekiller666
- * Created using Tabula 4.0.2
- */
 public class ModelBalloon extends ModelBase {
     public ModelRenderer center;
     public ModelRenderer bottom;

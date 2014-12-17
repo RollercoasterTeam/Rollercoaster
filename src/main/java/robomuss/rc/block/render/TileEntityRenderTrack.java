@@ -4,8 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3i;
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
@@ -20,18 +22,18 @@ import java.nio.FloatBuffer;
 
 public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);
-	private static final Vec3 vector = Vec3.createVectorHelper(0.20000000298023224D, 1.0d, -0.699999988079071d).normalize();
-	private static final Vec3 vector1 = Vec3.createVectorHelper(-0.20000000298023224D, 1.0d, -0.699999988079071d).normalize();
+//	private static final Vec3 vector = Vec3i.createVectorHelper(0.20000000298023224D, 1.0d, -0.699999988079071d).normalize();
+//	private static final Vec3 vector1 = Vec3i.createVectorHelper(-0.20000000298023224D, 1.0d, -0.699999988079071d).normalize();
 
-	private TrackStyle style;
-	private TrackPiece track_type;
-	private BlockTrackBase track;
+	private TrackStyle          style;
+	private TrackPiece          track_type;
+	private BlockTrackBase      track;
 	private TileEntityTrackBase teTrack;
 
 	int animation;
 
 	@Override
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
+	public void renderTileEntityAt(TileEntity te, double posX, double posZ, double posY, float f, int meta) {
 		teTrack = (TileEntityTrackBase) te;
 		track = teTrack.track;
 		track_type = track.track_type;
@@ -41,17 +43,15 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
-		if(track_type != null) {
-	        //GL11.glEnable(GL11.GL_LIGHTING);
+		if (track_type != null) {
+			//GL11.glEnable(GL11.GL_LIGHTING);
 
-			if(track_type.render_stage == 1 && (!(track_type instanceof TrackPieceLoop) && !(track_type instanceof TrackPieceHeartlineRoll))) {
-				float xTrans = track_type.getX(track_type.render_stage, x, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-				float yTrans = track_type.getY(track_type.render_stage, y, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) - 1.5f;
-				float zTrans = track_type.getZ(track_type.render_stage, z, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			if (track_type.render_stage == 1 && (!(track_type instanceof TrackPieceLoop) && !(track_type instanceof TrackPieceHeartlineRoll))) {
+				BlockPos renderPos = track_type.getRenderPos(track_type.render_stage, posX, posY, posZ, teTrack, teTrack.getWorld(), teTrack.getPos().getX(), teTrack.getPos().getY(), teTrack.getPos().getZ());
 
 				GL11.glPushMatrix();
 				GL11.glDisable(GL11.GL_LIGHTING);
-				GL11.glTranslatef(xTrans, yTrans, zTrans);
+				GL11.glTranslatef(renderPos.getX(), renderPos.getY(), renderPos.getZ());
 				GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 				GL11.glPushMatrix();
 
@@ -62,8 +62,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 //				enableTrackLighting();
 //				RenderHelper.enableStandardItemLighting();
 
-				if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
-					track_type.renderTileEntity(track_type.render_stage, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				if (teTrack.getBlockMetadata() <= 11) {
+					track_type.renderTileEntity(track_type.render_stage, style, teTrack, teTrack.getWorld(), teTrack.getPos());
 				}
 
 				GL11.glEnable(GL11.GL_LIGHTING);
@@ -71,12 +71,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				GL11.glPopMatrix();
 			} else {
 				for (int i = 0; i < track_type.render_stage; i++) {
-					float xTrans = track_type.getX(i, x, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-					float yTrans = track_type.getY(i, y, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) - 1.5f;
-					float zTrans = track_type.getZ(i, z, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
-
 					GL11.glPushMatrix();
-					GL11.glTranslatef(xTrans, yTrans, zTrans);
+					GL11.glTranslatef(teTrack.getPos().getX(), teTrack.getPos().getY(), teTrack.getPos().getZ());
 					GL11.glDisable(GL11.GL_LIGHTING);
 					GL11.glScalef(0.0625f, 0.0625f, 0.0625f);
 					GL11.glPushMatrix();
@@ -88,8 +84,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 //				enableTrackLighting();
 //				RenderHelper.enableStandardItemLighting();
 
-					if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
-						track_type.renderTileEntity(i, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+					if (teTrack.getBlockMetadata() <= 11) {
+						track_type.renderTileEntity(i, style, teTrack, teTrack.getWorld(), teTrack.getPos());
 					}
 
 					GL11.glEnable(GL11.GL_LIGHTING);
@@ -102,11 +98,11 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(teTrack.extra.texture);
 				
 				GL11.glPushMatrix();
-				GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f,(float) z + 0.5f);
+				GL11.glTranslatef((float) posX + 0.5f, (float) posY + 1.5f,(float) posZ + 0.5f);
 				GL11.glPushMatrix();
 
-				if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
-					track_type.rotate(teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+				if (teTrack.getBlockMetadata() <= 11) {
+					track_type.rotate(teTrack, teTrack.getWorld(), teTrack.getPos());
 					teTrack.extra.render(track_type);
 				}
 
@@ -115,11 +111,11 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 				
 				for(int i = 0; i < teTrack.extra.render_stage; i++) {
 					GL11.glPushMatrix();
-					GL11.glTranslatef(teTrack.extra.getX(i, x, teTrack), teTrack.extra.getY(i, y, teTrack), teTrack.extra.getZ(i, z, teTrack));
+					GL11.glTranslatef(teTrack.extra.getX(i, posX, teTrack), teTrack.extra.getY(i, posY, teTrack), teTrack.extra.getZ(i, posZ, teTrack));
 					GL11.glPushMatrix();
 
-					if (teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord) <= 11) {
-						track_type.rotate(teTrack, teTrack.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
+					if (teTrack.getBlockMetadata() <= 11) {
+						track_type.rotate(teTrack, teTrack.getWorld(), teTrack.getPos());
 						teTrack.extra.render(i, track_type, teTrack);
 					}
 

@@ -1,15 +1,13 @@
 package robomuss.rc.event;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.Item;
 import robomuss.rc.item.ItemBlockTrack;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class RCTickHandler {
 	public static boolean shouldReflect = false;
@@ -19,6 +17,7 @@ public class RCTickHandler {
 		/* This is all to disable the downward animation on the current equipped item when switching to a different hotbar slot, if that item is a track.
 		 * I used this to help align the models during rendering.
 		 * To prevent this from executing, set the above shouldReflect value to false.
+		 * WARNING: this uses reflection, and could cause lag in-game, which is why it is disabled in the main mod class by default
 		 */
 		if (shouldReflect) {
 			Field prevEquippedProgress = null;
@@ -53,9 +52,9 @@ public class RCTickHandler {
 					}
 				}
 			} catch (NoSuchFieldException exception) {
-
+				;
 			} catch (IllegalAccessException exception) {
-
+				;
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package robomuss.rc.proxy;
 
-
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 
 public class CommonProxy {

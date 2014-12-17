@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrackPiece {
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
 	public int    id;
 	public int    crafting_cost;
 	public int    render_stage;
@@ -31,11 +29,31 @@ public class TrackPiece {
 	public Block  block;
 	public boolean inverted = false;
 
+	private List<TileEntityTrackBase> teList = new ArrayList<TileEntityTrackBase>();
+
 	public TrackPiece(String unlocalized_name, int crafting_cost, int render_stage) {
 		this.id = RCBlocks.last_track_id++;
 		this.unlocalized_name = unlocalized_name;
 		this.crafting_cost = crafting_cost;
 		this.render_stage = render_stage;
+	}
+
+	public void addTileEntityToList(TrackPiece type, TileEntityTrackBase teTrack) {
+		if (teTrack != null) {
+			teList.add(teTrack);
+			teTrack.setListTypeAndIndex(type, teList.indexOf(teTrack));
+		}
+	}
+
+	public void addTileEntityToList(TrackPiece type, TileEntityTrackBase teTrack, int index) {
+		if (teTrack != null) {
+			teList.add(index, teTrack);
+			teTrack.setListTypeAndIndex(type, index);
+		}
+	}
+
+	public TileEntityTrackBase getTileEntityFromList(int index) {
+		return this.teList.size() > index && index >= 0 ? this.teList.get(index) : null;
 	}
 
 	public void renderTileEntity(int render_stage, TrackStyle style, TileEntityTrackBase teTrack, World world, BlockPos pos) {}
@@ -52,20 +70,11 @@ public class TrackPiece {
 		//rotate based on property
 	}
 
-	public float getX(int render_stage, double x, TileEntityTrackBase teTrack, World world, int lx, int ly, int l) {
-		return (float) (x + 0.5f);
-	}
-
-	public float getY(int render_stage, double y, TileEntityTrackBase teTrack, World world, int lx, int ly, int l) {
-		return (float) (y + 1.5f);
-	}
-
-	public float getZ(int render_stage, double z, TileEntityTrackBase teTrack, World world, int lx, int ly, int l) {
-		return (float) (z + 0.5f);
+	public BlockPos getRenderPos(int render_stage, double x, double y, double z, TileEntityTrackBase teTrack, World world, int lx, int ly, int lz) {
+		return new BlockPos(x + 0.5f, y + 1.5f, z + 0.5f);
 	}
 
 	public AxisAlignedBB getRenderBoundingBox(World world, BlockPos pos) {
-//		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 		return AxisAlignedBB.fromBounds(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
 	}
 
