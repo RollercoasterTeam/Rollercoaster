@@ -1,13 +1,13 @@
 package robomuss.rc.chat.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.event.RCTickHandler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RCCommandItemAnimation implements ICommand {
 	private List aliases;

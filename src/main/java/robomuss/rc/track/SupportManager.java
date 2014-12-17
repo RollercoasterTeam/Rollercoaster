@@ -1,5 +1,8 @@
 package robomuss.rc.track;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.RCBlocks;
@@ -7,9 +10,6 @@ import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.ColourUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SupportManager {
 	private List<TileEntityFooter> footers = new ArrayList<TileEntityFooter>();

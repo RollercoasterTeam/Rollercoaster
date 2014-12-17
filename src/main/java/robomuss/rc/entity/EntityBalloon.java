@@ -1,12 +1,11 @@
 package robomuss.rc.entity;
 
-import net.minecraft.client.Minecraft;
+import java.util.UUID;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class EntityBalloon extends Entity {
 	private boolean isCurrentlyHeld;

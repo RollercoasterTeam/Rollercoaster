@@ -1,25 +1,22 @@
 package robomuss.rc.client.gui;
 
-import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.fml.relauncher.Side;
+import java.util.Arrays;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiControls;
-import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
+
 import robomuss.rc.RCMod;
 import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
-
-import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiRCKeyBindingList extends GuiListExtended {

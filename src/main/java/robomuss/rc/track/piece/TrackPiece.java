@@ -1,20 +1,22 @@
 package robomuss.rc.track.piece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.style.TrackStyle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TrackPiece {
 	public int id;

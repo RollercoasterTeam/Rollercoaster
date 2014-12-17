@@ -1,8 +1,8 @@
 package robomuss.rc.multiblock;
 
-import net.minecraft.tileentity.TileEntity;
-
 import java.util.HashMap;
+
+import net.minecraft.tileentity.TileEntity;
 
 public class MultiBlockManager {
 	private static final MultiBlockManager instance = new MultiBlockManager();

@@ -1,7 +1,7 @@
 package robomuss.rc.entity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
@@ -21,12 +21,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IMinecartCollisionHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
-
-import java.util.List;
 
 public abstract class EntityTrain extends Entity
 {

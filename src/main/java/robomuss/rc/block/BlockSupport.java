@@ -8,7 +8,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.util.IPaintable;

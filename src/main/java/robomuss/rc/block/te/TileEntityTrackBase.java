@@ -1,7 +1,5 @@
 package robomuss.rc.block.te;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;

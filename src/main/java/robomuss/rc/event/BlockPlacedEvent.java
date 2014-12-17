@@ -1,10 +1,10 @@
 package robomuss.rc.event;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockFooter;
 import robomuss.rc.block.BlockSupport;

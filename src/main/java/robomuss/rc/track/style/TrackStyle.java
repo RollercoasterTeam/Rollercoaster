@@ -1,9 +1,8 @@
 package robomuss.rc.track.style;
 
-import net.minecraftforge.client.model.IModelCustom;
-import robomuss.rc.track.piece.TrackPiece;
-
 import java.util.ArrayList;
+
+import robomuss.rc.track.piece.TrackPiece;
 
 public class TrackStyle {
 	public String name;

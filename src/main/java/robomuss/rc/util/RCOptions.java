@@ -1,19 +1,24 @@
 package robomuss.rc.util;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.MathHelper;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import robomuss.rc.client.gui.keybinding.RCKeyBinding;
-
-import java.io.*;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 
 @SideOnly(Side.CLIENT)
 public class RCOptions {

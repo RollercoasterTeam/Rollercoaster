@@ -7,8 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.model.ModelTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 

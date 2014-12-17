@@ -1,5 +1,7 @@
 package robomuss.rc.entity;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,14 +9,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
 import robomuss.rc.client.gui.GuiTrackDesigner;
 import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.event.RenderWorldLast;
-
-import java.util.List;
 
 
 /**

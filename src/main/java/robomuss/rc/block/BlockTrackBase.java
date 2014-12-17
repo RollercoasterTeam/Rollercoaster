@@ -1,8 +1,7 @@
 package robomuss.rc.block;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -21,6 +20,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
@@ -31,8 +33,6 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IPaintable;
-
-import java.util.List;
 
 public class BlockTrackBase extends BlockContainer implements IPaintable {
 	public TrackPiece track_type;

@@ -1,7 +1,8 @@
 package robomuss.rc.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
+
 import modforgery.forgerylib.ChatColours;
 import modforgery.forgerylib.GuiUtils;
 import net.minecraft.client.gui.GuiButton;
@@ -12,15 +13,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
+
 import robomuss.rc.block.container.ContainerTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.track.TrackHandler;
-
-import java.awt.event.KeyEvent;
-import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiTrackFabricator extends GuiContainer {

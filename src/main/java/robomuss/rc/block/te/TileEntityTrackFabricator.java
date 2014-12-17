@@ -1,6 +1,5 @@
 package robomuss.rc.block.te;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -13,7 +12,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
 import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 

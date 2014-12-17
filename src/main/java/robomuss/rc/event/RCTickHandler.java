@@ -1,15 +1,13 @@
 package robomuss.rc.event;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import java.lang.reflect.Field;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import robomuss.rc.item.ItemBlockTrack;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class RCTickHandler {
 	public static boolean shouldReflect = false;

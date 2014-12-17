@@ -4,8 +4,9 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.IModelCustom;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.style.TrackStyle;

@@ -1,12 +1,11 @@
 package robomuss.rc.multiblock;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.ChunkPosition;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 public class MultiBlockStructure {
 	private List layers = new ArrayList();

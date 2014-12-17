@@ -1,18 +1,16 @@
 package robomuss.rc.block;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import robomuss.rc.block.te.TileEntityConveyor;
-
-import javax.swing.*;
-import java.util.ArrayList;
 
 public class BlockConveyor extends BlockContainer {
     

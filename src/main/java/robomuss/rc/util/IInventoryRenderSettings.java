@@ -1,7 +1,6 @@
 package robomuss.rc.util;
 
 
-import net.minecraftforge.client.model.IModelCustom;
 
 public interface IInventoryRenderSettings {
 	public void render(int renderStage, IModelCustom model);

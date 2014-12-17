@@ -2,15 +2,16 @@ package robomuss.rc.client.gui;
 
 //import robomuss.rc.block.te.TileEntityTrack;
 
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.util.ArrayList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockConveyor;
 import robomuss.rc.block.BlockFooter;
@@ -22,8 +23,6 @@ import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.event.RenderWorldLast;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
-
-import java.util.ArrayList;
 
 public class GuiHammerOverlay extends GuiIngameForge {
 	private Minecraft minecraft;

@@ -1,18 +1,21 @@
 package robomuss.rc.track;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
-import robomuss.rc.track.piece.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import robomuss.rc.track.piece.TrackPiece;
+import robomuss.rc.track.piece.TrackPieceCorner;
+import robomuss.rc.track.piece.TrackPieceHorizontal;
+import robomuss.rc.track.piece.TrackPieceSlope;
+import robomuss.rc.track.piece.TrackPieceSlopeDown;
+import robomuss.rc.track.piece.TrackPieceSlopeUp;
 
 /** TRACK MANAGER START
  *
