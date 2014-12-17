@@ -1,9 +1,14 @@
 package robomuss.rc.item;
 
+<<<<<<< HEAD
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+import java.util.List;
+
+>>>>>>> origin/One8PortTake2
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+<<<<<<< HEAD
 import robomuss.rc.block.BlockConveyor;
 import robomuss.rc.block.BlockRideFence;
 import robomuss.rc.block.BlockWoodenSupport;
@@ -19,6 +25,20 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.hammer.HammerMode;
 
 import java.util.List;
+=======
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import robomuss.rc.block.te.TileEntityConveyor;
+import robomuss.rc.block.te.TileEntityFooter;
+import robomuss.rc.block.te.TileEntityRideFence;
+import robomuss.rc.block.te.TileEntitySupport;
+import robomuss.rc.block.te.TileEntityTrackBase;
+import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.track.TrackHandler;
+import robomuss.rc.util.hammer.HammerMode;
+
+//import robomuss.rc.block.BlockTrack;
+>>>>>>> origin/One8PortTake2
 
 public class ItemHammer extends Item {
 	public static HammerMode[] modes = {

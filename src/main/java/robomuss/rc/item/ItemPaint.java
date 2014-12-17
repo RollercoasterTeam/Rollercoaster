@@ -1,13 +1,21 @@
 package robomuss.rc.item;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import robomuss.rc.util.ColourUtil;
-
+=======
 import java.util.List;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+>>>>>>> origin/One8PortTake2
+import robomuss.rc.util.ColourUtil;
 
 public class ItemPaint extends Item {
 	public ItemPaint() {

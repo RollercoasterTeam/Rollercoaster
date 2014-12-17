@@ -1,8 +1,14 @@
 package robomuss.rc.track;
 
+<<<<<<< HEAD
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
+=======
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> origin/One8PortTake2
 import net.minecraft.world.World;
 import robomuss.rc.block.BlockSupport;
 import robomuss.rc.block.RCBlocks;
@@ -10,9 +16,6 @@ import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.ColourUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SupportManager {
 	private List<TileEntityFooter> footers = new ArrayList<TileEntityFooter>();

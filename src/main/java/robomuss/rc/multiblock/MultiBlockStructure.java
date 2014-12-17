@@ -1,12 +1,18 @@
 package robomuss.rc.multiblock;
 
+<<<<<<< HEAD
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
+=======
+>>>>>>> origin/One8PortTake2
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 public class MultiBlockStructure {
 	private List layers = new ArrayList();

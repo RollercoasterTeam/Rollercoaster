@@ -1,14 +1,24 @@
 package robomuss.rc.event;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+=======
+import java.lang.reflect.Field;
+
+>>>>>>> origin/One8PortTake2
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import robomuss.rc.item.ItemBlockTrack;
 
+<<<<<<< HEAD
 import java.lang.reflect.Field;
 
+=======
+>>>>>>> origin/One8PortTake2
 public class RCTickHandler {
 	public static boolean shouldReflect = false;
 

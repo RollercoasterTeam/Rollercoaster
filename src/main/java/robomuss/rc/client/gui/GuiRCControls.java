@@ -1,11 +1,16 @@
 package robomuss.rc.client.gui;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+=======
+>>>>>>> origin/One8PortTake2
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.util.RCOptions;

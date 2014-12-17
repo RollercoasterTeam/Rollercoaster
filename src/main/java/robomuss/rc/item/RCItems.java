@@ -1,9 +1,13 @@
 package robomuss.rc.item;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.common.registry.GameRegistry;
+=======
+>>>>>>> origin/One8PortTake2
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import robomuss.rc.RCMod;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;

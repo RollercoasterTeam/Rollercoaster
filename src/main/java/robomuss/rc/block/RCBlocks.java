@@ -1,11 +1,23 @@
 package robomuss.rc.block;
 
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.common.registry.GameRegistry;
+=======
+>>>>>>> origin/One8PortTake2
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import robomuss.rc.RCMod;
-import robomuss.rc.block.te.*;
+import robomuss.rc.block.te.TileEntityConveyor;
+import robomuss.rc.block.te.TileEntityFooter;
+import robomuss.rc.block.te.TileEntityRideFence;
+import robomuss.rc.block.te.TileEntitySupport;
+import robomuss.rc.block.te.TileEntityTrackBase;
+import robomuss.rc.block.te.TileEntityTrackDesigner;
+import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.block.te.TileEntityTrackStorage;
+import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.item.ItemBlockPath;
 import robomuss.rc.item.ItemBlockTrack;
 import robomuss.rc.track.TrackHandler;

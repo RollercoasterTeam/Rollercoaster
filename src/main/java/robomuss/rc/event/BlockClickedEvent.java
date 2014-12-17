@@ -1,14 +1,18 @@
 package robomuss.rc.event;
 
+<<<<<<< HEAD
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+=======
+>>>>>>> origin/One8PortTake2
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.BlockFooter;
 import robomuss.rc.block.BlockSupport;

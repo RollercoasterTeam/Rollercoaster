@@ -1,7 +1,12 @@
 package robomuss.rc.track.style;
 
+<<<<<<< HEAD
 import robomuss.rc.track.piece.TrackPiece;
+=======
+>>>>>>> origin/One8PortTake2
 import java.util.ArrayList;
+
+import robomuss.rc.track.piece.TrackPiece;
 
 public class TrackStyle {
 	public String name;

@@ -6,8 +6,11 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
+<<<<<<< HEAD
+=======
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+>>>>>>> FETCH_HEAD
 
 public class BlockSimple extends Block {
 	public BlockSimple(Material material) {

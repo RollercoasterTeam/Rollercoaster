@@ -6,8 +6,14 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+<<<<<<< HEAD
 import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackFabricator;
+=======
+
+import org.lwjgl.opengl.GL11;
+
+>>>>>>> origin/One8PortTake2
 import robomuss.rc.block.model.ModelTrackFabricator;
 
 public class TileEntityRenderTrackFabricator extends TileEntitySpecialRenderer {

@@ -1,6 +1,10 @@
 package robomuss.rc.util;
 
+<<<<<<< HEAD
 //import net.minecraftforge.client.model.IModelCustom;
+=======
+
+>>>>>>> origin/One8PortTake2
 
 public interface IInventoryRenderSettings {
 //	public void render(int renderStage, IModelCustom model);

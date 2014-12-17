@@ -1,10 +1,18 @@
 package robomuss.rc.event;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+=======
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+>>>>>>> origin/One8PortTake2
 import robomuss.rc.item.ItemBalloon;
 import robomuss.rc.util.ColourUtil;
 

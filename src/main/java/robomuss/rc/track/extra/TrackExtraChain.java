@@ -2,7 +2,9 @@ package robomuss.rc.track.extra;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.model.ModelChainExtended;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;

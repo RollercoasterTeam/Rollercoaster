@@ -1,5 +1,7 @@
 package robomuss.rc.entity;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,15 +11,24 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
 import robomuss.rc.client.gui.GuiTrackDesigner;
 import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.event.RenderWorldLast;
 
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+
+/**
+ * Created by Mark on 17/08/2014.
+ */
+>>>>>>> origin/One8PortTake2
 public class Entity3rdPerson extends EntityLivingBase {
 
     public EntityLivingBase player = this;

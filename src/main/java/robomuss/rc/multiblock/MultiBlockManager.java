@@ -1,7 +1,12 @@
 package robomuss.rc.multiblock;
 
+<<<<<<< HEAD
 import net.minecraft.tileentity.TileEntity;
+=======
+>>>>>>> origin/One8PortTake2
 import java.util.HashMap;
+
+import net.minecraft.tileentity.TileEntity;
 
 public class MultiBlockManager {
 	private static final MultiBlockManager instance = new MultiBlockManager();

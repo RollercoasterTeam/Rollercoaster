@@ -1,21 +1,33 @@
 package robomuss.rc.client.gui;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
+=======
+import java.util.Arrays;
+
+>>>>>>> origin/One8PortTake2
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
+
 import robomuss.rc.RCMod;
 import robomuss.rc.client.gui.keybinding.RCKeyBinding;
 import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 
+<<<<<<< HEAD
 import java.util.Arrays;
 
+=======
+>>>>>>> origin/One8PortTake2
 @SideOnly(Side.CLIENT)
 public class GuiRCKeyBindingList extends GuiListExtended {
 	private final GuiRCControls controls;

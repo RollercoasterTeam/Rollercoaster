@@ -1,16 +1,19 @@
 package robomuss.rc.multiblock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+<<<<<<< HEAD
 import robomuss.rc.block.BlockTrackFabricator;
+=======
+>>>>>>> origin/One8PortTake2
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MultiBlockTrackFabricator extends MultiBlockManager {
 	private static MultiBlockStructure structure = new MultiBlockStructure();

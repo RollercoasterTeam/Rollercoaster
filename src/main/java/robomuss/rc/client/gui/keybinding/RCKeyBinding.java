@@ -1,11 +1,17 @@
 package robomuss.rc.client.gui.keybinding;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IntHashMap;
-import org.lwjgl.input.Keyboard;
-import robomuss.rc.RCMod;
 
-import java.util.*;
+import org.lwjgl.input.Keyboard;
+
+import robomuss.rc.RCMod;
 
 public class RCKeyBinding implements Comparable {
 	private static final List rcKeyBindArray = new ArrayList();
