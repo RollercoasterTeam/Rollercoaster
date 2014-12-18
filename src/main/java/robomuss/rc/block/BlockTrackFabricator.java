@@ -13,7 +13,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
-import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 
 public class BlockTrackFabricator extends BlockContainer {
 
