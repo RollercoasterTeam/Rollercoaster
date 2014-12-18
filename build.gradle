@@ -61,3 +61,5 @@ processResources
         exclude 'mcmod.info'
     }
 }
+//this is required if using intellij IDEA 14 (shadekiller666) in order for the dev env to be able to find resources
+sourceSets { main { output.resourcesDir = output.classesDir } }
