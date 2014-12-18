@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "rc:blocks/track_designer_other",
+		"down": "rc:blocks/track_designer_other",
+		"up": "rc:blocks/track_designer_other",
+		"north": "rc:blocks/track_designer_side",
+		"east": "rc:blocks/track_designer_side",
+		"south": "rc:blocks/track_designer_side",
+		"west": "rc:blocks/track_designer_side"
+	}
+}
