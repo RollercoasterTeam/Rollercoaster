@@ -10,7 +10,7 @@ import robomuss.rc.block.te.TileEntityTrackFabricator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class temp extends MultiBlockManager {
+public class MultiBlockTrackFabricator extends MultiBlockManager {
 	private static MultiBlockStructure structure = new MultiBlockStructure();
 	private boolean hasStructureBeenRegistered;
 

@@ -14,12 +14,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
-import robomuss.rc.multiblock.temp;
+import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 
 public class TileEntityTrackFabricator extends TileEntity implements IInventory {
 	public ItemStack[] contents = new ItemStack[2];
 	public ForgeDirection direction;
-	public static temp multiBlockTrackFabricator = new temp();
+	public static MultiBlockTrackFabricator multiBlockTrackFabricator = new MultiBlockTrackFabricator();
 
 	public boolean testStruct(EntityPlayer player) {
 //		System.out.println("testing structure");
