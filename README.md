@@ -23,5 +23,5 @@ TODO
   -Stalls [robo]
   -Refined track placement mechanics [shade]
 
-  -Minecraft 1.8 update [modmuss50]
+  -Minecraft 1.8 update [shadekiller666, modmuss50]
 
