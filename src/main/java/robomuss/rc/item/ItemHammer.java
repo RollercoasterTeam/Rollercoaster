@@ -37,13 +37,6 @@ public class ItemHammer extends Item {
 					}
 				}
 
-				if (tileentity instanceof TileEntityRideFence) {
-					IBlockState state = event.world.getBlockState(event.pos);
-					EnumFacing facing = (EnumFacing) state.getValue(BlockRideFence.FACING);
-					event.world.setBlockState(event.pos, state.withProperty(BlockRideFence.FACING, facing.rotateAround(facing.getAxis())));
-					event.world.markBlockForUpdate(event.pos);
-				}
-
 				if (tileentity instanceof TileEntityWoodenSupport) {
 					IBlockState state = event.world.getBlockState(event.pos);
 					EnumFacing facing = (EnumFacing) state.getValue(BlockWoodenSupport.FACING);
@@ -93,6 +86,11 @@ public class ItemHammer extends Item {
 				TileEntitySupport te = (TileEntitySupport) tileentity;
 				te.flange = !te.flange;
 				event.world.markBlockForUpdate(event.pos);
+			}
+
+			if (tileentity instanceof TileEntityRideFence) {
+				TileEntityRideFence te = (TileEntityRideFence) tileentity;
+
 			}
 		}
 	}

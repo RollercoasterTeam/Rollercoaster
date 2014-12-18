@@ -45,7 +45,7 @@ public class TrackManager {
 	}
 
 	public static final BlockTrackBase getTrackAtCoords(World world, BlockPos pos) {
-		return isBlockAtCoordsTrack(world, pos) ? (BlockTrackBase) world.getBlockState(pos) : null;
+		return isBlockAtCoordsTrack(world, pos) ? (BlockTrackBase) world.getBlockState(pos).getBlock() : null;
 	}
 
     public static final TileEntityTrackBase getTrackTileAtCoords(World world, BlockPos pos) {

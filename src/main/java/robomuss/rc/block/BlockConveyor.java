@@ -3,6 +3,7 @@ package robomuss.rc.block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import robomuss.rc.block.te.TileEntityConveyor;
 
 public class BlockConveyor extends BlockContainer {
@@ -20,7 +23,31 @@ public class BlockConveyor extends BlockContainer {
         setHardness(1f);
 		setResistance(3f);
 		setBlockBounds(0, 0, 0, 1, 0.25f, 1);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		EnumFacing facing = EnumFacing.getHorizontal(meta);
+		return this.getDefaultState().withProperty(FACING, facing);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		EnumFacing facing = (EnumFacing) state.getValue(FACING);
+		return facing.getHorizontalIndex();
+	}
+
+	@Override
+	public BlockState createBlockState() {
+		return new BlockState(this, FACING);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IBlockState getStateForEntityRender(IBlockState state) {
+		return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
+	}
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {

@@ -30,11 +30,8 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		int colour = ((TileEntityRideFence) te).colour;
 		GL11.glTranslatef((float) posX + 0.5f, (float) posY + 1.5f, (float) posZ + 0.5f);
-
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_" + colour + ".png"));
-
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-
 		EnumFacing facing = (EnumFacing) te.getWorld().getBlockState(te.getPos()).getValue(BlockRideFence.FACING);
 
 		GL11.glPushMatrix();

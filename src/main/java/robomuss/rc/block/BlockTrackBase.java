@@ -58,12 +58,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		boolean isDummy = meta >= 11;
-		EnumFacing facing = EnumFacing.getFront(isDummy ? meta - 10 : meta);
-
-		if (facing.getAxis() == EnumFacing.Axis.Y) {
-			facing = EnumFacing.NORTH;
-		}
-
+		EnumFacing facing = EnumFacing.getHorizontal(isDummy ? meta - 10 : meta);
 		return this.getDefaultState().withProperty(FACING, facing).withProperty(DUMMY, isDummy);
 	}
 
@@ -71,8 +66,7 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 	public int getMetaFromState(IBlockState state) {
 		EnumFacing facing = (EnumFacing) state.getValue(FACING);
 		boolean isDummy = (Boolean) state.getValue(DUMMY);
-
-		return facing.getIndex() + (isDummy ? 10 : 0);
+		return facing.getHorizontalIndex() + (isDummy ? 10 : 0);
 	}
 
 	@Override
@@ -148,9 +142,11 @@ public class BlockTrackBase extends BlockContainer implements IPaintable {
 				setDummyBounds(world, pos, state, mask, list, entity);
 			}
 		} else if (this.track_type == TrackHandler.findTrackType("slope_down")) {
-			if (((TileEntityTrackBase) world.getTileEntity(pos)).isDummy) {
-				setDummyBounds(world, pos, state, mask, list, entity);
-				//TODO: figure out how the dummies for slope_down will work...
+			if (world.getTileEntity(pos) instanceof TileEntityTrackBase) {
+				if (((TileEntityTrackBase) world.getTileEntity(pos)).isDummy) {
+					setDummyBounds(world, pos, state, mask, list, entity);
+					//TODO: figure out how the dummies for slope_down will work...
+				}
 			}
 		}
 	}
