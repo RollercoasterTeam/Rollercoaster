@@ -92,6 +92,13 @@ item.tires_extra.name=Friction Wheels
 item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
 
+item.nuggets.name=Chicken Nuggets
+item.chips.name=Chips
+item.popcorn.name=Popcorn
+item.candy_floss.name=Candy Floss
+
+item.coin.name=Coin
+
 entity.entityTrain.name=Rollercoaster Train
 
 key.categories.rc.trackdesigner=Track Designer
