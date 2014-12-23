@@ -1,10 +1,13 @@
 package robomuss.rc.block;
 
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityStall;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -38,6 +41,11 @@ public class BlockStall extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			if(Minecraft.getMinecraft().currentScreen.isCtrlKeyDown()) {
+				
+			}
+		}
 		FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
 		return true;
 	}
