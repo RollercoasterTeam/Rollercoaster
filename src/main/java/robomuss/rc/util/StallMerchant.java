@@ -1,5 +1,8 @@
 package robomuss.rc.util;
 
+import java.util.ArrayList;
+
+import robomuss.rc.block.RCBlocks;
 import robomuss.rc.item.RCItems;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,9 +15,13 @@ import net.minecraft.village.MerchantRecipeList;
 public class StallMerchant implements IMerchant {
 
 	public EntityPlayer customer;
+	private int x, y, z;
 	
-	public StallMerchant(EntityPlayer customer) {
+	public StallMerchant(EntityPlayer customer, int x, int y, int z) {
 		this.customer = customer;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 	
 	@Override
@@ -30,7 +37,10 @@ public class StallMerchant implements IMerchant {
 	@Override
 	public MerchantRecipeList getRecipes(EntityPlayer p_70934_1_) {
 		MerchantRecipeList list = new MerchantRecipeList();
-		for(FoodType food : RCItems.food) {
+		
+		ArrayList<StallItem> array = customer.worldObj.getBlock(x, y, z) == RCBlocks.food_stall ? RCItems.food : RCItems.merch;
+		
+		for(StallItem food : array) {
 			list.add(new MerchantRecipe(new ItemStack(RCItems.coin, 4), food.item));
 		}
 		return list;

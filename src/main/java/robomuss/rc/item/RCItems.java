@@ -10,14 +10,14 @@ import net.minecraft.item.ItemFood;
 import robomuss.rc.RCMod;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
-import robomuss.rc.util.FoodType;
+import robomuss.rc.util.StallItem;
 import scala.Array;
 
 public class RCItems {
 	public static int last_extra_id;
 	
 	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, train, balloon, coin;
-	public static ArrayList<FoodType> food = new ArrayList<FoodType>();
+	public static ArrayList<StallItem> food = new ArrayList<StallItem>(), merch = new ArrayList<StallItem>();
 	public static ItemArmor hat_1;
 	
 	public static void init() {
@@ -40,14 +40,15 @@ public class RCItems {
 		pass = new Item().setUnlocalizedName("pass").setTextureName("rc:pass").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		key = new Item().setUnlocalizedName("key").setTextureName("rc:key").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		train = new ItemTrain().setUnlocalizedName("train").setTextureName("rc:train").setCreativeTab(RCMod.track);
-		hat_1 = (ItemArmor) new ItemArmor(ArmorMaterial.CHAIN, 0, 0).setUnlocalizedName("hat_1").setTextureName("rc:hat_1").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		balloon = new ItemBalloon().setUnlocalizedName("balloon").setTextureName("rc:balloon").setCreativeTab(RCMod.other);
 		coin = new Item().setUnlocalizedName("coin").setTextureName("rc:coin").setCreativeTab(RCMod.other);
 		
-		food.add(new FoodType("Chicken Nuggets", "nuggets")); 
-		food.add(new FoodType("Chips", "chips")); 
-		food.add(new FoodType("Popcorn", "popcorn")); 
-		food.add(new FoodType("Candy Floss", "candy_floss")); 
+		food.add(new StallItem("Chicken Nuggets", "nuggets")); 
+		food.add(new StallItem("Chips", "chips")); 
+		food.add(new StallItem("Popcorn", "popcorn")); 
+		food.add(new StallItem("Candy Floss", "candy_floss")); 
+		
+		merch.add(new StallItem("T-Shirt", "t-shirt"));
 		
 		GameRegistry.registerItem(hammer, "hammer");
 		GameRegistry.registerItem(paint, "paint");
@@ -57,7 +58,6 @@ public class RCItems {
 		GameRegistry.registerItem(pass, "pass");
 		GameRegistry.registerItem(key, "key");
 		GameRegistry.registerItem(train, "train");
-		//GameRegistry.registerItem(hat_1, "hat_1");
 		GameRegistry.registerItem(balloon, "balloon");
 		GameRegistry.registerItem(coin, "coin");
 	}

@@ -38,10 +38,7 @@ public class BlockStall extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		//if(!world.isRemote) {
-			FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
-			return true;
-		//}
-		//return false;
+		FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
+		return true;
 	}
 }

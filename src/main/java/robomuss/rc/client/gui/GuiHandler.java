@@ -33,7 +33,7 @@ public class GuiHandler implements IGuiHandler {
 		}
 		else if(ID == 3) {
 			TileEntityStall te = (TileEntityStall) world.getTileEntity(x, y, z);
-			return new ContainerMerchant(player.inventory, new StallMerchant(player), world);
+			return new ContainerMerchant(player.inventory, new StallMerchant(player, x, y, z), world);
 		}
 		return null;
 	}
@@ -55,7 +55,7 @@ public class GuiHandler implements IGuiHandler {
 		}
 		else if(ID == 3) {
 			TileEntityStall te = (TileEntityStall) world.getTileEntity(x, y, z);
-			return new GuiMerchant(player.inventory, new StallMerchant(player), world, "Food Stall");
+			return new GuiMerchant(player.inventory, new StallMerchant(player, x, y, z), world, "Food Stall");
 		}
 		return null;
 	}
