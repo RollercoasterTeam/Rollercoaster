@@ -3,6 +3,7 @@ package robomuss.rc.client.gui;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.client.gui.GuiMerchant;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerMerchant;
@@ -55,7 +56,7 @@ public class GuiHandler implements IGuiHandler {
 		}
 		else if(ID == 3) {
 			TileEntityStall te = (TileEntityStall) world.getTileEntity(x, y, z);
-			return new GuiMerchant(player.inventory, new StallMerchant(player, x, y, z), world, "Food Stall");
+			return new GuiMerchant(player.inventory, new StallMerchant(player, x, y, z), world, I18n.format(te.getBlockType().getLocalizedName()));
 		}
 		return null;
 	}

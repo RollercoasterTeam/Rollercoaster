@@ -38,7 +38,7 @@ public class StallMerchant implements IMerchant {
 	public MerchantRecipeList getRecipes(EntityPlayer p_70934_1_) {
 		MerchantRecipeList list = new MerchantRecipeList();
 		
-		ArrayList<StallItem> array = customer.worldObj.getBlock(x, y, z) == RCBlocks.food_stall ? RCItems.food : RCItems.merch;
+		ArrayList<StallItem> array = customer.worldObj.getBlock(x, y, z) == RCBlocks.food_stall ? RCItems.food.items : RCItems.merch.items;
 		
 		for(StallItem food : array) {
 			list.add(new MerchantRecipe(new ItemStack(RCItems.coin, 4), food.item));

@@ -9,6 +9,7 @@ import robomuss.rc.block.model.ModelStall;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.util.StallItem;
+import robomuss.rc.util.StallType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -24,8 +25,8 @@ public class TileEntityRenderStall extends TileEntitySpecialRenderer {
 
 	private ModelBase model;
 	private RenderItem render;
-	private int timer, counter; 
-	private ArrayList<StallItem> array;
+	private int timer; 
+	private StallType stall;
 	
 	public TileEntityRenderStall() {
 		model = new ModelStall();
@@ -58,23 +59,19 @@ public class TileEntityRenderStall extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		
-		array = te.getBlockType() == RCBlocks.food_stall ? RCItems.food : RCItems.merch;
+		stall = te.getBlockType() == RCBlocks.food_stall ? RCItems.food : RCItems.merch;
 		
 		timer++;
 		if(timer % 250 == 0) {
-			if(counter < array.size() - 1) {
-				counter++;
+			if(stall.counter < stall.items.size() - 1) {
+				stall.counter++;
 			}
 			else {
-				counter = 0;
+				stall.counter = 0;
 			}
 		}
-		if(counter >= array.size()) {
-			counter = 0;
-		}
 		
-        ItemStack stack = new ItemStack(array.get(counter).item);
-        System.out.println(stack.getDisplayName());
+        ItemStack stack = new ItemStack(stall.items.get(stall.counter).item);
         if(stack != null) {
         	float scaleFactor = 1F;
             float rotationAngle = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);

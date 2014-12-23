@@ -11,13 +11,14 @@ import robomuss.rc.RCMod;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.util.StallItem;
+import robomuss.rc.util.StallType;
 import scala.Array;
 
 public class RCItems {
 	public static int last_extra_id;
 	
 	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, train, balloon, coin;
-	public static ArrayList<StallItem> food = new ArrayList<StallItem>(), merch = new ArrayList<StallItem>();
+	public static StallType food, merch;
 	public static ItemArmor hat_1;
 	
 	public static void init() {
@@ -43,12 +44,14 @@ public class RCItems {
 		balloon = new ItemBalloon().setUnlocalizedName("balloon").setTextureName("rc:balloon").setCreativeTab(RCMod.other);
 		coin = new Item().setUnlocalizedName("coin").setTextureName("rc:coin").setCreativeTab(RCMod.other);
 		
-		food.add(new StallItem("Chicken Nuggets", "nuggets")); 
-		food.add(new StallItem("Chips", "chips")); 
-		food.add(new StallItem("Popcorn", "popcorn")); 
-		food.add(new StallItem("Candy Floss", "candy_floss")); 
+		food = new StallType();
+		food.items.add(new StallItem("Chicken Nuggets", "nuggets")); 
+		food.items.add(new StallItem("Chips", "chips")); 
+		food.items.add(new StallItem("Popcorn", "popcorn")); 
+		food.items.add(new StallItem("Candy Floss", "candy_floss")); 
 		
-		merch.add(new StallItem("T-Shirt", "t-shirt"));
+		merch = new StallType();
+		merch.items.add(new StallItem("T-Shirt", "t-shirt"));
 		
 		GameRegistry.registerItem(hammer, "hammer");
 		GameRegistry.registerItem(paint, "paint");

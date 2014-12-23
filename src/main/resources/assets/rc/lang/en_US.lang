@@ -42,7 +42,8 @@ tile.track_designer.name=Track Designer (WIP)
 
 tile.conveyor.name=Conveyor
 
-tile.stall.name=Food Stall
+tile.food_stall.name=Food Stall
+tile.merch_stall.name=Merchandise Stall
 
 item.hammer.name=Track Maintenance Tool
 item.balloon=Balloon
