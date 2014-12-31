@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.ModelStall;
 import robomuss.rc.block.te.TileEntityRideFence;
+import robomuss.rc.block.te.TileEntityStall;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.util.StallItem;
 import robomuss.rc.util.StallType;
@@ -46,7 +47,13 @@ public class TileEntityRenderStall extends TileEntitySpecialRenderer {
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/stall.png"));
-
+		
+		TileEntityStall tes = (TileEntityStall) te;
+		if(tes.block != null) {
+			textures = new ResourceLocation("textures/blocks/" + tes.block.getIconIndex().getIconName() + ".png");
+		}
+		
+		GL11.glScalef(0.25F, 0.5F, 1);
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
 		GL11.glPushMatrix();

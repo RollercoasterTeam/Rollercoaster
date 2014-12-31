@@ -41,12 +41,15 @@ public class BlockStall extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			if(Minecraft.getMinecraft().currentScreen.isCtrlKeyDown()) {
-				
+		if(Minecraft.getMinecraft().currentScreen.isCtrlKeyDown()) {
+			TileEntityStall te = (TileEntityStall) world.getTileEntity(x, y, z);
+			if(player.getHeldItem() != null) {
+				te.block = player.getHeldItem();
 			}
 		}
-		FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
+		else {
+			FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
+		}
 		return true;
 	}
 }
