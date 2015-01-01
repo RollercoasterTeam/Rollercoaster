@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.TestCobbleStone;
 import robomuss.rc.chat.ChatHandler;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
