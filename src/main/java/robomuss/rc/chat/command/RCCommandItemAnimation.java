@@ -11,6 +11,7 @@ import java.util.List;
 
 public class RCCommandItemAnimation implements ICommand {
 	private List aliases;
+
 	public RCCommandItemAnimation() {
 		this.aliases = new ArrayList();
 		this.aliases.add("tia");

@@ -88,8 +88,8 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		for(TrackPiece track : TrackHandler.pieces) {
-			if(itemstack.getItem() == Item.getItemFromBlock(track.block)) {
+		for(TrackHandler.Types type : TrackHandler.Types.values()) {
+			if(itemstack.getItem() == Item.getItemFromBlock(type.type.block)) {
 				return true;
 			}
 		}

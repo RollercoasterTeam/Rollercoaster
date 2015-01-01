@@ -17,11 +17,12 @@ import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceSlopeDown extends TrackPiece implements IInventoryRenderSettings {
 	public static final String[] partNames = {"horizontal_extended", "horizontal"};
+	public static final String TYPE_NAME = "slope_down";
 	private ChunkPosition partnerPos;
 	public BlockTrackBase lonelyTrack;
 
-	public TrackPieceSlopeDown(String unlocalized_name, int crafting_cost, int render_stage) {
-		super(unlocalized_name, crafting_cost, render_stage);
+	public TrackPieceSlopeDown(int id, String unlocalized_name, int crafting_cost, int render_stage, int number_of_dummies) {
+		super(id, unlocalized_name, crafting_cost, render_stage, number_of_dummies);
 	}
 
 	public void setPartnerPos(ChunkPosition partnerPos) {

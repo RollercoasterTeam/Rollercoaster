@@ -83,8 +83,8 @@ public class GuiTrackDesigner extends GuiScreen {
 		}
 
 		// Add all of the blocks that you want in the hotbar here
-		for (int i = 0; i < TrackHandler.pieces.size(); i++) {
-			blocks.add(TrackHandler.pieces.get(i).block);
+		for (int i = 0; i < TrackHandler.Types.values().length; i++) {
+			blocks.add(TrackHandler.Types.values()[i].type.block);
 		}
 
 		blocks.add(RCBlocks.support);

@@ -12,6 +12,7 @@ import robomuss.rc.block.model.ModelFooter;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
@@ -103,7 +104,7 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
         
         if(above instanceof BlockTrackBase) {
 	        BlockTrackBase track = (BlockTrackBase) above;
-        	if(track.track_type == TrackHandler.findTrackType("horizontal") || track.track_type == TrackHandler.findTrackType("curve")) {
+        	if(track.track_type == TrackHandler.Types.HORIZONTAL.type || track.track_type == TrackHandler.Types.CORNER.type) {
         		 this.model.middle.render(0.0625F);  
             	 this.model.middle2.render(0.0625F);  
             	 
@@ -154,14 +155,6 @@ public class TileEntityRenderFooter extends TileEntitySpecialRenderer {
     }
 
 	private boolean isConnectable(TrackPiece track_type) {
-		if(track_type == TrackHandler.findTrackType("slope_up")) {
-			return true;
-		} else if(track_type == TrackHandler.findTrackType("slope")) {
-			return true;
-		} else if(track_type == TrackHandler.findTrackType("slope_down")) {
-			return true;
-		} else {
-			return false;
-		}
+		return TrackManager.isSloped(track_type.id);
 	}
 }

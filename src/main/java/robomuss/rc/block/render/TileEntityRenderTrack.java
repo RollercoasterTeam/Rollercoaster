@@ -3,6 +3,7 @@ package robomuss.rc.block.render;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -33,7 +34,8 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
 		teTrack = (TileEntityTrackBase) te;
-		track = teTrack.track;
+//		track = teTrack.track;
+		track = (BlockTrackBase) teTrack.getWorldObj().getBlock(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 		track_type = track.track_type;
 		style = teTrack.style == null ? TrackHandler.findTrackStyle("corkscrew") : teTrack.style;
 		int colour = teTrack.colour;
@@ -66,6 +68,10 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 					track_type.renderTileEntity(track_type.render_stage, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 				}
 
+				if (teTrack.extra != null) {
+					teTrack.extra.render(teTrack.extra.id, track_type, teTrack);
+				}
+
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glPopMatrix();
 				GL11.glPopMatrix();
@@ -92,13 +98,17 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 						track_type.renderTileEntity(i, style, teTrack, teTrack.getWorldObj(), teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
 					}
 
+					if (teTrack.extra != null) {
+						teTrack.extra.render(teTrack.extra.id, track_type, teTrack);
+					}
+
 					GL11.glEnable(GL11.GL_LIGHTING);
 					GL11.glPopMatrix();
 					GL11.glPopMatrix();
 				}
 			}
-			
-			if(teTrack.extra != null && teTrack.extra.allowedTrackTypes.contains(track_type)) {
+
+			if (teTrack.extra != null && teTrack.extra.isAllowedOnType(TrackHandler.findTrackType(Item.getItemFromBlock(track)))) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(teTrack.extra.texture);
 				
 				GL11.glPushMatrix();

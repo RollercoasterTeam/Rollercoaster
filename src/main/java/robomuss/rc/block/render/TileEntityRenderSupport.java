@@ -10,6 +10,7 @@ import robomuss.rc.block.model.ModelSupport;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.track.TrackHandler;
+import robomuss.rc.track.TrackManager;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
@@ -130,14 +131,6 @@ public class TileEntityRenderSupport extends TileEntitySpecialRenderer {
     }
 
 	private boolean isConnectable(TrackPiece track_type) {
-		if(track_type == TrackHandler.findTrackType("slope_up")) {
-			return true;
-		} else if(track_type == TrackHandler.findTrackType("slope")) {
-			return true;
-		} else if(track_type == TrackHandler.findTrackType("slope_down")) {
-			return true;
-		} else {
-			return false;
-		}
+		return TrackManager.isSloped(track_type.id);
 	}
 }

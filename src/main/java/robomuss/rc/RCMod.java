@@ -19,8 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.TestCobbleStone;
 import robomuss.rc.chat.ChatHandler;
-import robomuss.rc.chat.command.RCCommandItemAnimation;
 import robomuss.rc.client.gui.GuiHammerOverlay;
 import robomuss.rc.client.gui.GuiHandler;
 import robomuss.rc.entity.RCEntities;
@@ -28,6 +28,7 @@ import robomuss.rc.event.*;
 import robomuss.rc.exception.TrackStyleModelNotFoundException;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.json.JSONHandler;
+import robomuss.rc.multiblock.MultiBlockManager;
 import robomuss.rc.network.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
 import robomuss.rc.recipe.RecipeHandler;
@@ -41,7 +42,6 @@ import java.io.IOException;
 
 @Mod(modid = RCMod.MODID, name = RCMod.NAME, version = RCMod.VERSION)
 public class RCMod {
-	
 	public static final String MODID = "rc";
 	public static final String NAME = "Roller Coaster Mod";
 	public static final String VERSION = "v1.4_beta2";
@@ -58,6 +58,7 @@ public class RCMod {
 
 	public static TrackManager trackManager;
 	public static SupportManager supportManager;
+	public static MultiBlockManager multiBlockManager;
 
 	public static RCOptions rcOptions = new RCOptions(Minecraft.getMinecraft(), new File("options.txt"));
 
@@ -86,7 +87,7 @@ public class RCMod {
 			@Override
 			@SideOnly(Side.CLIENT)
 			public Item getTabIconItem() {
-				return Item.getItemFromBlock(TrackHandler.pieces.get(0).block);
+				return Item.getItemFromBlock(TrackHandler.Types.HORIZONTAL.type.block);
 			}
 		};
 		tools = new CreativeTabs("tab.tools") {
@@ -129,12 +130,14 @@ public class RCMod {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		trackManager = new TrackManager();
+		multiBlockManager = MultiBlockManager.getInstance();
+		multiBlockManager.registerStructures();
         packetPipeline.postInitialise();
         MinecraftForge.EVENT_BUS.register(new GuiHammerOverlay(Minecraft.getMinecraft()));
 	}
 
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
-		event.registerServerCommand(new RCCommandItemAnimation());
+//		event.registerServerCommand(new RCCommandItemAnimation());
 	}
 }

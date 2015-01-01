@@ -59,49 +59,23 @@ public class TrackManager {
 		return world.getBlockMetadata(x, y, z);
 	}
 
+	public static final boolean isSloped(TrackHandler.Types type) {
+		return isSloped(type.type);
+	}
+
+	public static final boolean isSloped(TrackPiece type) {
+		if (type instanceof TrackPieceSlopeUp || type instanceof TrackPieceSlope || type instanceof TrackPieceSlopeDown) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static final boolean isSloped(int track_type) {
 		if (track_type == 2 || track_type == 3 || track_type == 4) {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Returns an integer based on the type of TrackPiece BlockTrackBase.track_type extends.
-	 *
-	 *  0: Horizontal
-	 *  1: Corner
-	 *  2: Slope Up
-	 *  3: Slope
-	 *  4: Slope Down
-	 * -1: None of the above
-	 *
-	 * @param track
-	 * @return
-	 */
-
-	public static final int getTrackType(BlockTrackBase track) {
-		if (track.track_type instanceof TrackPieceHorizontal) {
-			return 0;
-		} else if (track.track_type instanceof TrackPieceCorner) {
-			return 1;
-		} else if (track.track_type instanceof TrackPieceSlopeUp) {
-			return 2;
-		} else if (track.track_type instanceof TrackPieceSlope) {
-			return 3;
-		} else if (track.track_type instanceof TrackPieceSlopeDown) {
-			return 4;
-		} else {
-			return -1;
-		}
-	}
-
-	public static final TileEntityTrackBase getTileEntityFromType(TrackPiece type, int index) {
-		if (type != null) {
-			TileEntityTrackBase teTrack = type.getTileEntityFromList(index);
-			return teTrack;
-		}
-		return null;
 	}
 
 	public static final int getPlayerFacing(EntityLivingBase player) {
@@ -297,6 +271,4 @@ public class TrackManager {
 			return this.isTrackStillNeighbor(teTrack);
 		}
 	}
-
-
 }

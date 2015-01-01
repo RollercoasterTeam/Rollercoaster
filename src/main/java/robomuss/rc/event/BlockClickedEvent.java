@@ -9,15 +9,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import robomuss.rc.RCMod;
-import robomuss.rc.block.BlockFooter;
-import robomuss.rc.block.BlockSupport;
-import robomuss.rc.block.BlockTrackBase;
-import robomuss.rc.block.RCBlocks;
+import robomuss.rc.block.*;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrackBase;
+import robomuss.rc.block.te.TileEntityTrackFabricator;
+import robomuss.rc.item.ItemExtra;
 import robomuss.rc.item.ItemHammer;
 import robomuss.rc.item.RCItems;
+import robomuss.rc.multiblock.MultiBlockManager;
+import robomuss.rc.multiblock.MultiBlockTrackFabricator;
 import robomuss.rc.network.NetworkHandler;
 import robomuss.rc.util.ColourUtil;
 import robomuss.rc.util.IPaintable;
@@ -26,6 +27,7 @@ public class BlockClickedEvent extends Event {
 	private static boolean hasClickedTrackBlock = false;
 	private static boolean hasClickedSupportBlock = false;
 	private static boolean hasClickedFooterBlock = false;
+	private static boolean hasClickedFabricatorBlock = false;
 
 	@SubscribeEvent
 	public void onBlockClicked(PlayerInteractEvent event) {
@@ -86,12 +88,8 @@ public class BlockClickedEvent extends Event {
 							}
 						}
 					}
-				} else if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
+				} else if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {    //this is here to cancel the placement of water because it somehow fires this as well...
 					if (event.world.getBlock(event.x, event.y, event.z) instanceof IPaintable) {
-						hasClickedSupportBlock = (event.world.getBlock(event.x, event.y, event.z) instanceof BlockSupport);
-						hasClickedFooterBlock  = (event.world.getBlock(event.x, event.y, event.z) instanceof BlockFooter);
-						hasClickedTrackBlock = (event.world.getBlock(event.x, event.y, event.z) instanceof BlockTrackBase);
-
 						if (event.entityPlayer.getHeldItem() != null) {
 							if (event.entityPlayer.getHeldItem().getItem() == Items.water_bucket) {
 								event.setCanceled(true);
@@ -104,6 +102,7 @@ public class BlockClickedEvent extends Event {
 			if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 				if (event.entityPlayer.getHeldItem() != null) {
 					hasClickedTrackBlock = (event.world.getBlock(event.x, event.y, event.z) instanceof BlockTrackBase);
+					hasClickedFabricatorBlock = (event.world.getBlock(event.x, event.y, event.z) instanceof BlockTrackFabricator);
 
 					if (event.entityPlayer.getHeldItem().getItem() == RCItems.hammer) {
 						TileEntity tileEntity = event.world.getTileEntity(event.x, event.y, event.z);
@@ -158,6 +157,20 @@ public class BlockClickedEvent extends Event {
 							int mode = event.entityPlayer.getHeldItem().stackTagCompound.getInteger("mode");
 							int newMode = mode + 1 < ItemHammer.modes.length ? mode + 1 : 0;
 							event.entityPlayer.getHeldItem().stackTagCompound.setInteger("mode", newMode);
+						}
+					}
+				}
+			}
+
+			if (hasClickedFabricatorBlock) {
+				if (event.entityPlayer.capabilities.isCreativeMode) {                               //TODO: allow this in survival if player has enough blocks to build the structure?
+					if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+						BlockTrackFabricator blockTrackFabricator = (BlockTrackFabricator) event.world.getBlock(event.x, event.y, event.z);
+						TileEntityTrackFabricator teFab = (TileEntityTrackFabricator) event.world.getTileEntity(event.x, event.y, event.z);
+						MultiBlockTrackFabricator struct = (MultiBlockTrackFabricator) MultiBlockManager.getInstance().getStructure(blockTrackFabricator.getUnlocalizedName());
+
+						if (!struct.isStructureFormed(0, teFab)) {
+							struct.placeTemplateBlocks(0, event.world, event.x, event.y, event.z, teFab.direction, struct);
 						}
 					}
 				}

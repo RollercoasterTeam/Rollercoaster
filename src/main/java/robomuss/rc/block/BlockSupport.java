@@ -16,8 +16,8 @@ import robomuss.rc.util.IPaintable;
 public class BlockSupport extends BlockContainer implements IPaintable {
 	public BlockSupport() {
         super(Material.iron);
-        setHardness(1F);
-		setResistance(3F);
+        setHardness(1f);
+		setResistance(3f);
     }
 
     @Override
@@ -46,37 +46,6 @@ public class BlockSupport extends BlockContainer implements IPaintable {
 		}
 
 	    return false;
-
-
-
-//	    if(!world.isRemote) {
-//			if(player.getHeldItem() != null) {
-//				if(player.getHeldItem().getItem() == RCItems.brush) {
-//					TileEntitySupport tes = (TileEntitySupport) world.getTileEntity(x, y, z);
-//					tes.colour = player.getHeldItem().getItemDamage();
-//					world.markBlockForUpdate(x, y, z);
-//					return true;
-//				} else if (player.getHeldItem().getItem() == Item.getItemFromBlock(RCBlocks.support)) {
-//					return true;
-//				}
-//			}
-//		}
-//
-//	    if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.water_bucket) {
-//		    TileEntitySupport teSupport = (TileEntitySupport) world.getTileEntity(x, y, z);
-//
-//		    if (teSupport.footer != null) {
-//			    teSupport.footer.clearSupportStackColors();
-//		    }
-//
-//		    if (!player.capabilities.isCreativeMode) {
-//			    player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
-//		    }
-//
-//		    return true;
-//	    }
-//
-//	    return false;
 	}
     
     @Override
@@ -87,8 +56,10 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
     	TileEntity above = world.getTileEntity(x, y + 1, z);
+
     	if (!(above instanceof TileEntitySupport)) {
     		int gap = 1;
+
     		for(int currentY = y; currentY > 0; currentY--) {
     			if(world.getTileEntity(x, currentY, z) instanceof TileEntitySupport) {
     				TileEntitySupport te = (TileEntitySupport) world.getTileEntity(x, currentY, z);
@@ -134,16 +105,4 @@ public class BlockSupport extends BlockContainer implements IPaintable {
     		}
     	}
     }
-
-//	@Override
-//	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-//		if (world.getTileEntity(x, y, z) instanceof TileEntitySupport) {
-//			int[] footerLoc = new int[] {
-//					RCMod.supportManager.getFooterFromSupport((TileEntitySupport) world.getTileEntity(x, y, z)).xCoord,
-//					RCMod.supportManager.getFooterFromSupport((TileEntitySupport) world.getTileEntity(x, y, z)).yCoord,
-//					RCMod.supportManager.getFooterFromSupport((TileEntitySupport) world.getTileEntity(x, y, z)).zCoord
-//			};
-//			RCMod.supportManager.breakFooter(world, footerLoc[0], footerLoc[1], footerLoc[2]);
-//		}
-//	}
 }

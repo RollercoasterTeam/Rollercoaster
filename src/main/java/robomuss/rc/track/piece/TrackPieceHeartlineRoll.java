@@ -15,9 +15,10 @@ import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceHeartlineRoll extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "heartline_roll";
+	public static final String TYPE_NAME = "heartline_roll";
 
-	public TrackPieceHeartlineRoll(String unlocalized_name, int crafting_cost, int render_stage) {
-		super(unlocalized_name, crafting_cost, render_stage);
+	public TrackPieceHeartlineRoll(int id, String unlocalized_name, int crafting_cost, int render_stage, int number_of_dummies) {
+		super(id, unlocalized_name, crafting_cost, render_stage, number_of_dummies);
 	}
 
 	@Override

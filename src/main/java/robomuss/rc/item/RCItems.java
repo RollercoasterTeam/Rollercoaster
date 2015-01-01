@@ -11,14 +11,18 @@ import robomuss.rc.track.extra.TrackExtra;
 public class RCItems {
 	public static int last_extra_id;
 	
-	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, train, balloon;
+	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, train, train2, balloon;
 	public static ItemArmor hat_1;
 	
 	public static void init() {
-		for(TrackExtra extra: TrackHandler.extras) {
-			extra.source = new ItemExtra(extra.id).setUnlocalizedName(extra.name + "_extra").setTextureName("rc:extras/" + extra.name).setCreativeTab(RCMod.tools);
-			GameRegistry.registerItem(extra.source, extra.name + "_extra");
+		for (TrackHandler.Extras extra : TrackHandler.Extras.values()) {
+			extra.registerItem();
 		}
+
+//		for(TrackExtra extra: TrackHandler.extras) {
+//			extra.source = new ItemExtra(extra.id).setUnlocalizedName(extra.name + "_extra").setTextureName("rc:extras/" + extra.name).setCreativeTab(RCMod.tools);
+//			GameRegistry.registerItem(extra.source, extra.name + "_extra");
+//		}
 
 //		for (ColourUtil color : ColourUtil.COLORS) {
 //			String name = String.format("balloon.%s.name", color.unlocalized_name);
@@ -34,6 +38,7 @@ public class RCItems {
 		pass = new Item().setUnlocalizedName("pass").setTextureName("rc:pass").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		key = new Item().setUnlocalizedName("key").setTextureName("rc:key").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		train = new ItemTrain().setUnlocalizedName("train").setTextureName("rc:train").setCreativeTab(RCMod.track);
+		train2 = new ItemTrain2().setUnlocalizedName("train2").setTextureName("rc:train").setCreativeTab(RCMod.track);
 		hat_1 = (ItemArmor) new ItemArmor(ArmorMaterial.CHAIN, 0, 0).setUnlocalizedName("hat_1").setTextureName("rc:hat_1").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		balloon = new ItemBalloon().setUnlocalizedName("balloon").setTextureName("rc:balloon").setCreativeTab(RCMod.other);
 
@@ -45,6 +50,7 @@ public class RCItems {
 		GameRegistry.registerItem(pass, "pass");
 		GameRegistry.registerItem(key, "key");
 		GameRegistry.registerItem(train, "train");
+		GameRegistry.registerItem(train2, "train2");
 		//GameRegistry.registerItem(hat_1, "hat_1");
 		GameRegistry.registerItem(balloon, "balloon");
 	}

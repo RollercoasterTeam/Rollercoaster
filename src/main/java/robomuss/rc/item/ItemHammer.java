@@ -2,6 +2,7 @@ package robomuss.rc.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import robomuss.rc.block.BlockSimple;
 import robomuss.rc.block.te.*;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.util.hammer.HammerMode;

@@ -11,14 +11,16 @@ import org.lwjgl.opengl.GL11;
 import robomuss.rc.block.BlockTrackBase;
 import robomuss.rc.block.te.TileEntityTrackBase;
 import robomuss.rc.entity.EntityTrainDefault;
+import robomuss.rc.entity.EntityTrainDefault2;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "corner";
+	public static final String TYPE_NAME = "curve";
 
-	public TrackPieceCorner(String unlocalized_name, int crafting_cost, int render_stage) {
-		super(unlocalized_name, crafting_cost, render_stage);
+	public TrackPieceCorner(int id, String unlocalized_name, int crafting_cost, int render_stage, int number_of_dummies) {
+		super(id, unlocalized_name, crafting_cost, render_stage, number_of_dummies);
 	}
 
 	@Override
@@ -80,13 +82,6 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 			int heading = MathHelper.floor_double((entity.rotationYaw * 4.0f / 360.0f) + 0.5d) & 3;
 			int facing = heading == 0 ? 3 : heading == 1 ? 4 : heading == 2 ? 2 : heading == 3 ? 5 : 2;
 
-			switch (heading) {
-				case 0: facing = 3; break;
-				case 1: facing = 4; break;
-				case 2: facing = 2; break;
-				case 3: facing = 5; break;
-			}
-
 			switch (meta) {
 				case 2:
 					if (facing == 4) {
@@ -116,6 +111,42 @@ public class TrackPieceCorner extends TrackPiece implements IInventoryRenderSett
 						entity.changePositionRotationSpeed(-1f, 0f, -0.5f, false, entity.rotationPitch, 180f, true, 0, false);
 					}
 					break;
+			}
+		}
+	}
+
+	@Override
+	public void moveTrain(BlockTrackBase track, EntityTrainDefault2 entity, TileEntityTrackBase teTrack) {
+		if (teTrack != null) {
+			int meta = teTrack.getWorldObj().getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+			meta = meta >= 11 ? meta - 10 : meta;
+			int entityFacing = MathHelper.floor_double((entity.rotationYaw * 4.0f/ 360.0f) + 0.5d) & 3;
+			int entityDirection = entityFacing == 0 ? 3 : entityFacing == 1 ? 4 : entityFacing == 2 ? 2 : entityFacing == 3 ? 5 : 2;
+
+			if (meta == 2) {
+				if (entityDirection == 4) {
+					entity.changePositionRotationSpeed(1f, 0f, -0.5f, false, 0f, entity.rotationPitch, true, 0, false);
+				} else if (entityDirection == 5) {
+					entity.changePositionRotationSpeed(-0.5f, 0f, 1f, false, 0f, entity.rotationPitch, true, 0, false);
+				}
+			} else if (meta == 3) {
+				if (entityDirection == 2) {
+					entity.changePositionRotationSpeed(-1f, 0f, 0.5f, false, 180f, entity.rotationPitch, true, 0, false);
+				} else if (entityDirection == 3) {
+					entity.changePositionRotationSpeed(0.5f, 0f, -1f, false, 270f, entity.rotationPitch, true, 0, false);
+				}
+			} else if (meta == 4) {
+				if (entityDirection == 2) {
+					entity.changePositionRotationSpeed(1f, 0f, 0.5f, false, 0f, entity.rotationPitch, true, 0, false);
+				} else if (entityDirection == 3) {
+					entity.changePositionRotationSpeed(-0.5f, 0f, -1f, false, 270f, entity.rotationPitch, true, 0, false);
+				}
+			} else if (meta == 5) {
+				if (entityDirection == 3) {
+					entity.changePositionRotationSpeed(0.5f, 0f, 1f, false, 90f, entity.rotationPitch, true, 0, false);
+				} else if (entityDirection == 4) {
+					entity.changePositionRotationSpeed(-1f, 0f, -0.5f, false, 180f, entity.rotationPitch, true, 0, false);
+				}
 			}
 		}
 	}

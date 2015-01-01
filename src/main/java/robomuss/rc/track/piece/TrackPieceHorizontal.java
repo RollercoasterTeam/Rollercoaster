@@ -16,19 +16,20 @@ import sun.org.mozilla.javascript.internal.ast.Block;
 
 public class TrackPieceHorizontal extends TrackPiece implements IInventoryRenderSettings {
 	public static final String partName = "horizontal";
+	public static final String TYPE_NAME = "horizontal";
 
 	private float[] rotationOffsets = new float[] {180f, 0f, 0f, 0f};
 	public Block block;
 
-	public TrackPieceHorizontal(String unlocalized_name, int crafting_cost, int render_stage) {
-		super(unlocalized_name, crafting_cost, render_stage);
+	public TrackPieceHorizontal(int id, String unlocalized_name, int crafting_cost, int render_stage, int number_of_dummies) {
+		super(id, unlocalized_name, crafting_cost, render_stage, number_of_dummies);
 	}
 
-	public void addTileEntityToList(TileEntityTrackBase teTrack) {
-		if (teTrack != null) {
-			super.addTileEntityToList(this, teTrack);
-		}
-	}
+//	public void addTileEntityToList(TileEntityTrackBase teTrack) {
+//		if (teTrack != null) {
+//			super.addTileEntityToList(this, teTrack);
+//		}
+//	}
 
 	@Override
 	public void renderItem(int render_stage, IItemRenderer.ItemRenderType render_type, TrackStyle style, BlockTrackBase blockTrack, World world, int x , int y , int z) {
@@ -103,15 +104,35 @@ public class TrackPieceHorizontal extends TrackPiece implements IInventoryRender
 			int heading = MathHelper.floor_double((entity.rotationYaw * 4.0f / 360.0f) + 0.5d) & 3;
 			int facing = heading == 0 ? 3 : heading == 1 ? 4 : heading == 2 ? 2 : heading == 3 ? 5 : 2;
 
-			switch (heading) {
-				case 0: facing = 3; break;
-				case 1: facing = 4; break;
-				case 2: facing = 2; break;
-				case 3: facing = 5; break;
-			}
-
 			switch (meta) {
-
+				case 2:
+					if (facing == 4) {
+						entity.changePositionRotationSpeed(0, 0, 1, false, 0, entity.rotationYaw, true, 0, false);
+					} else if (facing == 5) {
+						entity.changePositionRotationSpeed(0, 0, -1, false, 0, entity.rotationYaw, true, 0, false);
+					}
+					break;
+				case 3:
+					if (facing == 4) {
+						entity.changePositionRotationSpeed(0, 0, 1, false, 0, entity.rotationYaw, true, 0, false);
+					} else if (facing == 5) {
+						entity.changePositionRotationSpeed(0, 0, -1, false, 0, entity.rotationYaw, true, 0, false);
+					}
+					break;
+				case 4:
+					if (facing == 2) {
+						entity.changePositionRotationSpeed(1, 0, 0, false, 0, entity.rotationYaw, true, 0, false);
+					} else if (facing == 3) {
+						entity.changePositionRotationSpeed(-1, 0, 0, false, 0, entity.rotationYaw, true, 0, false);
+					}
+					break;
+				case 5:
+					if (facing == 2) {
+						entity.changePositionRotationSpeed(1, 0, 0, false, 0, entity.rotationYaw, true, 0, false);
+					} else if (facing == 3) {
+						entity.changePositionRotationSpeed(-1, 0, 0, false, 0, entity.rotationYaw, true, 0, false);
+					}
+					break;
 			}
 		}
 	}

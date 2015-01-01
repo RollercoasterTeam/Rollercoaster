@@ -12,7 +12,6 @@ import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.piece.TrackPiece;
 
 public class RCBlocks {
-	public static int last_track_id;
 	public static Block support, woodenSupport, footer;
 	public static Block path;
 	public static Block railings, picket;
@@ -22,13 +21,12 @@ public class RCBlocks {
 	public static Block conveyor;
 
 	public static void init() {
-		for(TrackPiece track: TrackHandler.pieces) {
-			track.block = new BlockTrackBase(track).setBlockName(track.unlocalized_name + "_track").setBlockTextureName("rc:tracks/" + track.unlocalized_name).setCreativeTab(RCMod.track);
-//			GameRegistry.registerBlock(track.block, track.unlocalized_name + "_track");
-			GameRegistry.registerBlock(track.block, ItemBlockTrack.class, track.unlocalized_name + "_track");
+		for (TrackHandler.Types type : TrackHandler.Types.values()) {
+			type.type.block = new BlockTrackBase(type.type).setBlockName(type.typeName + "_track").setBlockTextureName("rc:tracks/" + type.typeName).setCreativeTab(RCMod.track);
+			GameRegistry.registerBlock(type.type.block,ItemBlockTrack.class, type.typeName + "_track");
 		}
 
-        GameRegistry.registerTileEntity(TileEntityTrackBase.class, "te_track");
+		GameRegistry.registerTileEntity(TileEntityTrackBase.class, "te_track");
 
 		support = new BlockSupport().setBlockName("support").setBlockTextureName("rc:support").setCreativeTab(RCMod.track);
 		footer = new BlockFooter().setBlockName("footer").setBlockTextureName("rc:footer").setCreativeTab(RCMod.track);
@@ -74,8 +72,6 @@ public class RCBlocks {
         GameRegistry.registerBlock(track_fabricator, "track_fabricator");
         GameRegistry.registerBlock(track_storage, "track_storage");
 
-//		GameRegistry.registerBlock(dummy, "dummy");
-		
 		GameRegistry.registerBlock(track_fabricator_casing, "track_fabricator_casing");
 		GameRegistry.registerBlock(track_fabricator_glass, "track_fabricator_glass");
 		GameRegistry.registerBlock(track_fabricator_output, "track_fabricator_output");

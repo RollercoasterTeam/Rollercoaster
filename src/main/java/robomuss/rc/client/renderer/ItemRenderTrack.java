@@ -2,6 +2,7 @@ package robomuss.rc.client.renderer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -20,7 +21,8 @@ public class ItemRenderTrack implements IItemRenderer {
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
 		if(type == ItemRenderType.INVENTORY) {
-			TrackPiece track_type = TrackHandler.findTrackType(item.getItem());
+			TrackPiece track_type = TrackHandler.findTrackType(item.getItem()).type;
+
 			if(track_type != null && track_type instanceof IInventoryRenderSettings) {
 				if(((IInventoryRenderSettings) track_type).useIcon()) {
 					return false;
@@ -35,7 +37,7 @@ public class ItemRenderTrack implements IItemRenderer {
 	public void renderItem(ItemRenderType render_type, ItemStack item, Object... data) {
 		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_0.png"));
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
-		TrackPiece track_type = TrackHandler.findTrackType(item.getItem());
+		TrackPiece track_type = TrackHandler.findTrackType(item.getItem()).type;
 
 		float inventoryX = 0f;
 		float inventoryY = 1f;

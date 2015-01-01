@@ -12,9 +12,7 @@ import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackHandler;
 
 public class PacketTrackFabricatorUpdate extends AbstractPacket {
-
-    public PacketTrackFabricatorUpdate() {
-    }
+    public PacketTrackFabricatorUpdate() {}
 
     private int x, y, z;
     private int amount, current_track;
@@ -43,32 +41,31 @@ public class PacketTrackFabricatorUpdate extends AbstractPacket {
         this.z = buffer.readInt();
         this.amount = buffer.readInt();
         this.current_track = buffer.readInt();
-
     }
 
     @Override
-    public void handleClientSide(EntityPlayer player) {
-
-    }
+    public void handleClientSide(EntityPlayer player) {}
 
     @Override
     public void handleServerSide(EntityPlayer player) {
         World world = player.worldObj;
         TileEntityTrackFabricator te = (TileEntityTrackFabricator) world.getTileEntity(x, y, z);
-        int cost = TrackHandler.pieces.get(current_track).crafting_cost * amount;
+        int cost = TrackHandler.getTrackTypeFromID(current_track).type.crafting_cost * amount;
+
         if(te.contents[0] != null) {
         	if(te.contents[0].getItem() == Items.iron_ingot) {
 		        if(te.contents[0].stackSize >= cost) {
 		        	if(te.contents[1] == null) {
 		        		te.contents[0].stackSize -= cost;
+
 		        		if(te.contents[0].stackSize <= 0) {
 		        			te.contents[0] = null;
 		        		}
 		        		
-		        		te.contents[1] = new ItemStack(TrackHandler.pieces.get(current_track).block, amount);
-		        	}
-		        	else if(te.contents[1].getItem() == Item.getItemFromBlock(TrackHandler.pieces.get(current_track).block) && te.contents[1].stackSize + amount <= 64) {
+		        		te.contents[1] = new ItemStack(TrackHandler.getTrackTypeFromID(current_track).type.block, amount);
+		        	} else if(te.contents[1].getItem() == Item.getItemFromBlock(TrackHandler.getTrackTypeFromID(current_track).type.block) && te.contents[1].stackSize + amount <= 64) {
 		        		te.contents[0].stackSize -= cost;
+
 		        		if(te.contents[0].stackSize <= 0) {
 		        			te.contents[0] = null;
 		        		}
@@ -79,5 +76,4 @@ public class PacketTrackFabricatorUpdate extends AbstractPacket {
         	}
         }
     }
-
 }

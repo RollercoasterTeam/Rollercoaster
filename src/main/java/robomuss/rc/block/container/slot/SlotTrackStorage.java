@@ -14,11 +14,12 @@ public class SlotTrackStorage extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
-		for(TrackPiece track : TrackHandler.pieces) {
-			if(itemstack.getItem() == Item.getItemFromBlock(track.block)) {
+		for(TrackHandler.Types type : TrackHandler.Types.values()) {
+			if(itemstack.getItem() == Item.getItemFromBlock(type.type.block)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

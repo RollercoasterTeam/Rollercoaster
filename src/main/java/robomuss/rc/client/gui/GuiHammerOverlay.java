@@ -12,13 +12,11 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 import robomuss.rc.RCMod;
-import robomuss.rc.block.BlockConveyor;
-import robomuss.rc.block.BlockFooter;
-import robomuss.rc.block.BlockSupport;
-import robomuss.rc.block.BlockTrackBase;
+import robomuss.rc.block.*;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrackBase;
+import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.event.RenderWorldLast;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackManager;
@@ -31,12 +29,14 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	private boolean showText = true;
 	private int textX = 10;
 	private int textY = 110;
-	private BlockTrackBase      track;
-	private TileEntityTrackBase teTrack;
-	private BlockSupport        support;
-	private TileEntitySupport   teSupport;
-	private BlockFooter         footer;
-	private TileEntityFooter    teFooter;
+	private BlockTrackBase            track;
+	private TileEntityTrackBase       teTrack;
+	private BlockSupport              support;
+	private TileEntitySupport         teSupport;
+	private BlockFooter               footer;
+	private TileEntityFooter          teFooter;
+	private BlockTrackFabricator      fabricator;
+	private TileEntityTrackFabricator teFabricator;
 	
 	public GuiHammerOverlay(Minecraft minecraft) {
 		super(minecraft);
@@ -58,6 +58,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 		if (viewEntityTrace != null) {
 			clearTextList();
 
+			/* TRACK BLOCK */
 			if (TrackManager.isBlockAtCoordsTrack(minecraft.theWorld, viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ)) {
 				this.teTrack = TrackManager.getTrackTileAtCoords(minecraft.theWorld, viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
 				this.track = TrackManager.getTrackAtCoords(minecraft.theWorld, viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
@@ -67,7 +68,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 				}
 
 				if (track.track_type == null) {
-					track.track_type = TrackHandler.findTrackType("horizontal");
+					track.track_type = TrackHandler.Types.HORIZONTAL.type;
 				}
 
 				int meta = minecraft.theWorld.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
@@ -77,6 +78,9 @@ public class GuiHammerOverlay extends GuiIngameForge {
 				textList.add("Track Style: " + teTrack.style.name);
 				textList.add("Track Direction: " + ForgeDirection.getOrientation(displayMeta).name());
 				textList.add("Track Meta: " + meta);
+				textList.add("Is Dummy: " + teTrack.isDummy);
+				textList.add("Dummy ID: " + teTrack.dummyID);
+				textList.add("Track Extras: " + (teTrack.extra != null ? teTrack.extra.name : "None"));
 				textList.add(String.format("Player Facing: %s (%d)", TrackManager.getDirectionFromPlayerFacing(minecraft.thePlayer).name(), TrackManager.getPlayerFacing(minecraft.thePlayer)));
 				textList.add(String.format("Location: X: %d, Y: %d, Z: %d", teTrack.xCoord, teTrack.yCoord, teTrack.zCoord));
 
@@ -88,10 +92,14 @@ public class GuiHammerOverlay extends GuiIngameForge {
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(3), textX, textY + 30, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(4), textX, textY + 40, 0xFFFFFF);
 						minecraft.fontRenderer.drawStringWithShadow(textList.get(5), textX, textY + 50, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(6), textX, textY + 60, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(7), textX, textY + 70, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(8), textX, textY + 80, 0xFFFFFF);
 					}
 
 					return;
 				}
+				/* CONVEYOR BLOCK */
 			} else if (minecraft.theWorld.getBlock(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ) instanceof BlockConveyor) {
 				clearTextList();
 				textList.add(String.format("Metadata: %d", minecraft.theWorld.getBlockMetadata(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ)));
@@ -105,6 +113,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 
 					return;
 				}
+				/* SUPPORT BLOCK */
 			} else if (minecraft.theWorld.getBlock(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ) instanceof BlockSupport) {
 				clearTextList();
 				this.teSupport = (TileEntitySupport) minecraft.theWorld.getTileEntity(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
@@ -137,6 +146,7 @@ public class GuiHammerOverlay extends GuiIngameForge {
 
 					return;
 				}
+				/* FOOTER BLOCK */
 			} else if (minecraft.theWorld.getBlock(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ) instanceof BlockFooter) {
 				clearTextList();
 				this.teFooter = (TileEntityFooter) minecraft.theWorld.getTileEntity(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
@@ -156,6 +166,33 @@ public class GuiHammerOverlay extends GuiIngameForge {
 					}
 
 					return;
+				}
+				/* FABRICATOR BLOCK */
+			} else if (minecraft.theWorld.getBlock(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ) instanceof BlockTrackFabricator) {
+				clearTextList();
+				this.teFabricator = (TileEntityTrackFabricator) minecraft.theWorld.getTileEntity(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
+				this.fabricator = (BlockTrackFabricator) minecraft.theWorld.getBlock(viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ);
+
+//				int maxLength = String.format("Location: X: %d, Y: %d, Z: %d%n", viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ).length();
+
+//				StringBuilder builder = new StringBuilder();
+//				builder.append("Track Fabricator\n");
+//				builder.append(String.format("Location: X: %d, Y: %d, Z: %d%n", viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ));
+//				builder.append(String.format("Direction: %s%n", this.teFabricator.direction.name()));
+//				String test = builder.toString();
+				textList.add("Track Fabricator");
+				textList.add(String.format("Location: X: %d, Y: %d, Z: %d", viewEntityTrace.blockX, viewEntityTrace.blockY, viewEntityTrace.blockZ));
+				textList.add(String.format("Direction: %s", this.teFabricator.direction.name()));
+				textList.add(String.format("Player Facing: %s (%d)", TrackManager.getDirectionFromPlayerFacing(minecraft.thePlayer).name(), TrackManager.getPlayerFacing(minecraft.thePlayer)));
+
+				if (event.isCancelable() || event.type != RenderGameOverlayEvent.ElementType.ALL) {
+					if (!minecraft.gameSettings.showDebugInfo && this.showText) {
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(0), textX, textY, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(1), textX, textY + 10, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(2), textX, textY + 20, 0xFFFFFF);
+						minecraft.fontRenderer.drawStringWithShadow(textList.get(3), textX, textY + 30, 0xFFFFFF);
+//						minecraft.fontRenderer.drawSplitString(test, textX, textY, maxLength, 0xFFFFFF);
+					}
 				}
 			} else {
 				clearTextList();

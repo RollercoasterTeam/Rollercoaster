@@ -14,8 +14,8 @@ import robomuss.rc.util.IPaintable;
 public class BlockFooter extends BlockContainer implements IPaintable {
 	public BlockFooter() {
         super(Material.iron);
-        setHardness(1F);
-		setResistance(3F);
+        setHardness(1f);
+		setResistance(3f);
     }
 
     @Override
@@ -44,43 +44,10 @@ public class BlockFooter extends BlockContainer implements IPaintable {
 	    }
 
 	    return false;
-
-
-
-//		if(!world.isRemote) {
-//			if(player.getHeldItem() != null) {
-//				if(player.getHeldItem().getItem() == RCItems.brush) {
-//					TileEntityFooter tes = (TileEntityFooter) world.getTileEntity(x, y, z);
-//					tes.colour = player.getHeldItem().getItemDamage();
-//					world.markBlockForUpdate(x, y, z);
-//					return true;
-//				} else if (player.getHeldItem().getItem() == Item.getItemFromBlock(RCBlocks.support)) {
-//					return true;
-//				}
-//			}
-//		}
-//
-//	    if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.water_bucket) {
-//		    TileEntityFooter teFooter = (TileEntityFooter) world.getTileEntity(x, y, z);
-//		    teFooter.clearSupportStackColors();
-//
-//		    if (!player.capabilities.isCreativeMode) {
-//			    player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.bucket));
-//		    }
-//
-//		    return true;
-//	    }
-//
-//	    return false;
 	}
     
     @Override
 	public int getPaintMeta(World world, int x, int y, int z) {
 		return ((TileEntityFooter) world.getTileEntity(x, y, z)).colour;
 	}
-
-//	@Override
-//	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-//		RCMod.supportManager.breakFooter(world, x, y, z);
-//	}
 }

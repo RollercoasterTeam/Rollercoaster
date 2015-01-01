@@ -103,7 +103,7 @@ public class JSONHandler {
 					for (JsonElement element : whitelistedPiecesArray) {
 						if (element.isJsonObject()) {
 							JsonObject whitelistedPiece = element.getAsJsonObject();
-							whitelistedPieces.add(TrackHandler.findTrackType(whitelistedPiece.get("Piece").getAsString()));
+							whitelistedPieces.add(TrackHandler.findTrackType(whitelistedPiece.get("Piece").getAsString()).type);
 							builder.append(whitelistedPiece.get("Piece") + ", ");
 						}
 					}

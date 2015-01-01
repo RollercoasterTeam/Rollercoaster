@@ -9,10 +9,7 @@ import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.TrackHandler;
 
 public class PacketTrackDesignerButtonClick extends AbstractPacket {
-
-    public PacketTrackDesignerButtonClick() {
-    	
-    }
+    public PacketTrackDesignerButtonClick() {}
 
     private int x, y, z;
     private int id;
@@ -61,12 +58,12 @@ public class PacketTrackDesignerButtonClick extends AbstractPacket {
     }
 
     @Override
-    public void handleClientSide(EntityPlayer player) {
-    }
+    public void handleClientSide(EntityPlayer player) {}
 
     @Override
     public void handleServerSide(EntityPlayer player) {
-        if(player.worldObj.getBlock(Xx, Xy + 1, Xz) == Blocks.air)
-    	player.worldObj.setBlock(Xx, Xy + 1, Xz, TrackHandler.pieces.get(selectedSlot).block, 0 , 2);
+        if(player.worldObj.getBlock(Xx, Xy + 1, Xz) == Blocks.air) {
+            player.worldObj.setBlock(Xx, Xy + 1, Xz, TrackHandler.getTrackTypeFromID(selectedSlot).type.block, 0, 2);
+        }
     }
 }
