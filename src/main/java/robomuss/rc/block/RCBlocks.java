@@ -19,6 +19,7 @@ public class RCBlocks {
 	public static Block track_designer, track_fabricator, track_storage;
 	public static Block track_fabricator_casing, track_fabricator_glass, track_fabricator_output;
 	public static Block conveyor;
+	public static Block food_stall, merch_stall;
 
 	public static void init() {
 		for (TrackHandler.Types type : TrackHandler.Types.values()) {
@@ -53,6 +54,9 @@ public class RCBlocks {
 		
 		conveyor = new BlockConveyor().setBlockName("conveyor").setBlockTextureName("rc:conveyor").setCreativeTab(RCMod.track);
 		
+		food_stall = new BlockStall().setBlockName("food_stall").setBlockTextureName("rc:stall").setCreativeTab(RCMod.other);
+		merch_stall = new BlockStall().setBlockName("merch_stall").setBlockTextureName("rc:stall").setCreativeTab(RCMod.other);
+		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");
 		GameRegistry.registerBlock(footer, "footer");
@@ -78,6 +82,9 @@ public class RCBlocks {
 
 		GameRegistry.registerBlock(conveyor, "conveyor");
 		
+		GameRegistry.registerBlock(food_stall, "food_stall");
+		GameRegistry.registerBlock(merch_stall, "merch_stall");
+		
         GameRegistry.registerTileEntity(TileEntityTrackDesigner.class, "te_track_designer");
         GameRegistry.registerTileEntity(TileEntityTrackFabricator.class, "te_track_fabricator");
         GameRegistry.registerTileEntity(TileEntityTrackStorage.class, "te_track_storage");
@@ -90,5 +97,7 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityFooter.class, "te_footer");
 		
 		GameRegistry.registerTileEntity(TileEntityConveyor.class, "te_conveyor");
+		
+		GameRegistry.registerTileEntity(TileEntityStall.class, "te_stall");
 	}
 }

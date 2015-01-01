@@ -42,6 +42,9 @@ tile.track_designer.name=Track Designer (WIP)
 
 tile.conveyor.name=Conveyor
 
+tile.food_stall.name=Food Stall
+tile.merch_stall.name=Merchandise Stall
+
 item.hammer.name=Track Maintenance Tool
 item.balloon=Balloon
 
@@ -92,6 +95,13 @@ item.chain_extra.name=Chain
 item.tires_extra.name=Friction Wheels
 item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
+
+item.nuggets.name=Chicken Nuggets
+item.chips.name=Chips
+item.popcorn.name=Popcorn
+item.candy_floss.name=Candy Floss
+
+item.coin.name=Coin
 
 entity.entityTrain.name=Rollercoaster Train
 

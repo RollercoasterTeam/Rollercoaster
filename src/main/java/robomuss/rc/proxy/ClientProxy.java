@@ -38,6 +38,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFooter.class, new TileEntityRenderFooter());                         //FOOTER
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrackFabricator.class, new TileEntityRenderTrackFabricator());       //TRACK FABRICATOR
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConveyor.class, new TileEntityRenderConveyor());                     //CONVEYOR
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStall.class, new TileEntityRenderStall()); 							//STALL
 
 		/** TRAIN */
         RenderingRegistry.registerEntityRenderingHandler(EntityTrain.class, new RenderTrain());
@@ -55,6 +56,8 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.footer), new ItemRenderFooter());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.track_fabricator), new ItemRenderTrackFabricator());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.conveyor), new ItemRenderConveyor());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.food_stall), new ItemRenderStall());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.merch_stall), new ItemRenderStall());
 
 		MinecraftForgeClient.registerItemRenderer(RCItems.balloon, new ItemRenderBalloon(Minecraft.getMinecraft().thePlayer));
 

@@ -54,5 +54,7 @@ public class RecipeHandler {
 		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 7), new ItemStack(Blocks.planks, 1, 3), new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 8), Blocks.sandstone, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapelessRecipe(new ItemStack(RCBlocks.path, 8, 9), Blocks.quartz_block, new ItemStack(RCItems.hammer, 1, OreDictionary.WILDCARD_VALUE));
+		
+		GameRegistry.addRecipe(new ItemStack(RCBlocks.food_stall), "XXX", "XYX", "XXX", 'X', Blocks.planks, 'Y', Items.apple);
 	}
 }
