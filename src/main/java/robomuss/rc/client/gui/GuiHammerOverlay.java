@@ -1,6 +1,6 @@
 package robomuss.rc.client.gui;
 
-//import robomuss.rc.block.te.TileEntityTrack;
+//import robomuss.rc.camouflage.te.TileEntityTrack;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class GuiHammerOverlay extends GuiIngameForge {
 	private Minecraft minecraft;
 	private ArrayList<String> textList = new ArrayList<String>();
-	private boolean showText = true;
 	private int textX = 10;
 	private int textY = 110;
 	private BlockTrackBase            track;
@@ -37,7 +36,9 @@ public class GuiHammerOverlay extends GuiIngameForge {
 	private TileEntityFooter          teFooter;
 	private BlockTrackFabricator      fabricator;
 	private TileEntityTrackFabricator teFabricator;
-	
+
+	public static boolean showText = true;
+
 	public GuiHammerOverlay(Minecraft minecraft) {
 		super(minecraft);
 		this.minecraft = minecraft;

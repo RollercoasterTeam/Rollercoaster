@@ -1,18 +1,13 @@
 package robomuss.rc.item;
 
-import java.util.ArrayList;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemFood;
 import robomuss.rc.RCMod;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.extra.TrackExtra;
-import robomuss.rc.util.StallType;
-import robomuss.rc.util.StallItem;
-import robomuss.rc.util.StallType;
+import robomuss.rc.util.stall.StallType;
+import robomuss.rc.util.stall.StallItem;
 
 public class RCItems {
 	public static int last_extra_id;

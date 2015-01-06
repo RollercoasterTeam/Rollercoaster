@@ -45,7 +45,6 @@ public class ContainerTrackFabricator extends Container {
 		ItemStack toStack = null;
 		Slot fromSlot = (Slot) this.inventorySlots.get(slotID);
 
-		System.out.println(slotID);
 		if (fromSlot != null && fromSlot.getHasStack()) {
 			ItemStack fromStack = fromSlot.getStack();
 			toStack = fromStack.copy();
@@ -54,6 +53,7 @@ public class ContainerTrackFabricator extends Container {
 				if (!this.mergeItemStack(fromStack, 2, 38, true)) {                                             //if can't merge to any slot in player's inventory
 					return null;
 				}
+
 				fromSlot.onSlotChange(fromStack, toStack);                                                      //TODO
 			} else if (slotID != 0) {                                                                           //if clicked slot is not the input slot
 				if (input.isItemValid(fromStack)) {
@@ -64,10 +64,6 @@ public class ContainerTrackFabricator extends Container {
 					if (!this.mergeItemStack(fromStack, 29, 38, false)) {                                       //if can't merge from input to player's hotbar
 						return null;
 					}
-
-//					if (input != null && !this.mergeItemStack(fromStack, 1, 1, false)) {
-//						return null;
-//					}
 				} else if (slotID >= 29 && slotID < 38) {                                                       //if clicked slot is in hotbar
 					if (!this.mergeItemStack(fromStack, 2, 29, false)) {                                        //if can't merge to the rest of the player's inventory
 						return null;

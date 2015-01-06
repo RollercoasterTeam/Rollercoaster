@@ -25,9 +25,6 @@ import java.util.List;
 public class GuiTrackDesigner extends GuiScreen {
 	private TileEntityTrackDesigner te;
 
-//	private final GuiRCControls GUI_RC_CONTROLS = new GuiRCControls(this, RCMod.rcOptions);
-//	private final GuiRCKeyBindingList GUI_RC_KEY_BINDING_LIST = new GuiRCKeyBindingList(GUI_RC_CONTROLS, Minecraft.getMinecraft());
-
 	private static final String CONTROLS = "Controls";
 	private static final String HELP = "Help";
 	private static final String EXIT = "Exit";
@@ -39,7 +36,7 @@ public class GuiTrackDesigner extends GuiScreen {
 	public Entity3rdPerson entity3rdPerson;
 	private int thirdPersonView = 0;
 
-	private static final GuiPanel NEW_COASTER_PANEL = new GuiPanel("newCoaster", "Create Rollercoaster", 128, 148);
+	private static final GuiPanel NEW_COASTER_PANEL = new GuiPanel("newCoaster", "Create Roller Coaster", 128, 148);
 	private int selectedSlot = 0;
 	private boolean showHelp = false;
 	private boolean shouldDeleteEntity = false;
@@ -102,6 +99,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.clear();
 
 		int offset = 9;
+
 		for (int i = BUTTON_IDS.length - 1; i > -1; i--) {
 			int width = mc.fontRenderer.getStringWidth(BUTTON_NAMES[i]) + 9;
 			width = width < 30 ? 30 : width;
@@ -111,6 +109,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 		for (int i = 0; i < nodes.length; i++) {
 			ExpandableListNode node = nodes[i];
+
 			if (val == i) {
 				if (node.getChildren() != null) {
 					for (int j = 0; j < node.getChildren().length; j++) {
@@ -119,6 +118,7 @@ public class GuiTrackDesigner extends GuiScreen {
 					}
 				}
 			}
+
 			buttonList.add(new GuiButton(i, 20, 40 + (i * 40), 100, 20, node.getName()));
 		}
 	}
@@ -142,7 +142,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			String controls1 = String.format("Use %s %s %s %s to move around", kForward, kLeft, kBackward, kRight);
 			String controls2 = String.format("Use %s and %s to move up and down", kUp, kDown);
 			String controls3 = String.format("Use %s and %s to rotate left and right", kLLeft, kLRight);
-			String controls4 = "Use SHIFT-W and SHIFT-S to rotate up and down";                                         //TODO: change this to use whatever forward and backward are set to!
+			String controls4 = String.format("Use SHIFT-%s and SHIFT-%s to rotate up and down", kForward, kBackward);
 
 			drawString(fontRendererObj, controls1, this.width / 2 - (fontRendererObj.getStringWidth(controls1) / 2), this.height / 2 + 20, 0xFFFFFF);
 			drawString(fontRendererObj, controls2, this.width / 2 - (fontRendererObj.getStringWidth(controls2) / 2), this.height / 2 + 40, 0xFFFFFF);
@@ -154,30 +154,24 @@ public class GuiTrackDesigner extends GuiScreen {
 		int cornerX = (width - NEW_COASTER_PANEL.width) / 2;
 		int cornerY = 40;
 
+		//TODO: keep this for future implementation
 //		mc.renderEngine.bindTexture(NEW_COASTER_PANEL.texture);
 //		drawTexturedModalRect(cornerX, cornerY, 0, 0, NEW_COASTER_PANEL.width, NEW_COASTER_PANEL.height);
 //		drawString(fontRendererObj, NEW_COASTER_PANEL.displayName, cornerX + ((NEW_COASTER_PANEL.width / 2) - (fontRendererObj.getStringWidth(NEW_COASTER_PANEL.displayName) / 2)), cornerY + 10, 16777215);
 		
 		// Changes the slot based on the mouse wheel
 		int dxWheel = Mouse.getDWheel();
+
 		if (dxWheel != 0) {
 			if (dxWheel > 0) {
 				selectedSlot = selectedSlot != 9 ? selectedSlot++ : 0;
-//				if (selectedSlot != 9) {
-//					selectedSlot += 1;
-//				} else {
-//					selectedSlot = 0;
-//				}
 			}
+
 			if (dxWheel < 0) {
 				selectedSlot = selectedSlot != 0 ? selectedSlot-- : 9;
-//				if (selectedSlot != 0) {
-//					selectedSlot -= 1;
-//				} else {
-//					selectedSlot = 9;
-//				}
 			}
 		}
+
 		super.drawScreen(x, y, f);
 	}
 
@@ -190,6 +184,7 @@ public class GuiTrackDesigner extends GuiScreen {
 
 		if (button.id == 100) {
 			this.showHelp = !this.showHelp;
+
 			if (!TrackDesignerKeyBindings.haveKeyBindsBeenInitialized) {
 				TrackDesignerKeyBindings.init();
 			}

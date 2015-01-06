@@ -10,6 +10,7 @@ public class RCGuiOpenEvent {
 		if (event.gui instanceof GuiTrackDesigner) {
 			return true;
 		}
+
 		return false;
 	}
 }

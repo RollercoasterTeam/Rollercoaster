@@ -17,7 +17,7 @@ import robomuss.rc.util.hammer.HammerMode;
 
 import java.util.List;
 
-//import robomuss.rc.block.BlockTrack;
+//import robomuss.rc.camouflage.BlockTrack;
 
 public class ItemHammer extends Item {
 	public static HammerMode[] modes = {

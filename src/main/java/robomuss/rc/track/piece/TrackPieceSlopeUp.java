@@ -14,7 +14,7 @@ import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.track.style.TrackStyle;
 import robomuss.rc.util.IInventoryRenderSettings;
 
-//import robomuss.rc.block.te.TileEntityTrack;
+//import robomuss.rc.camouflage.te.TileEntityTrack;
 
 public class TrackPieceSlopeUp extends TrackPiece implements IInventoryRenderSettings {
 	public static final String[] partNames = {"horizontal", "horizontal"};

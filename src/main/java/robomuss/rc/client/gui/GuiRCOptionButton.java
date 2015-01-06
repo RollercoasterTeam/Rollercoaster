@@ -1,9 +1,8 @@
 package robomuss.rc.client.gui;
 
-import net.minecraft.client.gui.GuiButton;
 import robomuss.rc.util.RCOptions;
 
-public class GuiRCOptionButton extends GuiButton {
+public class GuiRCOptionButton extends GuiRCButton {
 	private final RCOptions.RCOptionsEnum rcOptionsEnum;
 
 	public GuiRCOptionButton(int id, int x, int y, String displayString) {

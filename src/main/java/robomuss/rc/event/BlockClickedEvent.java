@@ -31,7 +31,7 @@ public class BlockClickedEvent extends Event {
 
 	@SubscribeEvent
 	public void onBlockClicked(PlayerInteractEvent event) {
-		/* Replace current item with a brush with the color of the block that was clicked if sneaking and if current item is an empty brush or nothing at all */
+		/* Replace current item with a brush with the color of the camouflage that was clicked if sneaking and if current item is an empty brush or nothing at all */
 		if (event.world.isRemote) {
 			if (event.entityPlayer.capabilities.isCreativeMode) {
 				if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {

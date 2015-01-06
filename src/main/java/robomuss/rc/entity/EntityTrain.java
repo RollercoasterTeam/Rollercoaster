@@ -321,12 +321,12 @@ public abstract class EntityTrain extends Entity {
 
             if (canUseRail() && block instanceof BlockTrackBase) {
             	//TODO
-                //float railMaxSpeed = ((BlockRailBase)block).getRailMaxSpeed(worldObj, this, l, i, i1);
+                //float railMaxSpeed = ((BlockRailBase)camouflage).getRailMaxSpeed(worldObj, this, l, i, i1);
             	float railMaxSpeed = 0.4f;
                 double maxSpeed = Math.min(railMaxSpeed, getCurrentCartSpeedCapOnRail());
                 this.func_145821_a(l, i, i1, maxSpeed, getSlopeAdjustment(), block, getTrackMetadata(worldObj, this, l, i, i1));
 
-//                if (block == Blocks.activator_rail) {
+//                if (camouflage == Blocks.activator_rail) {
 //                    this.onActivatorRailPass(l, i, i1, (worldObj.getBlockMetadata(l, i, i1) & 8) != 0);
 //                }
             } else {
@@ -439,13 +439,13 @@ public abstract class EntityTrain extends Entity {
         boolean flag = false;
         boolean flag1 = false;
 
-//        if (block == Blocks.golden_rail) {
+//        if (camouflage == Blocks.golden_rail) {
 //            flag = (worldObj.getBlockMetadata(x, y, z) & 8) != 0;
 //            flag1 = !flag;
 //        }
 
         //TODO powered things 
-        /*if (((BlockRailBase)block).isPowered()) {
+        /*if (((BlockRailBase)camouflage).isPowered()) {
             p_145821_9_ &= 7;
         }*/
 
@@ -645,8 +645,8 @@ public abstract class EntityTrain extends Entity {
 
         //TODO: might have to not subtract 1 from j
         /**
-         * For a minecart, this checks if the block 1 below the cart is a rail.
-         * This would only be true if the cart is on a "sloped" rail block (which is 1 block below the current location).
+         * For a minecart, this checks if the camouflage 1 below the cart is a rail.
+         * This would only be true if the cart is on a "sloped" rail camouflage (which is 1 camouflage below the current location).
          */
 //        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k)) {
         if (TrackManager.isBlockAtCoordsTrack(this.worldObj, i, j - 1, k)) {
@@ -655,7 +655,7 @@ public abstract class EntityTrain extends Entity {
 
         Block block = this.worldObj.getBlock(i, j, k);
 
-//        if (!BlockRailBase.func_150051_a(block)) {
+//        if (!BlockRailBase.func_150051_a(camouflage)) {
         if (!TrackManager.isTrack(block)) {
             return null;
         } else {
@@ -693,8 +693,8 @@ public abstract class EntityTrain extends Entity {
 
         //TODO: might have to not subtract 1 from j
         /**
-         * For a minecart, this checks if the block 1 below the cart is a rail.
-         * This would only be true if the cart is on a "sloped" rail block (which is 1 block below the current location).
+         * For a minecart, this checks if the camouflage 1 below the cart is a rail.
+         * This would only be true if the cart is on a "sloped" rail camouflage (which is 1 camouflage below the current location).
          */
 //        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k)) {
         if (TrackManager.isBlockAtCoordsTrack(this.worldObj, i, j - 1, k)) {
@@ -703,7 +703,7 @@ public abstract class EntityTrain extends Entity {
 
         Block block = this.worldObj.getBlock(i, j, k);
 
-//        if (BlockRailBase.func_150051_a(block)) {
+//        if (BlockRailBase.func_150051_a(camouflage)) {
         if (TrackManager.isTrack(block)) {
             int l = getTrackMetadata(worldObj, this, i, j, k);
             posY = (double)j;

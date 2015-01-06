@@ -12,7 +12,6 @@ import robomuss.rc.block.container.ContainerTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class GuiTrackStorage extends GuiContainer {
-
 	private static final ResourceLocation trackStorageGuiTextures = new ResourceLocation("rc", "textures/gui/track_storage.png");
 	
 	public GuiTrackStorage(InventoryPlayer inventory, EntityPlayer player, TileEntityTrackStorage te, World world) {

@@ -516,13 +516,13 @@ public abstract class EntityTrain2 extends Entity {
 				this.motionX += this.motionX / currentVelocity * velocityMod;
 				this.motionZ += this.motionZ / currentVelocity * velocityMod;
 			} else if (meta == 1) {                                                                             //TODO
-				if (this.worldObj.getBlock(x - 1, y, z).isNormalCube()) {                                       //TODO: these values move the cart when on a powered rail with a block adjacent to it
+				if (this.worldObj.getBlock(x - 1, y, z).isNormalCube()) {                                       //TODO: these values move the cart when on a powered rail with a camouflage adjacent to it
 					this.motionX = 0.02d;
 				} else if (this.worldObj.getBlock(x + 1, y, z).isNormalCube()) {
 					this.motionX = -0.02d;
 				}
 			} else if (meta == 0) {                                                                             //TODO
-				if (this.worldObj.getBlock(x, y, z - 1).isNormalCube()) {                                       //TODO: these values move the cart when on a powered rail with a block adjacent to it
+				if (this.worldObj.getBlock(x, y, z - 1).isNormalCube()) {                                       //TODO: these values move the cart when on a powered rail with a camouflage adjacent to it
 					this.motionZ = 0.02d;
 				} else if (this.worldObj.getBlock(x, y, z + 1).isNormalCube()) {
 					this.motionZ = -0.02d;
@@ -558,7 +558,7 @@ public abstract class EntityTrain2 extends Entity {
 		int floorZ = MathHelper.floor_double(posZ);
 
 		//TODO: might not have to subtract 1 from floorY
-		//this checks if the block 1 below is a track block, (ie. slopes)
+		//this checks if the camouflage 1 below is a track camouflage, (ie. slopes)
 		if (TrackManager.isBlockAtCoordsTrack(this.worldObj, floorX, floorY - 1, floorZ)) {
 			floorY--;
 		}
@@ -641,7 +641,7 @@ public abstract class EntityTrain2 extends Entity {
 		int floorZ = MathHelper.floor_double(posZ);
 
 		//TODO: might not have to subtract 1 from floorY
-		//this checks if the block 1 below is a track block, (ie. slopes)
+		//this checks if the camouflage 1 below is a track camouflage, (ie. slopes)
 		if (TrackManager.isBlockAtCoordsTrack(this.worldObj, floorX, floorY - 1, floorZ)) {
 			floorY--;
 		}

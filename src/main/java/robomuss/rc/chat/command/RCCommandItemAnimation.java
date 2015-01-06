@@ -12,6 +12,7 @@ import java.util.List;
 public class RCCommandItemAnimation implements ICommand {
 	private List aliases;
 
+	@SuppressWarnings("unchecked")
 	public RCCommandItemAnimation() {
 		this.aliases = new ArrayList();
 		this.aliases.add("tia");
@@ -38,22 +39,31 @@ public class RCCommandItemAnimation implements ICommand {
 		String disabled = "ItemBlockTrack animation is now disabled";
 
 		if (input.length > 1) {
-			if (input[1].equals("1") || input[1].equals("true")) {
-				RCTickHandler.shouldReflect = true;
-				commandSender.addChatMessage(new ChatComponentText(disabled));
-			} else if (input[1].equals("0") || input[1].equals("false")) {
-				RCTickHandler.shouldReflect = false;
+			if (input[1].equals("1") || input[1].equals("true") || input[1].equals("on")) {
+				RCTickHandler.disableTrackItemAnimation = false;
 				commandSender.addChatMessage(new ChatComponentText(enabled));
+			} else if (input[1].equals("0") || input[1].equals("false") || input[1].equals("off")) {
+				RCTickHandler.disableTrackItemAnimation = true;
+				commandSender.addChatMessage(new ChatComponentText(disabled));
 			}
-		} else {
-			RCTickHandler.shouldReflect = !RCTickHandler.shouldReflect;
-			commandSender.addChatMessage(new ChatComponentText(RCTickHandler.shouldReflect ? disabled : enabled));
 		}
+//		if (input.length > 1) {
+//			if (input[1].equals("1") || input[1].equals("true") || input[1].equals("on")) {
+//				RCTickHandler.disableTrackItemAnimation = false;
+//				commandSender.addChatMessage(new ChatComponentText(enabled));
+//			} else if (input[1].equals("0") || input[1].equals("false") || input[1].equals("off")) {
+//				RCTickHandler.disableTrackItemAnimation = true;
+//				commandSender.addChatMessage(new ChatComponentText(disabled));
+//			}
+//		} else {
+//			RCTickHandler.disableTrackItemAnimation = !RCTickHandler.disableTrackItemAnimation;
+//			commandSender.addChatMessage(new ChatComponentText(RCTickHandler.disableTrackItemAnimation ? disabled : enabled));
+//		}
 	}
 
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender commandSender) {
-		ChatHandler.broadcastChatMessageToPlayers(commandSender.getCommandSenderName());
+//		ChatHandler.broadcastChatMessageToPlayers(commandSender.getCommandSenderName());
 		return true;
 	}
 

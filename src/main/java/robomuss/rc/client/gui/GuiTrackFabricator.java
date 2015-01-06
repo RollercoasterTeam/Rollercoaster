@@ -31,8 +31,8 @@ public class GuiTrackFabricator extends GuiContainer {
 
     private static final ResourceLocation trackFabricatorGuiTextures = new ResourceLocation("rc", "textures/gui/track_fabricator.png");
     
-    public GuiTrackFabricator(InventoryPlayer par1InventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World par2World, int par3, int par4, int par5) {
-        super(new ContainerTrackFabricator(par1InventoryPlayer, player, te, par2World, par3, par4, par5));
+    public GuiTrackFabricator(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World world, int x, int y, int z) {
+        super(new ContainerTrackFabricator(inventoryPlayer, player, te, world, x, y, z));
         this.te = te;
     }
 
@@ -53,7 +53,6 @@ public class GuiTrackFabricator extends GuiContainer {
 		buttonList.add(new GuiButton(1, k + 104, l + 20, 20, 20, ">"));
 		buttonList.add(new GuiButton(2, k + 82, l + 48, 20, 20, "-"));
 		buttonList.add(new GuiButton(3, k + 104, l + 48, 20, 20, "+"));
-		
 		buttonList.add(new GuiButton(4, k + 126, l + 20, 40, 20, "Craft"));
 		
 		textField = new GuiTextField(fontRendererObj, k + 127, l + 49, 38, 18);
@@ -63,19 +62,18 @@ public class GuiTrackFabricator extends GuiContainer {
 	}
 
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
+    protected void drawGuiContainerForegroundLayer(int i, int j) {
         this.fontRendererObj.drawString("Fabricating", 8, 6, ChatColours.DARK_GRAY);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 3, ChatColours.DARK_GRAY);
     }
 
-    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+    protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(trackFabricatorGuiTextures);
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-
-	    GuiUtils.renderBlockIntoGui(TrackHandler.getTrackTypeFromID(current_track).type.block, k + 35, l + 28, 2f, this.fontRendererObj, this.mc);
+        int centerX = (this.width - this.xSize) / 2;
+        int centerY = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(centerX, centerY, 0, 0, this.xSize, this.ySize);
+	    GuiUtils.renderBlockIntoGui(TrackHandler.getTrackTypeFromID(current_track).type.block, centerX + 35, centerY + 28, 2f, this.fontRendererObj, this.mc);
     }
     
     @Override
@@ -119,7 +117,7 @@ public class GuiTrackFabricator extends GuiContainer {
 			String name = TrackHandler.getTrackTypeFromID(current_track).type.block.getLocalizedName();
 			int num = TrackHandler.getTrackTypeFromID(current_track).craftingCost * amount;
 			String line2 = String.format("%d Iron Ingots (%d per track)", num, TrackHandler.getTrackTypeFromID(current_track).craftingCost);
-			drawHoveringText(Arrays.asList(new Object[] {name, line2, "========================", "Try SHIFT-clicking the + & -"}), x, y, fontRendererObj);
+			drawHoveringText(Arrays.asList(name, line2, "========================", "Try SHIFT-clicking the + & -"), x, y, fontRendererObj);
 		}
 	}
 	

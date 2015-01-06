@@ -21,7 +21,6 @@ import java.util.List;
  * Created by Mark on 17/08/2014.
  */
 public class Entity3rdPerson extends EntityLivingBase {
-
     public EntityLivingBase player = this;
 
     public static boolean needsToMoveUp = false;
@@ -57,14 +56,17 @@ public class Entity3rdPerson extends EntityLivingBase {
 				motionX = side.xCoord * 0.5;
 				motionZ = side.zCoord * 0.5;
 			}
+
 		    if (Keyboard.isKeyDown(TrackDesignerKeyBindings.right.getRCKeyCode())) {
 				motionX = side.xCoord * -0.5;
 		        motionZ = side.zCoord * -0.5;
 		    }
+
 			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.forward.getRCKeyCode())) {
 				motionX = forward.xCoord * 0.5;
 			    motionZ = forward.zCoord * 0.5;
 		    }
+
 			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.backward.getRCKeyCode())) {
 				motionX = forward.xCoord * -0.5;
 			    motionZ = forward.zCoord * -0.5;
@@ -103,6 +105,7 @@ public class Entity3rdPerson extends EntityLivingBase {
 	    } else if (Keyboard.isKeyDown(TrackDesignerKeyBindings.lookRight.getRCKeyCode())) {
 		    setAngles(10, 0);
 	    }
+
         super.onUpdate();
     }
 

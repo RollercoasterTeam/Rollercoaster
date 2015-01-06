@@ -80,12 +80,12 @@ public class ItemRenderTrack implements IItemRenderer {
 
 			if (render_type == ItemRenderType.EQUIPPED) {                              /* 3rd Person */
 				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);  //scales model to a smaller size
-				GL11.glRotatef(45, 0, 1, 0);                                    //rotates model as if it was a full block in the inventory
+				GL11.glRotatef(45, 0, 1, 0);                                    //rotates model as if it was a full camouflage in the inventory
 				GL11.glRotatef(20, 0, 0, 1);                                    //further rotates model to point straight out of player's hand
 				GL11.glTranslatef(7, -10, 0);                                   //translates to look like player is holding the piece by the main crossbar
 			} else if (render_type == ItemRenderType.EQUIPPED_FIRST_PERSON) {          /* 1st Person */
 				GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);  //scales model to a smaller size
-				GL11.glRotatef(45, 0, -1, 0);                                   //rotates model as if it was a full block in the inventory
+				GL11.glRotatef(45, 0, -1, 0);                                   //rotates model as if it was a full camouflage in the inventory
 				GL11.glRotatef(30, 0, 0, -1);                                   //further rotates model to point forward
 				GL11.glTranslatef(0, -5, -7);                                   //translates to a nicer position on screen
 			} else if (render_type == ItemRenderType.INVENTORY) {                      /* Inventory Slot */

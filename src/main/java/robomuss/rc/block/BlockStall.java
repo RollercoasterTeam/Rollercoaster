@@ -1,22 +1,17 @@
 package robomuss.rc.block;
 
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityStall;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockStall extends BlockContainer {
-
 	public BlockStall() {
 		super(Material.wood);
-		setBlockBounds(0F, 0F, 0F, 1F, 0.625F, 1F);
+		setBlockBounds(0f, 0f, 0f, 1f, 0.625f, 1f);
 	}
 
 	@Override
@@ -41,15 +36,39 @@ public class BlockStall extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(Minecraft.getMinecraft().currentScreen.isCtrlKeyDown()) {
-			TileEntityStall te = (TileEntityStall) world.getTileEntity(x, y, z);
-			if(player.getHeldItem() != null) {
-				te.block = player.getHeldItem();
-			}
+		TileEntityStall teStall = (TileEntityStall) world.getTileEntity(x, y, z);
+
+		if (!teStall.hasStallMerchantBeenInitialized) {
+			teStall.initStallMerchant(player, x, y, z, this.getLocalizedName());
 		}
-		else {
-			FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
+
+		if (!world.isRemote) {
+			player.openGui(RCMod.instance, 3, world, x, y, z);
 		}
+
+//		if(Minecraft.getMinecraft().currentScreen.isCtrlKeyDown()) {
+//			TileEntityStall te = (TileEntityStall) world.getTileEntity(x, y, z);
+//
+//			if(player.getHeldItem() != null) {
+//				te.camouflage = player.getHeldItem();
+//			}
+//		} else {
+//			FMLNetworkHandler.openGui(player, RCMod.instance, 3, world, x, y, z);
+//		}
+
 		return true;
 	}
+
+//	@Override
+//	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+//		TileEntityStall teStall = (TileEntityStall) world.getTileEntity(x, y, z);
+//
+//		if (player.getHeldItem() == null) {
+//			return teStall.camouflage;
+//		} else if (player.getHeldItem().getItem() == Item.getItemFromBlock(this)) {
+//			return new ItemStack(this);
+//		} else {
+//			return null;
+//		}
+//	}
 }

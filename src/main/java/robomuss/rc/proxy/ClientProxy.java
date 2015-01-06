@@ -21,7 +21,6 @@ import robomuss.rc.track.piece.TrackPiece;
 import robomuss.rc.util.IInventoryRenderSettings;
 
 public class ClientProxy extends CommonProxy {
-	
 	@SuppressWarnings("unused")
 	@Override
 	public void initRenderers() {

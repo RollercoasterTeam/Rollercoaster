@@ -10,19 +10,24 @@ import robomuss.rc.block.container.slot.SlotTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class ContainerTrackStorage extends Container {
-
 	public ContainerTrackStorage(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackStorage te, World world, int x, int y, int z) {
-		for(int storageRows = 0; storageRows < 27; storageRows++) {
-			this.addSlotToContainer(new SlotTrackStorage(te, storageRows, 8 + (storageRows % 9) * 18, 18 + 18 + (18 * ((storageRows / 9) - 1))));
+		for (int storageRows = 0; storageRows < 3; storageRows++) {
+			for (int storageColumns = 0; storageColumns < 9; storageColumns++) {
+				this.addSlotToContainer(new SlotTrackStorage(te, storageColumns + storageRows * 9 + 9, 8 + storageColumns * 18, 84 + storageRows * 18));
+			}
 		}
 
-		for (int inventoryRows = 0; inventoryRows < 3; ++inventoryRows) {
+//		for(int storageRows = 0; storageRows < 27; storageRows++) {
+//			this.addSlotToContainer(new SlotTrackStorage(te, storageRows, 8 + (storageRows % 9) * 18, 18 + 18 + (18 * ((storageRows / 9) - 1))));
+//		}
+
+		for (int inventoryRows = 0; inventoryRows < 3; inventoryRows++) {
 			for (int inventoryColumns = 0; inventoryColumns < 9; ++inventoryColumns) {
 				this.addSlotToContainer(new Slot(inventoryPlayer, inventoryColumns + inventoryRows * 9 + 9, 8 + inventoryColumns * 18, 84 + inventoryRows * 18));
 			}
 		}
 
-		for (int hotbarSlots = 0; hotbarSlots < 9; ++hotbarSlots) {
+		for (int hotbarSlots = 0; hotbarSlots < 9; hotbarSlots++) {
 			this.addSlotToContainer(new Slot(inventoryPlayer, hotbarSlots, 8 + hotbarSlots * 18, 142));
 		}
 
@@ -53,7 +58,7 @@ public class ContainerTrackStorage extends Container {
 			}
 
 			if (fromStack.stackSize == 0) {
-				fromSlot.putStack((ItemStack)null);
+				fromSlot.putStack(null);
 			} else {
 				fromSlot.onSlotChanged();
 			}

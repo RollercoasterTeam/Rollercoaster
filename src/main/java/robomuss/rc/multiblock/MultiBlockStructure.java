@@ -113,7 +113,7 @@ public abstract class MultiBlockStructure {
 				}
 			}
 //			if (Arrays.asList(this.layersWithAliases).contains(layer)) {
-//				if (block != null && this.aliases.contains(block)) {
+//				if (camouflage != null && this.aliases.contains(camouflage)) {
 //					return this.aliases.size() - 1;
 //				}
 //			}

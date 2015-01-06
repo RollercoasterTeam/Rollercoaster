@@ -311,12 +311,12 @@ public class TileEntityTrackBase extends TileEntity {
 	 * if track at coordinates is not a slope up or slope down, will return -1.
 	 */
 //	public int getHeightOfHill(int x, int y, int z) {
-//		Block block = this.worldObj.getBlock(x, y, z);
+//		Block camouflage = this.worldObj.getBlock(x, y, z);
 //
-//		if (!(block instanceof BlockTrackBase)) {
+//		if (!(camouflage instanceof BlockTrackBase)) {
 //			return -1;
 //		} else {
-//			if (((BlockTrackBase) block).track_type != TrackHandler.findTrackType("slope_up") && ((BlockTrackBase) block).track_type != TrackHandler.findTrackType("slope_down")) {
+//			if (((BlockTrackBase) camouflage).track_type != TrackHandler.findTrackType("slope_up") && ((BlockTrackBase) camouflage).track_type != TrackHandler.findTrackType("slope_down")) {
 //				return -1;
 //			} else {
 //				int meta = this.getWorldObj().getBlockMetadata(x, y, z);

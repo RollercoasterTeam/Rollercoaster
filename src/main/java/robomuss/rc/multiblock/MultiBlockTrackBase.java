@@ -30,28 +30,28 @@ public class MultiBlockTrackBase extends MultiBlockStructure {
 	/* Temporarily disabled for future review... */
 	@Override
 	public void registerStructure() {
-//		structure.addLayer(TrackHandler.Types.HORIZONTAL.type.block, "T", 'T', TrackHandler.Types.HORIZONTAL);
-//		structure.addLayer(TrackHandler.Types.CORNER.type.block, "C", 'C', TrackHandler.Types.CORNER.type.block);
-//		structure.addLayer(TrackHandler.Types.SLOPE_UP.type.block, "**DT", 'D', TrackHandler.Types.SLOPE_UP.type.block, 'T', TrackHandler.Types.SLOPE_UP.type.block);
-//		structure.addLayer(TrackHandler.Types.SLOPE.type.block, "**DT", 'D', TrackHandler.Types.SLOPE.type.block, 'T', TrackHandler.Types.SLOPE.type.block);
-//		structure.addLayer(null, "**DD", 'D', TrackHandler.Types.SLOPE_DOWN.type.block);
-//		structure.addLayer(TrackHandler.Types.SLOPE_DOWN.type.block, "**DT", 'D', TrackHandler.Types.SLOPE_DOWN.type.block, 'T', TrackHandler.Types.SLOPE_DOWN.type.block);
-//		structure.addLayer(TrackHandler.Types.LOOP.type.block, "T", 'T', TrackHandler.Types.LOOP.type.block);
-//		structure.addLayer(TrackHandler.Types.HEART_LINE_ROLL.type.block, "T", 'T', TrackHandler.Types.HEART_LINE_ROLL.type.block);
+//		structure.addLayer(TrackHandler.Types.HORIZONTAL.type.camouflage, "T", 'T', TrackHandler.Types.HORIZONTAL);
+//		structure.addLayer(TrackHandler.Types.CORNER.type.camouflage, "C", 'C', TrackHandler.Types.CORNER.type.camouflage);
+//		structure.addLayer(TrackHandler.Types.SLOPE_UP.type.camouflage, "**DT", 'D', TrackHandler.Types.SLOPE_UP.type.camouflage, 'T', TrackHandler.Types.SLOPE_UP.type.camouflage);
+//		structure.addLayer(TrackHandler.Types.SLOPE.type.camouflage, "**DT", 'D', TrackHandler.Types.SLOPE.type.camouflage, 'T', TrackHandler.Types.SLOPE.type.camouflage);
+//		structure.addLayer(null, "**DD", 'D', TrackHandler.Types.SLOPE_DOWN.type.camouflage);
+//		structure.addLayer(TrackHandler.Types.SLOPE_DOWN.type.camouflage, "**DT", 'D', TrackHandler.Types.SLOPE_DOWN.type.camouflage, 'T', TrackHandler.Types.SLOPE_DOWN.type.camouflage);
+//		structure.addLayer(TrackHandler.Types.LOOP.type.camouflage, "T", 'T', TrackHandler.Types.LOOP.type.camouflage);
+//		structure.addLayer(TrackHandler.Types.HEART_LINE_ROLL.type.camouflage, "T", 'T', TrackHandler.Types.HEART_LINE_ROLL.type.camouflage);
 //
 //		structure.setRotationAxis(false, true, false);
 //
 //		structure.setStructureName("tracks");
 //		RCMod.multiBlockManager.addStructure(structure);
 
-//		horizontalStruct.addLayer(TrackHandler.findTrackType("horizontal").block, "T", 'T', TrackHandler.findTrackType("horizontal").block);
-//		cornerStruct.addLayer(TrackHandler.findTrackType("curve").block, "C", 'C', TrackHandler.findTrackType("curve").block);
-//		slopeUpStruct.addLayer(TrackHandler.findTrackType("slope_up").block, "**DT", 'D', TrackHandler.findTrackType("slope_up").block, 'T', TrackHandler.findTrackType("slope_up").block);
-//		slopeStruct.addLayer(TrackHandler.findTrackType("slope").block, "**DT", 'D', TrackHandler.findTrackType("slope").block, 'T', TrackHandler.findTrackType("slope").block);
-//		slopeDownStruct.addLayer(TrackHandler.findTrackType("slope_down").block, "**DD", 'D', TrackHandler.findTrackType("slope_down").block);
-//		slopeDownStruct.addLayer(null, "**DT", 'D', TrackHandler.findTrackType("slope_down").block, 'T', TrackHandler.findTrackType("slope_down").block);
-//		loopStruct.addLayer(TrackHandler.findTrackType("loop").block, "T", 'T', TrackHandler.findTrackType("loop").block);
-//		heartLineStruct.addLayer(TrackHandler.findTrackType("heartline_roll").block, "T", 'T', TrackHandler.findTrackType("heartline_roll").block);
+//		horizontalStruct.addLayer(TrackHandler.findTrackType("horizontal").camouflage, "T", 'T', TrackHandler.findTrackType("horizontal").camouflage);
+//		cornerStruct.addLayer(TrackHandler.findTrackType("curve").camouflage, "C", 'C', TrackHandler.findTrackType("curve").camouflage);
+//		slopeUpStruct.addLayer(TrackHandler.findTrackType("slope_up").camouflage, "**DT", 'D', TrackHandler.findTrackType("slope_up").camouflage, 'T', TrackHandler.findTrackType("slope_up").camouflage);
+//		slopeStruct.addLayer(TrackHandler.findTrackType("slope").camouflage, "**DT", 'D', TrackHandler.findTrackType("slope").camouflage, 'T', TrackHandler.findTrackType("slope").camouflage);
+//		slopeDownStruct.addLayer(TrackHandler.findTrackType("slope_down").camouflage, "**DD", 'D', TrackHandler.findTrackType("slope_down").camouflage);
+//		slopeDownStruct.addLayer(null, "**DT", 'D', TrackHandler.findTrackType("slope_down").camouflage, 'T', TrackHandler.findTrackType("slope_down").camouflage);
+//		loopStruct.addLayer(TrackHandler.findTrackType("loop").camouflage, "T", 'T', TrackHandler.findTrackType("loop").camouflage);
+//		heartLineStruct.addLayer(TrackHandler.findTrackType("heartline_roll").camouflage, "T", 'T', TrackHandler.findTrackType("heartline_roll").camouflage);
 
 //		structures.add(TrackHandler.getTrackTypeID(TrackHandler.findTrackType("horizontal")), horizontalStruct);
 //		structures.add(TrackHandler.getTrackTypeID(TrackHandler.findTrackType("curve")), cornerStruct);

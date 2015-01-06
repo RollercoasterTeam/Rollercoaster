@@ -79,7 +79,7 @@ public class EntityTrainDefault extends EntityTrain {
         }
 
 	    if (TrackManager.isTrack(blockIn)) {
-//		    System.out.println("block in is track");
+//		    System.out.println("camouflage in is track");
 		    this.track = TrackManager.getTrackAtCoords(this.worldObj, (int) posX, (int) posY, (int) posZ);
 		    this.teTrack = TrackManager.getTrackTileAtCoords(this.worldObj, (int)posX, (int) posY, (int) posZ);
 	    }
@@ -203,14 +203,14 @@ public class EntityTrainDefault extends EntityTrain {
 		}
           /*TileEntityTrack te = (TileEntityTrack) tileentity;
           if (te.getBlockType() instanceof BlockTrack) {
-              BlockTrack block = (BlockTrack) te.getBlockType();
-              return block.track_type;
+              BlockTrack camouflage = (BlockTrack) te.getBlockType();
+              return camouflage.track_type;
           }*/
 		return TrackHandler.Types.HORIZONTAL.type;
 	}
 
 	private void rotateOnPlace(TileEntity te) {
-//		TileEntity tileentity = TrackManager.isTrack(block) ? TrackManager.getTileEntityFromTrack((BlockTrackBase) block) : altTileEntity;
+//		TileEntity tileentity = TrackManager.isTrack(camouflage) ? TrackManager.getTileEntityFromTrack((BlockTrackBase) camouflage) : altTileEntity;
 
 //		if (!(worldObj.getTileEntity(trackPos.chunkPosX, trackPos.chunkPosY, trackPos.chunkPosZ) instanceof TileEntityTrackBase)) {
 //			TileEntity tileentity = altTileEntity;

@@ -20,13 +20,6 @@ public class SlotTrackFabricator extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemStack) {
-		if (!getIsOutput()) {
-			if (itemStack.getItem() == Items.iron_ingot) {
-				return true;
-			}
-		} else {
-			return false;
-		}
-		return false;
+		return !getIsOutput() && itemStack.getItem() == Items.iron_ingot;
 	}
 }
