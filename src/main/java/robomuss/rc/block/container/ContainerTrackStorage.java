@@ -10,29 +10,30 @@ import robomuss.rc.block.container.slot.SlotTrackStorage;
 import robomuss.rc.block.te.TileEntityTrackStorage;
 
 public class ContainerTrackStorage extends Container {
-
-	public ContainerTrackStorage(InventoryPlayer par1InventoryPlayer, EntityPlayer player, TileEntityTrackStorage te, World par2World, int par3, int par4, int par5) {
-		int l;
-		int i1;
-
-		for (l = 0; l < 3; ++l) {
-			for (i1 = 0; i1 < 9; ++i1) {
-				this.addSlotToContainer(new Slot(par1InventoryPlayer, i1 + l
-						* 9 + 9, 8 + i1 * 18, 84 + l * 18));
+	public ContainerTrackStorage(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackStorage te, World world, int x, int y, int z) {
+		for (int storageRows = 0; storageRows < 3; storageRows++) {
+			for (int storageColumns = 0; storageColumns < 9; storageColumns++) {
+				this.addSlotToContainer(new SlotTrackStorage(te, storageColumns + storageRows * 9 + 9, 8 + storageColumns * 18, 84 + storageRows * 18));
 			}
 		}
 
-		for (l = 0; l < 9; ++l) {
-			this.addSlotToContainer(new Slot(par1InventoryPlayer, l,
-					8 + l * 18, 142));
+//		for(int storageRows = 0; storageRows < 27; storageRows++) {
+//			this.addSlotToContainer(new SlotTrackStorage(te, storageRows, 8 + (storageRows % 9) * 18, 18 + 18 + (18 * ((storageRows / 9) - 1))));
+//		}
+
+		for (int inventoryRows = 0; inventoryRows < 3; inventoryRows++) {
+			for (int inventoryColumns = 0; inventoryColumns < 9; ++inventoryColumns) {
+				this.addSlotToContainer(new Slot(inventoryPlayer, inventoryColumns + inventoryRows * 9 + 9, 8 + inventoryColumns * 18, 84 + inventoryRows * 18));
+			}
 		}
 
-		for(int i = 0; i < 27; i++) {
-			this.addSlotToContainer(new SlotTrackStorage(te, i, 8 + (i % 9) * 18, 18 + 18 + (18 * ((i / 9) - 1))));
+		for (int hotbarSlots = 0; hotbarSlots < 9; hotbarSlots++) {
+			this.addSlotToContainer(new Slot(inventoryPlayer, hotbarSlots, 8 + hotbarSlots * 18, 142));
 		}
+
 	}
 
-	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
+	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
 
@@ -40,46 +41,29 @@ public class ContainerTrackStorage extends Container {
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-		/*ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
+		ItemStack toStack = null;
+		Slot fromSlot = (Slot) this.inventorySlots.get(slotID);
 
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			if(itemstack.getItem() == Items.iron_ingot) {
-				if (par2 == 0) {
-					if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
-						return null;
-					}
-	
-					slot.onSlotChange(itemstack1, itemstack);
-				} else if (par2 >= 10 && par2 < 37) {
-					if (!this.mergeItemStack(itemstack1, 37, 46, false)) {
-						return null;
-					}
-				} else if (par2 >= 37 && par2 < 46) {
-					if (!this.mergeItemStack(itemstack1, 10, 37, false)) {
-						return null;
-					}
-				} else if (!this.mergeItemStack(itemstack1, 10, 46, false)) {
+		if (fromSlot != null && fromSlot.getHasStack()) {
+			ItemStack fromStack = fromSlot.getStack();
+			toStack = fromStack.copy();
+
+			if (slotID < 27) {
+				if (!this.mergeItemStack(fromStack, 27, this.inventorySlots.size(), true)) {
 					return null;
 				}
-	
-				if (itemstack1.stackSize == 0) {
-					slot.putStack((ItemStack) null);
-				} else {
-					slot.onSlotChanged();
-				}
-	
-				if (itemstack1.stackSize == itemstack.stackSize) {
-					return null;
-				}
-	
-				slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+			} else if (!this.mergeItemStack(fromStack, 0, 27, false)) {
+				return null;
 			}
-		}*/
 
-		return null;
+			if (fromStack.stackSize == 0) {
+				fromSlot.putStack(null);
+			} else {
+				fromSlot.onSlotChanged();
+			}
+		}
+
+		return toStack;
 	}
 }

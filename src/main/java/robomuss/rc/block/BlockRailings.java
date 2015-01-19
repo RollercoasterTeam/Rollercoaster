@@ -1,9 +1,9 @@
 package robomuss.rc.block;
 
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.material.Material;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.BlockPane;
+import net.minecraft.block.material.Material;
 
 public class BlockRailings extends BlockPane {
 

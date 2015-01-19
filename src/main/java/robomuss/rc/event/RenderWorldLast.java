@@ -1,19 +1,17 @@
 package robomuss.rc.event;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 /**
  * Created by Mark on 17/08/2014.
@@ -31,7 +29,6 @@ public class RenderWorldLast {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void renderLast (RenderWorldLastEvent evt) {
-
         if (modelviewF == null) {
             modelviewF = GLAllocation.createDirectFloatBuffer(16);
             projectionF = GLAllocation.createDirectFloatBuffer(16);
@@ -56,6 +53,7 @@ public class RenderWorldLast {
         diffX = pos.get(0);
         diffY = pos.get(1);
         diffZ = pos.get(2);
+
     }
 
 }

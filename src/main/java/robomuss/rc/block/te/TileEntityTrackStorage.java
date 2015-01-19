@@ -9,10 +9,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackType;
+import robomuss.rc.track.piece.TrackPiece;
 
 public class TileEntityTrackStorage extends TileEntity implements IInventory {
-
 	public ItemStack[] contents = new ItemStack[27];
 
 	@Override
@@ -36,6 +35,7 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 				itemstack = itemstack.splitStack(count);
 			}
 		}
+
 		return itemstack;
 	}
 
@@ -44,7 +44,6 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 		ItemStack item = getStackInSlot(i);
 		setInventorySlotContents(i, null);
 		return item;
-
 	}
 
 	@Override
@@ -77,22 +76,19 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void openInventory() {
-
-	}
+	public void openInventory() {}
 
 	@Override
-	public void closeInventory() {
-
-	}
+	public void closeInventory() {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		for(TrackType track : TrackHandler.tracks) {
-			if(itemstack.getItem() == Item.getItemFromBlock(track.block)) {
+		for(TrackHandler.Types type : TrackHandler.Types.values()) {
+			if(itemstack.getItem() == Item.getItemFromBlock(type.type.block)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -100,6 +96,7 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagList nbttaglist = new NBTTagList();
+
 		for (int i = 0; i < contents.length; i++) {
 			if (contents[i] != null) {
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -108,20 +105,22 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 				nbttaglist.appendTag(nbttagcompound1);
 			}
 		}
+
 		compound.setTag("Items", nbttaglist);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		NBTTagList nbttaglist = compound.getTagList("Items",
-				Constants.NBT.TAG_COMPOUND);
+		NBTTagList nbttaglist = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		contents = new ItemStack[getSizeInventory()];
+
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
-			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-			int j = nbttagcompound1.getByte("Slot") & 0xff;
+			NBTTagCompound listCompound = nbttaglist.getCompoundTagAt(i);
+			int j = listCompound.getByte("Slot") & 0xff;
+
 			if (j >= 0 && j < contents.length) {
-				contents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+				contents[j] = ItemStack.loadItemStackFromNBT(listCompound);
 			}
 		}
 	}

@@ -1,5 +1,8 @@
 package robomuss.rc.block;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -9,9 +12,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import robomuss.rc.RCMod;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTrackDesigner extends BlockContainer {
 
@@ -23,13 +23,8 @@ public class BlockTrackDesigner extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		//if(!world.isRemote) {
-			FMLNetworkHandler.openGui(player, RCMod.instance, 0, world, x, y, z);
-			return true;
-		///}
-		//else {
-			//return false;
-		//}
+		FMLNetworkHandler.openGui(player, RCMod.instance, 0, world, x, y, z);
+		return true;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -49,14 +44,13 @@ public class BlockTrackDesigner extends BlockContainer {
 	public IIcon getIcon(int face, int meta) {
 		if(face == 0 || face == 1) {
 			return other;
-		}
-		else {
+		} else {
 			return side;
 		}
 	}
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityTrackDesigner();
     }
 }

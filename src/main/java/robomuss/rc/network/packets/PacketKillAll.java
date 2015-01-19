@@ -27,6 +27,7 @@ public class PacketKillAll extends AbstractPacket {
 	@Override
 	public void handleServerSide(EntityPlayer player) {
 		World world = player.worldObj;
+
 		for(int i = 0; i < world.loadedEntityList.size(); i++) {
 			Entity entity = (Entity) world.loadedEntityList.get(i);
 			entity.setDead();

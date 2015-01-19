@@ -1,7 +1,8 @@
-itemGroup.tab.decor=Rollercoaster Decorations
-itemGroup.tab.track=Rollercoaster Track
-itemGroup.tab.tools=Rollercoaster Tools
-itemGroup.tab.other=Rollercoaster Misc
+itemGroup.tab.decor=Roller Coaster Decorations
+itemGroup.tab.track=Roller Coaster Track
+itemGroup.tab.tools=Roller Coaster Tools
+itemGroup.tab.other=Roller Coaster Misc
+
 tile.horizontal_track.name=Track 
 tile.slope_up_track.name=Slope Up Track
 tile.slope_track.name=Sloped Track
@@ -34,11 +35,20 @@ tile.ride_fence_square.name=Queue Fencing Square
 tile.ride_fence_gate.name=Queue Fencing Gate
 
 tile.track_fabricator.name=Track Fabricator
+tile.track_fabricator_casing.name=Track Fabricator Casing
+tile.track_fabricator_output.name=Track Fabricator Output
+tile.track_fabricator_glass.name=Track Fabricator Glass
 tile.track_storage.name=Track Storage
 tile.track_designer.name=Track Designer (WIP)
 
+tile.conveyor.name=Conveyor
+
+tile.stall.camouflage=Camouflage
+tile.food_stall.name=Food Stall
+tile.merch_stall.name=Merchandise Stall
 
 item.hammer.name=Track Maintenance Tool
+item.balloon=Balloon
 
 item.empty_brush.name=Paint Brush
 item.brush_0.name=Paint Brush (White)
@@ -79,7 +89,8 @@ item.ticket.name=Entry Ticket
 item.pass.name=Annual Pass
 item.key.name=Ride Operator's Key
 item.hat_1.name=Ride Operator's Hat
-item.train.name=Rollercoaster Train
+item.train.name=Roller Coaster Train
+item.train2.name=Roller Coaster Train 2
 
 item.brakes_extra.name=Friction Brakes
 item.chain_extra.name=Chain
@@ -87,4 +98,26 @@ item.tires_extra.name=Friction Wheels
 item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
 
-entity.entityTrain.name=Rollercoaster Train
+item.nuggets.name=Chicken Nuggets
+item.chips.name=Chips
+item.popcorn.name=Popcorn
+item.candy_floss.name=Candy Floss
+
+item.coin.name=Coin
+
+entity.entityTrain.name=Roller Coaster Train
+entity.entityTrain2.name=Roller Coaster Train 2
+
+key.categories.rc.trackdesigner=Track Designer
+key.trackdesigner.conflicts=Conflicts between the Track Designer key bindings and vanilla/other mod key bindings is okay, and will still function properly (conflicts between multiple keys in the category won't however). Leave keys in the Track Designer category as NONE for the default key binding layout.
+key.trackdesigner.up=Up
+key.trackdesigner.down=Down
+key.trackdesigner.lookleft=Look Left
+key.trackdesigner.lookright=Look Right
+key.trackdesigner.forward=Forward
+key.trackdesigner.backward=Backward
+key.trackdesigner.left=Left
+key.trackdesigner.right=Right
+
+commands.track.item.animation.usage=/itemanimation OR /itemanimation <true|false|on|off> OR /itemanimation <1|0>;
+commands.toggle.hammer.overlay=/togglehammeroverlay OR /togglehammeroverlay <true|false|on|off> OR /togglehammeroverlay <1|0>;
