@@ -110,8 +110,8 @@ public class JSONHandler {
 
 					ClassLoader loader = JSONHandler.class.getClassLoader();
 					if (!modelName.startsWith(modelFormat) && !styleName.startsWith(".json")) {
-						FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/" + styleName), new File(loader.getResource("assets/rc/models/track-styles/" + fileName + "/" + styleName).getPath()));
-						FileUtils.copyFile(new File("rollercoaster/track-styles/" + fileName + "/" + modelName), new File(loader.getResource("assets/rc/models/track-styles/" + fileName + "/" + modelName).getPath()));
+						FileUtils.copyFile(new File(loader.getResource("assets/rc/models/track-styles/" + fileName + "/" + styleName).getPath()), new File("rollercoaster/track-styles/" + fileName + "/" + styleName));
+						FileUtils.copyFile(new File(loader.getResource("assets/rc/models/track-styles/" + fileName + "/" + modelName).getPath()), new File("rollercoaster/track-styles/" + fileName + "/" + modelName));
 					}
 
 					TrackStyle style = new TrackStyle(fileName);
