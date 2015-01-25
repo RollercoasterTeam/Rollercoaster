@@ -6,9 +6,16 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.model.*;
+import robomuss.rc.block.model.ModelRideFence;
+import robomuss.rc.block.model.ModelRideFenceCorner;
+import robomuss.rc.block.model.ModelRideFenceGate;
+import robomuss.rc.block.model.ModelRideFenceGateOpen;
+import robomuss.rc.block.model.ModelRideFenceSquare;
+import robomuss.rc.block.model.ModelRideFenceTriangle;
 import robomuss.rc.block.te.TileEntityRideFence;
 
 

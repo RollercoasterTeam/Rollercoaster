@@ -1,8 +1,9 @@
 package robomuss.rc.entity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,31 +20,21 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import robomuss.rc.block.BlockTrackBase;
-import robomuss.rc.block.te.TileEntityTrackBase;
+import net.minecraftforge.common.IMinecartCollisionHandler;
+import robomuss.rc.block.BlockTrack;
+import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.TrackManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-public abstract class EntityTrain extends Entity {
+public abstract class EntityTrain extends Entity
+{
     private boolean isInReverse;
     private String entityName;
     /** Minecart rotational logic matrix */
-    private static final int[][][] matrix = new int[][][] {
-		{{0, 0, -1}, {0, 0, 1}},                //0: North, South
-	    {{ -1, 0, 0}, {1, 0, 0}},               //1: West, East
-	    {{ -1, -1, 0}, {1, 0, 0}},              //2: West Down, East
-		{{ -1, 0, 0}, {1, -1, 0}},              //3: West, East Down
-		{{0, 0, -1}, {0, -1, 1}},               //4: North, South Down
-		{{0, -1, -1}, {0, 0, 1}},               //5: North Down, South
-		{{0, 0, 1}, {1, 0, 0}},                 //6: South, East
-		{{0, 0, 1}, { -1, 0, 0}},               //7: South, West
-		{{0, 0, -1}, { -1, 0, 0}},              //8: North, West
-		{{0, 0, -1}, {1, 0, 0}}                 //9: North, East
-    };
-	/** appears to be the progress of the turn */
+    private static final int[][][] matrix = new int[][][] {{{0, 0, -1}, {0, 0, 1}}, {{ -1, 0, 0}, {1, 0, 0}}, {{ -1, -1, 0}, {1, 0, 0}}, {{ -1, 0, 0}, {1, -1, 0}}, {{0, 0, -1}, {0, -1, 1}}, {{0, -1, -1}, {0, 0, 1}}, {{0, 0, 1}, {1, 0, 0}}, {{0, 0, 1}, { -1, 0, 0}}, {{0, 0, -1}, { -1, 0, 0}}, {{0, 0, -1}, {1, 0, 0}}};
+    /** appears to be the progress of the turn */
     private int turnProgress;
     private double minecartX;
     private double minecartY;
@@ -63,7 +54,7 @@ public abstract class EntityTrain extends Entity {
     public static double defaultDragAir = 0.94999998807907104D;
     protected boolean canUseRail = true;
     protected boolean canBePushed = true;
-    private static ITrainCarCollisionHandler collisionHandler = null;
+    private static IMinecartCollisionHandler collisionHandler = null;
 
     /* Instance versions of the above physics properties */
     private float currentSpeedRail = getMaxCartSpeedOnRail();
@@ -71,8 +62,9 @@ public abstract class EntityTrain extends Entity {
     protected float maxSpeedAirVertical = defaultMaxSpeedAirVertical;
     protected double dragAir = defaultDragAir;
 
-    public EntityTrain(World world) {
-        super(world);
+    public EntityTrain(World p_i1712_1_)
+    {
+        super(p_i1712_1_);
         this.preventEntitySpawning = true;
         this.setSize(0.98F, 0.7F);
         this.yOffset = this.height / 2.0F;
@@ -84,7 +76,8 @@ public abstract class EntityTrain extends Entity {
      * MinecartChest, 2 for MinecartFurnace, 3 for MinecartTNT, 4 for MinecartMobSpawner, 5 for MinecartHopper and 0 for
      * a standard empty minecart
      */
-    public static EntityTrainDefault createMinecart(World world, double x, double y, double z, int type) {
+    public static EntityTrainDefault createMinecart(World world, double x, double y, double z, int type)
+    {
         return new EntityTrainDefault(world, x, y, z);
     }
 
@@ -92,109 +85,130 @@ public abstract class EntityTrain extends Entity {
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
      */
-    protected boolean canTriggerWalking() {
+    protected boolean canTriggerWalking()
+    {
         return false;
     }
 
-    protected void entityInit() {
-        this.dataWatcher.addObject(17, 0);          //rolling amplitude
-        this.dataWatcher.addObject(18, 1);          //rolling direction
-        this.dataWatcher.addObject(19, 0f);         //damage
-        this.dataWatcher.addObject(20, 0);          //display tile id
-        this.dataWatcher.addObject(21, 6);          //display tile offset
-        this.dataWatcher.addObject(22, (byte) 0);   //has display tile
+    protected void entityInit()
+    {
+        this.dataWatcher.addObject(17, new Integer(0));
+        this.dataWatcher.addObject(18, new Integer(1));
+        this.dataWatcher.addObject(19, new Float(0.0F));
+        this.dataWatcher.addObject(20, new Integer(0));
+        this.dataWatcher.addObject(21, new Integer(6));
+        this.dataWatcher.addObject(22, Byte.valueOf((byte)0));
     }
 
     /**
      * Returns a boundingBox used to collide the entity with other entities and blocks. This enables the entity to be
      * pushable on contact, like boats or minecarts.
      */
-    public AxisAlignedBB getCollisionBox(Entity entity) {
-        if (getCollisionHandler() != null) {
+    public AxisAlignedBB getCollisionBox(Entity p_70114_1_)
+    {
+        if (getCollisionHandler() != null)
+        {
         	//TODO
-            return getCollisionHandler().getCollisionBox(this, entity);
-//        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+            //return getCollisionHandler().getCollisionBox(this, p_70114_1_);
+        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
         }
-
-        return entity.canBePushed() ? entity.boundingBox : null;
+        return p_70114_1_.canBePushed() ? p_70114_1_.boundingBox : null;
     }
 
     /**
      * returns the bounding box for this entity
      */
-    public AxisAlignedBB getBoundingBox() {
-        if (getCollisionHandler() != null) {
+    public AxisAlignedBB getBoundingBox()
+    {
+        if (getCollisionHandler() != null)
+        {
         	//TODO
-            return getCollisionHandler().getBoundingBox(this);
-//        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+            //return getCollisionHandler().getBoundingBox(this);
+        	return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
         }
-
         return null;
     }
 
     /**
      * Returns true if this entity should push and be pushed by other entities when colliding.
      */
-    public boolean canBePushed() {
+    public boolean canBePushed()
+    {
         return canBePushed;
     }
 
-    public EntityTrain(World world, double prevPosX, double prevPosY, double prevPosZ) {
-        this(world);
-        this.setPosition(prevPosX, prevPosY, prevPosZ);
+    public EntityTrain(World p_i1713_1_, double p_i1713_2_, double p_i1713_4_, double p_i1713_6_)
+    {
+        this(p_i1713_1_);
+        this.setPosition(p_i1713_2_, p_i1713_4_, p_i1713_6_);
         this.motionX = 0.0D;
         this.motionY = 0.0D;
         this.motionZ = 0.0D;
-        this.prevPosX = prevPosX;
-        this.prevPosY = prevPosY;
-        this.prevPosZ = prevPosZ;
+        this.prevPosX = p_i1713_2_;
+        this.prevPosY = p_i1713_4_;
+        this.prevPosZ = p_i1713_6_;
     }
 
     /**
      * Returns the Y offset from the entity's position for any entity riding this one.
      */
-    public double getMountedYOffset() {
-        return (double) this.height * 0.0D - 0.30000001192092896D;
+    public double getMountedYOffset()
+    {
+        return (double)this.height * 0.0D - 0.30000001192092896D;
     }
 
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
-        if (!this.worldObj.isRemote && !this.isDead) {
-            if (this.isEntityInvulnerable()) {
+    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
+    {
+        if (!this.worldObj.isRemote && !this.isDead)
+        {
+            if (this.isEntityInvulnerable())
+            {
                 return false;
-            } else {
+            }
+            else
+            {
                 this.setRollingDirection(-this.getRollingDirection());
                 this.setRollingAmplitude(10);
                 this.setBeenAttacked();
-                this.setDamage(this.getDamage() + amount * 10.0F);
-                boolean flag = dmgSrc.getEntity() instanceof EntityPlayer && ((EntityPlayer) dmgSrc.getEntity()).capabilities.isCreativeMode;
+                this.setDamage(this.getDamage() + p_70097_2_ * 10.0F);
+                boolean flag = p_70097_1_.getEntity() instanceof EntityPlayer && ((EntityPlayer)p_70097_1_.getEntity()).capabilities.isCreativeMode;
 
-                if (flag || this.getDamage() > 40.0F) {
-                    if (this.riddenByEntity != null) {
+                if (flag || this.getDamage() > 40.0F)
+                {
+                    if (this.riddenByEntity != null)
+                    {
                         this.riddenByEntity.mountEntity(this);
                     }
 
-                    if (flag && !this.hasCustomInventoryName()) {
+                    if (flag && !this.hasCustomInventoryName())
+                    {
                         this.setDead();
-                    } else {
-                        this.killMinecart(dmgSrc);
+                    }
+                    else
+                    {
+                        this.killMinecart(p_70097_1_);
                     }
                 }
 
                 return true;
             }
-        } else {
+        }
+        else
+        {
             return true;
         }
     }
 
-    public void killMinecart(DamageSource dmgSrc) {
+    public void killMinecart(DamageSource p_94095_1_)
+    {
         this.setDead();
         ItemStack itemstack = new ItemStack(RCItems.train, 1);
 
-        if (this.entityName != null) {
+        if (this.entityName != null)
+        {
             itemstack.setStackDisplayName(this.entityName);
         }
 
@@ -205,7 +219,8 @@ public abstract class EntityTrain extends Entity {
      * Setups the entity to do the hurt animation. Only used by packets in multiplayer.
      */
     @SideOnly(Side.CLIENT)
-    public void performHurtAnimation() {
+    public void performHurtAnimation()
+    {
         this.setRollingDirection(-this.getRollingDirection());
         this.setRollingAmplitude(10);
         this.setDamage(this.getDamage() + this.getDamage() * 10.0F);
@@ -214,50 +229,64 @@ public abstract class EntityTrain extends Entity {
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
      */
-    public boolean canBeCollidedWith() {
+    public boolean canBeCollidedWith()
+    {
         return !this.isDead;
     }
 
     /**
      * Will get destroyed next tick.
      */
-    public void setDead() {
+    public void setDead()
+    {
         super.setDead();
     }
 
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate() {
-        if (this.getRollingAmplitude() > 0) {                                 //decrement rolling amplitude
+    public void onUpdate()
+    {
+    	System.out.println("Updating");
+        if (this.getRollingAmplitude() > 0)
+        {
             this.setRollingAmplitude(this.getRollingAmplitude() - 1);
         }
 
-        if (this.getDamage() > 0.0F) {                                       //decrement damage
+        if (this.getDamage() > 0.0F)
+        {
             this.setDamage(this.getDamage() - 1.0F);
         }
 
-        if (this.posY < -64.0D) {                                            //kill if in void
+        if (this.posY < -64.0D)
+        {
             this.kill();
         }
 
         int i;
 
-        if (!this.worldObj.isRemote && this.worldObj instanceof WorldServer) {
+        if (!this.worldObj.isRemote && this.worldObj instanceof WorldServer)
+        {
             this.worldObj.theProfiler.startSection("portal");
             MinecraftServer minecraftserver = ((WorldServer)this.worldObj).func_73046_m();
             i = this.getMaxInPortalTime();
 
-            if (this.inPortal) {
-                if (minecraftserver.getAllowNether()) {
-                    if (this.ridingEntity == null && this.portalCounter++ >= i) {
+            if (this.inPortal)
+            {
+                if (minecraftserver.getAllowNether())
+                {
+                    if (this.ridingEntity == null && this.portalCounter++ >= i)
+                    {
                         this.portalCounter = i;
                         this.timeUntilPortal = this.getPortalCooldown();
                         byte b0;
 
-                        if (this.worldObj.provider.dimensionId == -1) {
+                        if (this.worldObj.provider.dimensionId == -1)
+                        {
                             b0 = 0;
-                        } else {
+                        }
+                        else
+                        {
                             b0 = -1;
                         }
 
@@ -266,25 +295,32 @@ public abstract class EntityTrain extends Entity {
 
                     this.inPortal = false;
                 }
-            } else {
-                if (this.portalCounter > 0) {
+            }
+            else
+            {
+                if (this.portalCounter > 0)
+                {
                     this.portalCounter -= 4;
                 }
 
-                if (this.portalCounter < 0) {
+                if (this.portalCounter < 0)
+                {
                     this.portalCounter = 0;
                 }
             }
 
-            if (this.timeUntilPortal > 0) {
+            if (this.timeUntilPortal > 0)
+            {
                 --this.timeUntilPortal;
             }
 
             this.worldObj.theProfiler.endSection();
         }
 
-        if (this.worldObj.isRemote) {
-            if (this.turnProgress > 0) {
+        if (this.worldObj.isRemote)
+        {
+            if (this.turnProgress > 0)
+            {
                 double d6 = this.posX + (this.minecartX - this.posX) / (double)this.turnProgress;
                 double d7 = this.posY + (this.minecartY - this.posY) / (double)this.turnProgress;
                 double d1 = this.posZ + (this.minecartZ - this.posZ) / (double)this.turnProgress;
@@ -294,11 +330,15 @@ public abstract class EntityTrain extends Entity {
                 --this.turnProgress;
                 this.setPosition(d6, d7, d1);
                 this.setRotation(this.rotationYaw, this.rotationPitch);
-            } else {
+            }
+            else
+            {
                 this.setPosition(this.posX, this.posY, this.posZ);
                 this.setRotation(this.rotationYaw, this.rotationPitch);
             }
-        } else {
+        }
+        else
+        {
             this.prevPosX = this.posX;
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
@@ -307,29 +347,29 @@ public abstract class EntityTrain extends Entity {
             i = MathHelper.floor_double(this.posY);
             int i1 = MathHelper.floor_double(this.posZ);
 
-//            if (BlockRailBase.func_150049_b_(this.worldObj, l, i - 1, i1)) {
-//                --i;
-//            }
-
-            if (TrackManager.isBlockAtCoordsTrack(this.worldObj, l, i - 1, i1)) {
+            if (BlockRailBase.func_150049_b_(this.worldObj, l, i - 1, i1))
+            {
                 --i;
             }
 
             double d0 = 0.4D;
-            double d2 = 0.0078125D;
             Block block = this.worldObj.getBlock(l, i, i1);
 
-            if (canUseRail() && block instanceof BlockTrackBase) {
+            if (canUseRail() && block instanceof BlockTrack)
+            {
             	//TODO
-                //float railMaxSpeed = ((BlockRailBase)camouflage).getRailMaxSpeed(worldObj, this, l, i, i1);
+                //float railMaxSpeed = ((BlockRailBase)block).getRailMaxSpeed(worldObj, this, l, i, i1);
             	float railMaxSpeed = 0.4f;
                 double maxSpeed = Math.min(railMaxSpeed, getCurrentCartSpeedCapOnRail());
-                this.func_145821_a(l, i, i1, maxSpeed, getSlopeAdjustment(), block, getTrackMetadata(worldObj, this, l, i, i1));
+                this.func_145821_a(l, i, i1, maxSpeed, getSlopeAdjustment(), block, getBasicRailMetadata(worldObj, this, l, i, i1));
 
-//                if (camouflage == Blocks.activator_rail) {
-//                    this.onActivatorRailPass(l, i, i1, (worldObj.getBlockMetadata(l, i, i1) & 8) != 0);
-//                }
-            } else {
+                if (block == Blocks.activator_rail)
+                {
+                    this.onActivatorRailPass(l, i, i1, (worldObj.getBlockMetadata(l, i, i1) & 8) != 0);
+                }
+            }
+            else
+            {
                 this.func_94088_b(onGround ? d0 : getMaxSpeedAirLateral());
             }
 
@@ -338,17 +378,20 @@ public abstract class EntityTrain extends Entity {
             double d8 = this.prevPosX - this.posX;
             double d4 = this.prevPosZ - this.posZ;
 
-            if (d8 * d8 + d4 * d4 > 0.001D) {
+            if (d8 * d8 + d4 * d4 > 0.001D)
+            {
                 this.rotationYaw = (float)(Math.atan2(d4, d8) * 180.0D / Math.PI);
 
-                if (this.isInReverse) {
+                if (this.isInReverse)
+                {
                     this.rotationYaw += 180.0F;
                 }
             }
 
             double d5 = (double)MathHelper.wrapAngleTo180_float(this.rotationYaw - this.prevRotationYaw);
 
-            if (d5 < -170.0D || d5 >= 170.0D) {
+            if (d5 < -170.0D || d5 >= 170.0D)
+            {
                 this.rotationYaw += 180.0F;
                 this.isInReverse = !this.isInReverse;
             }
@@ -356,28 +399,36 @@ public abstract class EntityTrain extends Entity {
             this.setRotation(this.rotationYaw, this.rotationPitch);
 
             AxisAlignedBB box;
-            if (getCollisionHandler() != null) {
+            if (getCollisionHandler() != null)
+            {
             	//TODO
-                box = getCollisionHandler().getTrainCollisionBox(this);
-//            	box = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
-            } else {
+                //box = getCollisionHandler().getMinecartCollisionBox(this);
+            	box = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+            }
+            else
+            {
                 box = boundingBox.expand(0.2D, 0.0D, 0.2D);
             }
 
             List<?> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, box);
 
-            if (list != null && !list.isEmpty()) {
-                for (int k = 0; k < list.size(); ++k) {
+            if (list != null && !list.isEmpty())
+            {
+                for (int k = 0; k < list.size(); ++k)
+                {
                     Entity entity = (Entity)list.get(k);
 
-                    if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityTrain) {
+                    if (entity != this.riddenByEntity && entity.canBePushed() && entity instanceof EntityTrain)
+                    {
                         entity.applyEntityCollision(this);
                     }
                 }
             }
 
-            if (this.riddenByEntity != null && this.riddenByEntity.isDead) {
-                if (this.riddenByEntity.ridingEntity == this) {
+            if (this.riddenByEntity != null && this.riddenByEntity.isDead)
+            {
+                if (this.riddenByEntity.ridingEntity == this)
+                {
                     this.riddenByEntity.ridingEntity = null;
                 }
 
@@ -389,35 +440,46 @@ public abstract class EntityTrain extends Entity {
         }
     }
 
-    protected void func_94088_b(double limit) {
-        if (this.motionX < -limit) {
-            this.motionX = -limit;
+    /**
+     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
+     */
+    public void onActivatorRailPass(int p_96095_1_, int p_96095_2_, int p_96095_3_, boolean p_96095_4_) {}
+
+    protected void func_94088_b(double p_94088_1_)
+    {
+        if (this.motionX < -p_94088_1_)
+        {
+            this.motionX = -p_94088_1_;
         }
 
-        if (this.motionX > limit) {
-            this.motionX = limit;
+        if (this.motionX > p_94088_1_)
+        {
+            this.motionX = p_94088_1_;
         }
 
-        if (this.motionZ < -limit) {
-            this.motionZ = -limit;
+        if (this.motionZ < -p_94088_1_)
+        {
+            this.motionZ = -p_94088_1_;
         }
 
-        if (this.motionZ > limit) {
-            this.motionZ = limit;
+        if (this.motionZ > p_94088_1_)
+        {
+            this.motionZ = p_94088_1_;
         }
 
         double moveY = motionY;
-
-        if(getMaxSpeedAirVertical() > 0 && motionY > getMaxSpeedAirVertical()) {
+        if(getMaxSpeedAirVertical() > 0 && motionY > getMaxSpeedAirVertical())
+        {
             moveY = getMaxSpeedAirVertical();
-
-            if(Math.abs(motionX) < 0.3f && Math.abs(motionZ) < 0.3f) {
+            if(Math.abs(motionX) < 0.3f && Math.abs(motionZ) < 0.3f)
+            {
                 moveY = 0.15f;
                 motionY = moveY;
             }
         }
 
-        if (this.onGround) {
+        if (this.onGround)
+        {
             this.motionX *= 0.5D;
             this.motionY *= 0.5D;
             this.motionZ *= 0.5D;
@@ -425,63 +487,62 @@ public abstract class EntityTrain extends Entity {
 
         this.moveEntity(this.motionX, moveY, this.motionZ);
 
-        if (!this.onGround) {
+        if (!this.onGround)
+        {
             this.motionX *= getDragAir();
             this.motionY *= getDragAir();
             this.motionZ *= getDragAir();
         }
     }
 
-    public void func_145821_a(int x, int y, int z, double num0, double num1, Block block, int meta) {
+    protected void func_145821_a(int x, int y, int z, double p_145821_4_, double p_145821_6_, Block block, int meta)
+    {
         this.fallDistance = 0.0F;
         Vec3 vec3 = this.func_70489_a(this.posX, this.posY, this.posZ);
         this.posY = (double)y;
         boolean flag = false;
         boolean flag1 = false;
 
-//        if (camouflage == Blocks.golden_rail) {
-//            flag = (worldObj.getBlockMetadata(x, y, z) & 8) != 0;
-//            flag1 = !flag;
-//        }
+        if (block == Blocks.golden_rail)
+        {
+            flag = (worldObj.getBlockMetadata(x, y, z) & 8) != 0;
+            flag1 = !flag;
+        }
 
         //TODO powered things 
-        /*if (((BlockRailBase)camouflage).isPowered()) {
+        /*if (((BlockRailBase)block).isPowered())
+        {
             p_145821_9_ &= 7;
         }*/
 
-	    BlockTrackBase track = (BlockTrackBase) block;
-        boolean slopeFlag = track.track_type == TrackHandler.Types.SLOPE.type;
-	    TileEntityTrackBase teTrack = (TileEntityTrackBase) worldObj.getTileEntity(x, y, z);
-        int trackMeta = worldObj.getBlockMetadata(teTrack.xCoord, teTrack.yCoord, teTrack.zCoord);
+        BlockTrack track = (BlockTrack) block;
+        boolean slopeFlag = track.track_type == TrackHandler.findTrackType("slope");
+        TileEntityTrack te = (TileEntityTrack) worldObj.getTileEntity(x, y, z);
+        
+        if (slopeFlag) 
+        {
+            this.posY = (double)(y + 1);
+        }
 
-	    if (slopeFlag) {
-		    switch (trackMeta) { //TODO: check these!
-			    case 2: this.motionZ += num1; break;
-			    case 3: this.motionX -= num1; break;
-			    case 4: this.motionX += num1; break;
-			    case 5: this.motionZ -= num1; break;
-			    default: this.posY = (double) (y + 1);
-		    }
-	    }
-//        if (slopeFlag) {
-//            this.posY = (double) (y + 1);
-//        }
-//
-//        if (slopeFlag && te.direction == ForgeDirection.SOUTH) {
-//                     this.motionX -= num1;
-//        }
-//
-//        if (slopeFlag && te.direction == ForgeDirection.WEST) {
-//            this.motionX += num1;
-//        }
-//
-//        if (slopeFlag && te.direction == ForgeDirection.NORTH) {
-//		    this.motionZ += num1;
-//	    }
-//
-//        if (slopeFlag && te.direction == ForgeDirection.EAST) {
-//            this.motionZ -= num1;
-//        }
+        if (slopeFlag && te.direction == 0)
+        {
+            this.motionX -= p_145821_6_;
+        }
+
+        if (slopeFlag && te.direction == 1)
+        {
+            this.motionX += p_145821_6_;
+        }
+
+        if (slopeFlag && te.direction == 2)
+        {
+            this.motionZ += p_145821_6_;
+        }
+
+        if (slopeFlag && te.direction == 3)
+        {
+            this.motionZ -= p_145821_6_;
+        }
 
         int[][] aint = matrix[meta];
         double d2 = (double)(aint[1][0] - aint[0][0]);
@@ -489,14 +550,16 @@ public abstract class EntityTrain extends Entity {
         double d4 = Math.sqrt(d2 * d2 + d3 * d3);
         double d5 = this.motionX * d2 + this.motionZ * d3;
 
-        if (d5 < 0.0D) {
+        if (d5 < 0.0D)
+        {
             d2 = -d2;
             d3 = -d3;
         }
 
         double d6 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-        if (d6 > 2.0D) {
+        if (d6 > 2.0D)
+        {
             d6 = 2.0D;
         }
 
@@ -507,15 +570,18 @@ public abstract class EntityTrain extends Entity {
         double d9;
         double d10;
 
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase) {
+        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase)
+        {
             d7 = (double)((EntityLivingBase)this.riddenByEntity).moveForward;
 
-            if (d7 > 0.0D) {
+            if (d7 > 0.0D)
+            {
                 d8 = -Math.sin((double)(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F));
                 d9 = Math.cos((double)(this.riddenByEntity.rotationYaw * (float)Math.PI / 180.0F));
                 d10 = this.motionX * this.motionX + this.motionZ * this.motionZ;
 
-                if (d10 < 0.01D) {
+                if (d10 < 0.01D)
+                {
                     this.motionX += d8 * 0.1D;
                     this.motionZ += d9 * 0.1D;
                     flag1 = false;
@@ -523,15 +589,18 @@ public abstract class EntityTrain extends Entity {
             }
         }
 
-//        if (flag1 && shouldDoRailFunctions()) {
-        if (shouldDoRailFunctions()) {
+        if (flag1 && shouldDoRailFunctions())
+        {
             d7 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-            if (d7 < 0.03D) {
+            if (d7 < 0.03D)
+            {
                 this.motionX *= 0.0D;
                 this.motionY *= 0.0D;
                 this.motionZ *= 0.0D;
-            } else {
+            }
+            else
+            {
                 this.motionX *= 0.5D;
                 this.motionY *= 0.0D;
                 this.motionZ *= 0.5D;
@@ -548,13 +617,18 @@ public abstract class EntityTrain extends Entity {
         double d12;
         double d13;
 
-        if (d2 == 0.0D) {
+        if (d2 == 0.0D)
+        {
             this.posX = (double)x + 0.5D;
             d7 = this.posZ - (double)z;
-        } else if (d3 == 0.0D) {
+        }
+        else if (d3 == 0.0D)
+        {
             this.posZ = (double)z + 0.5D;
             d7 = this.posX - (double)x;
-        } else {
+        }
+        else
+        {
             d12 = this.posX - d8;
             d13 = this.posZ - d9;
             d7 = (d12 * d2 + d13 * d3) * 2.0D;
@@ -564,22 +638,27 @@ public abstract class EntityTrain extends Entity {
         this.posZ = d9 + d3 * d7;
         this.setPosition(this.posX, this.posY + (double)this.yOffset, this.posZ);
 
-        moveMinecartOnRail(x, y, z, num0);
+        moveMinecartOnRail(x, y, z, p_145821_4_);
 
-        if (aint[0][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[0][0] && MathHelper.floor_double(this.posZ) - z == aint[0][2]) {
+        if (aint[0][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[0][0] && MathHelper.floor_double(this.posZ) - z == aint[0][2])
+        {
             this.setPosition(this.posX, this.posY + (double)aint[0][1], this.posZ);
-        } else if (aint[1][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[1][0] && MathHelper.floor_double(this.posZ) - z == aint[1][2]) {
+        }
+        else if (aint[1][1] != 0 && MathHelper.floor_double(this.posX) - x == aint[1][0] && MathHelper.floor_double(this.posZ) - z == aint[1][2])
+        {
             this.setPosition(this.posX, this.posY + (double)aint[1][1], this.posZ);
         }
 
         this.applyDrag();
         Vec3 vec31 = this.func_70489_a(this.posX, this.posY, this.posZ);
 
-        if (vec31 != null && vec3 != null) {
+        if (vec31 != null && vec3 != null)
+        {
             double d14 = (vec3.yCoord - vec31.yCoord) * 0.05D;
             d6 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-            if (d6 > 0.0D) {
+            if (d6 > 0.0D)
+            {
                 this.motionX = this.motionX / d6 * (d6 + d14);
                 this.motionZ = this.motionZ / d6 * (d6 + d14);
             }
@@ -590,47 +669,64 @@ public abstract class EntityTrain extends Entity {
         int j1 = MathHelper.floor_double(this.posX);
         int i1 = MathHelper.floor_double(this.posZ);
 
-        if (j1 != x || i1 != z) {
+        if (j1 != x || i1 != z)
+        {
             d6 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.motionX = d6 * (double)(j1 - x);
             this.motionZ = d6 * (double)(i1 - z);
         }
 
-        if(shouldDoRailFunctions()) {
+        if(shouldDoRailFunctions())
+        {
         	//TODO Not sure this does much (perhaps detector rail functionality?)
             //((BlockRailBase)p_145821_8_).onMinecartPass(worldObj, this, p_145821_1_, p_145821_2_, p_145821_3_);
         }
 
-//        if (flag && shouldDoRailFunctions()) {
-        if (shouldDoRailFunctions()) {
+        if (flag && shouldDoRailFunctions())
+        {
             double d15 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-            if (d15 > 0.01D) {
+            if (d15 > 0.01D)
+            {
                 double d16 = 0.06D;
                 this.motionX += this.motionX / d15 * d16;
                 this.motionZ += this.motionZ / d15 * d16;
-            } else if (meta == 1) {
-                if (this.worldObj.getBlock(x - 1, y, z).isNormalCube()) {
+            }
+            else if (meta == 1)
+            {
+                if (this.worldObj.getBlock(x - 1, y, z).isNormalCube())
+                {
                     this.motionX = 0.02D;
-                } else if (this.worldObj.getBlock(x + 1, y, z).isNormalCube()) {
+                }
+                else if (this.worldObj.getBlock(x + 1, y, z).isNormalCube())
+                {
                     this.motionX = -0.02D;
                 }
-            } else if (meta == 0) {
-                if (this.worldObj.getBlock(x, y, z - 1).isNormalCube()) {
+            }
+            else if (meta == 0)
+            {
+                if (this.worldObj.getBlock(x, y, z - 1).isNormalCube())
+                {
                     this.motionZ = 0.02D;
-                } else if (this.worldObj.getBlock(x, y, z + 1).isNormalCube()) {
+                }
+                else if (this.worldObj.getBlock(x, y, z + 1).isNormalCube())
+                {
                     this.motionZ = -0.02D;
                 }
             }
         }
     }
 
-    protected void applyDrag() {
-        if (this.riddenByEntity != null) {
+    protected void applyDrag()
+    {
+        if (this.riddenByEntity != null)
+        {
             this.motionX *= 0.996999979019165D;
             this.motionY *= 0.0D;
             this.motionZ *= 0.996999979019165D;
-        } else {
+        }
+        else
+        {
             this.motionX *= 0.9599999785423279D;
             this.motionY *= 0.0D;
             this.motionZ *= 0.9599999785423279D;
@@ -638,33 +734,32 @@ public abstract class EntityTrain extends Entity {
     }
 
     @SideOnly(Side.CLIENT)
-    public Vec3 func_70495_a(double posX, double posY, double posZ, double p_70495_7_) {
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
+    public Vec3 func_70495_a(double p_70495_1_, double p_70495_3_, double p_70495_5_, double p_70495_7_)
+    {
+        int i = MathHelper.floor_double(p_70495_1_);
+        int j = MathHelper.floor_double(p_70495_3_);
+        int k = MathHelper.floor_double(p_70495_5_);
 
-        //TODO: might have to not subtract 1 from j
-        /**
-         * For a minecart, this checks if the camouflage 1 below the cart is a rail.
-         * This would only be true if the cart is on a "sloped" rail camouflage (which is 1 camouflage below the current location).
-         */
-//        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k)) {
-        if (TrackManager.isBlockAtCoordsTrack(this.worldObj, i, j - 1, k)) {
+        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k))
+        {
             --j;
         }
 
         Block block = this.worldObj.getBlock(i, j, k);
 
-//        if (!BlockRailBase.func_150051_a(camouflage)) {
-        if (!TrackManager.isTrack(block)) {
+        if (!BlockRailBase.func_150051_a(block))
+        {
             return null;
-        } else {
-            int l = getTrackMetadata(worldObj, this, i, j, k);
+        }
+        else
+        {
+            int l = getBasicRailMetadata(worldObj, this, i, j, k);
 
-            posY = (double)j;
+            p_70495_3_ = (double)j;
 
-            if (l >= 2 && l <= 5) {
-                posY = (double)(j + 1);
+            if (l >= 2 && l <= 5)
+            {
+                p_70495_3_ = (double)(j + 1);
             }
 
             int[][] aint = matrix[l];
@@ -673,43 +768,43 @@ public abstract class EntityTrain extends Entity {
             double d6 = Math.sqrt(d4 * d4 + d5 * d5);
             d4 /= d6;
             d5 /= d6;
-            posX += d4 * p_70495_7_;
-            posZ += d5 * p_70495_7_;
+            p_70495_1_ += d4 * p_70495_7_;
+            p_70495_5_ += d5 * p_70495_7_;
 
-            if (aint[0][1] != 0 && MathHelper.floor_double(posX) - i == aint[0][0] && MathHelper.floor_double(posZ) - k == aint[0][2]) {
-                posY += (double)aint[0][1];
-            } else if (aint[1][1] != 0 && MathHelper.floor_double(posX) - i == aint[1][0] && MathHelper.floor_double(posZ) - k == aint[1][2]) {
-                posY += (double)aint[1][1];
+            if (aint[0][1] != 0 && MathHelper.floor_double(p_70495_1_) - i == aint[0][0] && MathHelper.floor_double(p_70495_5_) - k == aint[0][2])
+            {
+                p_70495_3_ += (double)aint[0][1];
+            }
+            else if (aint[1][1] != 0 && MathHelper.floor_double(p_70495_1_) - i == aint[1][0] && MathHelper.floor_double(p_70495_5_) - k == aint[1][2])
+            {
+                p_70495_3_ += (double)aint[1][1];
             }
 
-            return this.func_70489_a(posX, posY, posZ);
+            return this.func_70489_a(p_70495_1_, p_70495_3_, p_70495_5_);
         }
     }
 
-    public Vec3  func_70489_a(double posX, double posY, double posZ) {
-        int i = MathHelper.floor_double(posX);
-        int j = MathHelper.floor_double(posY);
-        int k = MathHelper.floor_double(posZ);
+    public Vec3 func_70489_a(double p_70489_1_, double p_70489_3_, double p_70489_5_)
+    {
+        int i = MathHelper.floor_double(p_70489_1_);
+        int j = MathHelper.floor_double(p_70489_3_);
+        int k = MathHelper.floor_double(p_70489_5_);
 
-        //TODO: might have to not subtract 1 from j
-        /**
-         * For a minecart, this checks if the camouflage 1 below the cart is a rail.
-         * This would only be true if the cart is on a "sloped" rail camouflage (which is 1 camouflage below the current location).
-         */
-//        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k)) {
-        if (TrackManager.isBlockAtCoordsTrack(this.worldObj, i, j - 1, k)) {
+        if (BlockRailBase.func_150049_b_(this.worldObj, i, j - 1, k))
+        {
             --j;
         }
 
         Block block = this.worldObj.getBlock(i, j, k);
 
-//        if (BlockRailBase.func_150051_a(camouflage)) {
-        if (TrackManager.isTrack(block)) {
-            int l = getTrackMetadata(worldObj, this, i, j, k);
-            posY = (double)j;
+        if (BlockRailBase.func_150051_a(block))
+        {
+            int l = getBasicRailMetadata(worldObj, this, i, j, k);
+            p_70489_3_ = (double)j;
 
-            if (l >= 2 && l <= 5) {
-                posY = (double)(j + 1);
+            if (l >= 2 && l <= 5)
+            {
+                p_70489_3_ = (double)(j + 1);
             }
 
             int[][] aint = matrix[l];
@@ -724,32 +819,41 @@ public abstract class EntityTrain extends Entity {
             double d11 = (d8 - d5) * 2.0D;
             double d12 = d9 - d6;
 
-            if (d10 == 0.0D) {
-                posX = (double)i + 0.5D;
-                d3 = posZ - (double)k;
-            } else if (d12 == 0.0D) {
-                posZ = (double)k + 0.5D;
-                d3 = posX - (double)i;
-            } else {
-                double d13 = posX - d4;
-                double d14 = posZ - d6;
+            if (d10 == 0.0D)
+            {
+                p_70489_1_ = (double)i + 0.5D;
+                d3 = p_70489_5_ - (double)k;
+            }
+            else if (d12 == 0.0D)
+            {
+                p_70489_5_ = (double)k + 0.5D;
+                d3 = p_70489_1_ - (double)i;
+            }
+            else
+            {
+                double d13 = p_70489_1_ - d4;
+                double d14 = p_70489_5_ - d6;
                 d3 = (d13 * d10 + d14 * d12) * 2.0D;
             }
 
-            posX = d4 + d10 * d3;
-            posY = d5 + d11 * d3;
-            posZ = d6 + d12 * d3;
+            p_70489_1_ = d4 + d10 * d3;
+            p_70489_3_ = d5 + d11 * d3;
+            p_70489_5_ = d6 + d12 * d3;
 
-            if (d11 < 0.0D) {
-                ++posY;
+            if (d11 < 0.0D)
+            {
+                ++p_70489_3_;
             }
 
-            if (d11 > 0.0D) {
-                posY += 0.5D;
+            if (d11 > 0.0D)
+            {
+                p_70489_3_ += 0.5D;
             }
 
-            return Vec3.createVectorHelper(posX, posY, posZ);
-        } else {
+            return Vec3.createVectorHelper(p_70489_1_, p_70489_3_, p_70489_5_);
+        }
+        else
+        {
             return null;
         }
     }
@@ -757,68 +861,81 @@ public abstract class EntityTrain extends Entity {
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    protected void readEntityFromNBT(NBTTagCompound compound) {
-        if (compound.getBoolean("CustomDisplayTile")) {
-            this.setDisplayTile(compound.getInteger("DisplayTile"));
-            this.setDisplayTileData(compound.getInteger("DisplayData"));
-            this.setDisplayTileOffset(compound.getInteger("DisplayOffset"));
+    protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
+    {
+        if (p_70037_1_.getBoolean("CustomDisplayTile"))
+        {
+            this.func_145819_k(p_70037_1_.getInteger("DisplayTile"));
+            this.setDisplayTileData(p_70037_1_.getInteger("DisplayData"));
+            this.setDisplayTileOffset(p_70037_1_.getInteger("DisplayOffset"));
         }
 
-        if (compound.hasKey("CustomName", 8) && compound.getString("CustomName").length() > 0) {
-            this.entityName = compound.getString("CustomName");
+        if (p_70037_1_.hasKey("CustomName", 8) && p_70037_1_.getString("CustomName").length() > 0)
+        {
+            this.entityName = p_70037_1_.getString("CustomName");
         }
     }
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    protected void writeEntityToNBT(NBTTagCompound compound) {
-        if (this.hasDisplayTile()) {
-            compound.setBoolean("CustomDisplayTile", true);
-            compound.setInteger("DisplayTile", this.getDisplayTile().getMaterial() == Material.air ? 0 : Block.getIdFromBlock(this.getDisplayTile()));
-            compound.setInteger("DisplayData", this.getDisplayTileData());
-            compound.setInteger("DisplayOffset", this.getDisplayTileOffset());
+    protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
+    {
+        if (this.hasDisplayTile())
+        {
+            p_70014_1_.setBoolean("CustomDisplayTile", true);
+            p_70014_1_.setInteger("DisplayTile", this.func_145820_n().getMaterial() == Material.air ? 0 : Block.getIdFromBlock(this.func_145820_n()));
+            p_70014_1_.setInteger("DisplayData", this.getDisplayTileData());
+            p_70014_1_.setInteger("DisplayOffset", this.getDisplayTileOffset());
         }
 
-        if (this.entityName != null && this.entityName.length() > 0) {
-            compound.setString("CustomName", this.entityName);
+        if (this.entityName != null && this.entityName.length() > 0)
+        {
+            p_70014_1_.setString("CustomName", this.entityName);
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public float getShadowSize() {
-        return 0f;
+    public float getShadowSize()
+    {
+        return 0.0F;
     }
 
     /**
      * Applies a velocity to each of the entities pushing them away from each other. Args: entity
      */
-    public void applyEntityCollision(Entity entity) {
+    public void applyEntityCollision(Entity p_70108_1_)
+    {
     	//TODO
-        //MinecraftForge.EVENT_BUS.post(new MinecartCollisionEvent(this, entity));
-        if (getCollisionHandler() != null) {
+        //MinecraftForge.EVENT_BUS.post(new MinecartCollisionEvent(this, p_70108_1_));
+        if (getCollisionHandler() != null)
+        {
         	//TODO
-            getCollisionHandler().onEntityCollision(this, entity);
+            //getCollisionHandler().onEntityCollision(this, p_70108_1_);
             return;
         }
-
-        if (!this.worldObj.isRemote) {
-            if (entity != this.riddenByEntity) {
-                if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && !(entity instanceof EntityIronGolem) && canBeRidden() && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.01D && this.riddenByEntity == null && entity.ridingEntity == null) {
-                    entity.mountEntity(this);
+        if (!this.worldObj.isRemote)
+        {
+            if (p_70108_1_ != this.riddenByEntity)
+            {
+                if (p_70108_1_ instanceof EntityLivingBase && !(p_70108_1_ instanceof EntityPlayer) && !(p_70108_1_ instanceof EntityIronGolem) && canBeRidden()               && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.01D && this.riddenByEntity == null && p_70108_1_.ridingEntity == null)
+                {
+                    p_70108_1_.mountEntity(this);
                 }
 
-                double d0 = entity.posX - this.posX;
-                double d1 = entity.posZ - this.posZ;
+                double d0 = p_70108_1_.posX - this.posX;
+                double d1 = p_70108_1_.posZ - this.posZ;
                 double d2 = d0 * d0 + d1 * d1;
 
-                if (d2 >= 9.999999747378752E-5D) {
+                if (d2 >= 9.999999747378752E-5D)
+                {
                     d2 = (double)MathHelper.sqrt_double(d2);
                     d0 /= d2;
                     d1 /= d2;
                     double d3 = 1.0D / d2;
 
-                    if (d3 > 1.0D) {
+                    if (d3 > 1.0D)
+                    {
                         d3 = 1.0D;
                     }
 
@@ -831,45 +948,54 @@ public abstract class EntityTrain extends Entity {
                     d0 *= 0.5D;
                     d1 *= 0.5D;
 
-                    if (entity instanceof EntityTrain) {
-                        double d4 = entity.posX - this.posX;
-                        double d5 = entity.posZ - this.posZ;
+                    if (p_70108_1_ instanceof EntityTrain)
+                    {
+                        double d4 = p_70108_1_.posX - this.posX;
+                        double d5 = p_70108_1_.posZ - this.posZ;
                         Vec3 vec3 = Vec3.createVectorHelper(d4, 0.0D, d5).normalize();
                         Vec3 vec31 = Vec3.createVectorHelper((double)MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F), 0.0D, (double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F)).normalize();
                         double d6 = Math.abs(vec3.dotProduct(vec31));
 
-                        if (d6 < 0.800000011920929D) {
+                        if (d6 < 0.800000011920929D)
+                        {
                             return;
                         }
 
-                        double d7 = entity.motionX + this.motionX;
-                        double d8 = entity.motionZ + this.motionZ;
+                        double d7 = p_70108_1_.motionX + this.motionX;
+                        double d8 = p_70108_1_.motionZ + this.motionZ;
 
-                        if (((EntityTrain)entity).isPoweredCart() && !isPoweredCart()) {
+                        if (((EntityTrain)p_70108_1_).isPoweredCart() && !isPoweredCart())
+                        {
                             this.motionX *= 0.20000000298023224D;
                             this.motionZ *= 0.20000000298023224D;
-                            this.addVelocity(entity.motionX - d0, 0.0D, entity.motionZ - d1);
-                            entity.motionX *= 0.949999988079071D;
-                            entity.motionZ *= 0.949999988079071D;
-                        } else if (((EntityTrain)entity).isPoweredCart() && !isPoweredCart()) {
-                            entity.motionX *= 0.20000000298023224D;
-                            entity.motionZ *= 0.20000000298023224D;
-                            entity.addVelocity(this.motionX + d0, 0.0D, this.motionZ + d1);
+                            this.addVelocity(p_70108_1_.motionX - d0, 0.0D, p_70108_1_.motionZ - d1);
+                            p_70108_1_.motionX *= 0.949999988079071D;
+                            p_70108_1_.motionZ *= 0.949999988079071D;
+                        }
+                        else if (((EntityTrain)p_70108_1_).isPoweredCart() && !isPoweredCart())
+                        {
+                            p_70108_1_.motionX *= 0.20000000298023224D;
+                            p_70108_1_.motionZ *= 0.20000000298023224D;
+                            p_70108_1_.addVelocity(this.motionX + d0, 0.0D, this.motionZ + d1);
                             this.motionX *= 0.949999988079071D;
                             this.motionZ *= 0.949999988079071D;
-                        } else {
+                        }
+                        else
+                        {
                             d7 /= 2.0D;
                             d8 /= 2.0D;
                             this.motionX *= 0.20000000298023224D;
                             this.motionZ *= 0.20000000298023224D;
                             this.addVelocity(d7 - d0, 0.0D, d8 - d1);
-                            entity.motionX *= 0.20000000298023224D;
-                            entity.motionZ *= 0.20000000298023224D;
-                            entity.addVelocity(d7 + d0, 0.0D, d8 + d1);
+                            p_70108_1_.motionX *= 0.20000000298023224D;
+                            p_70108_1_.motionZ *= 0.20000000298023224D;
+                            p_70108_1_.addVelocity(d7 + d0, 0.0D, d8 + d1);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         this.addVelocity(-d0, 0.0D, -d1);
-                        entity.addVelocity(d0 / 4.0D, 0.0D, d1 / 4.0D);
+                        p_70108_1_.addVelocity(d0 / 4.0D, 0.0D, d1 / 4.0D);
                     }
                 }
             }
@@ -881,7 +1007,8 @@ public abstract class EntityTrain extends Entity {
      * posY, posZ, yaw, pitch
      */
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotation2(double p_70056_1_, double p_70056_3_, double p_70056_5_, float p_70056_7_, float p_70056_8_, int p_70056_9_) {
+    public void setPositionAndRotation2(double p_70056_1_, double p_70056_3_, double p_70056_5_, float p_70056_7_, float p_70056_8_, int p_70056_9_)
+    {
         this.minecartX = p_70056_1_;
         this.minecartY = p_70056_3_;
         this.minecartZ = p_70056_5_;
@@ -897,132 +1024,157 @@ public abstract class EntityTrain extends Entity {
      * Sets the current amount of damage the minecart has taken. Decreases over time. The cart breaks when this is over
      * 40.
      */
-    public void setDamage(float dmg) {
-        this.dataWatcher.updateObject(19, dmg);
-    }
-
-    /**
-     * Gets the current amount of damage the minecart has taken. Decreases over time. The cart breaks when this is over
-     * 40.
-     */
-    public float getDamage() {
-        return this.dataWatcher.getWatchableObjectFloat(19);
+    public void setDamage(float p_70492_1_)
+    {
+        this.dataWatcher.updateObject(19, Float.valueOf(p_70492_1_));
     }
 
     /**
      * Sets the velocity to the args. Args: x, y, z
      */
     @SideOnly(Side.CLIENT)
-    public void setVelocity(double velocityX, double velocityY, double velocityZ) {
-        this.velocityX = this.motionX = velocityX;
-        this.velocityY = this.motionY = velocityY;
-        this.velocityZ = this.motionZ = velocityZ;
+    public void setVelocity(double p_70016_1_, double p_70016_3_, double p_70016_5_)
+    {
+        this.velocityX = this.motionX = p_70016_1_;
+        this.velocityY = this.motionY = p_70016_3_;
+        this.velocityZ = this.motionZ = p_70016_5_;
+    }
+
+    /**
+     * Gets the current amount of damage the minecart has taken. Decreases over time. The cart breaks when this is over
+     * 40.
+     */
+    public float getDamage()
+    {
+        return this.dataWatcher.getWatchableObjectFloat(19);
     }
 
     /**
      * Sets the rolling amplitude the cart rolls while being attacked.
      */
-    public void setRollingAmplitude(int amplitude) {
-        this.dataWatcher.updateObject(17, amplitude);
+    public void setRollingAmplitude(int p_70497_1_)
+    {
+        this.dataWatcher.updateObject(17, Integer.valueOf(p_70497_1_));
     }
 
     /**
      * Gets the rolling amplitude the cart rolls while being attacked.
      */
-    public int getRollingAmplitude() {
+    public int getRollingAmplitude()
+    {
         return this.dataWatcher.getWatchableObjectInt(17);
     }
 
     /**
      * Sets the rolling direction the cart rolls while being attacked. Can be 1 or -1.
      */
-    public void setRollingDirection(int direction) {
-        this.dataWatcher.updateObject(18, direction);
+    public void setRollingDirection(int p_70494_1_)
+    {
+        this.dataWatcher.updateObject(18, Integer.valueOf(p_70494_1_));
     }
 
     /**
      * Gets the rolling direction the cart rolls while being attacked. Can be 1 or -1.
      */
-    public int getRollingDirection() {
+    public int getRollingDirection()
+    {
         return this.dataWatcher.getWatchableObjectInt(18);
     }
 
     public abstract int getMinecartType();
 
-    public Block getDisplayTile() {
-        if (!this.hasDisplayTile()) {
-            return this.getDefaultDisplayTile();
-        } else {
+    public Block func_145820_n()
+    {
+        if (!this.hasDisplayTile())
+        {
+            return this.func_145817_o();
+        }
+        else
+        {
             int i = this.getDataWatcher().getWatchableObjectInt(20) & 65535;
             return Block.getBlockById(i);
         }
     }
 
-    public Block getDefaultDisplayTile() {
+    public Block func_145817_o()
+    {
         return Blocks.air;
     }
 
-    public int getDisplayTileData() {
+    public int getDisplayTileData()
+    {
         return !this.hasDisplayTile() ? this.getDefaultDisplayTileData() : this.getDataWatcher().getWatchableObjectInt(20) >> 16;
     }
 
-    public int getDefaultDisplayTileData() {
+    public int getDefaultDisplayTileData()
+    {
         return 0;
     }
 
-    public int getDisplayTileOffset() {
+    public int getDisplayTileOffset()
+    {
         return !this.hasDisplayTile() ? this.getDefaultDisplayTileOffset() : this.getDataWatcher().getWatchableObjectInt(21);
     }
 
-    public int getDefaultDisplayTileOffset() {
+    public int getDefaultDisplayTileOffset()
+    {
         return 6;
     }
 
-    public void setDisplayTile(int id) {
-        this.getDataWatcher().updateObject(20, id & 65535 | this.getDisplayTileData() << 16);
+    public void func_145819_k(int p_145819_1_)
+    {
+        this.getDataWatcher().updateObject(20, Integer.valueOf(p_145819_1_ & 65535 | this.getDisplayTileData() << 16));
         this.setHasDisplayTile(true);
     }
 
-    public void setDisplayTileData(int id) {
-        this.getDataWatcher().updateObject(20, Block.getIdFromBlock(this.getDisplayTile()) & 65535 | id << 16);
+    public void setDisplayTileData(int p_94092_1_)
+    {
+        this.getDataWatcher().updateObject(20, Integer.valueOf(Block.getIdFromBlock(this.func_145820_n()) & 65535 | p_94092_1_ << 16));
         this.setHasDisplayTile(true);
     }
 
-    public void setDisplayTileOffset(int offset) {
-        this.getDataWatcher().updateObject(21, offset);
+    public void setDisplayTileOffset(int p_94086_1_)
+    {
+        this.getDataWatcher().updateObject(21, Integer.valueOf(p_94086_1_));
         this.setHasDisplayTile(true);
     }
 
-    public boolean hasDisplayTile() {
+    public boolean hasDisplayTile()
+    {
         return this.getDataWatcher().getWatchableObjectByte(22) == 1;
     }
 
-    public void setHasDisplayTile(boolean hasDisplayTile) {
-        this.getDataWatcher().updateObject(22, (byte)(hasDisplayTile ? 1 : 0));
+    public void setHasDisplayTile(boolean p_94096_1_)
+    {
+        this.getDataWatcher().updateObject(22, Byte.valueOf((byte)(p_94096_1_ ? 1 : 0)));
     }
 
     /**
      * Sets the minecart's name.
      */
-    public void setMinecartName(String name) {
-        this.entityName = name;
+    public void setMinecartName(String p_96094_1_)
+    {
+        this.entityName = p_96094_1_;
     }
 
     /**
      * Gets the name of this command sender (usually username, but possibly "Rcon")
      */
-    public String getCommandSenderName() {
+    public String getCommandSenderName()
+    {
         return this.entityName != null ? this.entityName : super.getCommandSenderName();
     }
 
     /**
      * Returns if the inventory is named
      */
-    public boolean hasCustomInventoryName() {
+    public boolean hasCustomInventoryName()
+    {
         return this.entityName != null;
     }
 
-    public String getMinecartName() {
+    public String func_95999_t()
+    {
         return this.entityName;
     }
     /* =================================== FORGE START ===========================================*/
@@ -1030,28 +1182,33 @@ public abstract class EntityTrain extends Entity {
      * Moved to allow overrides.
      * This code handles minecart movement and speed capping when on a rail.
      */
-    public void moveMinecartOnRail(int x, int y, int z, double par4) {
+    public void moveMinecartOnRail(int x, int y, int z, double par4){
         double d12 = this.motionX;
         double d13 = this.motionZ;
 
-        if (this.riddenByEntity != null) {
+        if (this.riddenByEntity != null)
+        {
             d12 *= 0.75D;
             d13 *= 0.75D;
         }
 
-        if (d12 < -par4) {
+        if (d12 < -par4)
+        {
             d12 = -par4;
         }
 
-        if (d12 > par4) {
+        if (d12 > par4)
+        {
             d12 = par4;
         }
 
-        if (d13 < -par4) {
+        if (d13 < -par4)
+        {
             d13 = -par4;
         }
 
-        if (d13 > par4) {
+        if (d13 > par4)
+        {
             d13 = par4;
         }
 
@@ -1063,7 +1220,8 @@ public abstract class EntityTrain extends Entity {
      * is registered, returns null
      * @return The collision handler or null
      */
-    public static ITrainCarCollisionHandler getCollisionHandler() {
+    public static IMinecartCollisionHandler getCollisionHandler()
+    {
         return collisionHandler;
     }
 
@@ -1072,7 +1230,8 @@ public abstract class EntityTrain extends Entity {
      * that is currently set.
      * @param handler The new handler
      */
-    public static void setCollisionHandler(ITrainCarCollisionHandler handler) {
+    public static void setCollisionHandler(IMinecartCollisionHandler handler)
+    {
         collisionHandler = handler;
     }
 
@@ -1082,7 +1241,8 @@ public abstract class EntityTrain extends Entity {
      * but is not necessary the item the cart drops when destroyed.
      * @return An ItemStack that can be used to place the cart.
      */
-    public ItemStack getCartItem() {
+    public ItemStack getCartItem()
+    {
         return new ItemStack(RCItems.train);
     }
 
@@ -1091,7 +1251,8 @@ public abstract class EntityTrain extends Entity {
      * This function is mainly used to gracefully detach a minecart from a rail.
      * @return True if the minecart can use rails.
      */
-    public boolean canUseRail() {
+    public boolean canUseRail()
+    {
         return canUseRail;
     }
 
@@ -1100,7 +1261,8 @@ public abstract class EntityTrain extends Entity {
      * This function is mainly used to gracefully detach a minecart from a rail.
      * @param use Whether the minecart can currently use rails.
      */
-    public void setCanUseRail(boolean use) {
+    public void setCanUseRail(boolean use)
+    {
         canUseRail = use;
     }
 
@@ -1108,24 +1270,26 @@ public abstract class EntityTrain extends Entity {
      * Return false if this cart should not call onMinecartPass() and should ignore Powered Rails.
      * @return True if this cart should call onMinecartPass().
      */
-    public boolean shouldDoRailFunctions() {
+    public boolean shouldDoRailFunctions()
+    {
         return true;
     }
 
-    //TODO
     /**
      * Returns true if this cart is self propelled.
      * @return True if powered.
      */
-    public boolean isPoweredCart() {
-        return getMinecartType() == 2;
+    public boolean isPoweredCart()
+    {
+        return getMinecartType()== 2;
     }
 
     /**
      * Returns true if this cart can be ridden by an Entity.
      * @return True if this cart can be ridden.
      */
-    public boolean canBeRidden() {
+    public boolean canBeRidden()
+    {
         return true;
     }
 
@@ -1142,7 +1306,8 @@ public abstract class EntityTrain extends Entity {
      *
      * @return Carts max speed.
      */
-    public float getMaxCartSpeedOnRail() {
+    public float getMaxCartSpeedOnRail()
+    {
         return 1.2f;
     }
 
@@ -1154,51 +1319,60 @@ public abstract class EntityTrain extends Entity {
      *
      * @return
      */
-    public final float getCurrentCartSpeedCapOnRail() {
+    public final float getCurrentCartSpeedCapOnRail()
+    {
         return currentSpeedRail;
     }
 
-    public final void setCurrentCartSpeedCapOnRail(float value) {
+    public final void setCurrentCartSpeedCapOnRail(float value)
+    {
         value = Math.min(value, getMaxCartSpeedOnRail());
         currentSpeedRail = value;
     }
 
-    public float getMaxSpeedAirLateral() {
+    public float getMaxSpeedAirLateral()
+    {
         return maxSpeedAirLateral;
     }
 
-    public void setMaxSpeedAirLateral(float value) {
+    public void setMaxSpeedAirLateral(float value)
+    {
         maxSpeedAirLateral = value;
     }
 
-    public float getMaxSpeedAirVertical() {
+    public float getMaxSpeedAirVertical()
+    {
         return maxSpeedAirVertical;
     }
 
-    public void setMaxSpeedAirVertical(float value) {
+    public void setMaxSpeedAirVertical(float value)
+    {
         maxSpeedAirVertical = value;
     }
 
-    public double getDragAir() {
+    public double getDragAir()
+    {
         return dragAir;
     }
 
-    public void setDragAir(double value) {
+    public void setDragAir(double value)
+    {
         dragAir = value;
     }
 
-    public double getSlopeAdjustment() {
+    public double getSlopeAdjustment()
+    {
         return 0.0078125D;
     }
     
-    public int getTrackMetadata(IBlockAccess world, EntityTrain entityTrain, int x, int y, int z) {
+    public int getBasicRailMetadata(IBlockAccess world, EntityTrain entityTrain, int x, int y, int z)
+    {
         int meta = world.getBlockMetadata(x, y, z);
-
         //TODO
-        /*if(isPowered()) {
+        /*if(isPowered())
+        {
             meta = meta & 7;
         }*/
-
         return meta;
     }
 }

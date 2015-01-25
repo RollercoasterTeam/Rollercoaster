@@ -2,39 +2,33 @@ package robomuss.rc.track.extra;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.model.ModelChainExtended;
 import robomuss.rc.track.TrackHandler;
-import robomuss.rc.track.piece.TrackPiece;
+import robomuss.rc.track.TrackType;
 
 public class TrackExtraChain extends TrackExtra {
-	public TrackExtraChain(int id, String name, ModelBase model, int renderStages, int amount, Object[] recipe, TrackHandler.Types ... allowedTrackTypes) {
-		super(id, name, model, renderStages, amount, recipe, allowedTrackTypes);
+
+	public TrackExtraChain(String name, ModelBase model, Object[] recipe, int amount, TrackType... allowedTrackTypes) {
+		super(name, model, recipe, amount, 2, allowedTrackTypes);
 	}
-
-	//TODO:!!!
 	@Override
-	public void render(TrackPiece type) {
-//		if(type == TrackHandler.findTrackType("horizontal")) {
-		if (type == TrackHandler.Types.HORIZONTAL.type) {
+	public void render(TrackType track) {
+		if(track == TrackHandler.findTrackType("horizontal")) {
 			model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
-
-//		if(type == TrackHandler.findTrackType("slope_up")) {
-		if (type == TrackHandler.Types.SLOPE_UP.type) {
+		if(track == TrackHandler.findTrackType("slope_up")) {
 			model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 			GL11.glRotatef(45f, 0, 0, 1);
 			new ModelChainExtended().render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
-
-//		if(type == TrackHandler.findTrackType("slope")) {
-		if (type == TrackHandler.Types.SLOPE.type) {
+		if(track == TrackHandler.findTrackType("slope")) {
 			GL11.glRotatef(45f, 0, 0, 1);
 			new ModelChainExtended().render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}
-
-//		if(type == TrackHandler.findTrackType("slope_down")) {
-		if (type == TrackHandler.Types.SLOPE_DOWN.type) {
+		if(track == TrackHandler.findTrackType("slope_down")) {
 			GL11.glRotatef(45f, 0, 0, 1);
 			new ModelChainExtended().render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		}

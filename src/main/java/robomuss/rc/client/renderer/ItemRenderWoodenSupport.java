@@ -4,7 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
+
+import robomuss.rc.block.model.ModelSupport;
 import robomuss.rc.block.model.ModelWoodenSupport;
 
 public class ItemRenderWoodenSupport implements IItemRenderer {
