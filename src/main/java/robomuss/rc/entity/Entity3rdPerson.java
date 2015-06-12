@@ -1,37 +1,37 @@
 package robomuss.rc.entity;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
+
+import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.client.gui.GuiTrackDesigner;
-import robomuss.rc.client.gui.keybinding.RCKeyBinding;
-import robomuss.rc.client.gui.keybinding.TrackDesignerKeyBindings;
 import robomuss.rc.event.RenderWorldLast;
-
-import java.util.List;
-
 
 /**
  * Created by Mark on 17/08/2014.
  */
 public class Entity3rdPerson extends EntityLivingBase {
-    public EntityLivingBase player = this;
 
-    public static boolean needsToMoveUp = false;
-	public static RCKeyBinding[] rcKeys;
+    /*private static FloatBuffer modelviewF = GLAllocation.createDirectFloatBuffer(16);
+    private static FloatBuffer projectionF = GLAllocation.createDirectFloatBuffer(16);
+    private static DoubleBuffer modelviewD = ByteBuffer.allocateDirect(16 * 8).asDoubleBuffer();
+    private static DoubleBuffer projectionD = ByteBuffer.allocateDirect(16 * 8).asDoubleBuffer();
+    private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
+    private static FloatBuffer winZ = ByteBuffer.allocateDirect(1 * 4).asFloatBuffer();
+    private static FloatBuffer pos = ByteBuffer.allocateDirect(3 * 4).asFloatBuffer();*/
 
-	private GuiTrackDesigner designerGUI;
+    public EntityLivingBase player;
+    public TileEntityTrackDesigner tile;
 
-    public Entity3rdPerson(World world, RCKeyBinding[] rcKeys, GuiTrackDesigner designerGUI) {
-        super(world);
-		this.rcKeys = rcKeys;
-		this.designerGUI = designerGUI;
+
+    public Entity3rdPerson(World par1World) {
+        super(par1World);
 
         width = 0;
         height = 0;
@@ -39,91 +39,58 @@ public class Entity3rdPerson extends EntityLivingBase {
 
     @Override
     public void onUpdate() {
-		TrackDesignerKeyBindings.init();
-
-        Vec3 look = this.getLook(1.0F).normalize();
-
-        Vec3 worldUp = Vec3.createVectorHelper(0, 1, 0);
-        Vec3 side = worldUp.crossProduct(look).normalize();
-        Vec3 forward = side.crossProduct(worldUp).normalize();
-
-        motionX = 0;
-        motionY = 0;
-        motionZ = 0;
-
-		if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
-			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.left.getRCKeyCode())) {
-				motionX = side.xCoord * 0.5;
-				motionZ = side.zCoord * 0.5;
-			}
-
-		    if (Keyboard.isKeyDown(TrackDesignerKeyBindings.right.getRCKeyCode())) {
-				motionX = side.xCoord * -0.5;
-		        motionZ = side.zCoord * -0.5;
-		    }
-
-			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.forward.getRCKeyCode())) {
-				motionX = forward.xCoord * 0.5;
-			    motionZ = forward.zCoord * 0.5;
-		    }
-
-			if (Keyboard.isKeyDown(TrackDesignerKeyBindings.backward.getRCKeyCode())) {
-				motionX = forward.xCoord * -0.5;
-			    motionZ = forward.zCoord * -0.5;
-		    }
-	    } else {
-		    if (Keyboard.isKeyDown(TrackDesignerKeyBindings.forward.getRCKeyCode())) {
-			    setAngles(0, 10);
-		    } else if (Keyboard.isKeyDown(TrackDesignerKeyBindings.backward.getRCKeyCode())) {
-			    setAngles(0, -10);
-		    }
-	    }
-
-	    if (Keyboard.isKeyDown(TrackDesignerKeyBindings.up.getRCKeyCode())) {
-		    motionY = 0.2;
-	    } else if (Keyboard.isKeyDown(TrackDesignerKeyBindings.down.getRCKeyCode())) {
-		    motionY = -0.2;
-	    }
-
-	    int dx = Mouse.getDX();
-	    int dy = Mouse.getDY();
-
-	    boolean leftButtonDown = Mouse.isButtonDown(0);
-		boolean rightButtonDown = Mouse.isButtonDown(1);
-	    boolean middleButtonDown = Mouse.isButtonDown(2);
-
-	    int speed = 10;
-
-	    if (!isMouseOverAButton()) {
-		    if (leftButtonDown || middleButtonDown) {
-			    setAngles(dx * speed, dy * speed);
-		    }
-	    }
-
-	    if (Keyboard.isKeyDown(TrackDesignerKeyBindings.lookLeft.getRCKeyCode())) {
-		    setAngles(-10, 0);
-	    } else if (Keyboard.isKeyDown(TrackDesignerKeyBindings.lookRight.getRCKeyCode())) {
-		    setAngles(10, 0);
-	    }
-
-        super.onUpdate();
+    	if(!GuiTrackDesigner.createMenu) { 
+	        Vec3 look = this.getLook(1.0F).normalize();
+	
+	        Vec3 worldUp = Vec3.createVectorHelper(0, 1, 0);
+	        Vec3 side = worldUp.crossProduct(look).normalize();
+	        Vec3 forward = side.crossProduct(worldUp).normalize();
+	
+	        motionX = 0;
+	        motionY = 0;
+	        motionZ = 0;
+	
+	        if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
+	            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindLeft.getKeyCode())) {
+	                motionX = side.xCoord * 0.5;
+	                motionZ = side.zCoord * 0.5;
+	            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindRight.getKeyCode())) {
+	                motionX = side.xCoord * -0.5;
+	                motionZ = side.zCoord * -0.5;
+	            }
+	        } 
+	        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+	            setAngles (-10, 0);
+	        } else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+	            setAngles (10, 0);
+	        }
+	
+	        if (!Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
+	            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
+	                motionX = forward.xCoord * 0.5;
+	                motionZ = forward.zCoord * 0.5;
+	            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+	                motionX = forward.xCoord * -0.5;
+	                motionZ = forward.zCoord * -0.5;
+	            }
+	        } else {
+	            if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode())) {
+	                setAngles(0, 10);
+	            } else if (Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindBack.getKeyCode())) {
+	                setAngles(0, -10);
+	            }
+	        }
+	
+	
+	        if (Keyboard.isKeyDown(Keyboard.KEY_PRIOR)) {
+	            motionY = 0.2;
+	        } else if (Keyboard.isKeyDown(Keyboard.KEY_NEXT)) {
+	            motionY = -0.2;
+	        }
+	
+	        super.onUpdate();
+    	}
     }
-
-	private boolean isMouseOverAButton() {
-		List<GuiButton> buttons = this.designerGUI.getButtonList();
-
-		boolean hovering = false;
-
-		for (GuiButton button : buttons) {
-			if (!button.func_146115_a()) {
-				hovering = false;
-			} else {
-				hovering = true;
-			}
-		}
-
-		return hovering;
-	}
 
     @Override
     public ItemStack getHeldItem() {

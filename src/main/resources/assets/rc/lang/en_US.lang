@@ -1,15 +1,14 @@
-itemGroup.tab.decor=Roller Coaster Decorations
-itemGroup.tab.track=Roller Coaster Track
-itemGroup.tab.tools=Roller Coaster Tools
-itemGroup.tab.other=Roller Coaster Misc
-
+itemGroup.tab.decor=Rollercoaster Decorations
+itemGroup.tab.track=Rollercoaster Track
+itemGroup.tab.tools=Rollercoaster Tools
+itemGroup.tab.other=Rollercoaster Misc
 tile.horizontal_track.name=Track 
 tile.slope_up_track.name=Slope Up Track
 tile.slope_track.name=Sloped Track
 tile.slope_down_track.name=Slope Down Track
 tile.curve_track.name=Curved Track
 tile.loop_track.name=Loop Track
-tile.heartline_roll_track.name=Heartline Roll Track
+tile.heartline_roll_track.name=Heartline Roll Track (Coming Soon!)
 
 tile.support.name=Steel Support
 tile.footer.name=Support Footer
@@ -17,38 +16,38 @@ tile.wooden_support.name=Wooden Support
 
 tile.path_0.name=Asphalt Path
 tile.path_1.name=Dusty Path
-tile.path_2.name=Parchment Path
-tile.path_3.name=Leafy Path
+tile.path_2.name=Leafy Path
+tile.path_3.name=Quartz Path
 tile.path_4.name=Oak Wood Path
 tile.path_5.name=Spruce Wood Path
 tile.path_6.name=Birch Wood Path
 tile.path_7.name=Jungle Wood Path
 tile.path_8.name=Sandstone Path
-tile.path_9.name=Quartz Path
-tile.railings.name=Iron Railings
-tile.picket.name=Picket Fence
+tile.path_9.name=Stone Path
+tile.path_10.name=Large Stone Tile Path
+tile.path_11.name=Small Stone Tile Path
+tile.path_12.name=Stone Bricks Path
+tile.path_13.name=Brick Path
+
+tile.iron_fencing.name=Iron Railings
+tile.picket_fencing.name=Picket Fence
 
 tile.ride_fence.name=Queue Fencing
 tile.ride_fence_corner.name=Queue Fencing Corner
 tile.ride_fence_triangle.name=Queue Fencing Triangle
 tile.ride_fence_square.name=Queue Fencing Square
 tile.ride_fence_gate.name=Queue Fencing Gate
+tile.ride_fence_panel.name=Ride Control Panel
 
 tile.track_fabricator.name=Track Fabricator
-tile.track_fabricator_casing.name=Track Fabricator Casing
-tile.track_fabricator_output.name=Track Fabricator Output
-tile.track_fabricator_glass.name=Track Fabricator Glass
 tile.track_storage.name=Track Storage
-tile.track_designer.name=Track Designer (WIP)
+tile.track_designer.name=Track Designer
 
-tile.conveyor.name=Conveyor
+tile.catwalk.name=Catwalk
 
-tile.stall.camouflage=Camouflage
-tile.food_stall.name=Food Stall
-tile.merch_stall.name=Merchandise Stall
+tile.ride_sign.name=Ride Signage
 
-item.hammer.name=Track Maintenance Tool
-item.balloon=Balloon
+item.hammer.name=Hammer
 
 item.empty_brush.name=Paint Brush
 item.brush_0.name=Paint Brush (White)
@@ -67,6 +66,20 @@ item.brush_12.name=Paint Brush (Brown)
 item.brush_13.name=Paint Brush (Green)
 item.brush_14.name=Paint Brush (Red)
 item.brush_15.name=Paint Brush (Black)
+item.brush_16.name=Vinyl Sticker (Iron)
+item.brush_17.name=Vinyl Sticker (Gold)
+item.brush_18.name=Vinyl Sticker (Diamond)
+item.brush_19.name=Vinyl Sticker (Emerald)
+item.brush_20.name=Vinyl Sticker (Quartz)
+item.brush_21.name=Vinyl Sticker (Lapis)
+item.brush_22.name=Vinyl Sticker (Coal)
+item.brush_23.name=Vinyl Sticker (Redstone)
+item.brush_24.name=Vinyl Sticker (Oak Planks)
+item.brush_25.name=Vinyl Sticker (Spruce Planks)
+item.brush_26.name=Vinyl Sticker (Birch Planks)
+item.brush_27.name=Vinyl Sticker (Jungle Planks)
+item.brush_28.name=Vinyl Sticker (Acacia Planks)
+item.brush_29.name=Vinyl Sticker (Dark Oak Planks)
 
 item.paint_0.name=Paint Bucket (White)
 item.paint_1.name=Paint Bucket (Orange)
@@ -89,8 +102,13 @@ item.ticket.name=Entry Ticket
 item.pass.name=Annual Pass
 item.key.name=Ride Operator's Key
 item.hat_1.name=Ride Operator's Hat
-item.train.name=Roller Coaster Train
-item.train2.name=Roller Coaster Train 2
+item.train.name=Rollercoaster Train
+item.silicon_wafer.name=Silicon Wafer
+item.IC.name=IC Chip
+item.pcb.name=Printed Circuit Board
+item.panel.name=Interface
+
+item.remote.name=Ride Control Panel Remote
 
 item.brakes_extra.name=Friction Brakes
 item.chain_extra.name=Chain
@@ -98,26 +116,4 @@ item.tires_extra.name=Friction Wheels
 item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
 
-item.nuggets.name=Chicken Nuggets
-item.chips.name=Chips
-item.popcorn.name=Popcorn
-item.candy_floss.name=Candy Floss
-
-item.coin.name=Coin
-
-entity.entityTrain.name=Roller Coaster Train
-entity.entityTrain2.name=Roller Coaster Train 2
-
-key.categories.rc.trackdesigner=Track Designer
-key.trackdesigner.conflicts=Conflicts between the Track Designer key bindings and vanilla/other mod key bindings is okay, and will still function properly (conflicts between multiple keys in the category won't however). Leave keys in the Track Designer category as NONE for the default key binding layout.
-key.trackdesigner.up=Up
-key.trackdesigner.down=Down
-key.trackdesigner.lookleft=Look Left
-key.trackdesigner.lookright=Look Right
-key.trackdesigner.forward=Forward
-key.trackdesigner.backward=Backward
-key.trackdesigner.left=Left
-key.trackdesigner.right=Right
-
-commands.track.item.animation.usage=/itemanimation OR /itemanimation <true|false|on|off> OR /itemanimation <1|0>;
-commands.toggle.hammer.overlay=/togglehammeroverlay OR /togglehammeroverlay <true|false|on|off> OR /togglehammeroverlay <1|0>;
+entity.entityTrain.name=Rollercoaster Train

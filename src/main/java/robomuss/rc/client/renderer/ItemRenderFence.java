@@ -5,9 +5,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.model.*;
+import robomuss.rc.block.model.ModelRideFence;
+import robomuss.rc.block.model.ModelRideFenceCorner;
+import robomuss.rc.block.model.ModelRideFenceGate;
+import robomuss.rc.block.model.ModelRideFenceGateOpen;
+import robomuss.rc.block.model.ModelRideFencePanel;
+import robomuss.rc.block.model.ModelRideFenceSquare;
+import robomuss.rc.block.model.ModelRideFenceTriangle;
 
 public class ItemRenderFence implements IItemRenderer {
 
@@ -17,6 +25,9 @@ public class ItemRenderFence implements IItemRenderer {
 	private ModelRideFenceSquare square = new ModelRideFenceSquare();
 	private ModelRideFenceGate gate = new ModelRideFenceGate();
 	private ModelRideFenceGateOpen gate_open = new ModelRideFenceGateOpen();
+	private ModelRideFencePanel panel = new ModelRideFencePanel();
+	
+	ResourceLocation panelTextures = (new ResourceLocation("rc:textures/models/ride_fence_panel.png"));
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -96,6 +107,18 @@ public class ItemRenderFence implements IItemRenderer {
 	        	gate.bar10.render(0.0625F);
         	}
         	gate_animation++;
+        }
+        else if(item.getItem() == Item.getItemFromBlock(RCBlocks.ride_fence_panel)) {
+        	panel.Shape1.render(0.0625F);
+        	panel.Shape2.render(0.0625F);
+        	panel.Shape3.render(0.0625F);
+        	
+        	Minecraft.getMinecraft().renderEngine.bindTexture(panelTextures);
+        	
+        	panel.Shape4.render(0.0625F);
+        	panel.Shape5.render(0.0625F);
+        	panel.Shape6.render(0.0625F);
+        	panel.Shape7.render(0.0625F);
         }
 
         GL11.glPopMatrix();

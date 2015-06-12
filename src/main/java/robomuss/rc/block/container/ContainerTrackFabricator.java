@@ -2,38 +2,36 @@ package robomuss.rc.block.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import robomuss.rc.block.container.slot.SlotTrackFabricator;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 
 public class ContainerTrackFabricator extends Container {
-	private SlotTrackFabricator input;
-	private SlotTrackFabricator output;
 
-	public ContainerTrackFabricator(InventoryPlayer inventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World world, int x, int y, int z) {
-		input = new SlotTrackFabricator(te, 0, 8, 18, false);
-		output = new SlotTrackFabricator(te, 1, 8, 54, true);
+	public ContainerTrackFabricator(InventoryPlayer par1InventoryPlayer, EntityPlayer player, TileEntityTrackFabricator te, World par2World, int par3, int par4, int par5) {
+		int l;
+		int i1;
 
-		this.addSlotToContainer(input);
-		this.addSlotToContainer(output);
-
-		for (int slotRow = 0; slotRow < 3; ++slotRow) {
-			for (int slotColumn = 0; slotColumn < 9; ++slotColumn) {
-				this.addSlotToContainer(new Slot(inventoryPlayer, slotColumn + slotRow * 9 + 9, 8 + slotColumn * 18, 84 + slotRow * 18));
+		for (l = 0; l < 3; ++l) {
+			for (i1 = 0; i1 < 9; ++i1) {
+				this.addSlotToContainer(new Slot(par1InventoryPlayer, i1 + l
+						* 9 + 9, 8 + i1 * 18, 84 + l * 18));
 			}
 		}
 
-		for (int slotHotbar = 0; slotHotbar < 9; ++slotHotbar) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, slotHotbar, 8 + slotHotbar * 18, 142));
+		for (l = 0; l < 9; ++l) {
+			this.addSlotToContainer(new Slot(par1InventoryPlayer, l,
+					8 + l * 18, 142));
 		}
+
+		this.addSlotToContainer(new Slot(te, 0, 8, 18));
+		this.addSlotToContainer(new SlotFurnace(player, te, 1, 8, 54));
 	}
 
-	public boolean canInteractWith(EntityPlayer player) {
+	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
 		return true;
 	}
 
@@ -41,55 +39,45 @@ public class ContainerTrackFabricator extends Container {
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
-		ItemStack toStack = null;
-		Slot fromSlot = (Slot) this.inventorySlots.get(slotID);
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+		/*ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(par2);
 
-		if (fromSlot != null && fromSlot.getHasStack()) {
-			ItemStack fromStack = fromSlot.getStack();
-			toStack = fromStack.copy();
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-			if (slotID == 1) {                                                                                  //if clicked slot is output
-				if (!this.mergeItemStack(fromStack, 2, 38, true)) {                                             //if can't merge to any slot in player's inventory
+			if (par2 == 0) {
+				if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
 					return null;
 				}
 
-				fromSlot.onSlotChange(fromStack, toStack);                                                      //TODO
-			} else if (slotID != 0) {                                                                           //if clicked slot is not the input slot
-				if (input.isItemValid(fromStack)) {
-					if (!this.mergeItemStack(fromStack, 0, 1, false)) {
-						return null;
-					}
-				} else if (slotID >= 2 && slotID < 29) {                                                        //if clicked slot is in player's inventory (excluding hotbar)
-					if (!this.mergeItemStack(fromStack, 29, 38, false)) {                                       //if can't merge from input to player's hotbar
-						return null;
-					}
-				} else if (slotID >= 29 && slotID < 38) {                                                       //if clicked slot is in hotbar
-					if (!this.mergeItemStack(fromStack, 2, 29, false)) {                                        //if can't merge to the rest of the player's inventory
-						return null;
-					}
-				} else if (slotID >= 2 && slotID < 38) {
-					if (!this.mergeItemStack(fromStack, 0, 1, false)) {
-						return null;
-					}
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (par2 >= 10 && par2 < 37) {
+				if (!this.mergeItemStack(itemstack1, 37, 46, false)) {
+					return null;
 				}
-			} else if (!this.mergeItemStack(fromStack, 2, 38, false)) {                                         //if clicked slot is the input slot and can't merge to any part of player's inventory
+			} else if (par2 >= 37 && par2 < 46) {
+				if (!this.mergeItemStack(itemstack1, 10, 37, false)) {
+					return null;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 10, 46, false)) {
 				return null;
 			}
 
-			if (fromStack.stackSize == 0) {
-				fromSlot.putStack((ItemStack) null);                                                            //remove item stack from the slot by setting it to a null stack
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
 			} else {
-				fromSlot.onSlotChanged();
+				slot.onSlotChanged();
 			}
 
-			if (fromStack.stackSize == toStack.stackSize) {
+			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
 
-			fromSlot.onPickupFromSlot(player, fromStack);
-		}
+			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+		}*/
 
-		return toStack;
+		return null;
 	}
 }

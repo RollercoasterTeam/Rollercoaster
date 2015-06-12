@@ -11,7 +11,7 @@ public class ModelTrain extends ModelBase
 {
     //fields
     public ModelRenderer Main;
-    public ModelRenderer Shape1;
+    public  ModelRenderer Shape1;
 
     public ModelTrain()
     {

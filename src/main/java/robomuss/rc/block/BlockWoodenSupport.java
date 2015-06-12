@@ -18,6 +18,11 @@ public class BlockWoodenSupport extends BlockContainer {
     public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileEntityWoodenSupport();
     }
+    
+    @Override
+	public boolean hasTileEntity(int metadata) {
+		return true;
+	}
 
     @Override
     public boolean isOpaqueCube() {

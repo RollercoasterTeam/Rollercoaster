@@ -6,9 +6,17 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import robomuss.rc.block.RCBlocks;
-import robomuss.rc.block.model.*;
+import robomuss.rc.block.model.ModelRideFence;
+import robomuss.rc.block.model.ModelRideFenceCorner;
+import robomuss.rc.block.model.ModelRideFenceGate;
+import robomuss.rc.block.model.ModelRideFenceGateOpen;
+import robomuss.rc.block.model.ModelRideFencePanel;
+import robomuss.rc.block.model.ModelRideFenceSquare;
+import robomuss.rc.block.model.ModelRideFenceTriangle;
 import robomuss.rc.block.te.TileEntityRideFence;
 
 
@@ -20,6 +28,10 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 	private ModelRideFenceSquare square = new ModelRideFenceSquare();
 	private ModelRideFenceGate gate = new ModelRideFenceGate();
 	private ModelRideFenceGateOpen gate_open = new ModelRideFenceGateOpen();
+	private ModelRideFencePanel panel = new ModelRideFencePanel();
+	
+	private ResourceLocation gateTextures = (new ResourceLocation("rc:textures/models/colour_7.png"));
+	private ResourceLocation panelTextures = (new ResourceLocation("rc:textures/models/ride_fence_panel.png"));
 	
 	public static TileEntityRenderRideFence instance = new TileEntityRenderRideFence();
 	private ModelBase model;
@@ -65,16 +77,58 @@ public class TileEntityRenderRideFence extends TileEntitySpecialRenderer {
 		else if(te.getBlockType() == RCBlocks.ride_fence_square) {
 			model = square;
 		}
+		
+		if(te.getBlockType() == RCBlocks.ride_fence_panel) {
+			this.panel.Shape1.render(0.0625F);
+			this.panel.Shape2.render(0.0625F);
+			this.panel.Shape3.render(0.0625F);
+
+			Minecraft.getMinecraft().renderEngine.bindTexture(panelTextures);
+			
+			this.panel.Shape4.render(0.0625F);
+			this.panel.Shape5.render(0.0625F);
+			this.panel.Shape6.render(0.0625F);
+			this.panel.Shape7.render(0.0625F);
+		}
 		else if(te.getBlockType() == RCBlocks.ride_fence_gate) {
 			if(((TileEntityRideFence) te).open) {
-				model = gate_open;
+				this.gate_open.pole1.render(0.0625F);
+				this.gate_open.pole2.render(0.0625F);
+				
+				Minecraft.getMinecraft().renderEngine.bindTexture(gateTextures);
+				
+				this.gate_open.bar1.render(0.0625F);
+				this.gate_open.bar2.render(0.0625F);
+				this.gate_open.bar3.render(0.0625F);
+				this.gate_open.bar4.render(0.0625F);
+				this.gate_open.bar5.render(0.0625F);
+				this.gate_open.bar6.render(0.0625F);
+				this.gate_open.bar7.render(0.0625F);
+				this.gate_open.bar8.render(0.0625F);
+				this.gate_open.bar9.render(0.0625F);
+				this.gate_open.bar10.render(0.0625F);
 			}
 			else {
-				model = gate;
+				this.gate.pole1.render(0.0625F);
+				this.gate.pole2.render(0.0625F);
+				
+				Minecraft.getMinecraft().renderEngine.bindTexture(gateTextures);
+				
+				this.gate.bar1.render(0.0625F);
+				this.gate.bar2.render(0.0625F);
+				this.gate.bar3.render(0.0625F);
+				this.gate.bar4.render(0.0625F);
+				this.gate.bar5.render(0.0625F);
+				this.gate.bar6.render(0.0625F);
+				this.gate.bar7.render(0.0625F);
+				this.gate.bar8.render(0.0625F);
+				this.gate.bar9.render(0.0625F);
+				this.gate.bar10.render(0.0625F);
 			}
 		}
-		
-		this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		else {
+			this.model.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		}
 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
