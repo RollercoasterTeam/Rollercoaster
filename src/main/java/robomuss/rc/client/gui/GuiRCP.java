@@ -13,6 +13,11 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+
+import robomuss.rc.RCMod;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
@@ -52,8 +57,11 @@ public class GuiRCP extends GuiScreen {
 		
 		buttonList.add(new GuiButton(0, k + 5, l + 15, 82, 20, "Mode: " + rideStates[rideState]));
 		buttonList.add(new GuiButton(1, k + 89, l + 15, 82, 20, "Lights: " + lightStates[lightState]));
-		buttonList.add(new GuiButton(2, k + 5, l + 37, 82, 20, "Close Gates"));
-		buttonList.add(new GuiButton(3, k + 89, l + 37, 82, 20, "Open Gates"));
+		buttonList.add(new GuiButton(2, k + 5, l + 37, 82, 20, "Toggle Gates"));
+		
+		String s = "" + ChatFormatting.RED + ChatFormatting.BOLD;
+		buttonList.add(new GuiButton(3, k + 89, l + 37, 82, 20, s + "Delete Ride"));
+		
 		buttonList.add(new GuiButton(4, k + 5, l + 59, 20, 20, "-"));
 		buttonList.add(new GuiButton(5, k + 27, l + 59, 20, 20, "+"));
 		buttonList.add(new GuiButton(6, k + 89, l + 59, 82, 20, "Deploy Carts"));
@@ -97,7 +105,7 @@ public class GuiRCP extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.UPDATE_GATES, te, 0);
 		}
 		else if(button.id == 3) {
-			NetworkHandler.tdUpdate(PacketTrackDesigner.types.UPDATE_GATES, te, 1);
+			FMLNetworkHandler.openGui(Minecraft.getMinecraft().thePlayer, RCMod.instance, 4, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
 		}
 		else if(button.id == 4) {
 			amount += amount > 0 ? -1 : 0;

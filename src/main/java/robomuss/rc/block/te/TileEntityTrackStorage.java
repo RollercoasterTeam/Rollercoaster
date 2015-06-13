@@ -44,7 +44,6 @@ public class TileEntityTrackStorage extends TileEntity implements IInventory {
 		ItemStack item = getStackInSlot(i);
 		setInventorySlotContents(i, null);
 		return item;
-
 	}
 
 	@Override

@@ -9,8 +9,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import robomuss.rc.block.te.TileEntityFooter;
+import robomuss.rc.block.te.TileEntityBench;
 import robomuss.rc.block.te.TileEntityCatwalk;
+import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntityRideSign;
 import robomuss.rc.block.te.TileEntitySupport;
@@ -74,6 +75,16 @@ public class ItemHammer extends Item {
 					}
 					else {
 						ters.direction++;
+					}
+					event.world.markBlockForUpdate(event.x, event.y, event.z);
+				}
+				if(tileentity instanceof TileEntityBench) {
+					TileEntityBench teb = (TileEntityBench) event.world.getTileEntity(event.x, event.y, event.z);
+					if(teb.direction == 3) {
+						teb.direction = 0;
+					}
+					else {
+						teb.direction++;
 					}
 					event.world.markBlockForUpdate(event.x, event.y, event.z);
 				}

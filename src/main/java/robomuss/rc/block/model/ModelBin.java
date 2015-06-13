@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelWoodenBin extends ModelBase {
+public class ModelBin extends ModelBase {
 	public ModelRenderer base;
 	public ModelRenderer standBase;
 	public ModelRenderer stand;
@@ -13,7 +13,7 @@ public class ModelWoodenBin extends ModelBase {
 	public ModelRenderer side3;
 	public ModelRenderer side4;
 
-	public ModelWoodenBin() {
+	public ModelBin() {
 		textureWidth = 64;
 		textureHeight = 32;
 

@@ -3,6 +3,7 @@ package robomuss.rc.block;
 
 import net.minecraft.block.Block;
 import robomuss.rc.RCMod;
+import robomuss.rc.block.te.TileEntityBench;
 import robomuss.rc.block.te.TileEntityBin;
 import robomuss.rc.block.te.TileEntityCatwalk;
 import robomuss.rc.block.te.TileEntityFooter;
@@ -23,7 +24,7 @@ public class RCBlocks {
 
 	public static int last_track_id;
 	public static Block support, woodenSupport, path, iron_fencing, picket_fencing, ride_fence, ride_fence_corner, ride_fence_triangle, ride_fence_square, ride_fence_gate, ride_fence_panel, track_designer, track_fabricator, track_storage, catwalk;
-	public static Block footer, ride_sign, wooden_bin;
+	public static Block footer, ride_sign, wooden_bin, metal_solid_bin, metal_mesh_bin, bench_half;
 	
 	public static void init() {
 		for(TrackType track: TrackHandler.tracks) {
@@ -56,6 +57,10 @@ public class RCBlocks {
 		ride_sign = new BlockRideSign().setBlockName("ride_sign").setBlockTextureName("rc:ride_sign").setCreativeTab(RCMod.decor);
 		
 		wooden_bin = new BlockBin().setBlockName("wooden_bin").setBlockTextureName("rc:wooden_bin").setCreativeTab(RCMod.decor);
+		metal_solid_bin = new BlockBin().setBlockName("metal_solid_bin").setBlockTextureName("rc:metal_solid_bin").setCreativeTab(RCMod.decor);
+		metal_mesh_bin = new BlockBin().setBlockName("metal_mesh_bin").setBlockTextureName("rc:metal_mesh_bin").setCreativeTab(RCMod.decor);
+		
+		bench_half = new BlockBench().setBlockName("bench_half").setBlockTextureName("rc:bench_half").setCreativeTab(RCMod.decor);
 		
         GameRegistry.registerBlock(support, "support");
         GameRegistry.registerBlock(woodenSupport, "woodenSupport");
@@ -81,6 +86,10 @@ public class RCBlocks {
 		GameRegistry.registerBlock(ride_sign, "ride_sign");
 		
 		GameRegistry.registerBlock(wooden_bin, "wooden_bin");
+		GameRegistry.registerBlock(metal_solid_bin, "metal_solid_bin");
+		GameRegistry.registerBlock(metal_mesh_bin, "metal_mesh_bin");
+		
+		GameRegistry.registerBlock(bench_half, "bench_half");
         
         GameRegistry.registerTileEntity(TileEntityTrackDesigner.class, "te_track_designer");
         GameRegistry.registerTileEntity(TileEntityTrackFabricator.class, "te_track_fabricator");
@@ -98,6 +107,8 @@ public class RCBlocks {
 		GameRegistry.registerTileEntity(TileEntityRideSign.class, "te_ride_sign");
 		
 		GameRegistry.registerTileEntity(TileEntityBin.class, "te_bin");
+		
+		GameRegistry.registerTileEntity(TileEntityBench.class, "te_bench_half");
 	}
 
 }

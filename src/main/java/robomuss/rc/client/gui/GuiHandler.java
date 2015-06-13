@@ -47,6 +47,10 @@ public class GuiHandler implements IGuiHandler {
 			TileEntityRideFence te = (TileEntityRideFence) world.getTileEntity(x, y, z);
 			return new GuiRCP(player, world, x, y, z);
 		}
+		if(ID == 4) {
+			TileEntityRideFence te = (TileEntityRideFence) world.getTileEntity(x, y, z);
+			return new GuiRCPDR(player, world, x, y, z);
+		}
 		return null;
 	}
 }

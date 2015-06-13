@@ -96,11 +96,14 @@ public class RCMod {
 		new RecipeHandler();
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
-		FMLCommonHandler.instance().bus().register(new GuiTrackDesigner());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
         packetPipeline.initalise();
         proxy.initRenderers();
 		proxy.initNetwork();
+		
+		if(event.getSide().isClient()) {
+			FMLCommonHandler.instance().bus().register(new GuiTrackDesigner());
+		}
 	}
 	
 	@EventHandler

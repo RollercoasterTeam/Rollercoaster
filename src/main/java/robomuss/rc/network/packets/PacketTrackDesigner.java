@@ -36,6 +36,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     public static enum types {
     	DEBUG,
     	LOAD,
+    	DELETE_RIDE,
     	CLEAR_TD,
     	CHANGE_NAME,
     	CHANGE_THEME,
@@ -160,8 +161,13 @@ public class PacketTrackDesigner extends AbstractPacket {
     }
     
     public void addBlock(ArrayList<Point> list, EntityPlayer player, int blockX, int blockY, int blockZ, Block block) {
+    	System.out.println("Adding block");
     	player.worldObj.setBlock(blockX, blockY, blockZ, block);
-    	list.add(new Point(blockX, blockY, blockZ));
+    	if(list != null) {
+    		list.add(new Point(blockX, blockY, blockZ));
+    	}
+    	
+    	player.worldObj.markBlockForUpdate(blockX, blockY, blockZ);
     }
     
     public void removeBlock(ArrayList<Point> list, EntityPlayer player, int blockX, int blockY, int blockZ) {
@@ -181,6 +187,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     public void removeBlockAlt(ArrayList<Point> list, EntityPlayer player, int blockX, int blockY, int blockZ) {
     	player.worldObj.setBlockToAir(blockX, blockY, blockZ);
+    	System.out.println(blockX + ", " + blockY + ", " + blockZ);
     }
     
     public void placeStation(EntityPlayer player, TileEntityTrack tet) {
@@ -209,7 +216,7 @@ public class PacketTrackDesigner extends AbstractPacket {
 			
 			if(fenceCount == 0) {
 				addBlock(td.stationBlocks, player, rayX - 2, rayY + 1, rayZ, RCBlocks.ride_fence);
-				addBlock(td.stationBlocks, player, rayX + 2, rayY + 1, rayZ, RCBlocks.ride_fence_panel);
+				addBlock(null, player, rayX + 2, rayY + 1, rayZ, RCBlocks.ride_fence_panel);
 			}
 			
 			addBlock(td.stationBlocks, player, rayX - 1, rayY + 1, rayZ, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence);
@@ -337,7 +344,7 @@ public class PacketTrackDesigner extends AbstractPacket {
 			
 			if(fenceCount == 0) {
 				addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ - 2, RCBlocks.ride_fence);
-				addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ + 2, RCBlocks.ride_fence_panel);
+				addBlock(null, player, rayX, rayY + 1, rayZ + 2, RCBlocks.ride_fence_panel);
 			}
 			
 			addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ - 1, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence);
@@ -448,8 +455,8 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     public void placeCatwalk(EntityPlayer player, TileEntityTrack tet) {
     	if(tet.direction == 0 || tet.direction == 2) {
-    		player.worldObj.setBlock(rayX - 1, rayY, rayZ, RCBlocks.catwalk);
-    		player.worldObj.setBlock(rayX + 1, rayY, rayZ, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, rayX - 1, rayY, rayZ, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, rayX + 1, rayY, rayZ, RCBlocks.catwalk);
     		
     		TileEntityCatwalk ter = (TileEntityCatwalk) player.worldObj.getTileEntity(rayX - 1, rayY, rayZ);
     		ter.colour = td.fencePaint;
@@ -464,8 +471,8 @@ public class PacketTrackDesigner extends AbstractPacket {
     		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
     	}
     	else if(tet.direction == 1 || tet.direction == 3) {
-    		player.worldObj.setBlock(rayX, rayY, rayZ - 1, RCBlocks.catwalk);
-    		player.worldObj.setBlock(rayX, rayY, rayZ + 1, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, rayX, rayY, rayZ - 1, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, rayX, rayY, rayZ + 1, RCBlocks.catwalk);
     		
     		TileEntityCatwalk ter = (TileEntityCatwalk) player.worldObj.getTileEntity(rayX, rayY, rayZ - 1);
     		ter.colour = td.fencePaint;
@@ -482,6 +489,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     }
     
     public void placeStartPoint(EntityPlayer player, boolean placeStation) {
+    	System.out.println("Flag: " + flag);
     	if(flag != 0) {
 			removeBlock(td.tracks, player, rayX, rayY, rayZ);
 		}
@@ -1605,12 +1613,42 @@ public class PacketTrackDesigner extends AbstractPacket {
     		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates) {
     			TileEntityRideFence terf = (TileEntityRideFence) player.worldObj.getTileEntity(point.x, point.y, point.z);
     			
-    			terf.open = flag == 0 ? false : true;
+    			terf.open = !terf.open;
     			
     			player.worldObj.setTileEntity(point.x, point.y, point.z, terf);
     			
     			player.worldObj.markBlockForUpdate(point.x, point.y, point.z);
     		}
+    	}
+    	else if(type == types.DELETE_RIDE) {
+    		System.out.println("Delete ride" + td);
+    		if(td.tracks != null) {
+	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks) {
+	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks, player, point.x, point.y, point.z);
+	    		}
+    		}
+    		if(td.stationBlocks != null) {
+	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.stationBlocks) {
+	    			//if(point.x != teX && point.y != teY && point.z != teZ) {
+	    				removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.stationBlocks, player, point.x, point.y, point.z);
+	    			//}
+				}
+    		}
+    		if(td.supports != null) {
+	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.supports) {
+	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.supports, player, point.x, point.y, point.z);
+				}
+    		}
+    		if(td.gates != null) {
+	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates) {
+	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, point.x, point.y, point.z);
+				}
+    		}
+    		
+    		td.tracks.clear();
+    		td.stationBlocks.clear();
+    		td.supports.clear();
+    		td.gates.clear();
     	}
     	
     	handleSupports(player);
