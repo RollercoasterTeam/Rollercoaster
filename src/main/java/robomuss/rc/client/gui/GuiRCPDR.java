@@ -96,6 +96,7 @@ public class GuiRCPDR extends GuiScreen {
 		}
 		else if(button.id == 1) {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.DELETE_RIDE, te, 0);
+			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
 		else if(button.id == 2) {
 			help = !help;
