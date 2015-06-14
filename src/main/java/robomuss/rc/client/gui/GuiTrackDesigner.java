@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
@@ -90,7 +92,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.clear();
 		
 		buttonList.add(new GuiButton(0, this.width - 120, 0, 120, 20, "Help"));
-		buttonList.add(new GuiButton(1, this.width - 120, 20, 120, 20, "New Rollercoaster"));
+		buttonList.add(new GuiButton(1, this.width - 120, 20, 120, 20, "New..."));
 		buttonList.add(new GuiButton(2, (this.width / 2) + 43, (this.height / 2) - 12, 40, 20, "Start"));
 		
 		buttonList.add(new GuiButton(3, k + 5, l + 21, 20, 20, ""));
@@ -121,7 +123,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(20, (this.width / 2) - 83, (this.height / 2) - 12, 40, 20, "Cancel"));
 		buttonList.add(new GuiButton(21, (this.width / 2) + 43, (this.height / 2) - 12, 40, 20, "Ok"));
 		
-		buttonList.add(new GuiButton(22, this.width - 120, 40, 120, 20, "Load Rollercoaster"));
+		buttonList.add(new GuiButton(22, this.width - 120, 40, 120, 20, "Load... " + ChatFormatting.GREEN + ChatFormatting.BOLD + "[WIP]" + ChatFormatting.RESET));
 		
 		buttonList.add(new GuiButton(23, 68, this.height - 44, 20, 20, "_/"));
 		buttonList.add(new GuiButton(24, 90, this.height - 44, 20, 20, "/"));

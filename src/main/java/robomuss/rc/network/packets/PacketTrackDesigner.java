@@ -1507,6 +1507,38 @@ public class PacketTrackDesigner extends AbstractPacket {
 		supportCount++;
     }
     
+    public void deleteRide(EntityPlayer player) {
+    	if(td.tracks != null) {
+    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks) {
+    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks, player, point.x, point.y, point.z);
+    		}
+		}
+		if(td.stationBlocks != null) {
+    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.stationBlocks) {
+    			//if(point.x != teX && point.y != teY && point.z != teZ) {
+    				removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.stationBlocks, player, point.x, point.y, point.z);
+    			//}
+			}
+		}
+		if(td.supports != null) {
+    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.supports) {
+    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.supports, player, point.x, point.y, point.z);
+			}
+		}
+		if(td.gates != null) {
+    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates) {
+    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, point.x, point.y, point.z);
+			}
+		}
+		
+		removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, teX, teY, teZ);
+		
+		td.tracks.clear();
+		td.stationBlocks.clear();
+		td.supports.clear();
+		td.gates.clear();
+    }
+    
     @Override
     public void handleServerSide(EntityPlayer player) {
     	if(type != types.PLACE) {
@@ -1631,36 +1663,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     		}
     	}
     	else if(type == types.DELETE_RIDE) {
-    		System.out.println("Delete ride" + td);
-    		if(td.tracks != null) {
-	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks) {
-	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks, player, point.x, point.y, point.z);
-	    		}
-    		}
-    		if(td.stationBlocks != null) {
-	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.stationBlocks) {
-	    			//if(point.x != teX && point.y != teY && point.z != teZ) {
-	    				removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.stationBlocks, player, point.x, point.y, point.z);
-	    			//}
-				}
-    		}
-    		if(td.supports != null) {
-	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.supports) {
-	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.supports, player, point.x, point.y, point.z);
-				}
-    		}
-    		if(td.gates != null) {
-	    		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates) {
-	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, point.x, point.y, point.z);
-				}
-    		}
-    		
-    		removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, teX, teY, teZ);
-    		
-    		td.tracks.clear();
-    		td.stationBlocks.clear();
-    		td.supports.clear();
-    		td.gates.clear();
+    		deleteRide(player);
     	}
     	
     	handleSupports(player);
