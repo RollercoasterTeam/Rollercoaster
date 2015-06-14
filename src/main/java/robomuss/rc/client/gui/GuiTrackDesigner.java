@@ -92,21 +92,21 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.clear();
 		
 		buttonList.add(new GuiButton(0, this.width - 120, 0, 120, 20, "Help"));
-		buttonList.add(new GuiButton(1, this.width - 120, 20, 120, 20, "New..."));
+		buttonList.add(new GuiButton(1, this.width - 120, 20, 120, 20, "New RC"));
 		buttonList.add(new GuiButton(2, (this.width / 2) + 43, (this.height / 2) - 12, 40, 20, "Start"));
 		
 		buttonList.add(new GuiButton(3, k + 5, l + 21, 20, 20, ""));
 		buttonList.add(new GuiButton(4, k + 5, l + 43, 20, 20, ""));
 		
-		buttonList.add(new GuiButton(5, 2, this.height - 44, 65, 20, "Place Start"));
+		buttonList.add(new GuiButton(5, 2, this.height - 44, 130, 20, "Place Start"));
 		
 		buttonList.add(new GuiButton(6, 2, this.height - 22, 20, 20, "<"));
 		buttonList.add(new GuiButton(7, 24, this.height - 22, 20, 20, "^"));
 		buttonList.add(new GuiButton(8, 46, this.height - 22, 20, 20, ">"));
 		buttonList.add(new GuiButton(9, 68, this.height - 22, 42, 20, "Loop"));
 		
-		buttonList.add(new GuiButton(10, 2, this.height - 44, 20, 20, "Rot"));
-		buttonList.add(new GuiButton(11, 2, this.height - 22, 65, 20, "Confirm"));
+		buttonList.add(new GuiButton(10, 2, this.height - 44, 42, 20, "Rotate"));
+		buttonList.add(new GuiButton(11, 2, this.height - 22, 130, 20, "Confirm"));
 		
 		buttonList.add(new GuiButton(12, 112, this.height - 22, 100, 20, PacketTrackDesigner.extras[0]));
 		
@@ -114,8 +114,8 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(14, 24, this.height - 44, 20, 20, "\\"));
 		buttonList.add(new GuiButton(15, 46, this.height - 44, 20, 20, "\\_"));
 		
-		buttonList.add(new GuiButton(16, 24, this.height - 44, 20, 20, "-"));
-		buttonList.add(new GuiButton(17, 46, this.height - 44, 20, 20, "+"));
+		buttonList.add(new GuiButton(16, 46, this.height - 44, 42, 20, "-"));
+		buttonList.add(new GuiButton(17, 90, this.height - 44, 42, 20, "+"));
 		
 		buttonList.add(new GuiButton(18, k + 5, l + 65, 20, 20, ""));
 		buttonList.add(new GuiButton(19, (this.width / 2) + 43, l + 21, 40, 20, ""));
@@ -123,7 +123,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(20, (this.width / 2) - 83, (this.height / 2) - 12, 40, 20, "Cancel"));
 		buttonList.add(new GuiButton(21, (this.width / 2) + 43, (this.height / 2) - 12, 40, 20, "Ok"));
 		
-		buttonList.add(new GuiButton(22, this.width - 120, 40, 120, 20, "Load... " + ChatFormatting.GREEN + ChatFormatting.BOLD + "[WIP]" + ChatFormatting.RESET));
+		buttonList.add(new GuiButton(22, this.width - 120, 40, 120, 20, "Load RC " + ChatFormatting.GREEN + ChatFormatting.BOLD + "[WIP]" + ChatFormatting.RESET));
 		
 		buttonList.add(new GuiButton(23, 68, this.height - 44, 20, 20, "_/"));
 		buttonList.add(new GuiButton(24, 90, this.height - 44, 20, 20, "/"));
