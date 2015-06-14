@@ -21,6 +21,8 @@ public class TrackDesign implements Serializable {
 	
 	public int direction;
 	
+	public int rayX, rayY, rayZ;
+	
 	public ArrayList<Point> tracks = new ArrayList<Point>();
 	public ArrayList<Point> stationBlocks = new ArrayList<Point>();
 	public ArrayList<Point> supports = new ArrayList<Point>();

@@ -395,6 +395,10 @@ public class GuiTrackDesigner extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CONFIRM, te, 0);
 		}
 		else if(button.id == 12) {
+			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
+				((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
+			}
+			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CHANGE_EXTRA, te, 0);
 		}
 		else if(button.id == 13) {

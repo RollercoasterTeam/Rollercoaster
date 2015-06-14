@@ -61,7 +61,6 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     private PacketTrackDesigner.types type;
     private int teX, teY, teZ;
-    private static int rayX, rayY, rayZ;
     private int flag;
     private String name;
     
@@ -100,9 +99,9 @@ public class PacketTrackDesigner extends AbstractPacket {
         this.teY = teY;
         this.teZ = teZ;
         
-        this.rayX = rayX;
-        this.rayY = rayY;
-        this.rayZ = rayZ;
+        this.td.rayX = rayX;
+        this.td.rayY = rayY;
+        this.td.rayZ = rayZ;
         
         this.flag = flag;
     }
@@ -115,9 +114,9 @@ public class PacketTrackDesigner extends AbstractPacket {
         buffer.writeInt(this.teY);
         buffer.writeInt(this.teZ);
     	
-        buffer.writeInt(this.rayX);
-        buffer.writeInt(this.rayY);
-        buffer.writeInt(this.rayZ);
+        buffer.writeInt(this.td.rayX);
+        buffer.writeInt(this.td.rayY);
+        buffer.writeInt(this.td.rayZ);
         
         buffer.writeInt(this.flag);
         
@@ -139,9 +138,9 @@ public class PacketTrackDesigner extends AbstractPacket {
         this.teY = buffer.readInt();
         this.teZ = buffer.readInt();
         
-        this.rayX = buffer.readInt();
-        this.rayY = buffer.readInt();
-        this.rayZ = buffer.readInt();
+        this.td.rayX = buffer.readInt();
+        this.td.rayY = buffer.readInt();
+        this.td.rayZ = buffer.readInt();
         
         this.flag = buffer.readInt();
         
@@ -161,7 +160,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     }
     
     public void addBlock(ArrayList<Point> list, EntityPlayer player, int blockX, int blockY, int blockZ, Block block) {
-    	System.out.println("Adding block");
+    	System.out.println("Adding block: " + blockX + ", " + blockY + ", " + blockZ);
     	player.worldObj.setBlock(blockX, blockY, blockZ, block);
     	if(list != null) {
     		list.add(new Point(blockX, blockY, blockZ));
@@ -196,104 +195,104 @@ public class PacketTrackDesigner extends AbstractPacket {
 		Block fence = EnumStationType.values()[td.theme].fence;
 		
 		if(td.direction == 0 || td.direction == 2) {
-			addBlock(td.stationBlocks, player, rayX - 3, rayY, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX - 2, rayY, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX - 1, rayY, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX + 1, rayY, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX + 2, rayY, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX + 3, rayY, rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX - 3, td.rayY, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX - 2, td.rayY, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX - 1, td.rayY, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX + 1, td.rayY, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX + 2, td.rayY, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX + 3, td.rayY, td.rayZ, block);
 			
-			addBlock(td.stationBlocks, player, rayX - 3, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX - 2, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX - 1, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX + 1, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX + 2, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX + 3, rayY + 4, rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX - 3, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX - 2, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX - 1, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX + 1, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX + 2, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX + 3, td.rayY + 4, td.rayZ, block);
 			
-			addBlock(td.stationBlocks, player, rayX - 3, rayY + 1, rayZ, fence);
-			addBlock(td.stationBlocks, player, rayX + 3, rayY + 1, rayZ, fence);
+			addBlock(td.stationBlocks, player, td.rayX - 3, td.rayY + 1, td.rayZ, fence);
+			addBlock(td.stationBlocks, player, td.rayX + 3, td.rayY + 1, td.rayZ, fence);
 			
 			if(fenceCount == 0) {
-				addBlock(td.stationBlocks, player, rayX - 2, rayY + 1, rayZ, RCBlocks.ride_fence);
-				addBlock(null, player, rayX + 2, rayY + 1, rayZ, RCBlocks.ride_fence_panel);
+				addBlock(td.stationBlocks, player, td.rayX - 2, td.rayY + 1, td.rayZ, RCBlocks.ride_fence);
+				addBlock(null, player, td.rayX + 2, td.rayY + 1, td.rayZ, RCBlocks.ride_fence_panel);
 			}
 			
-			addBlock(td.stationBlocks, player, rayX - 1, rayY + 1, rayZ, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence);
+			addBlock(td.stationBlocks, player, td.rayX - 1, td.rayY + 1, td.rayZ, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence);
 			
 			if(fenceCount % 2 == 0) {
-				addBlock(td.stationBlocks, player, rayX + 1, rayY + 1, rayZ, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence_triangle);
+				addBlock(td.stationBlocks, player, td.rayX + 1, td.rayY + 1, td.rayZ, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence_triangle);
 			}
 			else {
-				addBlock(td.gates, player, rayX + 1, rayY + 1, rayZ, RCBlocks.ride_fence_gate);
+				addBlock(td.gates, player, td.rayX + 1, td.rayY + 1, td.rayZ, RCBlocks.ride_fence_gate);
 			}
 			
 			TileEntityRideFence terf = new TileEntityRideFence();
 			if(fenceCount == 0) {
-				terf.xCoord = rayX - 2;
-				terf.yCoord = rayY + 1;
-				terf.zCoord = rayZ;
+				terf.xCoord = td.rayX - 2;
+				terf.yCoord = td.rayY + 1;
+				terf.zCoord = td.rayZ;
 				terf.colour = td.fencePaint;
 				terf.direction = fenceCount == 0 ? 1 : 0;
 			}
 			
 			TileEntityRideFence terf2 = new TileEntityRideFence();
-			terf2.xCoord = rayX - 1;
-			terf2.yCoord = rayY + 1;
-			terf2.zCoord = rayZ;
+			terf2.xCoord = td.rayX - 1;
+			terf2.yCoord = td.rayY + 1;
+			terf2.zCoord = td.rayZ;
 			terf2.colour = td.fencePaint;
 			terf2.direction = fenceCount == 0 ? td.direction == 0 ? 1 : 2 : 0;
 			
 			TileEntityRideFence terf3 = new TileEntityRideFence();
-			terf3.xCoord = rayX + 1;
-			terf3.yCoord = rayY + 1;
-			terf3.zCoord = rayZ;
+			terf3.xCoord = td.rayX + 1;
+			terf3.yCoord = td.rayY + 1;
+			terf3.zCoord = td.rayZ;
 			terf3.colour = td.fencePaint;
 			terf3.direction = (fenceCount % 2 == 0 ? fenceCount == 0 ? td.direction == 0 ? 0 : 3 : 3 : 0);
 			
 			TileEntityRideFence terf4 = new TileEntityRideFence();
 			if(fenceCount == 0) {
-				terf4.xCoord = rayX + 2;
-				terf4.yCoord = rayY + 1;
-				terf4.zCoord = rayZ;
+				terf4.xCoord = td.rayX + 2;
+				terf4.yCoord = td.rayY + 1;
+				terf4.zCoord = td.rayZ;
 				terf4.colour = td.fencePaint;
 				terf4.direction = fenceCount == 0 ? td.direction == 0 ? 1 : 3 : 0;
 				terf4.td = td;
 			}
 			
 			if(fenceCount == 0) {
-				player.worldObj.setTileEntity(rayX - 2, rayY + 1, rayZ, terf);
-				player.worldObj.setTileEntity(rayX + 2, rayY + 1, rayZ, terf4);
+				player.worldObj.setTileEntity(td.rayX - 2, td.rayY + 1, td.rayZ, terf);
+				player.worldObj.setTileEntity(td.rayX + 2, td.rayY + 1, td.rayZ, terf4);
 			}
-			player.worldObj.setTileEntity(rayX - 1, rayY + 1, rayZ, terf2);
-			player.worldObj.setTileEntity(rayX + 1, rayY + 1, rayZ, terf3);
+			player.worldObj.setTileEntity(td.rayX - 1, td.rayY + 1, td.rayZ, terf2);
+			player.worldObj.setTileEntity(td.rayX + 1, td.rayY + 1, td.rayZ, terf3);
 			
 			if(fenceCount > 1) {
-    			removeBlock(td.stationBlocks, player, rayX - 3, rayY + 2, rayZ + (td.direction == 2 ? 1 : - 1));
-    			removeBlock(td.stationBlocks, player, rayX - 3, rayY + 3, rayZ + (td.direction == 2 ? 1 : - 1));
-    			removeBlock(td.stationBlocks, player, rayX + 3, rayY + 2, rayZ + (td.direction == 2 ? 1 : - 1));
-    			removeBlock(td.stationBlocks, player, rayX + 3, rayY + 3, rayZ + (td.direction == 2 ? 1 : - 1));
+    			removeBlock(td.stationBlocks, player, td.rayX - 3, td.rayY + 2, td.rayZ + (td.direction == 2 ? 1 : - 1));
+    			removeBlock(td.stationBlocks, player, td.rayX - 3, td.rayY + 3, td.rayZ + (td.direction == 2 ? 1 : - 1));
+    			removeBlock(td.stationBlocks, player, td.rayX + 3, td.rayY + 2, td.rayZ + (td.direction == 2 ? 1 : - 1));
+    			removeBlock(td.stationBlocks, player, td.rayX + 3, td.rayY + 3, td.rayZ + (td.direction == 2 ? 1 : - 1));
 			}
 			
-			addBlock(td.stationBlocks, player, rayX - 3, rayY + 2, rayZ, fence);
-			addBlock(td.stationBlocks, player, rayX - 3, rayY + 3, rayZ, fence);
-			addBlock(td.stationBlocks, player, rayX + 3, rayY + 2, rayZ, fence);
-			addBlock(td.stationBlocks, player, rayX + 3, rayY + 3, rayZ, fence);
+			addBlock(td.stationBlocks, player, td.rayX - 3, td.rayY + 2, td.rayZ, fence);
+			addBlock(td.stationBlocks, player, td.rayX - 3, td.rayY + 3, td.rayZ, fence);
+			addBlock(td.stationBlocks, player, td.rayX + 3, td.rayY + 2, td.rayZ, fence);
+			addBlock(td.stationBlocks, player, td.rayX + 3, td.rayY + 3, td.rayZ, fence);
 			
 			int stationSupportCount1 = fenceCount % 2, stationSupportCount2 = fenceCount % 2;
 			
-			for(int y = rayY + flag - 1; y > 0; y--) {
-    			if(player.worldObj.isAirBlock(rayX + 3, y, rayZ)) {
-    				addBlock(td.supports, player, rayX + 3, y, rayZ, EnumStationType.values()[td.theme].support);
+			for(int y = td.rayY + flag - 1; y > 0; y--) {
+    			if(player.worldObj.isAirBlock(td.rayX + 3, y, td.rayZ)) {
+    				addBlock(td.supports, player, td.rayX + 3, y, td.rayZ, EnumStationType.values()[td.theme].support);
     				
     				if(EnumStationType.values()[td.theme].support == RCBlocks.woodenSupport) {
 	    				TileEntityWoodenSupport tes = new TileEntityWoodenSupport();
-	    				tes.xCoord = rayX + 3;
+	    				tes.xCoord = td.rayX + 3;
 	    				tes.yCoord = y;
-	    				tes.zCoord = rayZ;
+	    				tes.zCoord = td.rayZ;
 	    				tes.direction = stationSupportCount1 % 2 == 0 ? 0 : 2;
 	    				
-	    				player.worldObj.setTileEntity(rayX + 3, y, rayZ, tes);
+	    				player.worldObj.setTileEntity(td.rayX + 3, y, td.rayZ, tes);
     				}
     				stationSupportCount1++;
 				}
@@ -302,18 +301,18 @@ public class PacketTrackDesigner extends AbstractPacket {
     			}
 			}
 
-			for(int y = rayY + flag - 1; y > 0; y--) {
-				if(player.worldObj.isAirBlock(rayX - 3, y, rayZ)) {
-    				addBlock(td.supports, player, rayX - 3, y, rayZ, EnumStationType.values()[td.theme].support);
+			for(int y = td.rayY + flag - 1; y > 0; y--) {
+				if(player.worldObj.isAirBlock(td.rayX - 3, y, td.rayZ)) {
+    				addBlock(td.supports, player, td.rayX - 3, y, td.rayZ, EnumStationType.values()[td.theme].support);
     				
     				if(EnumStationType.values()[td.theme].support == RCBlocks.woodenSupport) {
         				TileEntityWoodenSupport tes = new TileEntityWoodenSupport();
-        				tes.xCoord = rayX - 3;
+        				tes.xCoord = td.rayX - 3;
         				tes.yCoord = y;
-        				tes.zCoord = rayZ;
+        				tes.zCoord = td.rayZ;
         				tes.direction = stationSupportCount2 % 2 == 0 ? 0 : 2;
         				
-        				player.worldObj.setTileEntity(rayX - 3, y, rayZ, tes);
+        				player.worldObj.setTileEntity(td.rayX - 3, y, td.rayZ, tes);
     				}
     				stationSupportCount2++;
 				}
@@ -324,104 +323,104 @@ public class PacketTrackDesigner extends AbstractPacket {
 			fenceCount++;
 		}
 		else if(td.direction == 1 || td.direction == 3) {
-			addBlock(td.stationBlocks, player, rayX, rayY, rayZ - 3, block);
-			addBlock(td.stationBlocks, player, rayX, rayY, rayZ - 2, block);
-			addBlock(td.stationBlocks, player, rayX, rayY, rayZ - 1, block);
-			addBlock(td.stationBlocks, player, rayX, rayY, rayZ + 1, block);
-			addBlock(td.stationBlocks, player, rayX, rayY, rayZ + 2, block);
-			addBlock(td.stationBlocks, player, rayX, rayY, rayZ + 3, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ - 3, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ - 2, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ - 1, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ + 1, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ + 2, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ + 3, block);
 			
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ - 3, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ - 2, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ - 1, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ + 1, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ + 2, block);
-			addBlock(td.stationBlocks, player, rayX, rayY + 4, rayZ + 3, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ - 3, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ - 2, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ - 1, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ + 1, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ + 2, block);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 4, td.rayZ + 3, block);
 			
-			addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ - 3, fence);
-			addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ + 3, fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 1, td.rayZ - 3, fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 1, td.rayZ + 3, fence);
 			
 			if(fenceCount == 0) {
-				addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ - 2, RCBlocks.ride_fence);
-				addBlock(null, player, rayX, rayY + 1, rayZ + 2, RCBlocks.ride_fence_panel);
+				addBlock(td.stationBlocks, player, td.rayX, td.rayY + 1, td.rayZ - 2, RCBlocks.ride_fence);
+				addBlock(null, player, td.rayX, td.rayY + 1, td.rayZ + 2, RCBlocks.ride_fence_panel);
 			}
 			
-			addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ - 1, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 1, td.rayZ - 1, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence);
 			
 			if(fenceCount % 2 == 0) {
-				addBlock(td.stationBlocks, player, rayX, rayY + 1, rayZ + 1, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence_triangle);
+				addBlock(td.stationBlocks, player, td.rayX, td.rayY + 1, td.rayZ + 1, fenceCount == 0 ? RCBlocks.ride_fence_corner : RCBlocks.ride_fence_triangle);
 			}
 			else {
-				addBlock(td.gates, player, rayX, rayY + 1, rayZ + 1, RCBlocks.ride_fence_gate);
+				addBlock(td.gates, player, td.rayX, td.rayY + 1, td.rayZ + 1, RCBlocks.ride_fence_gate);
 			}
 			
 			TileEntityRideFence terf = new TileEntityRideFence();
 			if(fenceCount == 0) {
-				terf.xCoord = rayX;
-				terf.yCoord = rayY + 1;
-				terf.zCoord = rayZ - 2;
+				terf.xCoord = td.rayX;
+				terf.yCoord = td.rayY + 1;
+				terf.zCoord = td.rayZ - 2;
 				terf.colour = td.fencePaint;
 				terf.direction = fenceCount == 0 ? 0 : 1;
 			}
 			
 			TileEntityRideFence terf2 = new TileEntityRideFence();
-			terf2.xCoord = rayX;
-			terf2.yCoord = rayY + 1;
-			terf2.zCoord = rayZ - 1;
+			terf2.xCoord = td.rayX;
+			terf2.yCoord = td.rayY + 1;
+			terf2.zCoord = td.rayZ - 1;
 			terf2.colour = td.fencePaint;
 			terf2.direction = fenceCount == 0 ? td.direction == 1 ? 2 : 3 : 1;
 			
 			TileEntityRideFence terf3 = new TileEntityRideFence();
-			terf3.xCoord = rayX;
-			terf3.yCoord = rayY + 1;
-			terf3.zCoord = rayZ + 1;
+			terf3.xCoord = td.rayX;
+			terf3.yCoord = td.rayY + 1;
+			terf3.zCoord = td.rayZ + 1;
 			terf3.colour = td.fencePaint;
 			terf3.direction = (fenceCount % 2 == 0 ? fenceCount == 0 ? td.direction == 1 ? 1 : 0 : 0 : 1);
 			
 			TileEntityRideFence terf4 = new TileEntityRideFence();
 			if(fenceCount == 0) {
-				terf4.xCoord = rayX;
-				terf4.yCoord = rayY + 1;
-				terf4.zCoord = rayZ + 2;
+				terf4.xCoord = td.rayX;
+				terf4.yCoord = td.rayY + 1;
+				terf4.zCoord = td.rayZ + 2;
 				terf4.colour = td.fencePaint;
 				terf4.direction = fenceCount == 0 ? td.direction == 1 ? 2 : 0 : 0;
 				terf4.td = td;
 			}
 			
 			if(fenceCount == 0) {
-				player.worldObj.setTileEntity(rayX, rayY + 1, rayZ - 2, terf);
-				player.worldObj.setTileEntity(rayX, rayY + 1, rayZ + 2, terf4);
+				player.worldObj.setTileEntity(td.rayX, td.rayY + 1, td.rayZ - 2, terf);
+				player.worldObj.setTileEntity(td.rayX, td.rayY + 1, td.rayZ + 2, terf4);
 			}
-			player.worldObj.setTileEntity(rayX, rayY + 1, rayZ - 1, terf2);
-			player.worldObj.setTileEntity(rayX, rayY + 1, rayZ + 1, terf3);
+			player.worldObj.setTileEntity(td.rayX, td.rayY + 1, td.rayZ - 1, terf2);
+			player.worldObj.setTileEntity(td.rayX, td.rayY + 1, td.rayZ + 1, terf3);
 			
 			if(fenceCount > 1) {
-    			removeBlock(td.stationBlocks, player, rayX + (td.direction == 1 ? 1 : - 1), rayY + 2, rayZ - 3);
-    			removeBlock(td.stationBlocks, player, rayX + (td.direction == 1 ? 1 : - 1), rayY + 3, rayZ - 3);
-    			removeBlock(td.stationBlocks, player, rayX + (td.direction == 1 ? 1 : - 1), rayY + 2, rayZ + 3);
-    			removeBlock(td.stationBlocks, player, rayX + (td.direction == 1 ? 1 : - 1), rayY + 3, rayZ + 3);
+    			removeBlock(td.stationBlocks, player, td.rayX + (td.direction == 1 ? 1 : - 1), td.rayY + 2, td.rayZ - 3);
+    			removeBlock(td.stationBlocks, player, td.rayX + (td.direction == 1 ? 1 : - 1), td.rayY + 3, td.rayZ - 3);
+    			removeBlock(td.stationBlocks, player, td.rayX + (td.direction == 1 ? 1 : - 1), td.rayY + 2, td.rayZ + 3);
+    			removeBlock(td.stationBlocks, player, td.rayX + (td.direction == 1 ? 1 : - 1), td.rayY + 3, td.rayZ + 3);
 			}
 			
-			addBlock(td.stationBlocks, player, rayX, rayY + 2, rayZ - 3, fence);
-			addBlock(td.stationBlocks, player, rayX, rayY + 3, rayZ - 3, fence);
-			addBlock(td.stationBlocks, player, rayX, rayY + 2, rayZ + 3, fence);
-			addBlock(td.stationBlocks, player, rayX, rayY + 3, rayZ + 3, fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 2, td.rayZ - 3, fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 3, td.rayZ - 3, fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 2, td.rayZ + 3, fence);
+			addBlock(td.stationBlocks, player, td.rayX, td.rayY + 3, td.rayZ + 3, fence);
 			
 			int stationSupportCount1 = fenceCount % 2, stationSupportCount2 = fenceCount % 2;
 			
-			for(int y = rayY + flag - 1; y > 0; y--) {
-    			if(player.worldObj.isAirBlock(rayX, y, rayZ + 3)) {
-    				addBlock(td.supports, player, rayX, y, rayZ + 3, EnumStationType.values()[td.theme].support);
+			for(int y = td.rayY + flag - 1; y > 0; y--) {
+    			if(player.worldObj.isAirBlock(td.rayX, y, td.rayZ + 3)) {
+    				addBlock(td.supports, player, td.rayX, y, td.rayZ + 3, EnumStationType.values()[td.theme].support);
     				
     				if(EnumStationType.values()[td.theme].support == RCBlocks.woodenSupport) {
 	    				TileEntityWoodenSupport tes = new TileEntityWoodenSupport();
-	    				tes.xCoord = rayX;
+	    				tes.xCoord = td.rayX;
 	    				tes.yCoord = y;
-	    				tes.zCoord = rayZ + 3;
+	    				tes.zCoord = td.rayZ + 3;
 	    				tes.direction = stationSupportCount1 % 2 == 0 ? 0 : 2;
 	    				
-	    				player.worldObj.setTileEntity(rayX, y, rayZ + 3, tes);
+	    				player.worldObj.setTileEntity(td.rayX, y, td.rayZ + 3, tes);
     				}
     				stationSupportCount1++;
 				}
@@ -430,18 +429,18 @@ public class PacketTrackDesigner extends AbstractPacket {
     			}
 			}
 
-			for(int y = rayY + flag - 1; y > 0; y--) {
-				if(player.worldObj.isAirBlock(rayX, y, rayZ - 3)) {
-    				addBlock(td.supports, player, rayX, y, rayZ - 3, EnumStationType.values()[td.theme].support);
+			for(int y = td.rayY + flag - 1; y > 0; y--) {
+				if(player.worldObj.isAirBlock(td.rayX, y, td.rayZ - 3)) {
+    				addBlock(td.supports, player, td.rayX, y, td.rayZ - 3, EnumStationType.values()[td.theme].support);
     				
     				if(EnumStationType.values()[td.theme].support == RCBlocks.woodenSupport) {
         				TileEntityWoodenSupport tes = new TileEntityWoodenSupport();
-        				tes.xCoord = rayX;
+        				tes.xCoord = td.rayX;
         				tes.yCoord = y;
-        				tes.zCoord = rayZ - 3;
+        				tes.zCoord = td.rayZ - 3;
         				tes.direction = stationSupportCount2 % 2 == 0 ? 0 : 2;
         				
-        				player.worldObj.setTileEntity(rayX, y, rayZ - 3, tes);
+        				player.worldObj.setTileEntity(td.rayX, y, td.rayZ - 3, tes);
     				}
     				stationSupportCount2++;
 				}
@@ -455,57 +454,57 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     public void placeCatwalk(EntityPlayer player, TileEntityTrack tet) {
     	if(tet.direction == 0 || tet.direction == 2) {
-    		addBlock(td.stationBlocks, player, rayX - 1, rayY, rayZ, RCBlocks.catwalk);
-    		addBlock(td.stationBlocks, player, rayX + 1, rayY, rayZ, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, td.rayX - 1, td.rayY, td.rayZ, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, td.rayX + 1, td.rayY, td.rayZ, RCBlocks.catwalk);
     		
-    		TileEntityCatwalk ter = (TileEntityCatwalk) player.worldObj.getTileEntity(rayX - 1, rayY, rayZ);
+    		TileEntityCatwalk ter = (TileEntityCatwalk) player.worldObj.getTileEntity(td.rayX - 1, td.rayY, td.rayZ);
     		ter.colour = td.fencePaint;
-    		player.worldObj.setTileEntity(rayX - 1, rayY, rayZ, ter);
+    		player.worldObj.setTileEntity(td.rayX - 1, td.rayY, td.rayZ, ter);
     		
-    		TileEntityCatwalk ter2 = (TileEntityCatwalk) player.worldObj.getTileEntity(rayX + 1, rayY, rayZ);
+    		TileEntityCatwalk ter2 = (TileEntityCatwalk) player.worldObj.getTileEntity(td.rayX + 1, td.rayY, td.rayZ);
     		ter2.colour = td.fencePaint;
     		ter2.direction = 2;
-    		player.worldObj.setTileEntity(rayX + 1, rayY, rayZ, ter2);
+    		player.worldObj.setTileEntity(td.rayX + 1, td.rayY, td.rayZ, ter2);
     		
     		tet.hasCatwalk = true;
-    		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     	}
     	else if(tet.direction == 1 || tet.direction == 3) {
-    		addBlock(td.stationBlocks, player, rayX, rayY, rayZ - 1, RCBlocks.catwalk);
-    		addBlock(td.stationBlocks, player, rayX, rayY, rayZ + 1, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ - 1, RCBlocks.catwalk);
+    		addBlock(td.stationBlocks, player, td.rayX, td.rayY, td.rayZ + 1, RCBlocks.catwalk);
     		
-    		TileEntityCatwalk ter = (TileEntityCatwalk) player.worldObj.getTileEntity(rayX, rayY, rayZ - 1);
+    		TileEntityCatwalk ter = (TileEntityCatwalk) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ - 1);
     		ter.colour = td.fencePaint;
-    		player.worldObj.setTileEntity(rayX, rayY, rayZ - 1, ter);
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ - 1, ter);
     		
-    		TileEntityCatwalk ter2 = (TileEntityCatwalk) player.worldObj.getTileEntity(rayX, rayY, rayZ + 1);
+    		TileEntityCatwalk ter2 = (TileEntityCatwalk) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ + 1);
     		ter2.colour = td.fencePaint;
     		ter2.direction = 1;
-    		player.worldObj.setTileEntity(rayX, rayY, rayZ + 1, ter2);
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ + 1, ter2);
     		
     		tet.hasCatwalk = true;
-    		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     	}
     }
     
     public void placeStartPoint(EntityPlayer player, boolean placeStation) {
     	System.out.println("Flag: " + flag);
     	if(flag != 0) {
-			removeBlock(td.tracks, player, rayX, rayY, rayZ);
+			removeBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ);
 		}
 		
-		addBlock(td.tracks, player, rayX, rayY + flag, rayZ, TrackHandler.tracks.get(0).block);
+		addBlock(td.tracks, player, td.rayX, td.rayY + flag, td.rayZ, TrackHandler.tracks.get(0).block);
 		TileEntityTrack tet = new TileEntityTrack();
-		tet.xCoord = rayX;
-		tet.yCoord = rayY;
-		tet.zCoord = rayZ;
+		tet.xCoord = td.rayX;
+		tet.yCoord = td.rayY;
+		tet.zCoord = td.rayZ;
 		
 		tet.direction = td.direction;
 		tet.colour = td.trackPaint;
 		
 		tet.extra = TrackHandler.extras.get(3);
 		
-		player.worldObj.setTileEntity(rayX, rayY + flag, rayZ, tet);
+		player.worldObj.setTileEntity(td.rayX, td.rayY + flag, td.rayZ, tet);
 		
 		if(td.extra == 1 && placeStation) {
 			for(Point point : td.stationBlocks) {
@@ -521,11 +520,11 @@ public class PacketTrackDesigner extends AbstractPacket {
     }
 
     public void placeStraightTrack(EntityPlayer player) {
-    	addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(0).block);
+    	addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(0).block);
 		TileEntityTrack tet = new TileEntityTrack();
-		tet.xCoord = rayX;
-		tet.yCoord = rayY;
-		tet.zCoord = rayZ;
+		tet.xCoord = td.rayX;
+		tet.yCoord = td.rayY;
+		tet.zCoord = td.rayZ;
 		
 		tet.direction = td.direction;
 		tet.colour = td.trackPaint;
@@ -546,15 +545,15 @@ public class PacketTrackDesigner extends AbstractPacket {
 			tet.extra = TrackHandler.extras.get(2);
 		}
 		
-		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 		supportCount++;
     }
     
     public void clearSupports(EntityPlayer player) {
     	if(supportCount % 4 == 0) {
-    		for(int i = 0; i < 256 - rayY; i++) {
-    			if(player.worldObj.getBlock(this.rayX, this.rayY - i, this.rayZ) == RCBlocks.support || player.worldObj.getBlock(this.rayX, this.rayY - i, this.rayZ) == RCBlocks.footer) {
-    				removeBlock(td.supports, player, this.rayX, this.rayY - i, this.rayZ);
+    		for(int i = 0; i < 256 - td.rayY; i++) {
+    			if(player.worldObj.getBlock(this.td.rayX, this.td.rayY - i, this.td.rayZ) == RCBlocks.support || player.worldObj.getBlock(this.td.rayX, this.td.rayY - i, this.td.rayZ) == RCBlocks.footer) {
+    				removeBlock(td.supports, player, this.td.rayX, this.td.rayY - i, this.td.rayZ);
     			}
     		}
     	}
@@ -562,30 +561,30 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     public void placeSupports(EntityPlayer player) {
     	if(supportCount % 4 == 0) {
-    		for(int y = rayY + (type == types.LIFT ? flag : 0) - 1; y > 0; y--) {
-    			if(player.worldObj.isAirBlock(rayX, y, rayZ) || player.worldObj.getBlock(rayX, y, rayZ) == Blocks.water) {
-    				if(player.worldObj.isAirBlock(rayX, y - 1, rayZ)) {
-	    				addBlock(td.supports, player, rayX, y, rayZ, RCBlocks.support);
+    		for(int y = td.rayY + (type == types.LIFT ? flag : 0) - 1; y > 0; y--) {
+    			if(player.worldObj.isAirBlock(td.rayX, y, td.rayZ) || player.worldObj.getBlock(td.rayX, y, td.rayZ) == Blocks.water) {
+    				if(player.worldObj.isAirBlock(td.rayX, y - 1, td.rayZ)) {
+	    				addBlock(td.supports, player, td.rayX, y, td.rayZ, RCBlocks.support);
 	    				
 	    				TileEntitySupport tes = new TileEntitySupport();
-	    				tes.xCoord = rayX;
+	    				tes.xCoord = td.rayX;
 	    				tes.yCoord = y;
-	    				tes.zCoord = rayZ;
+	    				tes.zCoord = td.rayZ;
 	    				tes.colour = td.supportPaint;
 	    				
-	    				player.worldObj.setTileEntity(rayX, y, rayZ, tes);
+	    				player.worldObj.setTileEntity(td.rayX, y, td.rayZ, tes);
 	    				
     				}
     				else {
-    					addBlock(td.supports, player, rayX, y, rayZ, RCBlocks.footer);
+    					addBlock(td.supports, player, td.rayX, y, td.rayZ, RCBlocks.footer);
 	    				
 	    				TileEntityFooter tef = new TileEntityFooter();
-	    				tef.xCoord = rayX;
+	    				tef.xCoord = td.rayX;
 	    				tef.yCoord = y;
-	    				tef.zCoord = rayZ;
+	    				tef.zCoord = td.rayZ;
 	    				tef.colour = td.supportPaint;
 	    				
-	    				player.worldObj.setTileEntity(rayX, y, rayZ, tef);
+	    				player.worldObj.setTileEntity(td.rayX, y, td.rayZ, tef);
 	    				
 	    				break;
     				}
@@ -600,22 +599,22 @@ public class PacketTrackDesigner extends AbstractPacket {
     }
     
     public void updateBlocks(EntityPlayer player) {
-    	player.worldObj.markBlockForUpdate(rayX, rayY, rayZ);
+    	player.worldObj.markBlockForUpdate(td.rayX, td.rayY, td.rayZ);
     }
     
     public void handleStraight(EntityPlayer player, boolean start) {
     	if(heightDirection == 0) {
 			if(td.direction == 0) {
-				rayZ += 1;
+				td.rayZ += 1;
 			}
 			else if(td.direction == 1) {
-				rayX -= 1;
+				td.rayX -= 1;
 			}
 			else if(td.direction == 2) {
-				rayZ -= 1;
+				td.rayZ -= 1;
 			}
 			else if(td.direction == 3) {
-				rayX += 1;
+				td.rayX += 1;
 			}
 			
 			if(start) {
@@ -627,14 +626,14 @@ public class PacketTrackDesigner extends AbstractPacket {
 			
 			TileEntityRideFence terf4 = new TileEntityRideFence();
 			if(fenceCount == 0) {
-				terf4.xCoord = rayX + 2;
-				terf4.yCoord = rayY + 1;
-				terf4.zCoord = rayZ;
+				terf4.xCoord = td.rayX + 2;
+				terf4.yCoord = td.rayY + 1;
+				terf4.zCoord = td.rayZ;
 				terf4.td = td;
 			}
 			
 			if(fenceCount == 0) {
-				player.worldObj.setTileEntity(rayX + 2, rayY + 1, rayZ, terf4);
+				player.worldObj.setTileEntity(td.rayX + 2, td.rayY + 1, td.rayZ, terf4);
 			}
     	}
     }
@@ -643,49 +642,49 @@ public class PacketTrackDesigner extends AbstractPacket {
     	placeStartPoint(player, false);
     	
 		if(flag == -1) {
-    		removeBlock(td.tracks, player, rayX, rayY, rayZ);
+    		removeBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ);
     	}
 		
-    	rayY += flag;
+    	td.rayY += flag;
     }
     
     public void handleCurvedTrackSupports(EntityPlayer player) {
 		supportCount = 0;
 		
-		int rayXCopy = rayX, rayZCopy = rayZ;
+		int rayXCopy = td.rayX, rayZCopy = td.rayZ;
 		
-		rayXCopy = rayX + 1;
+		rayXCopy = td.rayX + 1;
 		if(supportCount % 4 == 0) {
-    		for(int i = 0; i < 256 - rayY; i++) {
-    			if(player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.footer) {
-    				removeBlock(td.supports, player, rayXCopy, this.rayY - i, rayZCopy);
+    		for(int i = 0; i < 256 - td.rayY; i++) {
+    			if(player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.footer) {
+    				removeBlock(td.supports, player, rayXCopy, this.td.rayY - i, rayZCopy);
     			}
     		}
     	}
 		
-		rayXCopy = rayX - 1;
+		rayXCopy = td.rayX - 1;
 		if(supportCount % 4 == 0) {
-    		for(int i = 0; i < 256 - rayY; i++) {
-    			if(player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.footer) {
-    				removeBlock(td.supports, player, rayXCopy, this.rayY - i, rayZCopy);
+    		for(int i = 0; i < 256 - td.rayY; i++) {
+    			if(player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.footer) {
+    				removeBlock(td.supports, player, rayXCopy, this.td.rayY - i, rayZCopy);
     			}
     		}
     	}
 		
-		rayZCopy = rayZ + 1;
+		rayZCopy = td.rayZ + 1;
 		if(supportCount % 4 == 0) {
-    		for(int i = 0; i < 256 - rayY; i++) {
-    			if(player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.footer) {
-    				removeBlock(td.supports, player, rayXCopy, this.rayY - i, rayZCopy);
+    		for(int i = 0; i < 256 - td.rayY; i++) {
+    			if(player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.footer) {
+    				removeBlock(td.supports, player, rayXCopy, this.td.rayY - i, rayZCopy);
     			}
     		}
     	}
 		
-		rayZCopy = rayZ - 1;
+		rayZCopy = td.rayZ - 1;
 		if(supportCount % 4 == 0) {
-    		for(int i = 0; i < 256 - rayY; i++) {
-    			if(player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.rayY - i, rayZCopy) == RCBlocks.footer) {
-    				removeBlock(td.supports, player, rayXCopy, this.rayY - i, rayZCopy);
+    		for(int i = 0; i < 256 - td.rayY; i++) {
+    			if(player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.support || player.worldObj.getBlock(rayXCopy, this.td.rayY - i, rayZCopy) == RCBlocks.footer) {
+    				removeBlock(td.supports, player, rayXCopy, this.td.rayY - i, rayZCopy);
     			}
     		}
     	}		
@@ -694,30 +693,30 @@ public class PacketTrackDesigner extends AbstractPacket {
     public void placeCurvedTrack(EntityPlayer player) {
     	if(flag == 0) {
 	    	if(td.direction == 0) {
-				rayZ += 1;
+				td.rayZ += 1;
 				td.direction = 1;
 			}
 			else if(td.direction == 1) {
-				rayX -= 1;
+				td.rayX -= 1;
 				td.direction = 2;
 			}
 			else if(td.direction == 2) {
-				rayZ -= 1;
+				td.rayZ -= 1;
 				td.direction = 3;
 			}
 			else if(td.direction == 3) {
-				rayX += 1;
+				td.rayX += 1;
 				td.direction = 0;
 			}
 			
-			addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(4).block);
+			addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(4).block);
 			
-			TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+			TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 			
 			tet.direction = td.direction;
 			tet.colour = td.trackPaint;
 			
-			player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+			player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			
 			if(td.direction == 0) {
 				td.direction = 2;
@@ -736,26 +735,26 @@ public class PacketTrackDesigner extends AbstractPacket {
     	}
     	else if(flag == 1) {
     		if(td.direction == 0) {
-				rayZ += 1;
+				td.rayZ += 1;
 			}
 			else if(td.direction == 1) {
-				rayX -= 1;
+				td.rayX -= 1;
 			}
 			else if(td.direction == 2) {
-				rayZ -= 1;
+				td.rayZ -= 1;
 			}
 			else if(td.direction == 3) {
-				rayX += 1;
+				td.rayX += 1;
 			}
     		
-			addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(4).block);
+			addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(4).block);
     		
-    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 			
 			tet.direction = td.direction;
 			tet.colour = td.trackPaint;
 			
-			player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+			player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			
 			if(td.direction == 0) {
 				td.direction = 1;
@@ -778,118 +777,118 @@ public class PacketTrackDesigner extends AbstractPacket {
 		Point previous = td.tracks.get(td.tracks.size() - 1);
 		if(player.worldObj.getBlock(previous.x, previous.y, previous.z) == TrackHandler.tracks.get(0).block || (player.worldObj.getBlock(previous.x, previous.y, previous.z) == TrackHandler.tracks.get(1).block && ((TileEntityTrack) player.worldObj.getTileEntity(previous.x, previous.y, previous.z)).direction != td.direction)) {
 			if(td.direction == 0) {
-				rayZ += 1;
+				td.rayZ += 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				
 				heightDirection = 1;
 			}
 			else if(td.direction == 1) {
-				rayX -= 1;
+				td.rayX -= 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				
 				heightDirection = 1;
 			}
 			else if(td.direction == 2) {
-				rayZ -= 1;
+				td.rayZ -= 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				
 				heightDirection = 1;
 			}
 			else if(td.direction == 3) {
-				rayX += 1;
+				td.rayX += 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				
 				heightDirection = 1;
 			}
 		}
 		else if(player.worldObj.getBlock(previous.x, previous.y, previous.z) == TrackHandler.tracks.get(1).block || player.worldObj.getBlock(previous.x, previous.y, previous.z) == TrackHandler.tracks.get(2).block) {
 			if(td.direction == 0) {
-				rayY += 1;
-				rayZ += 1;
+				td.rayY += 1;
+				td.rayZ += 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				
 				heightDirection = 1;
 			}
 			else if(td.direction == 1) {
-				rayX -= 1;
-				rayY += 1;
+				td.rayX -= 1;
+				td.rayY += 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			}
 			else if(td.direction == 2) {
-				rayY += 1;
-				rayZ -= 1;
+				td.rayY += 1;
+				td.rayZ -= 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				
 				heightDirection = 1;
 			}
 			else if(td.direction == 3) {
-				rayX += 1;
-				rayY += 1;
+				td.rayX += 1;
+				td.rayY += 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			}
 		}
 		supportCount++;
@@ -898,35 +897,35 @@ public class PacketTrackDesigner extends AbstractPacket {
     /*public void flattenSlope(EntityPlayer player) {
     	if(td.direction == 0) {
     		if(heightDirection == 1) {
-	    		rayY += 1;
-	    		rayZ += 1;
+	    		td.rayY += 1;
+	    		td.rayZ += 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
-	    		rayY += 1;
-	    		rayZ += 2;
+	    		td.rayY += 1;
+	    		td.rayZ += 2;
 	    		
 	    		heightDirection = 0;
     		}
     		else if(heightDirection == 2) {
-	    		rayY -= 1;
-	    		rayZ -= 1;
+	    		td.rayY -= 1;
+	    		td.rayZ -= 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
 	    		td.direction = 2;
 	    		heightDirection = 0;
@@ -934,35 +933,35 @@ public class PacketTrackDesigner extends AbstractPacket {
     	}
     	else if(td.direction == 1) {
     		if(heightDirection == 1) {
-	    		rayX -= 1;
-	    		rayY += 1;
+	    		td.rayX -= 1;
+	    		td.rayY += 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
-	    		rayX -= 2;
-	    		rayY += 1;
+	    		td.rayX -= 2;
+	    		td.rayY += 1;
 	    		
 	    		heightDirection = 0;
     		}
     		else if(heightDirection == 2) {
-	    		rayX -= 1;
-	    		rayY -= 1;
+	    		td.rayX -= 1;
+	    		td.rayY -= 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
 	    		td.direction = 1;
 	    		heightDirection = 0;
@@ -970,35 +969,35 @@ public class PacketTrackDesigner extends AbstractPacket {
     	}
     	else if(td.direction == 2) {
     		if(heightDirection == 1) {
-    			rayY += 1;
-	    		rayZ -= 1;
+    			td.rayY += 1;
+	    		td.rayZ -= 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
-				rayY += 1;
-	    		rayZ -= 2;
+				td.rayY += 1;
+	    		td.rayZ -= 2;
 	    		
 	    		heightDirection = 0;
     		}
     		else if(heightDirection == 2) {
-	    		rayY -= 1;
-	    		rayZ += 1;
+	    		td.rayY -= 1;
+	    		td.rayZ += 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
 	    		td.direction = 0;
 	    		heightDirection = 0;
@@ -1007,35 +1006,35 @@ public class PacketTrackDesigner extends AbstractPacket {
     	else if(td.direction == 3) {
     		System.out.println("Dir: " + heightDirection);
     		if(heightDirection == 1) {
-	    		rayX += 1;
-	    		rayY += 1;
+	    		td.rayX += 1;
+	    		td.rayY += 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
-	    		rayX -= 2;
-	    		rayY += 1;
+	    		td.rayX -= 2;
+	    		td.rayY += 1;
 	    		
 	    		heightDirection = 0;
     		}
     		else if(heightDirection == 2) {
-	    		rayX -= 1;
-	    		rayY -= 1;
+	    		td.rayX -= 1;
+	    		td.rayY -= 1;
 	    		
-	    		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+	    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
 	    		
-	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+	    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 	    		
 	    		td.direction = 1;
 	    		heightDirection = 0;
@@ -1050,107 +1049,107 @@ public class PacketTrackDesigner extends AbstractPacket {
 			Point previous2 = td.tracks.get(td.tracks.size() - 2);
 			if(player.worldObj.getBlock(previous2.x, previous2.y, previous2.z) == TrackHandler.tracks.get(0).block || player.worldObj.getBlock(previous2.x, previous2.y, previous2.z) == TrackHandler.tracks.get(3).block) {
 				if(td.direction == 0) {
-					rayY -= 1;
-					rayZ -= 1;
+					td.rayY -= 1;
+					td.rayZ -= 1;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				}
 				else if(td.direction == 1) {
-					rayX -= 1;
-					rayY -= 1;
+					td.rayX -= 1;
+					td.rayY -= 1;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				}
 				else if(td.direction == 2) {
-					rayY -= 1;
-					rayZ += 1;
+					td.rayY -= 1;
+					td.rayZ += 1;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				}
 				else if(td.direction == 3) {
-					rayX += 1;
-					rayY -= 1;
+					td.rayX += 1;
+					td.rayY -= 1;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 				}
 			}
 			else {
 				if(td.direction == 0) {
 					td.direction = 2;
 					
-					rayY -= 1;
-					rayZ += 3;
+					td.rayY -= 1;
+					td.rayZ += 3;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 					
 					heightDirection = 2;
 				}
 				else if(td.direction == 1) {
 					td.direction = 3;
 					
-					rayX -= 3;
-					rayY -= 1;
+					td.rayX -= 3;
+					td.rayY -= 1;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 					
 					heightDirection = 2;
 				}
 				else if(td.direction == 2) {
 					td.direction = 0;
 					
-					rayY -= 1;
-					rayZ -= 3;
+					td.rayY -= 1;
+					td.rayZ -= 3;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 					
 					heightDirection = 2;
 				}
@@ -1158,17 +1157,17 @@ public class PacketTrackDesigner extends AbstractPacket {
 					System.out.println("TD 3 S DOWN");
 					td.direction = 1;
 					
-					rayX += 7;
-					rayY -= 1;
+					td.rayX += 7;
+					td.rayY -= 1;
 					
-					addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+					addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
 					
-					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+					TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 					
 					tet.direction = td.direction;
 					tet.colour = td.trackPaint;
 					
-					player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+					player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 					
 					heightDirection = 2;
 				}
@@ -1177,56 +1176,56 @@ public class PacketTrackDesigner extends AbstractPacket {
 		else if(heightDirection == 2) {
 			System.out.println("Reached");
 			if(td.direction == 0) {
-				rayY -= 1;
-				rayZ -= 1;
+				td.rayY -= 1;
+				td.rayZ -= 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			}
 			else if(td.direction == 1) {
-				rayX -= 1;
-				rayY -= 1;
+				td.rayX -= 1;
+				td.rayY -= 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			}
 			else if(td.direction == 2) {
-				rayY -= 1;
-				rayZ += 1;
+				td.rayY -= 1;
+				td.rayZ += 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			}
 			else if(td.direction == 3) {
-				rayX += 1;
-				rayY -= 1;
+				td.rayX += 1;
+				td.rayY -= 1;
 				
-				addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+				addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
 				
-				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+				TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
 				
 				tet.direction = td.direction;
 				tet.colour = td.trackPaint;
 				
-				player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+				player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
 			}
 		}
 		supportCount++;
@@ -1235,98 +1234,98 @@ public class PacketTrackDesigner extends AbstractPacket {
     public void sd(EntityPlayer player, int type) {
     	if(type == 1) {
     		if(td.direction == 0) {
-    			rayY -= 1;
-    			rayZ += 3;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayY -= 1;
+    			td.rayZ += 3;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 2;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 1) {
-    			rayX -= 3;
-    			rayY -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayX -= 3;
+    			td.rayY -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 3;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 2) {
-    			rayY -= 1;
-    			rayZ -= 3;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayY -= 1;
+    			td.rayZ -= 3;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 0;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 3) {
-    			rayX += 3;
-    			rayY -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayX += 3;
+    			td.rayY -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 1;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     	}
     	else if(type == 2) {
     		if(td.direction == 0) {
-    			rayY += 1;
-    			rayZ += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayY += 1;
+    			td.rayZ += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 0;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
         		
-        		rayY += 1;
-        		rayZ += 2;
+        		td.rayY += 1;
+        		td.rayZ += 2;
     		}
     		else if(td.direction == 1) {
-    			rayX -= 1;
-    			rayY += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayX -= 1;
+    			td.rayY += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 1;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
         		
-        		rayX -= 2;
-        		rayY += 1;
+        		td.rayX -= 2;
+        		td.rayY += 1;
     		}
     		else if(td.direction == 2) {
-    			rayY += 1;
-    			rayZ -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayY += 1;
+    			td.rayZ -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 2;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
         		
-        		rayY += 1;
-        		rayZ -= 2;
+        		td.rayY += 1;
+        		td.rayZ -= 2;
     		}
     		else if(td.direction == 3) {
-    			rayX += 1;
-    			rayY += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(3).block);
+    			td.rayX += 1;
+    			td.rayY += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(3).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 3;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
         		
-        		rayX += 2;
-        		rayY += 1;
+        		td.rayX += 2;
+        		td.rayY += 1;
     		}
     	}
 
@@ -1336,86 +1335,86 @@ public class PacketTrackDesigner extends AbstractPacket {
     public void s(EntityPlayer player, int type) {
     	if(type == 1) {
     		if(td.direction == 0) {
-    			rayY -= 1;
-    			rayZ += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayY -= 1;
+    			td.rayZ += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 2;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 1) {
-    			rayX -= 1;
-    			rayY -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayX -= 1;
+    			td.rayY -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 3;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 2) {
-    			rayY -= 1;
-    			rayZ -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayY -= 1;
+    			td.rayZ -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 0;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 3) {
-    			rayX += 1;
-    			rayY -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayX += 1;
+    			td.rayY -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 1;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     	}
     	else if(type == 2) {
     		if(td.direction == 0) {
-    			rayY += 1;
-    			rayZ += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayY += 1;
+    			td.rayZ += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 0;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 1) {
-    			rayX -= 1;
-    			rayY += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayX -= 1;
+    			td.rayY += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 1;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 2) {
-    			rayY += 1;
-    			rayZ -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayY += 1;
+    			td.rayZ -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 2;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 3) {
-    			rayX += 1;
-    			rayY += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(2).block);
+    			td.rayX += 1;
+    			td.rayY += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(2).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 3;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     	}
     	
@@ -1425,82 +1424,82 @@ public class PacketTrackDesigner extends AbstractPacket {
     public void su(EntityPlayer player, int type) {
     	if(type == 1) {
     		if(td.direction == 0) {
-    			rayY -= 1;
-    			rayZ += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayY -= 1;
+    			td.rayZ += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 2;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 1) {
-    			rayX -= 1;
-    			rayY -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayX -= 1;
+    			td.rayY -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 3;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 2) {
-    			rayY -= 1;
-    			rayZ -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayY -= 1;
+    			td.rayZ -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 0;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 3) {
-    			rayX += 1;
-    			rayY -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayX += 1;
+    			td.rayY -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 1;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     	}
     	else if(type == 2) {
     		if(td.direction == 0) {
-    			rayZ += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayZ += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 0;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 1) {
-    			rayX -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayX -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 1;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 2) {
-    			rayZ -= 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayZ -= 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 2;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     		else if(td.direction == 3) {
-    			rayX += 1;
-        		addBlock(td.tracks, player, rayX, rayY, rayZ, TrackHandler.tracks.get(1).block);
+    			td.rayX += 1;
+        		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(1).block);
         		
-        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ);
+        		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
         		tet.direction = 3;
         		tet.colour = td.trackPaint;
-        		player.worldObj.setTileEntity(rayX, rayY, rayZ, tet);
+        		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
     		}
     	}
 
@@ -1572,14 +1571,14 @@ public class PacketTrackDesigner extends AbstractPacket {
     		td.extra = flag;
     	}
     	else if(type == types.PLACE) {
-    		td.start = new Point(rayX, rayY, rayZ);
+    		td.start = new Point(td.rayX, td.rayY, td.rayZ);
     		placeStartPoint(player, false);
     	}
     	else if(type == types.LIFT) {
     		alterStartPointHeight(player);
     	}
     	else if(type == types.CONFIRM) {
-    		placeStation(player, (TileEntityTrack) player.worldObj.getTileEntity(rayX, rayY, rayZ));
+    		placeStation(player, (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ));
     	}
     	else if(type == types.ROTATE) {
     		td.direction += td.direction == 3 ? -3 : 1;
