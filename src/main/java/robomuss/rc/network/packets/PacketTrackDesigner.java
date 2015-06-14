@@ -562,7 +562,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     public void placeSupports(EntityPlayer player) {
     	if(supportCount % 4 == 0) {
-    		for(int y = rayY + flag - 1; y > 0; y--) {
+    		for(int y = rayY + (type == types.LIFT ? flag : 0) - 1; y > 0; y--) {
     			if(player.worldObj.isAirBlock(rayX, y, rayZ) || player.worldObj.getBlock(rayX, y, rayZ) == Blocks.water) {
     				if(player.worldObj.isAirBlock(rayX, y - 1, rayZ)) {
 	    				addBlock(td.supports, player, rayX, y, rayZ, RCBlocks.support);
@@ -1644,6 +1644,8 @@ public class PacketTrackDesigner extends AbstractPacket {
 	    			removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, point.x, point.y, point.z);
 				}
     		}
+    		
+    		removeBlockAlt(((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.gates, player, teX, teY, teZ);
     		
     		td.tracks.clear();
     		td.stationBlocks.clear();

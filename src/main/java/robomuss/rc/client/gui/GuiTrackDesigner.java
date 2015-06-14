@@ -41,7 +41,7 @@ public class GuiTrackDesigner extends GuiScreen {
     private boolean showHelp = false;
     public static boolean createMenu = false, placeMenu = false, loadMenu = false, escapeMenu = false;
     
-    private GuiTextField rideName, rideName2, loadName;
+    private GuiTextField rideName, loadName;
     private int theme, trackPaint, supportPaint, fencePaint;
     
     private static final ResourceLocation texture = new ResourceLocation("rc", "textures/gui/track_designer.png");
@@ -101,7 +101,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(6, 2, this.height - 22, 20, 20, "<"));
 		buttonList.add(new GuiButton(7, 24, this.height - 22, 20, 20, "^"));
 		buttonList.add(new GuiButton(8, 46, this.height - 22, 20, 20, ">"));
-		buttonList.add(new GuiButton(9, 70, this.height - 22, 40, 20, "Delete"));
+		buttonList.add(new GuiButton(9, 68, this.height - 22, 42, 20, "Loop"));
 		
 		buttonList.add(new GuiButton(10, 2, this.height - 44, 20, 20, "Rot"));
 		buttonList.add(new GuiButton(11, 2, this.height - 22, 65, 20, "Confirm"));
@@ -126,11 +126,11 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(23, 68, this.height - 44, 20, 20, "_/"));
 		buttonList.add(new GuiButton(24, 90, this.height - 44, 20, 20, "/"));
 		buttonList.add(new GuiButton(25, 112, this.height - 44, 20, 20, "/-"));
+		buttonList.add(new GuiButton(26, 214, this.height - 22, 100, 20, "Track Types ^"));
 		
 		int j = 0;
 		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
-			String string = PacketTrackDesigner.extras[i];
-			buttonList.add(new GuiButton(26 + (i - 1), 214 + ((i - 1) * 42), this.height - 22, 40, 20, string.substring(0, 4)));
+			buttonList.add(new GuiButton(27 + (i - 1), 214, this.height - 44 - ((i - 1) * 22), 100, 20, PacketTrackDesigner.extras[i]));
 			j = i;
 		}
 		
@@ -157,17 +157,16 @@ public class GuiTrackDesigner extends GuiScreen {
 		((GuiButton) buttonList.get(23)).visible = false;
 		((GuiButton) buttonList.get(24)).visible = false;
 		((GuiButton) buttonList.get(25)).visible = false;
+		((GuiButton) buttonList.get(26)).visible = false;
 		
+		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
+			((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
+		}
 		
 		rideName = new GuiTextField(fontRendererObj, k + 6, l + 6, 164, 12);
 		rideName.setFocused(false);
 		rideName.setMaxStringLength(26);
 		rideName.setText("");
-		
-		rideName2 = new GuiTextField(fontRendererObj, this.width - 167, this.height - 21, 164, 12);
-		rideName2.setFocused(false);
-		rideName2.setMaxStringLength(26);
-		rideName2.setText("");
 		
 		loadName = new GuiTextField(fontRendererObj, k + 6, l + 6, 164, 12);
 		loadName.setFocused(false);
@@ -220,8 +219,6 @@ public class GuiTrackDesigner extends GuiScreen {
 	        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	        this.mc.getTextureManager().bindTexture(texture3);
 	        this.drawTexturedModalRect(0, this.height - 49, 0, 256 - 49, 176, 256);
-	        
-	        rideName2.drawTextBox();
 		}
 		
 		drawString(fontRendererObj, te.targetX + ", " + te.targetY + ", " + te.targetZ, 2, 2, 0xFFFFFF);
@@ -315,9 +312,6 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(19)).visible = true;
 		}
 		else if(button.id == 2) {
-			if(rideName.getText() == "") {
-				rideName2.setText("Unnamed Rollercoaster");
-			}
 			createMenu = false;
 			placeMenu = true;
 			((GuiButton) buttonList.get(2)).visible = false;
@@ -395,11 +389,8 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(9)).visible = true;
 			((GuiButton) buttonList.get(12)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
-			((GuiButton) buttonList.get(14)).visible = true;
-			((GuiButton) buttonList.get(15)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
-			((GuiButton) buttonList.get(24)).visible = true;
-			((GuiButton) buttonList.get(25)).visible = true;
+			((GuiButton) buttonList.get(26)).visible = true;
 			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CONFIRM, te, 0);
 		}
@@ -407,12 +398,23 @@ public class GuiTrackDesigner extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CHANGE_EXTRA, te, 0);
 		}
 		else if(button.id == 13) {
+			((GuiButton) buttonList.get(13)).visible = false;
+			((GuiButton) buttonList.get(23)).visible = false;
+			
+			((GuiButton) buttonList.get(14)).visible = true;
+			((GuiButton) buttonList.get(15)).visible = true;
+			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_DOWN_1, te, 0);
 		}
 		else if(button.id == 14) {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_1, te, 0);
 		}
 		else if(button.id == 15) {
+			((GuiButton) buttonList.get(14)).visible = false;
+			((GuiButton) buttonList.get(15)).visible = false;
+			
+			((GuiButton) buttonList.get(13)).visible = true;
+			((GuiButton) buttonList.get(23)).visible = true;
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_UP_1, te, 0);
 		}
 		else if(button.id == 16) {
@@ -478,31 +480,49 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(7)).visible = true;
 			((GuiButton) buttonList.get(8)).visible = true;
 			((GuiButton) buttonList.get(9)).visible = true;
-			((GuiButton) buttonList.get(13)).visible = true;
-			((GuiButton) buttonList.get(14)).visible = true;
-			((GuiButton) buttonList.get(15)).visible = true;
-			((GuiButton) buttonList.get(23)).visible = true;
-			((GuiButton) buttonList.get(24)).visible = true;
-			((GuiButton) buttonList.get(25)).visible = true;
-			System.out.println("Adding new buttons");
-			
-			((GuiButton) buttonList.get(12)).displayString = PacketTrackDesigner.extras[extra];
 			((GuiButton) buttonList.get(12)).visible = true;
+			((GuiButton) buttonList.get(13)).visible = true;
+			((GuiButton) buttonList.get(23)).visible = true;
+			((GuiButton) buttonList.get(26)).visible = true;
 		}
 		else if(button.id == 23) {
+			((GuiButton) buttonList.get(13)).visible = false;
+			((GuiButton) buttonList.get(23)).visible = false;
+			
+			((GuiButton) buttonList.get(24)).visible = true;
+			((GuiButton) buttonList.get(25)).visible = true;
+			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_UP_2, te, 0);
 		}
 		else if(button.id == 24) {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_2, te, 0);
 		}
 		else if(button.id == 25) {
+			((GuiButton) buttonList.get(24)).visible = false;
+			((GuiButton) buttonList.get(25)).visible = false;
+			
+			((GuiButton) buttonList.get(13)).visible = true;
+			((GuiButton) buttonList.get(23)).visible = true;
+			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_DOWN_2, te, 0);
 		}
+		else if(button.id == 26) {
+			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
+				((GuiButton) buttonList.get(27 + (i - 1))).visible = !((GuiButton) buttonList.get(27 + (i - 1))).visible;
+			}
+		}
 		
+		boolean change = false;
 		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
-			if(button.id == 26 + (i - 1)) {
+			if(button.id == 27 + (i - 1)) {
 				NetworkHandler.tdUpdate(PacketTrackDesigner.types.CHANGE_EXTRA, te, i);
-				break;
+				change = true;
+			}
+		}
+		
+		if(change) {
+			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
+				((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
 			}
 		}
 	}
