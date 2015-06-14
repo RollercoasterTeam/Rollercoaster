@@ -18,6 +18,7 @@ import robomuss.rc.block.te.TileEntityCatwalk;
 import robomuss.rc.block.te.TileEntityRideFence;
 import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
+import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.Theme;
@@ -160,7 +161,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     }
     
     public void addBlock(ArrayList<Point> list, EntityPlayer player, int blockX, int blockY, int blockZ, Block block) {
-    	System.out.println("Adding block: " + blockX + ", " + blockY + ", " + blockZ);
+    	//System.out.println("Adding block: " + blockX + ", " + blockY + ", " + blockZ);
     	player.worldObj.setBlock(blockX, blockY, blockZ, block);
     	if(list != null) {
     		list.add(new Point(blockX, blockY, blockZ));
@@ -1508,6 +1509,16 @@ public class PacketTrackDesigner extends AbstractPacket {
     
     @Override
     public void handleServerSide(EntityPlayer player) {
+    	if(type != types.PLACE) {
+    		System.out.println("Was: " + td.rayX + ", " + td.rayY + ", " + td.rayZ);
+    		if(player.worldObj.getTileEntity(teX, teY, teZ) instanceof TileEntityTrackDesigner) {
+	    		td.rayX = ((TileEntityTrackDesigner) player.worldObj.getTileEntity(teX, teY, teZ)).rayX;
+	    		td.rayY = ((TileEntityTrackDesigner) player.worldObj.getTileEntity(teX, teY, teZ)).rayY;
+	    		td.rayZ = ((TileEntityTrackDesigner) player.worldObj.getTileEntity(teX, teY, teZ)).rayZ;
+    		}
+    		System.out.println("Now: " + td.rayX + ", " + td.rayY + ", " + td.rayZ);
+    	}
+    	
     	if(type == types.DEBUG) {
     		/*System.out.println(td.name);
     		System.out.println(themes[td.theme].name);
@@ -1654,5 +1665,13 @@ public class PacketTrackDesigner extends AbstractPacket {
     	
     	handleSupports(player);
     	updateBlocks(player);
+    	
+    	if(player.worldObj.getTileEntity(teX, teY, teZ) instanceof TileEntityTrackDesigner) {
+	    	TileEntityTrackDesigner tetd = ((TileEntityTrackDesigner) player.worldObj.getTileEntity(teX, teY, teZ));
+	    	tetd.rayX = td.rayX;
+	    	tetd.rayY = td.rayY;
+	    	tetd.rayZ = td.rayZ;
+	    	player.worldObj.setTileEntity(teX, teY, teZ, tetd);
+    	}
     }
 }

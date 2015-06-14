@@ -8,9 +8,9 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityTrackDesigner extends TileEntity {
 
-	public int currentPosX;
-	public int currentPosY;
-	public int currentPosZ;
+	public int rayX;
+	public int rayY;
+	public int rayZ;
 	
 	public boolean hasTarget;
 	
@@ -36,9 +36,9 @@ public class TileEntityTrackDesigner extends TileEntity {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		
-		currentPosX = compound.getInteger("currentPosX");
-		currentPosY = compound.getInteger("currentPosY");
-		currentPosZ = compound.getInteger("currentPosZ");
+		rayX = compound.getInteger("currentPosX");
+		rayY = compound.getInteger("currentPosY");
+		rayZ = compound.getInteger("currentPosZ");
 		
 		hasTarget = compound.getBoolean("hasTarget");
 		
@@ -53,9 +53,9 @@ public class TileEntityTrackDesigner extends TileEntity {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		
-		compound.setInteger("currentPosX", currentPosX);
-		compound.setInteger("currentPosY", currentPosY);
-		compound.setInteger("currentPosZ", currentPosZ);
+		compound.setInteger("currentPosX", rayX);
+		compound.setInteger("currentPosY", rayY);
+		compound.setInteger("currentPosZ", rayZ);
 		
 		compound.setBoolean("hasTarget", hasTarget);
 		
