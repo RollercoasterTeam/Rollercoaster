@@ -371,10 +371,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CURVED, te, 1);
 		}
 		else if(button.id == 9) {
-			/*if(td.tracks.size() > 1) {
-				NetworkHandler.deleteBlock(td.tracks.get(td.tracks.size() - 1).x, td.tracks.get(td.tracks.size() - 1).y, td.tracks.get(td.tracks.size() - 1).z);
-				td.tracks.remove(td.tracks.size() - 1);
-			}*/
+			NetworkHandler.tdUpdate(PacketTrackDesigner.types.LOOP, te, 0);
 		}
 		else if(button.id == 10) {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.ROTATE, te, 0);

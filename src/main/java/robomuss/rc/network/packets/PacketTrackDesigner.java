@@ -57,6 +57,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     	SLOPE_2,
     	SLOPE_DOWN_1,
     	SLOPE_DOWN_2,
+    	LOOP,
     	UPDATE_GATES;
     }
     
@@ -1531,6 +1532,53 @@ public class PacketTrackDesigner extends AbstractPacket {
 		supportCount++;
     }
     
+    public void placeLoop(EntityPlayer player) {
+    	if(td.direction == 0) {
+    		td.rayZ += 1;
+    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(5).block);
+    		
+    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
+    		tet.direction = 2;
+    		tet.colour = td.trackPaint;
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
+    		
+    		td.rayX -= 1;
+    	}
+    	else if(td.direction == 1) {
+    		td.rayX -= 1;
+    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(5).block);
+    		
+    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
+    		tet.direction = 3;
+    		tet.colour = td.trackPaint;
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
+    		
+    		td.rayZ -= 1;
+    	}
+    	else if(td.direction == 2) {
+    		td.rayZ -= 1;
+    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(5).block);
+    		
+    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
+    		tet.direction = 0;
+    		tet.colour = td.trackPaint;
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
+    		
+    		td.rayX += 1;
+    	}
+    	else if(td.direction == 3) {
+    		td.rayX += 1;
+    		addBlock(td.tracks, player, td.rayX, td.rayY, td.rayZ, TrackHandler.tracks.get(5).block);
+    		
+    		TileEntityTrack tet = (TileEntityTrack) player.worldObj.getTileEntity(td.rayX, td.rayY, td.rayZ);
+    		tet.direction = 1;
+    		tet.colour = td.trackPaint;
+    		player.worldObj.setTileEntity(td.rayX, td.rayY, td.rayZ, tet);
+    		
+    		td.rayZ += 1;
+    	}
+    }
+    
     public void deleteRide(EntityPlayer player) {
     	if(td.tracks != null) {
     		for(Point point : ((TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ)).td.tracks) {
@@ -1671,6 +1719,9 @@ public class PacketTrackDesigner extends AbstractPacket {
     	}
     	else if(type == types.SLOPE_DOWN_2) {
     		sd(player, 2);
+    	}
+    	else if(type == types.LOOP) {
+    		placeLoop(player);
     	}
     	else if(type == types.CURVED) {
     		placeCurvedTrack(player);
