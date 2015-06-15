@@ -385,18 +385,20 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(16)).visible = false;
 			((GuiButton) buttonList.get(17)).visible = false;
 			
-			((GuiButton) buttonList.get(6)).visible = true;
 			((GuiButton) buttonList.get(7)).visible = true;
-			((GuiButton) buttonList.get(8)).visible = true;
-			((GuiButton) buttonList.get(9)).visible = true;
 			((GuiButton) buttonList.get(12)).visible = true;
-			((GuiButton) buttonList.get(13)).visible = true;
-			((GuiButton) buttonList.get(23)).visible = true;
 			((GuiButton) buttonList.get(26)).visible = true;
 			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CONFIRM, te, 0);
 		}
 		else if(button.id == 12) {
+			((GuiButton) buttonList.get(6)).visible = true;
+			((GuiButton) buttonList.get(7)).visible = true;
+			((GuiButton) buttonList.get(8)).visible = true;
+			((GuiButton) buttonList.get(9)).visible = true;
+			((GuiButton) buttonList.get(13)).visible = true;
+			((GuiButton) buttonList.get(23)).visible = true;
+			
 			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 				((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
 			}
@@ -404,6 +406,9 @@ public class GuiTrackDesigner extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CHANGE_EXTRA, te, 0);
 		}
 		else if(button.id == 13) {
+			((GuiButton) buttonList.get(6)).visible = false;
+			((GuiButton) buttonList.get(7)).visible = false;
+			((GuiButton) buttonList.get(8)).visible = false;
 			((GuiButton) buttonList.get(13)).visible = false;
 			((GuiButton) buttonList.get(23)).visible = false;
 			
@@ -419,6 +424,9 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(14)).visible = false;
 			((GuiButton) buttonList.get(15)).visible = false;
 			
+			((GuiButton) buttonList.get(6)).visible = true;
+			((GuiButton) buttonList.get(7)).visible = true;
+			((GuiButton) buttonList.get(8)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_UP_1, te, 0);
@@ -482,9 +490,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(17)).visible = false;
 			((GuiButton) buttonList.get(22)).visible = false;
 			
-			((GuiButton) buttonList.get(6)).visible = true;
 			((GuiButton) buttonList.get(7)).visible = true;
-			((GuiButton) buttonList.get(8)).visible = true;
 			((GuiButton) buttonList.get(9)).visible = true;
 			((GuiButton) buttonList.get(12)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
@@ -492,6 +498,9 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(26)).visible = true;
 		}
 		else if(button.id == 23) {
+			((GuiButton) buttonList.get(6)).visible = false;
+			((GuiButton) buttonList.get(7)).visible = false;
+			((GuiButton) buttonList.get(8)).visible = false;
 			((GuiButton) buttonList.get(13)).visible = false;
 			((GuiButton) buttonList.get(23)).visible = false;
 			
@@ -507,6 +516,9 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(24)).visible = false;
 			((GuiButton) buttonList.get(25)).visible = false;
 			
+			((GuiButton) buttonList.get(6)).visible = true;
+			((GuiButton) buttonList.get(7)).visible = true;
+			((GuiButton) buttonList.get(8)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
 			
@@ -518,18 +530,60 @@ public class GuiTrackDesigner extends GuiScreen {
 			}
 		}
 		
-		boolean change = false;
+		int change = -1;
 		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 			if(button.id == 27 + (i - 1)) {
 				NetworkHandler.tdUpdate(PacketTrackDesigner.types.CHANGE_EXTRA, te, i);
-				change = true;
+				change = i;
 			}
 		}
 		
-		if(change) {
+		if(change != -1) {
 			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 				((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
 			}
+		}
+		
+		if(change == 1) {
+			((GuiButton) buttonList.get(6)).visible = false;
+			((GuiButton) buttonList.get(8)).visible = false;
+			((GuiButton) buttonList.get(9)).visible = false;
+			((GuiButton) buttonList.get(13)).visible = false;
+			((GuiButton) buttonList.get(14)).visible = false;
+			((GuiButton) buttonList.get(15)).visible = false;
+			((GuiButton) buttonList.get(23)).visible = false;
+			((GuiButton) buttonList.get(24)).visible = false;
+			((GuiButton) buttonList.get(25)).visible = false;
+		}
+		else if(change == 2) {
+			((GuiButton) buttonList.get(6)).visible = false;
+			((GuiButton) buttonList.get(8)).visible = false;
+			((GuiButton) buttonList.get(9)).visible = false;
+			((GuiButton) buttonList.get(13)).visible = false;
+			((GuiButton) buttonList.get(14)).visible = false;
+			((GuiButton) buttonList.get(15)).visible = false;
+			((GuiButton) buttonList.get(23)).visible = false;
+			((GuiButton) buttonList.get(24)).visible = false;
+			((GuiButton) buttonList.get(25)).visible = false;
+		}
+		else if(change == 3) {
+			((GuiButton) buttonList.get(6)).visible = false;
+			((GuiButton) buttonList.get(8)).visible = false;
+			((GuiButton) buttonList.get(9)).visible = false;
+			
+			((GuiButton) buttonList.get(13)).visible = true;
+			((GuiButton) buttonList.get(23)).visible = true;
+		}
+		else if(change == 4) {
+			((GuiButton) buttonList.get(6)).visible = false;
+			((GuiButton) buttonList.get(8)).visible = false;
+			((GuiButton) buttonList.get(9)).visible = false;
+			((GuiButton) buttonList.get(13)).visible = false;
+			((GuiButton) buttonList.get(14)).visible = false;
+			((GuiButton) buttonList.get(15)).visible = false;
+			((GuiButton) buttonList.get(23)).visible = false;
+			((GuiButton) buttonList.get(24)).visible = false;
+			((GuiButton) buttonList.get(25)).visible = false;
 		}
 	}
 	

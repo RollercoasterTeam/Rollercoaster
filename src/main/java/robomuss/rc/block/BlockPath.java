@@ -20,7 +20,7 @@ public class BlockPath extends Block {
 	public int paths = 14;
 	
 	public BlockPath() {
-		super(Material.carpet);
+		super(Material.rock);
 		setBlockBounds(0, 0, 0, 1, 0.85F, 1);
 		setHardness(1F);
 		setResistance(3F);
