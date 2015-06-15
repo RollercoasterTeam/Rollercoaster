@@ -16,6 +16,8 @@ import robomuss.rc.util.IInventoryRenderSettings;
 public class ItemRenderTrack implements IItemRenderer {
 	
 	private static RenderItem renderItem = new RenderItem();
+	
+	private ResourceLocation textures = new ResourceLocation("rc:textures/models/colour_0.png");
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -37,8 +39,6 @@ public class ItemRenderTrack implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_0.png"));
-
 		Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 		
 		TileEntityTrack te = new TileEntityTrack();

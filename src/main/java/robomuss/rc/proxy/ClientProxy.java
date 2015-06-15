@@ -25,9 +25,12 @@ import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityTrackFabricator;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.client.renderer.ItemRenderBin;
+import robomuss.rc.client.renderer.ItemRenderCatwalk;
 import robomuss.rc.client.renderer.ItemRenderFence;
 import robomuss.rc.client.renderer.ItemRenderFooter;
 import robomuss.rc.client.renderer.ItemRenderSupport;
+import robomuss.rc.client.renderer.ItemRenderTrack;
 import robomuss.rc.client.renderer.ItemRenderTrackDesigner;
 import robomuss.rc.client.renderer.ItemRenderTrackFabricator;
 import robomuss.rc.client.renderer.ItemRenderWoodenSupport;
@@ -36,6 +39,7 @@ import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
 import robomuss.rc.util.ColourUtil;
+import robomuss.rc.util.IInventoryRenderSettings;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -77,6 +81,8 @@ public class ClientProxy extends CommonProxy {
         
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.footer), new ItemRenderFooter());
         
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.catwalk), new ItemRenderCatwalk());
+        
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence), new ItemRenderFence());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_corner), new ItemRenderFence());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_triangle), new ItemRenderFence());
@@ -84,7 +90,11 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_gate), new ItemRenderFence());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.ride_fence_panel), new ItemRenderFence());
         
-        /*for(TrackType track : TrackHandler.tracks) {
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.wooden_bin), new ItemRenderBin());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.metal_solid_bin), new ItemRenderBin());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.metal_mesh_bin), new ItemRenderBin());
+        
+        for(TrackType track : TrackHandler.tracks) {
         	boolean useIcon = false;
         	if(track instanceof IInventoryRenderSettings) {
         		useIcon = ((IInventoryRenderSettings) track).useIcon();
@@ -92,6 +102,6 @@ public class ClientProxy extends CommonProxy {
         	if(!useIcon) {
         		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(track.block), new ItemRenderTrack());
         	}
-        }*/
+        }
 	}
 }

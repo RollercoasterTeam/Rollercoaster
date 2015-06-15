@@ -14,6 +14,8 @@ public class ItemRenderTrackFabricator implements IItemRenderer {
 
 	private ModelTrackFabricator model = new ModelTrackFabricator();
 	
+	private ResourceLocation textures = new ResourceLocation("rc:textures/models/track_fabricator.png");
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -35,8 +37,6 @@ public class ItemRenderTrackFabricator implements IItemRenderer {
         	GL11.glRotatef(lastRot, 0, 1, 0);
             lastRot += 0.1F;
         }*/
-        	
-        ResourceLocation textures = (new ResourceLocation("rc:textures/models/track_fabricator.png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
         this.model.bottom.render(0.0625F);

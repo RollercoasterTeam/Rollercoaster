@@ -15,6 +15,8 @@ public class ItemRenderTrackDesigner implements IItemRenderer {
 
 	private ModelTrackDesigner model = new ModelTrackDesigner();
 	
+	private ResourceLocation textures = new ResourceLocation("rc:textures/models/track_designer.png");
+	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		return true;
@@ -32,8 +34,6 @@ public class ItemRenderTrackDesigner implements IItemRenderer {
 		GL11.glPushMatrix();
         GL11.glTranslatef((float) 0 + 0.5F, (float) 0 + 1.35F, (float) 0 + 0.5F);
         GL11.glRotatef(180, 1, 0, 0);
-        	
-        ResourceLocation textures = (new ResourceLocation("rc:textures/models/track_designer.png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
         this.model.post.render(0.0625F);

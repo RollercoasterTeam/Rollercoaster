@@ -7,14 +7,16 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
+import robomuss.rc.block.model.ModelCatwalk;
 import robomuss.rc.block.model.ModelSupport;
 import robomuss.rc.block.model.ModelWoodenSupport;
 
-public class ItemRenderWoodenSupport implements IItemRenderer {
+public class ItemRenderCatwalk implements IItemRenderer {
 
-	private ModelWoodenSupport model = new ModelWoodenSupport();
+	private ModelCatwalk model = new ModelCatwalk();
 	
-	private ResourceLocation textures = new ResourceLocation("rc:textures/models/wooden_support.png");
+    private ResourceLocation textures = new ResourceLocation("rc:textures/models/colour_0.png");
+    private ResourceLocation catwalkTextures = new ResourceLocation("rc:textures/models/catwalk.png");
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -33,13 +35,15 @@ public class ItemRenderWoodenSupport implements IItemRenderer {
         GL11.glRotatef(180, 1, 0, 0);
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
-        this.model.pillar1.render(0.0625F);  
-        this.model.pillar2.render(0.0625F);   
-        this.model.pillar3.render(0.0625F);  
-        this.model.pillar4.render(0.0625F);   
-        
-        this.model.beam1.render(0.0625F);  
-        this.model.beam2.render(0.0625F);      
+        this.model.pole1.render(0.0625F);
+		this.model.pole2.render(0.0625F);
+		
+		this.model.beam1.render(0.0625F);
+		this.model.beam2.render(0.0625F);
+		this.model.beam3.render(0.0625F);
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(catwalkTextures);
+		this.model.base.render(0.0625F);
 
         GL11.glPopMatrix();
 	}

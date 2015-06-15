@@ -47,6 +47,12 @@ tile.catwalk.name=Catwalk
 
 tile.ride_sign.name=Ride Signage
 
+tile.wooden_bin.name=Wooden Bin
+tile.metal_solid_bin.name=Metal Bin
+tile.metal_mesh_bin.name=Metal Mesh Bin
+
+tile.bench_half.name=Bench
+
 item.hammer.name=Hammer
 
 item.empty_brush.name=Paint Brush

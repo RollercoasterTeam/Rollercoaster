@@ -27,7 +27,8 @@ public class ItemRenderFence implements IItemRenderer {
 	private ModelRideFenceGateOpen gate_open = new ModelRideFenceGateOpen();
 	private ModelRideFencePanel panel = new ModelRideFencePanel();
 	
-	ResourceLocation panelTextures = (new ResourceLocation("rc:textures/models/ride_fence_panel.png"));
+    private ResourceLocation textures = new ResourceLocation("rc:textures/models/colour_0.png");
+    private ResourceLocation panelTextures = (new ResourceLocation("rc:textures/models/ride_fence_panel.png"));
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -46,7 +47,6 @@ public class ItemRenderFence implements IItemRenderer {
 		GL11.glPushMatrix();
         GL11.glTranslatef((float) 0 + 0.5F, (float) 0 + 1.35F, (float) 0 + 0.5F);
         GL11.glRotatef(180, 1, 0, 0);
-        ResourceLocation textures = (new ResourceLocation("rc:textures/models/colour_0.png"));
         Minecraft.getMinecraft().renderEngine.bindTexture(textures);
 
         if(item.getItem() == Item.getItemFromBlock(RCBlocks.ride_fence)) {
