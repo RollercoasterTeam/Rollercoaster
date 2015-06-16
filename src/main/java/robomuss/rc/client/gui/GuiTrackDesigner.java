@@ -136,6 +136,10 @@ public class GuiTrackDesigner extends GuiScreen {
 			j = i;
 		}
 		
+		buttonList.add(new GuiButton(31, 316, this.height - 22, 42, 20, ChatFormatting.YELLOW + "Day"));
+		buttonList.add(new GuiButton(32, 360, this.height - 22, 42, 20, ChatFormatting.BLACK + "Night"));
+		buttonList.add(new GuiButton(33, 404, this.height - 22, 42, 20, "" + ChatFormatting.AQUA + ChatFormatting.STRIKETHROUGH + " Rain "));
+		
 		((GuiButton) buttonList.get(2)).visible = false;
 		((GuiButton) buttonList.get(3)).visible = false;
 		((GuiButton) buttonList.get(4)).visible = false;
@@ -160,6 +164,9 @@ public class GuiTrackDesigner extends GuiScreen {
 		((GuiButton) buttonList.get(24)).visible = false;
 		((GuiButton) buttonList.get(25)).visible = false;
 		((GuiButton) buttonList.get(26)).visible = false;
+		((GuiButton) buttonList.get(31)).visible = false;
+		((GuiButton) buttonList.get(32)).visible = false;
+		((GuiButton) buttonList.get(33)).visible = false;
 		
 		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 			((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
@@ -385,6 +392,9 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(7)).visible = true;
 			((GuiButton) buttonList.get(12)).visible = true;
 			((GuiButton) buttonList.get(26)).visible = true;
+			((GuiButton) buttonList.get(31)).visible = true;
+			((GuiButton) buttonList.get(32)).visible = true;
+			((GuiButton) buttonList.get(33)).visible = true;
 			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CONFIRM, te, 0);
 		}
@@ -493,6 +503,9 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
 			((GuiButton) buttonList.get(26)).visible = true;
+			((GuiButton) buttonList.get(31)).visible = true;
+			((GuiButton) buttonList.get(32)).visible = true;
+			((GuiButton) buttonList.get(33)).visible = true;
 		}
 		else if(button.id == 23) {
 			((GuiButton) buttonList.get(6)).visible = false;
@@ -525,6 +538,15 @@ public class GuiTrackDesigner extends GuiScreen {
 			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 				((GuiButton) buttonList.get(27 + (i - 1))).visible = !((GuiButton) buttonList.get(27 + (i - 1))).visible;
 			}
+		}
+		else if(button.id == 31) {
+			NetworkHandler.tdUpdate(PacketTrackDesigner.types.DAY, te, 0);
+		}
+		else if(button.id == 32) {
+			NetworkHandler.tdUpdate(PacketTrackDesigner.types.NIGHT, te, 0);
+		}
+		else if(button.id == 33) {
+			NetworkHandler.tdUpdate(PacketTrackDesigner.types.NO_RAIN, te, 0);
 		}
 		
 		int change = -1;

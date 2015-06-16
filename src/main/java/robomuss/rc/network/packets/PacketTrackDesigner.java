@@ -12,6 +12,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.WorldInfo;
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.te.TileEntityFooter;
 import robomuss.rc.block.te.TileEntityCatwalk;
@@ -58,7 +61,10 @@ public class PacketTrackDesigner extends AbstractPacket {
     	SLOPE_DOWN_1,
     	SLOPE_DOWN_2,
     	LOOP,
-    	UPDATE_GATES;
+    	UPDATE_GATES,
+    	DAY,
+    	NIGHT,
+    	NO_RAIN;
     }
     
     private PacketTrackDesigner.types type;
@@ -1739,6 +1745,20 @@ public class PacketTrackDesigner extends AbstractPacket {
     	}
     	else if(type == types.DELETE_RIDE) {
     		deleteRide(player);
+    	}
+    	else if(type == types.DAY) {
+    		player.worldObj.setWorldTime(1000);
+    	}
+    	else if(type == types.NIGHT) {
+    		player.worldObj.setWorldTime(13000);
+    	}
+    	else if(type == types.NO_RAIN) {
+    		 WorldServer worldserver = MinecraftServer.getServer().worldServers[0];
+             WorldInfo worldinfo = worldserver.getWorldInfo();
+             worldinfo.setRainTime(0);
+             worldinfo.setThunderTime(0);
+             worldinfo.setRaining(false);
+             worldinfo.setThundering(false);
     	}
     	
     	handleSupports(player);
