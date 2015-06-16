@@ -103,12 +103,12 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(6, 2, this.height - 22, 20, 20, "<"));
 		buttonList.add(new GuiButton(7, 24, this.height - 22, 20, 20, "^"));
 		buttonList.add(new GuiButton(8, 46, this.height - 22, 20, 20, ">"));
-		buttonList.add(new GuiButton(9, 68, this.height - 22, 42, 20, "Loop"));
+		buttonList.add(new GuiButton(9, 68, this.height - 22, 31, 20, "Loop"));
 		
 		buttonList.add(new GuiButton(10, 2, this.height - 44, 42, 20, "Rotate"));
 		buttonList.add(new GuiButton(11, 2, this.height - 22, 130, 20, "Confirm"));
 		
-		buttonList.add(new GuiButton(12, 112, this.height - 22, 100, 20, PacketTrackDesigner.extras[0]));
+		buttonList.add(new GuiButton(12, 134, this.height - 22, 100, 20, PacketTrackDesigner.extras[0]));
 		
 		buttonList.add(new GuiButton(13, 2, this.height - 44, 20, 20, "-\\"));
 		buttonList.add(new GuiButton(14, 24, this.height - 44, 20, 20, "\\"));
@@ -128,17 +128,19 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(23, 68, this.height - 44, 20, 20, "_/"));
 		buttonList.add(new GuiButton(24, 90, this.height - 44, 20, 20, "/"));
 		buttonList.add(new GuiButton(25, 112, this.height - 44, 20, 20, "/-"));
-		buttonList.add(new GuiButton(26, 214, this.height - 22, 100, 20, "Track Types ^"));
+		buttonList.add(new GuiButton(26, 236, this.height - 22, 100, 20, "Track Types ^"));
 		
 		int j = 0;
 		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
-			buttonList.add(new GuiButton(27 + (i - 1), 214, this.height - 44 - ((i - 1) * 22), 100, 20, PacketTrackDesigner.extras[i]));
+			buttonList.add(new GuiButton(27 + (i - 1), 236, this.height - 44 - ((i - 1) * 22), 100, 20, PacketTrackDesigner.extras[i]));
 			j = i;
 		}
 		
-		buttonList.add(new GuiButton(31, 316, this.height - 22, 42, 20, ChatFormatting.YELLOW + "Day"));
-		buttonList.add(new GuiButton(32, 360, this.height - 22, 42, 20, ChatFormatting.BLACK + "Night"));
-		buttonList.add(new GuiButton(33, 404, this.height - 22, 42, 20, "" + ChatFormatting.AQUA + ChatFormatting.STRIKETHROUGH + " Rain "));
+		buttonList.add(new GuiButton(31, 338, this.height - 22, 40, 20, ChatFormatting.YELLOW + "Day"));
+		buttonList.add(new GuiButton(32, 380, this.height - 22, 40, 20, ChatFormatting.BLACK + "Night"));
+		buttonList.add(new GuiButton(33, 422, this.height - 22, 40, 20, "" + ChatFormatting.AQUA + ChatFormatting.STRIKETHROUGH + " Rain "));
+		
+		buttonList.add(new GuiButton(34, 102, this.height - 22, 31, 20, "Roll"));
 		
 		((GuiButton) buttonList.get(2)).visible = false;
 		((GuiButton) buttonList.get(3)).visible = false;
@@ -167,6 +169,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		((GuiButton) buttonList.get(31)).visible = false;
 		((GuiButton) buttonList.get(32)).visible = false;
 		((GuiButton) buttonList.get(33)).visible = false;
+		((GuiButton) buttonList.get(34)).visible = false;
 		
 		for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 			((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
@@ -405,6 +408,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(9)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
+			((GuiButton) buttonList.get(34)).visible = true;
 			
 			for(int i = 1; i < PacketTrackDesigner.extras.length; i++) {
 				((GuiButton) buttonList.get(27 + (i - 1))).visible = false;
@@ -506,6 +510,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(31)).visible = true;
 			((GuiButton) buttonList.get(32)).visible = true;
 			((GuiButton) buttonList.get(33)).visible = true;
+			((GuiButton) buttonList.get(34)).visible = true;
 		}
 		else if(button.id == 23) {
 			((GuiButton) buttonList.get(6)).visible = false;
@@ -573,6 +578,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(23)).visible = false;
 			((GuiButton) buttonList.get(24)).visible = false;
 			((GuiButton) buttonList.get(25)).visible = false;
+			((GuiButton) buttonList.get(34)).visible = false;
 		}
 		else if(change == 2) {
 			((GuiButton) buttonList.get(6)).visible = false;
@@ -584,11 +590,13 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(23)).visible = false;
 			((GuiButton) buttonList.get(24)).visible = false;
 			((GuiButton) buttonList.get(25)).visible = false;
+			((GuiButton) buttonList.get(34)).visible = false;
 		}
 		else if(change == 3) {
 			((GuiButton) buttonList.get(6)).visible = false;
 			((GuiButton) buttonList.get(8)).visible = false;
 			((GuiButton) buttonList.get(9)).visible = false;
+			((GuiButton) buttonList.get(34)).visible = false;
 			
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
@@ -603,6 +611,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(23)).visible = false;
 			((GuiButton) buttonList.get(24)).visible = false;
 			((GuiButton) buttonList.get(25)).visible = false;
+			((GuiButton) buttonList.get(34)).visible = true;
 		}
 	}
 	
