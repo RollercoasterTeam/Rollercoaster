@@ -22,7 +22,7 @@ public class ItemTrain extends Item {
 				BlockTrack block = (BlockTrack) world.getBlock(x, y, z);
 				if(block.track_type == TrackHandler.findTrackType("horizontal")) {
 					if(((TileEntityTrack) world.getTileEntity(x, y, z)).extra == TrackHandler.extras.get(3)) {
-						EntityTrainDefault entity = spawnCart(world, x, y, z);
+						EntityTrainDefault entity = spawnCart(world, x, y, z, Integer.parseInt(stack.getUnlocalizedName().substring(stack.getUnlocalizedName().lastIndexOf("_") + 1)));
 						if(stack.hasDisplayName()) {
 							entity.setMinecartName(stack.getDisplayName());
 						}
@@ -37,7 +37,7 @@ public class ItemTrain extends Item {
 		return false;
 	}
 	
-	public static EntityTrainDefault spawnCart(World world, int x, int y, int z) {
-		return EntityTrain.createMinecart(world,(double) ((float) x + 0.5F), (double) ((float) y + 0.4F), (double) ((float) z + 0.5F), 0);
+	public static EntityTrainDefault spawnCart(World world, int x, int y, int z, int colour) {
+		return EntityTrain.createMinecart(world,(double) ((float) x), (double) ((float) y), (double) ((float) z), colour);
 	}
 }

@@ -15,13 +15,16 @@ public class EntityTrainDefault extends EntityTrain {
     //South = 2
     //West  = 3
     public int direction = 0;
+    public int colour;
 
     public EntityTrainDefault(World p_i1722_1_) {
         super(p_i1722_1_);
     }
 
-    public EntityTrainDefault(World p_i1723_1_, double p_i1723_2_, double p_i1723_4_, double p_i1723_6_) {
+    public EntityTrainDefault(World p_i1723_1_, double p_i1723_2_, double p_i1723_4_, double p_i1723_6_, int colour) {
         super(p_i1723_1_, p_i1723_2_, p_i1723_4_, p_i1723_6_);
+        
+        this.colour = colour;
     }
 
     /**
@@ -43,7 +46,7 @@ public class EntityTrainDefault extends EntityTrain {
     public float speed = 0;
     private TileEntity altTileEntity;
 
-    @Override
+    /*@Override
     public void onUpdate() {
         if (selfPowered) {
             speed = 0.1f;
@@ -67,9 +70,9 @@ public class EntityTrainDefault extends EntityTrain {
                 if (tileentity != null && tileentity instanceof TileEntityTrack) {
                     getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
                 }
-                    /*else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
+                    else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
 		    			getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
-		    		}*/
+		    		}
                 else {
                     TileEntity te_direction_0 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
                     if ((te_direction_0 != null && te_direction_0 instanceof TileEntityTrack)) {
@@ -103,12 +106,17 @@ public class EntityTrainDefault extends EntityTrain {
                 speed -= 0.005f;
                 this.setPosition(this.posX, this.posY, this.posZ);
 		    		
-		    		/*if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer) {
+		    		if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer) {
 		    			EntityPlayer player = (EntityPlayer) this.riddenByEntity;
 		    			player.updateRiderPosition();
-		    		}*/
+		    		}
             }
         }
+    }*/
+    
+    @Override
+    public void onUpdate() {
+    	
     }
 
     private TrackType getTrackTypeFromTE(TileEntity tileentity) {

@@ -76,9 +76,9 @@ public abstract class EntityTrain extends Entity
      * MinecartChest, 2 for MinecartFurnace, 3 for MinecartTNT, 4 for MinecartMobSpawner, 5 for MinecartHopper and 0 for
      * a standard empty minecart
      */
-    public static EntityTrainDefault createMinecart(World world, double x, double y, double z, int type)
+    public static EntityTrainDefault createMinecart(World world, double x, double y, double z, int colour)
     {
-        return new EntityTrainDefault(world, x, y, z);
+        return new EntityTrainDefault(world, x, y, z, colour);
     }
 
     /**
@@ -205,7 +205,7 @@ public abstract class EntityTrain extends Entity
     public void killMinecart(DamageSource p_94095_1_)
     {
         this.setDead();
-        ItemStack itemstack = new ItemStack(RCItems.train, 1);
+        ItemStack itemstack = new ItemStack(RCItems.trains.get(0), 1);
 
         if (this.entityName != null)
         {
@@ -1243,7 +1243,7 @@ public abstract class EntityTrain extends Entity
      */
     public ItemStack getCartItem()
     {
-        return new ItemStack(RCItems.train);
+        return new ItemStack(RCItems.trains.get(0));
     }
 
     /**

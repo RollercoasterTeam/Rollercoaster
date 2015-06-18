@@ -109,7 +109,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
         	TileEntityTrack te = (TileEntityTrack) world.getTileEntity(x, y, z);
         	if(te.extra == TrackHandler.extras.get(3)) {
 	            if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
-	                EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z);
+	                EntityTrainDefault entity = ItemTrain.spawnCart(world, x, y, z, 0);
 	                world.spawnEntityInWorld(entity);
 	            }
         	}

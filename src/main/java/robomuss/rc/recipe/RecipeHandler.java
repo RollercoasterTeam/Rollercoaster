@@ -42,7 +42,7 @@ public class RecipeHandler {
 			}
 		}
 		
-		GameRegistry.addRecipe(new ItemStack(RCItems.train), new Object[] {
+		GameRegistry.addRecipe(new ItemStack(RCItems.trains.get(0)), new Object[] {
 			"XYX", "XXX", 'X', Items.iron_ingot, 'Y', TrackHandler.findTrackType("horizontal").block
 		});
 		

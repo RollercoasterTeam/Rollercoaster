@@ -1,18 +1,22 @@
 package robomuss.rc.item;
 
+import java.util.ArrayList;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import robomuss.rc.RCMod;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.extra.TrackExtra;
+import robomuss.rc.util.ColourUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RCItems {
 
 	public static int last_extra_id;
 	
-	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, train, silicon_wafer, IC, pcb, panel, remote;
+	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, silicon_wafer, IC, pcb, panel, remote;
+	public static ArrayList<Item> trains = new ArrayList<Item>();
 	public static ItemArmor hat_1;
 	
 	public static void init() {
@@ -29,12 +33,15 @@ public class RCItems {
 		pass = new Item().setUnlocalizedName("pass").setTextureName("rc:pass").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		key = new Item().setUnlocalizedName("key").setTextureName("rc:key").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		hat_1 = (ItemArmor) new ItemArmor(ArmorMaterial.CHAIN, 0, 0).setUnlocalizedName("hat_1").setTextureName("rc:hat_1").setCreativeTab(RCMod.other).setMaxStackSize(1);
-		train = new ItemTrain().setUnlocalizedName("train").setTextureName("rc:train").setCreativeTab(RCMod.track);
 		silicon_wafer = new Item().setUnlocalizedName("silicon_wafer").setTextureName("rc:silicon_wafer").setCreativeTab(RCMod.other);
 		IC = new Item().setUnlocalizedName("IC").setTextureName("rc:IC").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		pcb = new Item().setUnlocalizedName("pcb").setTextureName("rc:pcb").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		panel = new Item().setUnlocalizedName("panel").setTextureName("rc:panel").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		remote = new ItemRemote().setUnlocalizedName("remote").setTextureName("rc:remote").setCreativeTab(RCMod.other).setMaxStackSize(1);
+		
+		for(int i = 0; i < ColourUtil.colours.length; i++) {
+			trains.add(new ItemTrain().setUnlocalizedName("train_" + i).setTextureName("rc:train").setCreativeTab(RCMod.track));
+		}
 		
 		GameRegistry.registerItem(hammer, "hammer");
 		GameRegistry.registerItem(paint, "paint");
@@ -43,12 +50,15 @@ public class RCItems {
 		GameRegistry.registerItem(ticket, "ticket");
 		GameRegistry.registerItem(pass, "pass");
 		GameRegistry.registerItem(key, "key");
-		GameRegistry.registerItem(train, "train");
 		GameRegistry.registerItem(silicon_wafer, "silicon_wafer");
 		GameRegistry.registerItem(IC, "IC");
 		GameRegistry.registerItem(pcb, "pcb");
 		GameRegistry.registerItem(panel, "panel");
 		GameRegistry.registerItem(remote, "remote");
+		
+		for(int i = 0; i < ColourUtil.colours.length; i++) {
+			GameRegistry.registerItem(trains.get(i), "train_" + i);
+		}
 	}
 
 }
