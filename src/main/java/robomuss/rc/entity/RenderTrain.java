@@ -33,7 +33,7 @@ public class RenderTrain extends Render {
 
 	public void doRender(EntityTrainDefault entity, double x, double y, double z, float p_76986_8_, float p_76986_9_) {
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.55F, (float) z + 0.5F);
+		GL11.glTranslatef((float) x, (float) y + 1.55F, (float) z);
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ColourUtil.textures.get(entity.colour));
 
