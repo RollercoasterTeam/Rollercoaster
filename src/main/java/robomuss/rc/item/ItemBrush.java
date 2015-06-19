@@ -26,7 +26,7 @@ public class ItemBrush extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < ColourUtil.numColours; i++) {
+		for(int i = 0; i < ColourUtil.numColours - 1 /* -1 is there for a reason*/; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
@@ -38,7 +38,7 @@ public class ItemBrush extends Item {
 	public void registerIcons(IIconRegister register) {
 		icons = new IIcon[ColourUtil.numColours];
 		
-		for(int i = 0; i < ColourUtil.numColours; i++) {
+		for(int i = 0; i < ColourUtil.numColours - 1 /* -1 is there for a reason*/; i++) {
 			icons[i] = register.registerIcon("rc:brush_" + i);
 		}
 	}

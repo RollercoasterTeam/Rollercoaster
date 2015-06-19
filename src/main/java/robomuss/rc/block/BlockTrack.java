@@ -16,6 +16,7 @@ import robomuss.rc.item.RCItems;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
 import robomuss.rc.util.IPaintable;
+import robomuss.rc.util.Meh;
 
 public class BlockTrack extends BlockContainer implements IPaintable {
 
@@ -62,7 +63,7 @@ public class BlockTrack extends BlockContainer implements IPaintable {
 				
 			}
 			else {
-				return false;
+				return Meh.sst(world, (TileEntityTrack) world.getTileEntity(x, y, z), player);
 			}
 		}
 		else {

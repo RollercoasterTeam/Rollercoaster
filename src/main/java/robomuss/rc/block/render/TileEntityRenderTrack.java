@@ -25,6 +25,7 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 	
 	private ResourceLocation textures = ColourUtil.textures.get(0);
 	private ResourceLocation textures2 = (new ResourceLocation("rc:textures/models/catwalk2.png"));
+	public static int count;
 	
 	int animation;
 	
@@ -35,6 +36,10 @@ public class TileEntityRenderTrack extends TileEntitySpecialRenderer {
 			type = TrackHandler.types.get(0);
 		}
 		int colour = ((TileEntityTrack) te).colour;
+		
+		if(colour == ColourUtil.colours.length - 1) {
+			colour = count % (ColourUtil.colours.length - 1);
+		}
 		
 		if(!textures.getResourcePath().contains("colour_" + colour)) {
 			textures = ColourUtil.textures.get(colour);

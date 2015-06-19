@@ -12,6 +12,7 @@ import robomuss.rc.client.gui.GuiTrackDesigner;
 import robomuss.rc.entity.RCEntitys;
 import robomuss.rc.event.BlockClickedEvent;
 import robomuss.rc.event.CraftingEvent;
+import robomuss.rc.event.TickHandler;
 import robomuss.rc.item.RCItems;
 import robomuss.rc.network.PacketPipeline;
 import robomuss.rc.proxy.CommonProxy;
@@ -96,6 +97,7 @@ public class RCMod {
 		new RecipeHandler();
 		new GuiHandler();
 		FMLCommonHandler.instance().bus().register(new CraftingEvent());
+		FMLCommonHandler.instance().bus().register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockClickedEvent());
         packetPipeline.initalise();
         proxy.initRenderers();
