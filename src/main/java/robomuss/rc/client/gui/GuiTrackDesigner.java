@@ -335,7 +335,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(5)).visible = true;
 		}
 		else if(button.id == 3) {
-			if(trackPaint >= ColourUtil.colours.length - 1) {
+			if(trackPaint >= ColourUtil.colours.length - 2) {
 				trackPaint = 0;
 			}
 			else {
@@ -345,7 +345,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.CHANGE_TRACK_PAINT, te, 0);
 		}
 		else if(button.id == 4) {
-			if(supportPaint >= ColourUtil.colours.length - 1) {
+			if(supportPaint >= ColourUtil.colours.length - 2) {
 				supportPaint = 0;
 			}
 			else {
@@ -449,7 +449,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.LIFT, te, 1);
 		}
 		else if(button.id == 18) {
-			if(fencePaint >= ColourUtil.colours.length - 1) {
+			if(fencePaint >= ColourUtil.colours.length - 2) {
 				fencePaint = 0;
 			}
 			else {
@@ -611,7 +611,7 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(23)).visible = false;
 			((GuiButton) buttonList.get(24)).visible = false;
 			((GuiButton) buttonList.get(25)).visible = false;
-			((GuiButton) buttonList.get(34)).visible = true;
+			((GuiButton) buttonList.get(34)).visible = false;
 		}
 	}
 	

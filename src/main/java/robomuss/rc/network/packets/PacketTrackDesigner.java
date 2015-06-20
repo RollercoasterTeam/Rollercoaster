@@ -1665,7 +1665,7 @@ public class PacketTrackDesigner extends AbstractPacket {
     		td.fencePaint = PacketTrackDesigner.themes[td.theme].fencePaint;
     	}
     	else if(type == types.CHANGE_TRACK_PAINT) {
-    		if(td.trackPaint >= ColourUtil.colours.length - 1) {
+    		if(td.trackPaint >= ColourUtil.colours.length - 2) {
     			td.trackPaint = 0;
 			}
 			else {
@@ -1673,7 +1673,7 @@ public class PacketTrackDesigner extends AbstractPacket {
 			}
     	}
     	else if(type == types.CHANGE_SUPPORT_PAINT) {
-    		if(td.supportPaint >= ColourUtil.colours.length - 1) {
+    		if(td.supportPaint >= ColourUtil.colours.length - 2) {
     			td.supportPaint = 0;
 			}
 			else {
@@ -1681,7 +1681,7 @@ public class PacketTrackDesigner extends AbstractPacket {
 			}
     	}
     	else if(type == types.CHANGE_FENCE_PAINT) {
-    		if(td.fencePaint >= ColourUtil.colours.length - 1) {
+    		if(td.fencePaint >= ColourUtil.colours.length - 2) {
     			td.fencePaint = 0;
 			}
 			else {
