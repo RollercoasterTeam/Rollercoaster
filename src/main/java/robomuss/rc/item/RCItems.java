@@ -15,7 +15,7 @@ public class RCItems {
 
 	public static int last_extra_id;
 	
-	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, silicon_wafer, IC, pcb, panel, remote;
+	public static Item hammer, paint, empty_brush, brush, ticket, pass, key, silicon_wafer, IC, pcb, panel, remote, userGuide;
 	public static ArrayList<Item> trains = new ArrayList<Item>();
 	public static ItemArmor hat_1;
 	
@@ -38,6 +38,7 @@ public class RCItems {
 		pcb = new Item().setUnlocalizedName("pcb").setTextureName("rc:pcb").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		panel = new Item().setUnlocalizedName("panel").setTextureName("rc:panel").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		remote = new ItemRemote().setUnlocalizedName("remote").setTextureName("rc:remote").setCreativeTab(RCMod.other).setMaxStackSize(1);
+		userGuide = new ItemUserGuide().setUnlocalizedName("userGuide").setTextureName("rc:userGuide").setCreativeTab(RCMod.other).setMaxStackSize(1);
 		
 		for(int i = 0; i < ColourUtil.colours.length; i++) {
 			trains.add(new ItemTrain().setUnlocalizedName("train_" + i).setTextureName("rc:train").setCreativeTab(RCMod.track));
@@ -55,6 +56,7 @@ public class RCItems {
 		GameRegistry.registerItem(pcb, "pcb");
 		GameRegistry.registerItem(panel, "panel");
 		GameRegistry.registerItem(remote, "remote");
+		GameRegistry.registerItem(userGuide, "userGuide");
 		
 		for(int i = 0; i < ColourUtil.colours.length; i++) {
 			GameRegistry.registerItem(trains.get(i), "train_" + i);

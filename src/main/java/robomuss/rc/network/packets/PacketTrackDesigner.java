@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
 import robomuss.rc.block.RCBlocks;
@@ -23,6 +24,8 @@ import robomuss.rc.block.te.TileEntitySupport;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.block.te.TileEntityTrackDesigner;
 import robomuss.rc.block.te.TileEntityWoodenSupport;
+import robomuss.rc.entity.EntityTrain;
+import robomuss.rc.entity.EntityTrainDefault;
 import robomuss.rc.network.AbstractPacket;
 import robomuss.rc.track.Theme;
 import robomuss.rc.track.TrackDesign;
@@ -64,7 +67,8 @@ public class PacketTrackDesigner extends AbstractPacket {
     	UPDATE_GATES,
     	DAY,
     	NIGHT,
-    	NO_RAIN;
+    	NO_RAIN,
+    	DEPLOY_CARTS;
     }
     
     private PacketTrackDesigner.types type;
@@ -1617,6 +1621,27 @@ public class PacketTrackDesigner extends AbstractPacket {
 		td.gates.clear();
     }
     
+    public static EntityTrainDefault spawnCart(World world, float x, float y, float z, int colour) {
+		return EntityTrain.createMinecart(world,(double) ((float) x), (double) ((float) y), (double) ((float) z), colour);
+	}
+    
+    public void deployCarts(EntityPlayer player) {
+    	TileEntityRideFence te = (TileEntityRideFence) player.worldObj.getTileEntity(teX, teY, teZ);
+    	EntityTrainDefault entity = spawnCart(player.worldObj, teX + 0.5F + (te.direction == 1 || te.direction == 3 ? -2 : 0), teY - 1F, teZ + 0.5F + (te.direction == 0 || te.direction == 2 ? -2 : 0), 0);
+		
+    	if(te.direction == 0 || te.direction == 2) {
+    		entity.rotationYaw = 0F;
+    		entity.direction = 0;
+    	}
+    	else if(te.direction == 1 || te.direction == 3) {
+    		entity.rotationYaw = 90F;
+    		entity.direction = 1;
+    	}
+    	
+    	entity.selfPowered = true;
+		player.worldObj.spawnEntityInWorld(entity);
+    }
+    
     @Override
     public void handleServerSide(EntityPlayer player) {
     	if(type != types.PLACE) {
@@ -1759,6 +1784,9 @@ public class PacketTrackDesigner extends AbstractPacket {
              worldinfo.setThunderTime(0);
              worldinfo.setRaining(false);
              worldinfo.setThundering(false);
+    	}
+    	else if(type == types.DEPLOY_CARTS) {
+    		deployCarts(player);
     	}
     	
     	handleSupports(player);

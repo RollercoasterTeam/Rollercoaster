@@ -115,6 +115,9 @@ public class GuiRCP extends GuiScreen {
 			amount += amount < 8 ? 1 : 0;
 			carts.setText("" + amount);
 		}
+		else if(button.id == 6) {
+			NetworkHandler.tdUpdate(PacketTrackDesigner.types.DEPLOY_CARTS, te, 0);
+		}
 	}
 
     public boolean doesGuiPauseGame() {
