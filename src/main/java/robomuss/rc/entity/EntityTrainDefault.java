@@ -46,7 +46,7 @@ public class EntityTrainDefault extends EntityTrain {
     public float speed = 0;
     private TileEntity altTileEntity;
 
-    /*@Override
+    @Override
     public void onUpdate() {
         if (selfPowered) {
             speed = 0.1f;
@@ -112,11 +112,6 @@ public class EntityTrainDefault extends EntityTrain {
 		    		}
             }
         }
-    }*/
-    
-    @Override
-    public void onUpdate() {
-    	
     }
 
     private TrackType getTrackTypeFromTE(TileEntity tileentity) {
