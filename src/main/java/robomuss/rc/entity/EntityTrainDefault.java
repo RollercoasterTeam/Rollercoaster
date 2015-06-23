@@ -48,9 +48,9 @@ public class EntityTrainDefault extends EntityTrain {
 
     @Override
     public void onUpdate() {
-        if (selfPowered) {
+        //if (selfPowered) {
             speed = 0.1f;
-        }
+        //}
         TileEntity tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
         //altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
         if (!firstTick) {
@@ -60,6 +60,7 @@ public class EntityTrainDefault extends EntityTrain {
             this.setPosition(this.posX, this.posY, this.posZ);
         }
         if (firstTick) {
+        	
             if (tileentity != null && tileentity instanceof TileEntityTrack) {
                 TileEntityTrack te = (TileEntityTrack) tileentity;
                 if (te.extra != null) {
@@ -70,9 +71,9 @@ public class EntityTrainDefault extends EntityTrain {
                 if (tileentity != null && tileentity instanceof TileEntityTrack) {
                     getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
                 }
-                    else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
-		    			getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
-		    		}
+                else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
+                	getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
+                }
                 else {
                     TileEntity te_direction_0 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
                     if ((te_direction_0 != null && te_direction_0 instanceof TileEntityTrack)) {
