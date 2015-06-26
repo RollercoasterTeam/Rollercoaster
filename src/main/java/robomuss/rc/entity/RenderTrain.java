@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import robomuss.rc.block.RCBlocks;
 import robomuss.rc.block.model.ModelCart;
+import robomuss.rc.block.model.ModelCartBody;
 import robomuss.rc.util.ColourUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -25,7 +26,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderTrain extends Render {
 	
 	private static final ResourceLocation texture = new ResourceLocation("rc:textures/models/colour_0.png");
-	private ModelCart model = new ModelCart();
+	private static final ResourceLocation skin = new ResourceLocation("rc:textures/models/cart.png");
+	private ModelCartBody model = new ModelCartBody();
 
 	public RenderTrain() {
 		this.shadowSize = 0.5F;
@@ -113,7 +115,22 @@ public class RenderTrain extends Render {
         model.renderAll();*/
         
         //GL11.glTranslatef((float)x, (float)y + 1.5F, (float)z);
-        this.model.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+        
+        this.model.base.render(0.0625F);
+        
+        this.model.side1.render(0.0625F);
+        this.model.side2.render(0.0625F);
+        this.model.side3.render(0.0625F);
+        this.model.side4.render(0.0625F);
+        
+        Minecraft.getMinecraft().renderEngine.bindTexture(skin);
+        
+        this.model.head.render(0.0625F);
+        
+        this.model.arm1.render(0.0625F);
+        this.model.arm2.render(0.0625F);
+        
         GL11.glPopMatrix();
 	}
 

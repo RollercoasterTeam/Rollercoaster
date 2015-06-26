@@ -64,7 +64,7 @@ public class TrackTypeHorizontal extends TrackType {
 				entity.posX -= entity.speed;
 			}
 		}
-		entity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationPitch, entity.rotationYaw);
+		//entity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 	}
 	
 	@Override
