@@ -1,6 +1,7 @@
 package robomuss.rc.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -51,15 +52,15 @@ public class EntityTrainDefault extends EntityTrain {
         //if (selfPowered) {
             speed = 0.1f;
         //}
-        TileEntity tileentity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
-        //altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
-        if (!firstTick) {
+        TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
+        altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
+        /*if (!firstTick) {
             speed = 0.1f;
             rotateOnPlace(tileentity);
             firstTick = true;
             this.setPosition(this.posX, this.posY, this.posZ);
-        }
-        if (firstTick) {
+        }*/
+        if (true) {
         	
             if (tileentity != null && tileentity instanceof TileEntityTrack) {
                 TileEntityTrack te = (TileEntityTrack) tileentity;
@@ -68,7 +69,10 @@ public class EntityTrainDefault extends EntityTrain {
                 }
             }
             if (selfPowered || (!selfPowered && speed > 0)) {
+            	System.out.println(((int) posX) + ", " + ((int) posY) + ", " + ((int) posZ) + " | ");
+            	//worldObj.setBlock(((int) posX - 1), ((int) posY), ((int) posZ), Blocks.bedrock);
                 if (tileentity != null && tileentity instanceof TileEntityTrack) {
+                	System.out.println("Moving");
                     getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
                 }
                 else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
