@@ -140,7 +140,7 @@ public class GuiTrackDesigner extends GuiScreen {
 		buttonList.add(new GuiButton(32, 380, this.height - 22, 40, 20, ChatFormatting.BLACK + "Night"));
 		buttonList.add(new GuiButton(33, 422, this.height - 22, 40, 20, "" + ChatFormatting.AQUA + ChatFormatting.STRIKETHROUGH + " Rain "));
 		
-		buttonList.add(new GuiButton(34, 102, this.height - 22, 31, 20, "Roll"));
+		buttonList.add(new GuiButton(34, 102, this.height - 22, 31, 20, "" + ChatFormatting.RED + ChatFormatting.STRIKETHROUGH + " Roll "));
 		
 		((GuiButton) buttonList.get(2)).visible = false;
 		((GuiButton) buttonList.get(3)).visible = false;
