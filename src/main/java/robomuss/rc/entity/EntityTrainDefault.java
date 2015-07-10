@@ -53,7 +53,7 @@ public class EntityTrainDefault extends EntityTrain {
             speed = 0.1f;
         //}
         TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
-        altTileEntity = worldObj.getTileEntity((int) posX - 1, (int) posY, (int) posZ);
+        //altTileEntity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
         /*if (!firstTick) {
             speed = 0.1f;
             rotateOnPlace(tileentity);
@@ -69,38 +69,38 @@ public class EntityTrainDefault extends EntityTrain {
                 }
             }
             if (selfPowered || (!selfPowered && speed > 0)) {
-            	System.out.println(((int) posX) + ", " + ((int) posY) + ", " + ((int) posZ) + " | ");
+            	//System.out.println(((int) posX) + ", " + ((int) posY) + ", " + ((int) posZ) + " | ");
             	//worldObj.setBlock(((int) posX - 1), ((int) posY), ((int) posZ), Blocks.bedrock);
                 if (tileentity != null && tileentity instanceof TileEntityTrack) {
-                	System.out.println("Moving");
+                	//System.out.println("Moving");
                     getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
                 }
                 else if(altTileEntity != null && altTileEntity instanceof TileEntityTrack) {
                 	getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
                 }
                 else {
-                    TileEntity te_direction_0 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ - 2);
+                    TileEntity te_direction_0 = worldObj.getTileEntity((int) posX, (int) posY - 1, (int) posZ - 2);
                     if ((te_direction_0 != null && te_direction_0 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_0.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_0).moveTrain((TileEntityTrack) te_direction_0, this);
                         }
                     }
 
-                    TileEntity te_direction_1 = worldObj.getTileEntity((int) posX + 1, (int) posY - 1, (int) posZ);
+                    TileEntity te_direction_1 = worldObj.getTileEntity((int) posX + 2 /* Maybe 1? */, (int) posY - 1, (int) posZ);
                     if ((te_direction_1 != null && te_direction_1 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_1.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_1).moveTrain((TileEntityTrack) te_direction_1, this);
                         }
                     }
 
-                    TileEntity te_direction_2 = worldObj.getTileEntity((int) posX - 1, (int) posY - 1, (int) posZ + 2);
+                    TileEntity te_direction_2 = worldObj.getTileEntity((int) posX, (int) posY - 1, (int) posZ + 2);
                     if ((te_direction_2 != null && te_direction_2 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_2.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_2).moveTrain((TileEntityTrack) te_direction_2, this);
                         }
                     }
 
-                    TileEntity te_direction_3 = worldObj.getTileEntity((int) posX - 3, (int) posY - 1, (int) posZ);
+                    TileEntity te_direction_3 = worldObj.getTileEntity((int) posX - 2, (int) posY - 1, (int) posZ);
                     if ((te_direction_3 != null && te_direction_3 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_3.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_3).moveTrain((TileEntityTrack) te_direction_3, this);

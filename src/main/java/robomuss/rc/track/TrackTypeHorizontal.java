@@ -48,7 +48,7 @@ public class TrackTypeHorizontal extends TrackType {
 	@Override
 	public void moveTrain(TileEntityTrack te, EntityTrainDefault entity) {
 		if(te.direction == 0 || te.direction == 2) {
-			System.out.println("Ticking: " + entity.direction + entity.speed);
+			//System.out.println("Ticking: " + entity.direction + entity.speed);
 			if(entity.direction == 0) {
 				entity.posZ += entity.speed;
 			}
