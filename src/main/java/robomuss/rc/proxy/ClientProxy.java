@@ -28,6 +28,7 @@ import robomuss.rc.block.te.TileEntityWoodenSupport;
 import robomuss.rc.client.renderer.ItemRenderBench;
 import robomuss.rc.client.renderer.ItemRenderBin;
 import robomuss.rc.client.renderer.ItemRenderCatwalk;
+import robomuss.rc.client.renderer.ItemRenderExtra;
 import robomuss.rc.client.renderer.ItemRenderFence;
 import robomuss.rc.client.renderer.ItemRenderFooter;
 import robomuss.rc.client.renderer.ItemRenderSupport;
@@ -39,6 +40,7 @@ import robomuss.rc.entity.EntityTrain;
 import robomuss.rc.entity.RenderTrain;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
+import robomuss.rc.track.extra.TrackExtra;
 import robomuss.rc.util.ColourUtil;
 import robomuss.rc.util.IInventoryRenderSettings;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -96,6 +98,10 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.metal_mesh_bin), new ItemRenderBin());
        
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(RCBlocks.bench_half), new ItemRenderBench());
+        
+        for(TrackExtra extra : TrackHandler.extras) {
+        	MinecraftForgeClient.registerItemRenderer(extra.source, new ItemRenderExtra());
+        }
         
         for(TrackType track : TrackHandler.tracks) {
         	boolean useIcon = false;

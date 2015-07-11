@@ -116,9 +116,9 @@ item.panel.name=Interface
 
 item.remote.name=Ride Control Panel Remote
 
-item.brakes_extra.name=Friction Brakes
+item.brakes_extra.name=Brakes
 item.chain_extra.name=Chain
-item.tires_extra.name=Friction Wheels
+item.tires_extra.name=Launch Wheels
 item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
 

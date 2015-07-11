@@ -40,7 +40,6 @@ public class ItemRenderBench implements IItemRenderer {
 		GL11.glPushMatrix();
         GL11.glRotatef(180f, -180f, 0f, 180f);
         
-		
 		this.model.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		
 		GL11.glPopMatrix();
