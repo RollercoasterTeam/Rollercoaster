@@ -52,7 +52,7 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiRCPDR(player, world, x, y, z);
 		}
 		if(ID == 5) {
-			return new GuiUserGuide(player, null, false);
+			return new GuiUserGuide(player, player.getHeldItem(), false);
 		}
 		return null;
 	}
