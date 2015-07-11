@@ -420,8 +420,10 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(6)).visible = false;
 			((GuiButton) buttonList.get(7)).visible = false;
 			((GuiButton) buttonList.get(8)).visible = false;
+			((GuiButton) buttonList.get(9)).visible = false;
 			((GuiButton) buttonList.get(13)).visible = false;
 			((GuiButton) buttonList.get(23)).visible = false;
+			((GuiButton) buttonList.get(34)).visible = false;
 			
 			((GuiButton) buttonList.get(14)).visible = true;
 			((GuiButton) buttonList.get(15)).visible = true;
@@ -438,8 +440,11 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(6)).visible = true;
 			((GuiButton) buttonList.get(7)).visible = true;
 			((GuiButton) buttonList.get(8)).visible = true;
+			((GuiButton) buttonList.get(9)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
+			((GuiButton) buttonList.get(34)).visible = true;
+			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_UP_1, te, 0);
 		}
 		else if(button.id == 16) {
@@ -516,8 +521,10 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(6)).visible = false;
 			((GuiButton) buttonList.get(7)).visible = false;
 			((GuiButton) buttonList.get(8)).visible = false;
+			((GuiButton) buttonList.get(9)).visible = false;
 			((GuiButton) buttonList.get(13)).visible = false;
 			((GuiButton) buttonList.get(23)).visible = false;
+			((GuiButton) buttonList.get(34)).visible = false;
 			
 			((GuiButton) buttonList.get(24)).visible = true;
 			((GuiButton) buttonList.get(25)).visible = true;
@@ -534,8 +541,10 @@ public class GuiTrackDesigner extends GuiScreen {
 			((GuiButton) buttonList.get(6)).visible = true;
 			((GuiButton) buttonList.get(7)).visible = true;
 			((GuiButton) buttonList.get(8)).visible = true;
+			((GuiButton) buttonList.get(9)).visible = true;
 			((GuiButton) buttonList.get(13)).visible = true;
 			((GuiButton) buttonList.get(23)).visible = true;
+			((GuiButton) buttonList.get(34)).visible = true;
 			
 			NetworkHandler.tdUpdate(PacketTrackDesigner.types.SLOPE_DOWN_2, te, 0);
 		}

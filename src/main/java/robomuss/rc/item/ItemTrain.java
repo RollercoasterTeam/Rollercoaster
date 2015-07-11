@@ -23,7 +23,7 @@ public class ItemTrain extends Item {
 				BlockTrack block = (BlockTrack) world.getBlock(x, y, z);
 				if(block.track_type == TrackHandler.findTrackType("horizontal")) {
 					if(((TileEntityTrack) world.getTileEntity(x, y, z)).extra == TrackHandler.extras.get(3)) {
-						EntityTrainDefault entity = spawnCart(world, x + 0.5F, y + 0.0F, z + 0.5F, Integer.parseInt(stack.getUnlocalizedName().substring(stack.getUnlocalizedName().lastIndexOf("_") + 1)));
+						EntityTrainDefault entity = spawnCart(world, x + 0.5F, y + 0.0F, z + 0.5F, 0);
 						entity = rotateOnPlace(entity, (TileEntityTrack) world.getTileEntity(x, y, z));
 						if(stack.hasDisplayName()) {
 							entity.setMinecartName(stack.getDisplayName());
