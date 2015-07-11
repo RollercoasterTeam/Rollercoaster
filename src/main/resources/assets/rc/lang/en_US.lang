@@ -122,4 +122,6 @@ item.tires_extra.name=Friction Wheels
 item.station_extra.name=Station
 item.airLauncher_extra.name=Pneumatic Launch Mechanism
 
+item.userGuide.name=Rollercoaster Construction Guide
+
 entity.entityTrain.name=Rollercoaster Train
