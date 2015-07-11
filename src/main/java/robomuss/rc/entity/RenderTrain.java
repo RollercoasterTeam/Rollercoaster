@@ -78,7 +78,7 @@ public class RenderTrain extends Render {
         }
 
         GL11.glTranslatef((float)x, (float)y + 1.55F, (float)z);
-        GL11.glRotatef(180.0F - p_76986_8_, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(360.0F - p_76986_8_, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-f5, 0.0F, 0.0F, 1.0F);
         float f7 = (float)entity.getRollingAmplitude() - p_76986_9_;
         float f8 = entity.getDamage() - p_76986_9_;

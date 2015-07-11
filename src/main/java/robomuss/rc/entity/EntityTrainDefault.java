@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
 import robomuss.rc.block.BlockTrack;
 import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
@@ -33,7 +34,7 @@ public class EntityTrainDefault extends EntityTrain {
      */
     public boolean interactFirst(EntityPlayer player) {
         //TODO
-        //if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, p_130002_1_))) return true;
+        if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, player))) return true;
         player.mountEntity(this);
         return true;
     }

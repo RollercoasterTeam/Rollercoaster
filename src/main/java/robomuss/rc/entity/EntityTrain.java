@@ -7,6 +7,7 @@ import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -28,7 +29,7 @@ import robomuss.rc.track.TrackHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class EntityTrain extends Entity
+public abstract class EntityTrain extends EntityMinecart
 {
     private boolean isInReverse;
     private String entityName;
@@ -1319,7 +1320,7 @@ public abstract class EntityTrain extends Entity
      *
      * @return
      */
-    public final float getCurrentCartSpeedCapOnRail()
+/*    public final float getCurrentCartSpeedCapOnRail()
     {
         return currentSpeedRail;
     }
@@ -1328,7 +1329,7 @@ public abstract class EntityTrain extends Entity
     {
         value = Math.min(value, getMaxCartSpeedOnRail());
         currentSpeedRail = value;
-    }
+    }*/
 
     public float getMaxSpeedAirLateral()
     {
