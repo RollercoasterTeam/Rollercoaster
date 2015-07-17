@@ -1,4 +1,4 @@
-package robomuss.rc.entity;
+/*package robomuss.rc.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,7 +11,7 @@ import robomuss.rc.block.te.TileEntityTrack;
 import robomuss.rc.track.TrackHandler;
 import robomuss.rc.track.TrackType;
 
-public class EntityTrainDefault extends EntityTrain {
+public class EntityTrainDefaultDifMovement extends EntityTrain {
     //North = 0
     //East  = 1
     //South = 2
@@ -19,19 +19,19 @@ public class EntityTrainDefault extends EntityTrain {
     public int direction = 0;
     public int colour;
 
-    public EntityTrainDefault(World p_i1722_1_) {
+    public EntityTrainDefaultDifMovement(World p_i1722_1_) {
         super(p_i1722_1_);
     }
 
-    public EntityTrainDefault(World p_i1723_1_, double p_i1723_2_, double p_i1723_4_, double p_i1723_6_, int colour) {
+    public EntityTrainDefaultDifMovement(World p_i1723_1_, double p_i1723_2_, double p_i1723_4_, double p_i1723_6_, int colour) {
         super(p_i1723_1_, p_i1723_2_, p_i1723_4_, p_i1723_6_);
         
         this.colour = colour;
     }
 
-    /**
+    *//**
      * First layer of player interaction
-     */
+     *//*
     public boolean interactFirst(EntityPlayer player) {
         //TODO
         if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, player))) return true;
@@ -53,14 +53,14 @@ public class EntityTrainDefault extends EntityTrain {
         //if (selfPowered) {
             speed = 0.1f;
         //}
-        TileEntity tileentity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
+        TileEntity tileentity = worldObj.getTileEntity(((int) posX) - 1, (int) posY, ((int) posZ) - 1);
         //altTileEntity = worldObj.getTileEntity((int) posX, (int) posY, (int) posZ);
-        /*if (!firstTick) {
+        if (!firstTick) {
             speed = 0.1f;
             rotateOnPlace(tileentity);
             firstTick = true;
             this.setPosition(this.posX, this.posY, this.posZ);
-        }*/
+        }
         if (true) {
         	
             if (tileentity != null && tileentity instanceof TileEntityTrack) {
@@ -72,7 +72,7 @@ public class EntityTrainDefault extends EntityTrain {
             if (selfPowered || (!selfPowered && speed > 0)) {
             	//System.out.println("Moving!!!" + getTrackTypeFromTE(tileentity).unlocalized_name);
             	//System.out.println(((int) posX) + ", " + ((int) posY) + ", " + ((int) posZ) + " | ");
-            	//worldObj.setBlock((int) posX, (int) posY, (int) posZ, Blocks.bedrock);
+            	worldObj.setBlock(((int) posX) - 1, (int) posY, ((int) posZ) - 1, Blocks.bedrock);
                 if (tileentity != null && tileentity instanceof TileEntityTrack) {
                 	//System.out.println("Moving");
                     getTrackTypeFromTE(tileentity).moveTrain((TileEntityTrack) tileentity, this);
@@ -81,28 +81,28 @@ public class EntityTrainDefault extends EntityTrain {
                 	getTrackTypeFromTE(altTileEntity).moveTrain((TileEntityTrack) altTileEntity, this);
                 }
                 else {
-                    TileEntity te_direction_0 = worldObj.getTileEntity((int) posX, (int) posY - 1, (int) posZ - 2);
+                    TileEntity te_direction_0 = worldObj.getTileEntity(((int) posX) - 1, (int) posY - 1, (int) posZ - 3);
                     if ((te_direction_0 != null && te_direction_0 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_0.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_0).moveTrain((TileEntityTrack) te_direction_0, this);
                         }
                     }
 
-                    TileEntity te_direction_1 = worldObj.getTileEntity((int) posX + 2, (int) posY - 1, (int) posZ);
+                    TileEntity te_direction_1 = worldObj.getTileEntity(((int) posX) + 1, (int) posY - 1, ((int) posZ) - 1);
                     if ((te_direction_1 != null && te_direction_1 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_1.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_1).moveTrain((TileEntityTrack) te_direction_1, this);
                         }
                     }
 
-                    TileEntity te_direction_2 = worldObj.getTileEntity((int) posX, (int) posY - 1, (int) posZ + 2);
+                    TileEntity te_direction_2 = worldObj.getTileEntity(((int) posX) - 1, (int) posY - 1, ((int) posZ) + 1);
                     if ((te_direction_2 != null && te_direction_2 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_2.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_2).moveTrain((TileEntityTrack) te_direction_2, this);
                         }
                     }
 
-                    TileEntity te_direction_3 = worldObj.getTileEntity((int) posX - 2, (int) posY - 1, (int) posZ);
+                    TileEntity te_direction_3 = worldObj.getTileEntity(((int) posX) - 3, (int) posY - 1, ((int) posZ) - 1);
                     if ((te_direction_3 != null && te_direction_3 instanceof TileEntityTrack)) {
                         if (((BlockTrack) te_direction_3.getBlockType()).track_type == TrackHandler.findTrackType("slope_down")) {
                             getTrackTypeFromTE(te_direction_3).moveTrain((TileEntityTrack) te_direction_3, this);
@@ -155,4 +155,4 @@ public class EntityTrainDefault extends EntityTrain {
     public AxisAlignedBB getBoundingBox() {
         return AxisAlignedBB.getBoundingBox(-1, -1, -1, 3, 3, 3);
     }
-}
+}*/

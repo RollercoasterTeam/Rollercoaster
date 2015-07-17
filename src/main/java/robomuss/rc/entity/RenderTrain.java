@@ -25,8 +25,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTrain extends Render {
 	
-	private static final ResourceLocation texture = new ResourceLocation("rc:textures/models/colour_0.png");
-	private static final ResourceLocation skin = new ResourceLocation("rc:textures/models/cart.png");
+	private static final ResourceLocation texture = new ResourceLocation("rc:textures/models/cart.png");
+	private static final ResourceLocation skin = new ResourceLocation("rc:textures/models/cartSkin.png");
 	private ModelCartBody model = new ModelCartBody();
 
 	public RenderTrain() {

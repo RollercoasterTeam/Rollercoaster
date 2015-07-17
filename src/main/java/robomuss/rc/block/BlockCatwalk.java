@@ -1,5 +1,6 @@
 package robomuss.rc.block;
 
+import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -8,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
