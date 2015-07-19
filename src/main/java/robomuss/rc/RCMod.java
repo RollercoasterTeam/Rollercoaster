@@ -49,7 +49,7 @@ public class RCMod {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		//System.gc();
+		
 	}
 	
 	@EventHandler
